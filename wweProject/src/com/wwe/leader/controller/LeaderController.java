@@ -15,7 +15,7 @@ public class LeaderController extends HttpServlet {
 		String[] uriArr = request.getRequestURI().split("/");
 		
 		switch (uriArr[uriArr.length-1]) {
-		case "manage":
+		case "manage	":
 			manage(request,response);
 			break;
 

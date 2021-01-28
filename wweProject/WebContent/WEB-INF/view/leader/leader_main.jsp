@@ -19,31 +19,57 @@
 		</button>
 	</nav>
 
-	<div class="jumbotron container-sm">
-		<div class="row justify-content-md-center">
-		<table class="table table-hover">
-			<thead>
-				<tr class="table-success">
-					<th scope="col">이름</th>
-					<th scope="col">상태</th>
-					<th scope="col">권한</th>
-					<th scope="col">관리</th>
-				</tr>
-			</thead>
-			<tbody>
+	<div class="container mt-5">
+		<div class="jumbotron container-sm">
+			<div class="row justify-content-md-center">
+				<table class="table table-hover">
+					<thead>
+						<tr class="table-success">
+							<th scope="col">이름</th>
+							<th scope="col">상태</th>
+							<th scope="col">권한</th>
+							<th scope="col">관리</th>
+						</tr>
 
-			</tbody>
-		</table>
+					</thead>
+					<tbody>
+
+					</tbody>
+				</table>
+			</div>
+
+			<button type="button"
+				class="btn btn-primary  float-right data-toggle="
+				modal" data-target="#myModal" id="btn_invite">초대</button>
 		</div>
-		
-		<div>
-			<button type="button" class="btn btn-primary" id="btn_invite">초대</button>
+
+	</div>
+	<!-- 모달 영역 -->
+	<div id="modalBox" class="modal fade" id="myModal" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">모달 타이틀</h4>
+				</div>
+				<div class="modal-body">내용</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary">확인</button>
+					<button type="button" class="btn btn-default" id="closeModalBtn">취소</button>
+				</div>
+			</div>
 		</div>
 	</div>
+
 </body>
 <script>
     document.querySelector('#btn_invite').addEventListener('click',(e)=>{
-    	alert("이거 누르면 팝업띄우자")
+    	document.querySelector('#modalBox').modal();
+    	// alert("이거 누르면 팝업띄우자")/
     });
 </script>
 </html>
