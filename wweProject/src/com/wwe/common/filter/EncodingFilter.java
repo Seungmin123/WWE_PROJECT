@@ -20,11 +20,11 @@ public class EncodingFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		request.setCharacterEncoding("utf-8");
+		request.setCharacterEncoding("UTF-8");
 
 		// ServletResponse 객체에는 setHeader() 가 없기 때문에
 		// contentType을 지정할 수 있게 해주는 setContentType 메서드 사용
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
 
 		// 같은 url-pattern 으로 여러개의 filter를 지정할 수 있다.
 		// 해당 filter 들은 filter-chain형태로 관리되며, web.xml에 등록한 순서대로 실행된다.
