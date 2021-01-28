@@ -52,8 +52,8 @@
                 <!-- <p class="masthead-subheading font-weight-light mb-0">Sign In</p>
                 <p class="masthead-subheading font-weight-light mb-0">Sign Up</p> -->
                 <div class="form-group">
-                	<a href = "/WEB-INF/view/member/SignIn.jsp"><button class="btn btn-secondary btn-xl" id="sendMessageButton" type="submit">Sign In</button></a>
-                    <a href = "/WEB-INF/view/member/SignUp.jsp"><button class="btn btn-secondary btn-xl" id="sendMessageButton" type="submit">Sign Up</button></a>
+                	<a href = "/member/signin"><button class="btn btn-secondary btn-xl" id="sendMessageButton" type="submit">Sign In</button></a>
+                    <a href = "/member/signup"><button class="btn btn-secondary btn-xl" id="sendMessageButton" type="submit">Sign Up</button></a>
                 </div>
                 <div class="form-group">
                     <button class="btn btn-secondary btn-xl" id="sendMessageButton" type="submit">

@@ -35,9 +35,9 @@ public class MemberController extends HttpServlet {
 		String[] uriArr = uri.split("/");
 		
 		switch(uriArr[uriArr.length-1]) {
-			case "signIn" : signIn(request, response);
+			case "signin" : signIn(request, response);
 				break;
-			case "signUp" : signUp(request, response);
+			case "signup" : signUp(request, response);
 				break;
 			default : ;	
 			
@@ -55,12 +55,12 @@ public class MemberController extends HttpServlet {
 	}
 	
 	private void signIn(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/view/member/signIn.jsp")
+		request.getRequestDispatcher("/WEB-INF/view/member/SignIn.jsp")
 		.forward(request, response);
 	}
 	
 	private void signUp(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/view/member/signUp.jsp")
+		request.getRequestDispatcher("/WEB-INF/view/member/SignUp.jsp")
 		.forward(request, response);
 	}
 

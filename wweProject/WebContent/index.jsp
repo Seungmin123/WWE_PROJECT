@@ -5,7 +5,7 @@
 <html>
 <body>
 	<script type = "text/javascript">
-		location.href = "/index/index"
+		location.href = "/index"
 	</script>
 </body>
 </html>
