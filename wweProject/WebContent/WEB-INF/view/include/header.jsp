@@ -3,7 +3,7 @@
 <%@page isELIgnored="false" %>
 <html>
 <head>
-    <title>WWWE - We Work Easy</title>
+    <title>WWE - We Work Easy</title>
     <%--
         contextPath를 context변수에 저장
         ex) 이 프로젝트에서는 cntextPath가 jsp임으로 jsp가 context변수가 담긴다.
