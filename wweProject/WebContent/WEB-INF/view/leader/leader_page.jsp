@@ -17,6 +17,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="crossorigin="anonymous"></script>
 <link href="/resources/scss/_variables.scss" rel="stylesheet">
 </head>
+
 <body id="page-top">
     <!-- Page Wrapper -->
     <div id="wrapper">
