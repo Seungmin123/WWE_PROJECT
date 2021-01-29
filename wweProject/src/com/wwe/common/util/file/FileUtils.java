@@ -21,7 +21,7 @@ public class FileUtils {
 	private final int maxSize = 1024 * 1024 * 10;
 	Map<String , List> multiParamMap = new HashMap<String, List>();
 	
-	Map<String, List> fileUpload(HttpServletRequest request){
+	public Map<String, List> fileUpload(HttpServletRequest request){
 		
 		List<FileVo> fileDataList = new ArrayList<FileVo>();
 		MultipartParser mp;
@@ -55,7 +55,7 @@ public class FileUtils {
 	}
 	
 	private void saveFile(FilePart userFile, FileVo fileData) throws IOException {
-		String path = "C:\\CODE\\wweStorage" + fileData.getFilePath();
+		String path = "C:\\CODE\\wweStorage/" + fileData.getFilePath();
 		new File(path).mkdirs();
 		File file = new File(path + fileData.getFileRename());
 		userFile.writeTo(file);

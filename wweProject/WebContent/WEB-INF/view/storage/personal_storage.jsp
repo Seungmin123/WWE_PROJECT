@@ -349,7 +349,7 @@
                                     <form action="${context}/storage/upload" enctype="multipart/form-data" method="post">
                                         <input type="file" class="form-control-file" name="file"/>
                                       
-                                        <textarea rows="10" cols="20" placeholder="Content text" class="form-control my-2" name="content"></textarea>
+                                        <textarea rows="10" cols="20" placeholder="Content text" class="form-control my-2" name="content" id="textarea-form"></textarea>
                                     
                                         <button class="btn btn-primary btn-icon-split">
                                             <span class="text">UPLOAD</span>
