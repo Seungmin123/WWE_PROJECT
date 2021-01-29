@@ -49,6 +49,7 @@ public class ViewsController extends HttpServlet {
 	}
 	
 	private void viewcalendar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("잘들어감");
 		request.getRequestDispatcher("/WEB-INF/view/calendar/calendar.jsp").forward(request, response);
 	}
 	
