@@ -346,10 +346,10 @@
                                     <h6 class="m-0 font-weight-bold text-primary">FILE INFO</h6>
                                 </div>
                                 <div class="card-body">
-                                    <form action="post" enctype="application/x-www-form-urlencoded">
-                                        <input type="file" class="form-control-file"/>
+                                    <form action="${context}/storage/upload" enctype="multipart/form-data" method="post">
+                                        <input type="file" class="form-control-file" name="file"/>
                                       
-                                        <textarea rows="10" cols="20" placeholder="Content text" class="form-control my-2"></textarea>
+                                        <textarea rows="10" cols="20" placeholder="Content text" class="form-control my-2" name="content"></textarea>
                                     
                                         <button class="btn btn-primary btn-icon-split">
                                             <span class="text">UPLOAD</span>
@@ -362,7 +362,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <!-- /.container-fluid -->
 

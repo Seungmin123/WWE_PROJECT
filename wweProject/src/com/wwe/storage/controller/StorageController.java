@@ -33,6 +33,8 @@ public class StorageController extends HttpServlet {
 			break;
 		case "share":
 			shareStorage(request,response);
+		case "upload":
+			uploadFile(request,response);
 		default:
 			break;
 		}
@@ -52,6 +54,12 @@ public class StorageController extends HttpServlet {
 	
 	private void shareStorage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getRequestDispatcher("/WEB-INF/view/storage/share_storage.jsp").forward(request, response);
+	}
+	
+	private void uploadFile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 파일 업로드
+		// 
+		//request.getRequestDispatcher("/WEB-INF/view/storage/share_storage.jsp").forward(request, response);
 	}
 
 }
