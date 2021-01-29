@@ -1,6 +1,8 @@
 package com.wwe.member.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,7 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.wwe.member.model.service.MemberService;
+import com.wwe.member.model.vo.Member;
 
 /**
  * Servlet implementation class MemberController
@@ -39,6 +43,14 @@ public class MemberController extends HttpServlet {
 				break;
 			case "signup" : signUp(request, response);
 				break;
+			case "signinimpl" : signInImpl(request, response);
+				break;
+			case "signupimpl" : signUpImpl(request, response);
+				break;
+				
+				
+			case "logout" : logout(request, response);
+				break;
 			default : ;	
 			
 		}
@@ -61,6 +73,38 @@ public class MemberController extends HttpServlet {
 	
 	private void signUp(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getRequestDispatcher("/WEB-INF/view/member/SignUp.jsp")
+		.forward(request, response);
+	}
+	
+	private void signInImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String data = request.getParameter("data");
+		Gson gson = new Gson();
+		Map parsedData = gson.fromJson(data, Map.class);
+
+		String userID = (String) parsedData.get("userID");
+		String userPW = (String) parsedData.get("userPW");
+		
+		Member user = memberService.memberAuthenticate(userID, userPW);
+		
+		if(user != null) {
+			//session scope로 user 전달
+			request.getSession().setAttribute("user", user);
+			response.getWriter().print("success");
+		}else {
+			response.getWriter().print("fail");
+		}
+	}
+	
+	private void signUpImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("/WEB-INF/view/member/SignUp.jsp")
+		.forward(request, response);
+	}
+	
+	private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		request.getSession().removeAttribute("user");
+		request.getRequestDispatcher("/WEB-INF/view/index/index.jsp")
 		.forward(request, response);
 	}
 

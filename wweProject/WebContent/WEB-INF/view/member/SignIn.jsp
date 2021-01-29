@@ -37,12 +37,11 @@
                                     <form class="user" action = "${context}/member/signin" method = "post">
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-user"
-                                                id="userID" aria-describedby="emailHelp"
-                                                placeholder="ID">
+                                                id="userID" name = "userID" placeholder="ID">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
-                                                id="userPW" placeholder="Password">
+                                                id="userPW" name = "userPW" placeholder="Password">
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
@@ -51,7 +50,7 @@
                                                     Me</label>
                                             </div>
                                         </div>
-                                        <a href="index.html" class="btn btn-primary btn-user btn-block">
+                                        <a onclick = "login()" class="btn btn-primary btn-user btn-block">
                                             Login
                                         </a>
                                         <hr>
@@ -90,6 +89,7 @@
 
     <!-- Custom scripts for all pages-->
     <script src="../resources/js/sb-admin-2.min.js"></script>
+    <script src="../resources/js/model/signin.js"></script>
 
 </body>
 
