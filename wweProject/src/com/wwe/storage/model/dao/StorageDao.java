@@ -7,4 +7,5 @@ public class StorageDao {
 	JDBCTemplate jdt = JDBCTemplate.getInstance(); 
 	
 	
+	
 }
