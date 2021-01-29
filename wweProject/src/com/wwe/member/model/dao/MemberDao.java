@@ -50,9 +50,6 @@ public class MemberDao {
 				
 			}
 			
-			System.out.println(member.getUserID());
-			System.out.println(member.getUserPW());
-			System.out.println("11111111111111111111111111111111111111111111");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

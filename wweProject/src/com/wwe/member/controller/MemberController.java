@@ -93,6 +93,7 @@ public class MemberController extends HttpServlet {
 			response.getWriter().print("success");
 		}else {
 			response.getWriter().print("fail");
+			System.out.println("hihihihihihihihihi");
 		}
 	}
 	

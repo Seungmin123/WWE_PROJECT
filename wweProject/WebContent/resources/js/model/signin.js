@@ -29,7 +29,6 @@
 							
 				})	
 				.then((text) => {
-					window.alert(text);
 					if(text == "fail"){
 						window.alert("ID / PW를 확인하세요");
 					}else{
