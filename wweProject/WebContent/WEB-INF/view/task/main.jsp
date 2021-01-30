@@ -1,17 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <%@ include file="/WEB-INF/view/include/header.jsp" %>
         <!DOCTYPE html>
-        <html lang="en">
+        <html>
 
         <head>
-
-            <meta charset="utf-8">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-            <meta name="description" content="">
-            <meta name="author" content="">
-
-            <title>SB Admin 2 - Cards</title>
+            <meta charset="UTF-8">
+            <title>Insert title here</title>
 
             <!-- Custom fonts for this template-->
             <link href="/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -20,7 +14,7 @@
                 rel="stylesheet">
 
             <!-- Custom styles for this template-->
-            <link href="/resources/css/main.css" rel="stylesheet">
+            <link href="/resources/css/sb-admin-2.css" rel="stylesheet">
 
         </head>
 
@@ -43,74 +37,76 @@
                     <!-- Divider -->
                     <hr class="sidebar-divider my-0">
 
-                    <!-- Nav Item - Pages Collapse Menu -->
+                    <!-- Nav Item - Dashboard -->
                     <li class="nav-item">
-                        <a class="nav-link collapsed" href="#">
-                            <i class="fas fa-fw fa-folder"></i>
-                            <span>My Page</span>
-                        </a>
+                        <a class="nav-link" href="index.html">
+                            <i class="fas fa-user-alt"></i>
+                            <span>My Page</span></a>
                     </li>
 
-                    <!-- Nav Item - Charts -->
+                    <!-- Nav Item - Dashboard -->
                     <li class="nav-item">
-                        <a class="nav-link" href="charts.html">
-                            <i class="fas fa-fw fa-chart-area"></i>
+                        <a class="nav-link" href="index.html">
+                            <i class="fas fa-home"></i>
                             <span>Main Page</span></a>
                     </li>
 
-                    <!-- Nav Item - Tables -->
+                    <!-- Nav Item - Utilities Collapse Menu -->
                     <li class="nav-item">
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                            aria-expanded="true" aria-controls="collapsePages">
-                            <i class="fas fa-fw fa-folder"></i>
-                            <span>Leader Page</span>
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                            aria-expanded="true" aria-controls="collapseUtilities">
+                            <i class="fas fa-crown"></i>
+                            <span>Admin Page</span>
                         </a>
-                        <div id="collapsePages" class="collapse" aria-labelledby="headingPages"
+                        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                             data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
-                                <h6 class="collapse-header">Login Screens:</h6>
-                                <a class="collapse-item" href="404.html">404 Page</a>
-                                <a class="collapse-item" href="blank.html">Blank Page</a>
+                                <h6 class="collapse-header">Manage</h6>
+                                <a class="collapse-item" href="${context}/leader/manage">팀관리</a>
+                                <a class="collapse-item" href="${context}/leader/totaltask">업무관리</a>
                             </div>
                         </div>
                     </li>
 
-                    <!-- Divider -->
-                    <hr class="sidebar-divider d-none d-md-block">
+                    <hr class="sidebar-divider my-0">
 
                     <!-- Heading -->
                     <div class="sidebar-heading">
-                        Views
+                        views
                     </div>
 
+                    <!-- Nav Item - Pages Collapse Menu -->
                     <li class="nav-item">
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                             aria-expanded="true" aria-controls="collapsePages">
                             <i class="fas fa-fw fa-folder"></i>
-                            <span>Views</span>
+                            <span>views</span>
                         </a>
                         <div id="collapsePages" class="collapse" aria-labelledby="headingPages"
                             data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
-                                <h6 class="collapse-header">Login Screens:</h6>
-                                <a class="collapse-item" href="404.html">404 Page</a>
-                                <a class="collapse-item" href="blank.html">Blank Page</a>
+                                <h6 class="collapse-header">view Screens:</h6>
+                                <a class="collapse-item" href="${context}/views/calendar">Calendar</a>
+                                <a class="collapse-item" href="${context}/views/graph">Graph</a>
                             </div>
                         </div>
                     </li>
 
+                    <!-- Nav Item - Charts -->
+
+
                     <li class="nav-item">
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages1"
                             aria-expanded="true" aria-controls="collapsePages">
                             <i class="fas fa-fw fa-folder"></i>
                             <span>Storage</span>
                         </a>
-                        <div id="collapsePages" class="collapse" aria-labelledby="headingPages"
+                        <div id="collapsePages1" class="collapse" aria-labelledby="headingPages"
                             data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
-                                <h6 class="collapse-header">Login Screens:</h6>
-                                <a class="collapse-item" href="404.html">404 Page</a>
-                                <a class="collapse-item" href="blank.html">Blank Page</a>
+                                <h6 class="collapse-header">Storage</h6>
+                                <a class="collapse-item" href="${context}/storage/personal">Personal</a>
+                                <a class="collapse-item" href="${context}/storage/share">Share</a>
                             </div>
                         </div>
                     </li>
@@ -339,85 +335,91 @@
                         <!-- End of Topbar -->
 
                         <!-- Start of Page -->
-                        <div class="card mb-4 py-3 border-bottom-secondary">
-                            <div class="card-name">
+                        <div class="card mb-4 py-3 border-bottom-secondary text-center bg-gradient-dark">
+                            <div class="card-name font-weight-bold display-4 ">
                                 We Work Easy
                             </div>
                         </div>
 
                         <!-- Basic Card Example -->
-                        <div class="row">
+                        <div class="row justify-content-around d-flex">
 
                             <div class="card shadow mb-4">
-                                <div class="card-header py-3">
+                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
                                     <h6 class="m-0 font-weight-bold text-primary">윤예나</h6>
+                                    <a href="#" class="btn btn-primary btn-icon-split ml-3">
+                                        <span class="text">Leader</span>
+                                    </a>
                                 </div>
                                 <div class="card-body">
-                                    <div class="card mb-4 py-3 border-left-primary">
-                                        <div class="task-body">
-                                            화면설계하기
-                                            <div class="progress progress-sm mr-2">
-                                                <div class="progress-bar bg-info" role="progressbar"
-                                                    style="width: 20%" aria-valuenow="50" aria-valuemin="0"
-                                                    aria-valuemax="100"></div>
+                                    <div class="mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm">
+                                        <div>
+                                            <div>
+                                                화면설계하기
+                                            </div>
+                                            <div class="progress progress-sm">
+                                                <div class="progress-bar bg-info" role="progressbar" style="width: 20%"
+                                                    aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="card mb-4 py-3 border-left-primary">
-                                        <div class="task-body">
-                                           UX 설계하기
-                                        </div>
+                                        <a href="#" class="btn btn-info btn-circle btn-sm ml-3 mr-3">
+                                            <i class="fas fa-info-circle"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Basic Card Example -->
                             <div class="card shadow mb-4">
-                                <div class="card-header py-3">
+                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                    <h6 class="m-0 font-weight-bold text-primary">My List</h6>
+                                    <a href="#" class="btn btn-info btn-icon-split ml-3">
+                                        <span class="text">팀원</span>
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                </div>
+                            </div>
+
+                            <!-- Basic Card Example -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
                                     <h6 class="m-0 font-weight-bold text-primary">김선민</h6>
+                                    <a href="#" class="btn btn-info btn-icon-split ml-3">
+                                        <span class="text">팀원</span>
+                                    </a>
                                 </div>
                                 <div class="card-body">
-                                    <div class="card mb-4 py-3 border-left-primary">
-                                        <div class="task-body">
-                                            비밀번호 설정하기
-                                        </div>
-                                    </div>
+                                   
                                 </div>
                             </div>
 
                             <!-- Basic Card Example -->
                             <div class="card shadow mb-4">
-                                <div class="card-header py-3">
+                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
                                     <h6 class="m-0 font-weight-bold text-primary">이승민</h6>
+                                    <a href="#" class="btn btn-info btn-icon-split ml-3">
+                                        <span class="text">팀원</span>
+                                    </a>
                                 </div>
                                 <div class="card-body">
-                                    <div class="card mb-4 py-3 border-left-primary">
-                                        <div class="task-body">
-                                            업무명
-                                            <div class="progress progress-sm mr-2">
-                                                <div class="progress-bar bg-info" role="progressbar"
-                                                    style="width: 20%" aria-valuenow="50" aria-valuemin="0"
-                                                    aria-valuemax="100"></div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                             </div>
 
                             <!-- Basic Card Example -->
                             <div class="card shadow mb-4">
-                                <div class="card-header py-3">
+                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
                                     <h6 class="m-0 font-weight-bold text-primary">장영우</h6>
+                                    <a href="#" class="btn btn-info btn-icon-split ml-3">
+                                        <span class="text">팀원</span>
+                                    </a>
                                 </div>
                                 <div class="card-body">
-                                    <div class="card mb-4 py-3 border-left-primary">
-                                        <div class="task-body">
-                                            .border-left-primary
-                                        </div>
-                                    </div>
+                                   
                                 </div>
-                            </div>  
-                            
+                            </div>
+
 
                         </div>
 

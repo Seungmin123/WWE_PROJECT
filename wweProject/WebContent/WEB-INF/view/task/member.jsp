@@ -20,7 +20,7 @@
                 rel="stylesheet">
 
             <!-- Custom styles for this template-->
-            <link href="/resources/css/main.css" rel="stylesheet">
+            <link href="/resources/css/sb-admin-2.css" rel="stylesheet">
 
         </head>
 
