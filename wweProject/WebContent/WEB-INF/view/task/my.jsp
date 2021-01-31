@@ -1,17 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <%@ include file="/WEB-INF/view/include/header.jsp" %>
         <!DOCTYPE html>
-        <html lang="en">
+        <html>
 
         <head>
-
-            <meta charset="utf-8">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-            <meta name="description" content="">
-            <meta name="author" content="">
-
-            <title>SB Admin 2 - Cards</title>
+            <meta charset="UTF-8">
+            <title>Insert title here</title>
 
             <!-- Custom fonts for this template-->
             <link href="/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -28,8 +22,6 @@
 
             <!-- Page Wrapper -->
             <div id="wrapper">
-
-                <!-- Sidebar -->
 
                     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -134,7 +126,6 @@
                         </div>
 
                     </ul>
-
                 <!-- End of Sidebar -->
 
                 <!-- Content Wrapper -->
@@ -351,24 +342,84 @@
 
                         </nav>
                         <!-- End of Topbar -->
+                        <div class="container-fluid">
 
                         <!-- Start of Page -->
-                        <div class="container-fluid">
-                            
-                            <div class="card mb-4 py-3 border-left-primary">
+                        <div class="d-flex justify-content-center">
+                        <div href="#" class="btn border pl-3 pr-3 shadow-sm bg-light">
+                            <i class="fas fa-laugh-wink h1 text-dark mr-3 mt-2"></i>
+                            <span class="text-primay font-weight-bold h1 mr-4">My List</span>
+                        </div>
+                        </div>
+                        <hr class="hr">
+
+                        <!-- Basic Card Example -->
+                        <div class="row justify-content-around d-flex">
+
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3 d-flex justify-content-center align-items-center">
+                                    <span href="#" class="btn bg-gradient-secondary pl-5 pr-5">
+                                        <span class="h3 pt-2 text-white">TO DO</span>
+                                    </span>
+                                </div>
                                 <div class="card-body">
-                                    .border-left-primary
+                                    <div class="d-flex justify-content-between mb-3">
+                                    <span href="#" class="btn btn-icon-split bg-gray-300 shadow-sm">
+                                        <span class="m-1 text-white">우선순위</span>
+                                    </span>
+                                    <span>
+                                    <a class="icon btn text-white mr-2 bg-gray-300 shadow-sm" href="${context}/task/add">
+                                        <i class="fas fa-plus"></i>
+                                    </a>
+                                    <a class="icon btn text-white bg-gray-300 shadow-sm" >
+                                        <i class="fas fa-minus"></i>
+                                    </a>
+                                    </span>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                    <div class="checkbox pt-4 mr-3">
+                                        <input type="checkbox">
+                                    </div>
+                                    <div class="mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm d-flex align-items-center justify-content-center">
+                                            <div>
+                                                화면설계하기
+                                            </div>
+                                        <a href="#" class="btn btn-info btn-circle btn-sm ml-3 mr-3">
+                                            <i class="fas fa-info-circle"></i>
+                                        </a>
+                                    </div>
+                                    </div>
                                 </div>
                             </div>
-                            
-                            <div class="row">
 
+                            <!-- Basic Card Example -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3 d-flex justify-content-center align-items-center">
+                                    <a href="#" class="btn bg-gradient-secondary pl-5 pr-5">
+                                        <span class="h3 pt-2 text-white">DOING</span>
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                </div>
                             </div>
-        
+
+                            <!-- Basic Card Example -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3 d-flex justify-content-center align-items-center">
+                                    <a href="#" class="btn bg-gradient-secondary pl-5 pr-5">
+                                        <span class="h3 pt-2 text-white">DONE</span>
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                   
+                                </div>
+                            </div>
+
+                           
                         </div>
-                        <!-- /.container-fluid -->
-        
-                    </div>
+                        </div>
+
+                        </div>
 
                         <!-- Footer -->
                         <footer class="sticky-footer bg-white">

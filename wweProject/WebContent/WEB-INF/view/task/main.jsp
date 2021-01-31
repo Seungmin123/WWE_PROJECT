@@ -23,100 +23,109 @@
             <!-- Page Wrapper -->
             <div id="wrapper">
 
-                <!-- Sidebar -->
-                <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+                    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-                    <!-- Sidebar - Brand -->
-                    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                        <div class="sidebar-brand-icon rotate-n-15">
-                            <i class="fas fa-laugh-wink"></i>
-                        </div>
-                        <div class="sidebar-brand-text mx-3">WEWORKEASY</div>
-                    </a>
-
-                    <!-- Divider -->
-                    <hr class="sidebar-divider my-0">
-
-                    <!-- Nav Item - Dashboard -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">
-                            <i class="fas fa-user-alt"></i>
-                            <span>My Page</span></a>
-                    </li>
-
-                    <!-- Nav Item - Dashboard -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">
-                            <i class="fas fa-home"></i>
-                            <span>Main Page</span></a>
-                    </li>
-
-                    <!-- Nav Item - Utilities Collapse Menu -->
-                    <li class="nav-item">
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                            aria-expanded="true" aria-controls="collapseUtilities">
-                            <i class="fas fa-crown"></i>
-                            <span>Admin Page</span>
-                        </a>
-                        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                            data-parent="#accordionSidebar">
-                            <div class="bg-white py-2 collapse-inner rounded">
-                                <h6 class="collapse-header">Manage</h6>
-                                <a class="collapse-item" href="${context}/leader/manage">팀관리</a>
-                                <a class="collapse-item" href="${context}/leader/totaltask">업무관리</a>
+                        <!-- Sidebar - Brand -->
+                        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                            <div class="sidebar-brand-icon rotate-n-15">
+                                <i class="fas fa-laugh-wink"></i>
                             </div>
-                        </div>
-                    </li>
-
-                    <hr class="sidebar-divider my-0">
-
-                    <!-- Heading -->
-                    <div class="sidebar-heading">
-                        views
-                    </div>
-
-                    <!-- Nav Item - Pages Collapse Menu -->
-                    <li class="nav-item">
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                            aria-expanded="true" aria-controls="collapsePages">
-                            <i class="fas fa-fw fa-folder"></i>
-                            <span>views</span>
+                            <div class="sidebar-brand-text mx-3">WeWorkEasy</div>
                         </a>
-                        <div id="collapsePages" class="collapse" aria-labelledby="headingPages"
-                            data-parent="#accordionSidebar">
-                            <div class="bg-white py-2 collapse-inner rounded">
-                                <h6 class="collapse-header">view Screens:</h6>
-                                <a class="collapse-item" href="${context}/views/calendar">Calendar</a>
-                                <a class="collapse-item" href="${context}/views/graph">Graph</a>
+
+                        <!-- Divider -->
+                        <hr class="sidebar-divider my-0">
+
+                        <!-- Nav Item - Dashboard -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">
+                                <i class="fas fa-user-alt"></i>
+                                <span>My Page</span></a>
+                        </li>
+
+
+                        <!-- Nav Item - Pages Collapse Menu -->
+                        <li class="nav-item ">
+                            <a class="nav-link" href="#" data-target="#collapseTwo" aria-expanded="true"
+                                aria-controls="collapseTwo">
+                                <i class="fas fa-home"></i>
+                                <span>Main Page</span>
+                            </a>
+                        </li>
+
+
+                        <!-- Nav Item - Utilities Collapse Menu -->
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse"
+                                data-target="#collapseUtilities" aria-expanded="true"
+                                aria-controls="collapseUtilities">
+                                <i class="fas fa-crown"></i>
+                                <span>Admin Page</span>
+                            </a>
+                            <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                                data-parent="#accordionSidebar">
+                                <div class="bg-white py-2 collapse-inner rounded">
+                                    <h6 class="collapse-header">Manage</h6>
+                                    <a class="collapse-item" href="${context}/leader/manage">팀관리</a>
+                                    <a class="collapse-item" href="${context}/leader/totaltask">업무관리</a>
+                                </div>
                             </div>
+                        </li>
+
+                        <hr class="sidebar-divider my-0">
+
+                        <!-- Heading -->
+                        <div class="sidebar-heading">
+                            views
                         </div>
-                    </li>
 
-                    <!-- Nav Item - Charts -->
-
-
-                    <li class="nav-item">
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages1"
-                            aria-expanded="true" aria-controls="collapsePages">
-                            <i class="fas fa-fw fa-folder"></i>
-                            <span>Storage</span>
-                        </a>
-                        <div id="collapsePages1" class="collapse" aria-labelledby="headingPages"
-                            data-parent="#accordionSidebar">
-                            <div class="bg-white py-2 collapse-inner rounded">
-                                <h6 class="collapse-header">Storage</h6>
-                                <a class="collapse-item" href="${context}/storage/personal">Personal</a>
-                                <a class="collapse-item" href="${context}/storage/share">Share</a>
+                        <!-- Nav Item - Pages Collapse Menu -->
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse"
+                                data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+                                <i class="fas fa-fw fa-folder"></i>
+                                <span>views</span>
+                            </a>
+                            <div id="collapsePages" class="collapse" aria-labelledby="headingPages"
+                                data-parent="#accordionSidebar">
+                                <div class="bg-white py-2 collapse-inner rounded">
+                                    <h6 class="collapse-header">view Screens:</h6>
+                                    <a class="collapse-item" href="/views/calendar">Calendar</a>
+                                    <a class="collapse-item" href="/views/graph">Graph</a>
+                                </div>
                             </div>
+                        </li>
+
+                        <!-- Nav Item - Charts -->
+
+
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse"
+                                data-target="#collapsePages1" aria-expanded="true" aria-controls="collapsePages">
+                                <i class="fas fa-fw fa-folder"></i>
+                                <span>Storage</span>
+                            </a>
+                            <div id="collapsePages1" class="collapse" aria-labelledby="headingPages"
+                                data-parent="#accordionSidebar">
+                                <div class="bg-white py-2 collapse-inner rounded">
+                                    <h6 class="collapse-header">Storage</h6>
+                                    <a class="collapse-item" href="/storage/personal">Personal</a>
+                                    <a class="collapse-item" href="/storage/share">Share</a>
+                                </div>
+                            </div>
+                        </li>
+
+
+
+                        <!-- Divider -->
+                        <hr class="sidebar-divider d-none d-md-block">
+
+                        <!-- Sidebar Toggler (Sidebar) -->
+                        <div class="text-center d-none d-md-inline">
+                            <button class="rounded-circle border-0" id="sidebarToggle"></button>
                         </div>
-                    </li>
 
-                    <!-- Sidebar Toggler (Sidebar) -->
-                    <div class="text-center d-none d-md-inline">
-                        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-                    </div>
-
-                </ul>
+                    </ul>
                 <!-- End of Sidebar -->
 
                 <!-- Content Wrapper -->
@@ -333,20 +342,22 @@
 
                         </nav>
                         <!-- End of Topbar -->
+                        <div class="container-fluid">
 
                         <!-- Start of Page -->
-                        <div class="card mb-4 py-3 border-bottom-secondary text-center bg-gradient-dark">
-                            <div class="card-name font-weight-bold display-4 ">
-                                We Work Easy
-                            </div>
+                        <div class="d-flex justify-content-center">
+                        <div href="#" class="btn border pl-3 pr-3 shadow-sm bg-light">
+                            <span class="text-primay font-weight-bold h1">We Work Easy</span>
                         </div>
+                        </div>
+                        <hr class="hr">
 
                         <!-- Basic Card Example -->
                         <div class="row justify-content-around d-flex">
 
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                    <h6 class="m-0 font-weight-bold text-primary">윤예나</h6>
+                                    <a class="m-0 font-weight-bold text-primary" href="${context}/task/member">윤예나</a>
                                     <a href="#" class="btn btn-primary btn-icon-split ml-3">
                                         <span class="text">Leader</span>
                                     </a>
@@ -372,10 +383,10 @@
                             <!-- Basic Card Example -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                    <h6 class="m-0 font-weight-bold text-primary">My List</h6>
-                                    <a href="#" class="btn btn-info btn-icon-split ml-3">
+                                    <a class="m-0 font-weight-bold text-primary" href="${context}/task/my">My List</a>
+                                    <span href="#" class="btn btn-info btn-icon-split ml-3">
                                         <span class="text">팀원</span>
-                                    </a>
+                                    </span>
                                 </div>
                                 <div class="card-body">
                                 </div>
@@ -384,10 +395,10 @@
                             <!-- Basic Card Example -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                    <h6 class="m-0 font-weight-bold text-primary">김선민</h6>
-                                    <a href="#" class="btn btn-info btn-icon-split ml-3">
+                                    <a class="m-0 font-weight-bold text-primary" href="${context}/task/member">김선민</a>
+                                    <span href="#" class="btn btn-info btn-icon-split ml-3">
                                         <span class="text">팀원</span>
-                                    </a>
+                                    </span>
                                 </div>
                                 <div class="card-body">
                                    
@@ -397,7 +408,7 @@
                             <!-- Basic Card Example -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                    <h6 class="m-0 font-weight-bold text-primary">이승민</h6>
+                                    <a class="m-0 font-weight-bold text-primary" href="${context}/task/member">이승민</a>
                                     <a href="#" class="btn btn-info btn-icon-split ml-3">
                                         <span class="text">팀원</span>
                                     </a>
@@ -410,7 +421,7 @@
                             <!-- Basic Card Example -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                    <h6 class="m-0 font-weight-bold text-primary">장영우</h6>
+                                    <a class="m-0 font-weight-bold text-primary" href="${context}/task/member">장영우</a>
                                     <a href="#" class="btn btn-info btn-icon-split ml-3">
                                         <span class="text">팀원</span>
                                     </a>
@@ -419,7 +430,8 @@
                                    
                                 </div>
                             </div>
-
+                        </div>
+                        </div>
 
                         </div>
 
