@@ -25,34 +25,47 @@
                     <div class="col-lg-7">
                         <div class="p-5">
                             <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                                <h1 class="h4 text-gray-900 mb-4">♣Create an Account!♣</h1>
                             </div>
-                            <form class="user">
+                            <form class="user" action = "${context}/member/signup" method = "post">
+                                <div class="form-group">
+                                        <input type="text" class="form-control form-control-user" 
+                                        id="userID" name = "userID" placeholder="ID">
+                                </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                            placeholder="First Name">
+                                        <input type="password" class="form-control form-control-user"
+                                            id="userPW" name = "userPW" placeholder="Password" onchange = "check_pw()">
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                            placeholder="Last Name">
+                                        <input type="password" class="form-control form-control-user"
+                                            id="userPW2" name = "userPW2" placeholder="Repeat Password"onchange = "check_pw()">
                                     </div>
+                                    
+                                </div>
+                                <span class="form-control-user" id = "check"></span>
+                                <br>
+                                <div class="form-group">
+                                    <input type="email" class="form-control form-control-user" 
+                                    id="userEmail" name = "userEmail" placeholder="Email Address">
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                        placeholder="Email Address">
+                                    <input type="text" class="form-control form-control-user" 
+                                    id="userName" name = "userName" placeholder="Name">
                                 </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="password" class="form-control form-control-user"
-                                            id="exampleInputPassword" placeholder="Password">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="password" class="form-control form-control-user"
-                                            id="exampleRepeatPassword" placeholder="Repeat Password">
-                                    </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" 
+                                    id="userAdd" name = "userAdd" placeholder="Address">
                                 </div>
-                                <a href="login.html" class="btn btn-primary btn-user btn-block">
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" 
+                                    id="userTell" name = "userTell" placeholder="Tell">
+                                </div>
+                                <div class="form-group">
+                                    <input type="date" class="form-control form-control-user" 
+                                    id="userBirth" name = "userBirth" placeholder="Birth">
+                                </div>
+                                <a onclick = "signup()" class="btn btn-primary btn-user btn-block">
                                     Register Account
                                 </a>
                                 <hr>
@@ -65,10 +78,10 @@
                             </form>
                             <hr>
                             <div class="text-center">
-                                <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                <a class="small" href="${context}/member/signin">Already have an account? Login!</a>
                             </div>
                             <div class="text-center">
-                                <a class="small" href="login.html">Already have an account? Login!</a>
+                                <a class="small" href="${context}/member/find" onclick = "setDivFirstSet()">Forgot ID / Password?</a>
                             </div>
                         </div>
                     </div>
@@ -87,6 +100,7 @@
 
     <!-- Custom scripts for all pages-->
     <script src="../resources/js/sb-admin-2.min.js"></script>
+    <script src="../resources/js/model/signController.js"></script>
 
 </body>
 

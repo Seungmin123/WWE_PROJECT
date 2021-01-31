@@ -50,7 +50,7 @@
                                                     Me</label>
                                             </div>
                                         </div>
-                                        <a onclick = "login()" class="btn btn-primary btn-user btn-block">
+                                        <a onclick = "signin()" class="btn btn-primary btn-user btn-block">
                                             Login
                                         </a>
                                         <hr>
@@ -63,7 +63,7 @@
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                        <a class="small" href="${context}/member/find" onclick = "setDivFirstSet()">Forgot ID / Password?</a>
                                     </div>
                                     <div class="text-center">
                                         <a class="small" href="${context}/member/signup">Create an Account!</a>
@@ -89,7 +89,7 @@
 
     <!-- Custom scripts for all pages-->
     <script src="../resources/js/sb-admin-2.min.js"></script>
-    <script src="../resources/js/model/signin.js"></script>
+    <script src="../resources/js/model/signController.js"></script>
 
 </body>
 

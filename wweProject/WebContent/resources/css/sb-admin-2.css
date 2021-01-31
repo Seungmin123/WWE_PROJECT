@@ -10839,7 +10839,7 @@ a:focus {
 
 .bg-password-image {
   /* background: url("https://source.unsplash.com/oWTW-jNGl9I/600x800"); */
-  background: url("https://lh3.googleusercontent.com/proxy/t9nKd2AAWuzZtbihr-TwTqMvN3NYl1bIRODcyUSePxckd6dGu-GJ8sJL0QXpLw_SuUdnk87bD2VbnY7L6UrEWLdzKHaC7ctVxGBaSod0HsOw77TFncIjgPxCtHh6Q7y0JphbFaX_CoN3skQRlkvNOz3YdMEXZT8pCXKNS6mZ6sgIr158uhNfSpRtTyT5ptr7ReGWPoCvaKR5mnylQ6j0p4kjb5Qa");
+  background: url("../assets/background/pengpic.jpg");
   background-position: center;
   background-size: cover;
 }
@@ -11245,3 +11245,19 @@ footer.sticky-footer .copyright {
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
 }
+
+#whale-LeftPic {
+  display : none;
+  visibility : hidden;
+}
+
+#whale-RightID {
+  display : none;
+  visibility : hidden;
+}
+
+#whale-RightPW {
+  display : none;
+  visibility : hidden;
+}
+

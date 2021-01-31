@@ -39,15 +39,25 @@ public class MemberController extends HttpServlet {
 		String[] uriArr = uri.split("/");
 		
 		switch(uriArr[uriArr.length-1]) {
+		
 			case "signin" : signIn(request, response);
 				break;
 			case "signup" : signUp(request, response);
 				break;
+			case "find" : find(request, response);
+				break;
+				
 			case "signinimpl" : signInImpl(request, response);
 				break;
 			case "signupimpl" : signUpImpl(request, response);
 				break;
+			case "findidimpl" : findIDImpl(request, response);
+				break;
+			case "findpwimpl" : findPWImpl(request, response);
+				break;
 				
+			case "mypage" : myPage(request, response);
+			break;	
 				
 			case "logout" : logout(request, response);
 				break;
@@ -98,8 +108,44 @@ public class MemberController extends HttpServlet {
 	}
 	
 	private void signUpImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/view/member/SignUp.jsp")
-		.forward(request, response);
+		
+		String data = request.getParameter("data");
+		Gson gson = new Gson();
+		Map parsedData = gson.fromJson(data, Map.class);
+
+		String userID = (String) parsedData.get("userID");
+		String userPW = (String) parsedData.get("userPW");
+		String userEmail = (String) parsedData.get("userEmail");
+		String userName = (String) parsedData.get("userName");
+		String userAdd = (String) parsedData.get("userAdd");
+		String userTell = (String) parsedData.get("userTell");
+		String userBirth = (String) parsedData.get("userBirth");
+	
+		
+		Member member = new Member();
+		member.setUserID(userID);
+		member.setUserPW(userPW);
+		member.setUserEmail(userEmail);
+		member.setUserName(userName);
+		member.setUserAdd(userAdd);
+		member.setUserTell(userTell);
+		member.setUserBirth(userBirth);
+		
+		int res = memberService.insertMember(member);
+		
+		
+		
+		if(res == 1) {	
+			System.out.println("회원가입 성공");
+			request
+			.getRequestDispatcher("/WEB-INF/view/member/MyPage.jsp")
+			.forward(request, response);
+		}else {
+			System.out.println("회원가입 실패");
+			request
+			.getRequestDispatcher("/WEB-INF/view/member/Logout.jsp")
+			.forward(request, response);
+		}
 	}
 	
 	private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -108,5 +154,62 @@ public class MemberController extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/view/index/index.jsp")
 		.forward(request, response);
 	}
+	
+	private void find(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		request.getRequestDispatcher("/WEB-INF/view/member/FindSign.jsp")
+		.forward(request, response);
+	}
+	
+	private void myPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		request.getRequestDispatcher("/WEB-INF/view/member/MyPage.jsp")
+		.forward(request, response);
+	}
+	
+	private void findIDImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String data = request.getParameter("data");
+		Gson gson = new Gson();
+		Map parsedData = gson.fromJson(data, Map.class);
 
+		String userEmail = (String) parsedData.get("userEmail");
+		
+		Member user = memberService.findMemberID(userEmail);
+		
+		if(user != null) {
+			//session scope로 user 전달
+			request.getSession().setAttribute("user", user);
+			response.getWriter().print("find id success");
+			System.out.println("cont / find id success");
+		}else {
+			response.getWriter().print("find id fail");
+			System.out.println("cont / find id fail");
+		}
+	}
+	
+	private void findPWImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String data = request.getParameter("data");
+		Gson gson = new Gson();
+		Map parsedData = gson.fromJson(data, Map.class);
+
+		String userID = (String) parsedData.get("userID");
+		String userEmail = (String) parsedData.get("userEmail");
+		
+		Member user = memberService.findMemberPW(userID, userEmail);
+		
+		if(user != null) {
+			//session scope로 user 전달
+			request.getSession().setAttribute("user", user);
+			response.getWriter().print("find PW success");
+			System.out.println("cont / find PW success");
+		}else {
+			response.getWriter().print("find PW fail");
+			System.out.println("cont / find PW fail");
+		}
+	}
+	
+	
+	
 }
