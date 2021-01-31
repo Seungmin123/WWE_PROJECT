@@ -344,10 +344,11 @@
                         <!-- End of Topbar -->
                         <div class="container-fluid">
 
-                        <!-- Start of Page -->
+                         <!-- Start of Page -->
                         <div class="d-flex justify-content-center">
                         <div href="#" class="btn border pl-3 pr-3 shadow-sm bg-light">
-                            <span class="text-primay font-weight-bold h1">We Work Easy</span>
+                            <i class="fas fa-laugh-wink h1 text-dark mr-3 mt-2"></i>
+                            <span class="text-primay font-weight-bold h1 mr-4">We Work Easy</span>
                         </div>
                         </div>
                         <hr class="hr">
