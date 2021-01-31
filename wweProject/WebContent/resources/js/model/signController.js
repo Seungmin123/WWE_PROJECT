@@ -99,7 +99,7 @@
 					}else{
 						
 						//location.href = "/index";
-						location.href= "/member/signup";
+						location.href= "/member/mypage";
 					}
 				}).catch(error => {
 					error.alertMessage();
