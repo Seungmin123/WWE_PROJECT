@@ -1,29 +1,22 @@
-package com.wwe.common.jdbc;
+package com.wwe.project;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Properties;
+
+import com.wwe.common.code.ErrorCode;
+import com.wwe.common.exception.DataAccessException;
+import com.wwe.common.jdbc.JDBCTemplate;
 
 import oracle.jdbc.OracleConnection;
 import oracle.jdbc.pool.OracleDataSource;
 
-import java.sql.*;
-import java.util.Properties;
+public class ProjectDAO {
 
-public class JDBCTemplate {
-	
-	//singleton 패턴
-	//클래스의 인스턴스가 하나만 생성되어야 할 때 사용하는 디자인 패턴
-	
 	private static JDBCTemplate instance;
-	
-	//생성자를 private으로 만들어서 외부에서 JDBCTemplate의 생성을 차단
-//	private JDBCTemplate() {
-//		//1. OracleDriver를 JVM에 등록
-//		try {
-//			Class.forName("oracle.jdbc.driver.OracleDriver");
-//		} catch (ClassNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
 	
 	public static JDBCTemplate getInstance() {
 		if(instance == null) {
@@ -33,9 +26,7 @@ public class JDBCTemplate {
 		return instance;
 	}
 	
-	//Connection 객체를 만들 메서드
 	public Connection getConnection() {
-		
 		String url = "jdbc:oracle:thin:@WweDB_high?TNS_ADMIN=C:/wallet/";
 		String user = "admin";
 		String password = "Weworkeasy93!";
@@ -60,6 +51,40 @@ public class JDBCTemplate {
 		return conn;
 	}
 	
+	//새 프로젝트 생성
+	public int insertProject(Connection conn, Project project) {
+	      int res = 0;
+	      
+	      String sql = "insert into tb_project "
+	    		  	+ "(user_id,due_date,progress,leader_id) "
+	    		  	+ "values('p' || sc_project_idx.nextval, ?, ?, ?, ?)"; //시퀀스 생성 확인
+	     
+	      PreparedStatement pstm = null;
+	      
+	      try {
+	    	 //Connection객체를 이용하여 sql 쿼리문 넣기
+	         pstm = conn.prepareStatement(sql);
+	         
+	         //VO로 DB에서 값 받아오기
+	         pstm.setString(1, project.getProjectId());
+	         pstm.setDate(2, project.getDueDate());
+	         pstm.setInt(3, project.getProgress());
+	         pstm.setString(4, project.getLeaderId());
+	         
+	         //UPDATE문 실행한 결과값
+	         res = pstm.executeUpdate();
+	         
+	      } catch (SQLException e) {
+	         throw new DataAccessException(ErrorCode.IB01, e); 
+	
+	      }finally {
+	    	  //PreparedStatement 닫아주기
+	    	  instance.close(pstm);
+	      }
+	      //결과값 반환
+	      return res;
+	   }
+
 	public void commit(Connection conn) {
 		try {
 			conn.commit();
@@ -160,4 +185,5 @@ public class JDBCTemplate {
 			e.printStackTrace();
 		}
 	}
+	
 }
