@@ -47,7 +47,6 @@ public class MemberService {
 	public Member findMemberID(String userEmail) {
 		
 		Connection conn = jdt.getConnection();
-		
 		Member res = memberDao.findMemberID(conn, userEmail);
 		
 		jdt.close(conn);

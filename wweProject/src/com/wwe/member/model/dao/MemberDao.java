@@ -114,12 +114,7 @@ public class MemberDao {
 				
 				member = new Member();
 				member.setUserID(rset.getString("user_id"));
-				member.setUserPW(rset.getString("user_pw"));
-				member.setUserEmail(rset.getString("user_email"));
-				member.setUserName(rset.getString("user_name"));	
-				member.setUserAdd(rset.getString("user_add"));	
-				member.setUserTell(rset.getString("user_tell"));
-				member.setUserBirth(rset.getString("user_birth"));
+				
 				if(rset.getString("user_profile") != null) {
 					member.setUserProfile(rset.getString("user_profile"));
 				}
@@ -164,11 +159,7 @@ public class MemberDao {
 				member = new Member();
 				member.setUserID(rset.getString("user_id"));
 				member.setUserPW(rset.getString("user_pw"));
-				member.setUserEmail(rset.getString("user_email"));
-				member.setUserName(rset.getString("user_name"));	
-				member.setUserAdd(rset.getString("user_add"));	
-				member.setUserTell(rset.getString("user_tell"));
-				member.setUserBirth(rset.getString("user_birth"));
+				
 				if(rset.getString("user_profile") != null) {
 					member.setUserProfile(rset.getString("user_profile"));
 				}

@@ -95,7 +95,7 @@
                                     <form class="user" action = "${context}/member/find" method = "post">
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
-                                                id="userEmail" name = "userEmail" aria-describedby="emailHelp"
+                                                id="userEmailForID" name = "userEmailForID" 
                                                 placeholder="Enter Email Address...">
                                         </div>
                                         <a onclick = "findID()" class="btn btn-primary btn-user btn-block">
@@ -129,13 +129,13 @@
                                     </div>
                                     <form class="user" action = "${context}/member/find" method = "post">
                                     	<div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
+                                            <input type="text" class="form-control form-control-user"
                                                 id="userID" name = "userID"  aria-describedby="emailHelp"
                                                 placeholder="Enter ID...">
                                         </div>
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
-                                                id="userEmail" name = "userEmail" aria-describedby="emailHelp"
+                                                id="userEmailForPW" name = "userEmailForPW" aria-describedby="emailHelp"
                                                 placeholder="Enter Email Address...">
                                         </div>
                                         <a onclick = "findPW()" class="btn btn-primary btn-user btn-block">

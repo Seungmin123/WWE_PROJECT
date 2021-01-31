@@ -46,6 +46,8 @@ public class MemberController extends HttpServlet {
 				break;
 			case "find" : find(request, response);
 				break;
+			case "findresult" : findResult(request, response);
+				break;
 				
 			case "signinimpl" : signInImpl(request, response);
 				break;
@@ -103,7 +105,7 @@ public class MemberController extends HttpServlet {
 			response.getWriter().print("success");
 		}else {
 			response.getWriter().print("fail");
-			System.out.println("hihihihihihihihihi");
+			
 		}
 	}
 	
@@ -161,6 +163,11 @@ public class MemberController extends HttpServlet {
 		.forward(request, response);
 	}
 	
+	private void findResult(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("/WEB-INF/view/member/FindResult.jsp")
+		.forward(request, response);
+	}
+	
 	private void myPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		request.getRequestDispatcher("/WEB-INF/view/member/MyPage.jsp")
@@ -183,7 +190,7 @@ public class MemberController extends HttpServlet {
 			response.getWriter().print("find id success");
 			System.out.println("cont / find id success");
 		}else {
-			response.getWriter().print("find id fail");
+			response.getWriter().print("fail");
 			System.out.println("cont / find id fail");
 		}
 	}

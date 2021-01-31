@@ -117,9 +117,6 @@
 				paramObj.userTell = userTell.value;
 				paramObj.userBirth = userBirth.value;
 
-				window.alert(paramObj.userID);
-				window.alert("hihi");
-
 				let headerObj = new Headers();
 				//headerObj.append('content-type', 'application/json');
 				headerObj.append('content-type', 'application/x-www-form-urlencoded');
@@ -149,7 +146,7 @@
 					}else{
 						
 						//location.href = "/index";
-						location.href= "/member/signup";
+						location.href= "/member/signin";
 					}
 				}).catch(error => {
 					error.alertMessage();
@@ -157,22 +154,20 @@
 	}
 
 	let findID = () => {
-				const url = '/member/signinimpl';
+				const url = '/member/findidimpl';
 				let paramObj = new Object();
-				paramObj.userEmail = userEmail.value;
-				
-
+				paramObj.userEmail = userEmailForID.value;
 
 				let headerObj = new Headers();
 				//headerObj.append('content-type', 'application/json');
 				headerObj.append('content-type', 'application/x-www-form-urlencoded');
-				
+
 				fetch(url, {
 					
 					method : "post",
 					headers : headerObj,		
 					body:"data="+ JSON.stringify(paramObj)
-
+		
 				}).then(response => {
 					//response.ok : 상태코드 200~209 사이라면 ok = true
 					if(response.ok){
@@ -188,7 +183,7 @@
 					}else{
 						
 						//location.href = "/index";
-						location.href= "/member/signup";
+						location.href= "/member/findresult";
 					}
 				}).catch(error => {
 					error.alertMessage();
@@ -196,10 +191,12 @@
 	}
 
 	let findPW = () => {
-				const url = '/member/signinimpl';
+
+				const url = '/member/findpwimpl';
 				let paramObj = new Object();
 				paramObj.userID = userID.value;
-				paramObj.userEmail = userEmail.value;
+				paramObj.userEmail = userEmailForPW.value;
+				
 
 				let headerObj = new Headers();
 				//headerObj.append('content-type', 'application/json');
@@ -226,7 +223,7 @@
 					}else{
 						
 						//location.href = "/index";
-						location.href= "/member/signup";
+						location.href= "/member/findresult";
 					}
 				}).catch(error => {
 					error.alertMessage();
