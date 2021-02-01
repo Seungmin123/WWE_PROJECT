@@ -1,7 +1,7 @@
 package com.wwe.member.controller;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.net.URLDecoder;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.wwe.member.mail.MailSender;
 import com.wwe.member.model.service.MemberService;
 import com.wwe.member.model.vo.Member;
 
@@ -56,6 +57,9 @@ public class MemberController extends HttpServlet {
 			case "findidimpl" : findIDImpl(request, response);
 				break;
 			case "findpwimpl" : findPWImpl(request, response);
+				break;
+				
+			case "mailsender" : sendMail(request, response);
 				break;
 				
 			case "mypage" : myPage(request, response);
@@ -112,9 +116,11 @@ public class MemberController extends HttpServlet {
 	private void signUpImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String data = request.getParameter("data");
+		System.out.println(data);
+		
 		Gson gson = new Gson();
 		Map parsedData = gson.fromJson(data, Map.class);
-
+		
 		String userID = (String) parsedData.get("userID");
 		String userPW = (String) parsedData.get("userPW");
 		String userEmail = (String) parsedData.get("userEmail");
@@ -123,6 +129,7 @@ public class MemberController extends HttpServlet {
 		String userTell = (String) parsedData.get("userTell");
 		String userBirth = (String) parsedData.get("userBirth");
 	
+		
 		
 		Member member = new Member();
 		member.setUserID(userID);
@@ -182,16 +189,16 @@ public class MemberController extends HttpServlet {
 
 		String userEmail = (String) parsedData.get("userEmail");
 		
+		System.out.println(userEmail);
+		
 		Member user = memberService.findMemberID(userEmail);
 		
 		if(user != null) {
 			//session scope로 user 전달
 			request.getSession().setAttribute("user", user);
 			response.getWriter().print("find id success");
-			System.out.println("cont / find id success");
 		}else {
 			response.getWriter().print("fail");
-			System.out.println("cont / find id fail");
 		}
 	}
 	
@@ -217,6 +224,21 @@ public class MemberController extends HttpServlet {
 		}
 	}
 	
-	
+	private void sendMail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		MailSender ms = new MailSender();
+		
+		String data = request.getParameter("data");
+		Gson gson = new Gson();
+		Map parsedData = gson.fromJson(data, Map.class);
+		
+		String userEmail = (String) parsedData.get("userEmail");
+		String userAuthCode = (String) parsedData.get("userAuthCode");
+		System.out.println(userAuthCode);
+		
+		ms.GmailSet(userEmail, "wwe 인증메일", "인증번호는?? 뚜둔 \n" + userAuthCode);
+		System.out.println("메일 전송송");
+	}
+
 	
 }

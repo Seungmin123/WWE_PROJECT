@@ -13,6 +13,13 @@
     <link href="../resources/css/sb-admin-2.css" rel="stylesheet">
 </head>
 <body class="bg-gradient-primary">
+ <%!
+     public int getAuthCode(){
+          int random = 0;
+          random = (int)Math.floor((Math.random()*(99999-10000+1)))+10000;
+          return random;
+     }
+ %>
 
     <div class="container">
 
@@ -98,9 +105,30 @@
                                                 id="userEmailForID" name = "userEmailForID" 
                                                 placeholder="Enter Email Address...">
                                         </div>
-                                        <a onclick = "findID()" class="btn btn-primary btn-user btn-block">
+                                        
+                                        <!-- 인증번호 입력 -->
+                                	<div class="form-group" id="mailAuth">
+                                    	<input type="email" class="form-control form-control-user" 
+                                    	id="userEmailAuth" name = "userEmailAuth" placeholder="인증번호를 입력하세요..">
+                                	</div>
+                                
+                                	<a onclick = "sendForFindID()" class="btn btn-primary btn-user btn-block" id="mailCheckBefore">
+                                    	인증메일 전송
+         								<!-- 인증코드 생성 -->                           
+                                    	<input type = "hidden" readonly = "readonly" name = "authCodeCheck"
+                                		id = "authCodeCheck" value = "<%=getAuthCode()%>"/>
+                               		</a>
+                               		
+                               		<!-- 인증코드 확인 후 입력창 -->
+                                	<a onclick = "mailAuthSuccess()" class="btn btn-primary btn-user btn-block" id="mailCheckAfter" onchange = "mailAuthSuccess()">
+                                	    인증번호 확인
+                               	 	</a>
+                               	 	<span class="form-control-user" id = "checkEmail"></span>
+                                    
+                                    <a onclick = "findID()" class="btn btn-primary btn-user btn-block" id = "findBtnForID">
                                             Find ID
-                                        </a>
+                                    </a>
+                                    
                                     </form>
                                     <hr>
                                     <div class="text-center">
@@ -138,7 +166,27 @@
                                                 id="userEmailForPW" name = "userEmailForPW" aria-describedby="emailHelp"
                                                 placeholder="Enter Email Address...">
                                         </div>
-                                        <a onclick = "findPW()" class="btn btn-primary btn-user btn-block">
+                                        
+                                          <!-- 인증번호 입력 -->
+                                	<div class="form-group" id="mailAuth">
+                                    	<input type="email" class="form-control form-control-user" 
+                                    	id="userEmailAuth" name = "userEmailAuth" placeholder="인증번호를 입력하세요..">
+                                	</div>
+                                
+                                	<a onclick = "sendForFindID()" class="btn btn-primary btn-user btn-block" id="mailCheckBefore">
+                                    	인증메일 전송
+         								<!-- 인증코드 생성 -->                           
+                                    	<input type = "hidden" readonly = "readonly" name = "authCodeCheck"
+                                		id = "authCodeCheck" value = "<%=getAuthCode()%>"/>
+                               		</a>
+                               		
+                               		<!-- 인증코드 확인 후 입력창 -->
+                                	<a onclick = "mailAuthSuccess()" class="btn btn-primary btn-user btn-block" id="mailCheckAfter" onchange = "mailAuthSuccess()">
+                                	    인증번호 확인
+                               	 	</a>
+                               	 	<span class="form-control-user" id = "checkEmail"></span>
+                                        
+                                        <a onclick = "findPW()" class="btn btn-primary btn-user btn-block" id = "findBtnForPW">
                                             Find Password
                                         </a>
                                     </form>

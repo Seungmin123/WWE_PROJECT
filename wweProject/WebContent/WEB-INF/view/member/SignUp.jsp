@@ -14,6 +14,13 @@
 </head>
 
 <body class="bg-gradient-primary">
+ <%!
+     public int getAuthCode(){
+          int random = 0;
+          random = (int)Math.floor((Math.random()*(99999-10000+1)))+10000;
+          return random;
+     }
+ %>
 
     <div class="container">
 
@@ -43,12 +50,34 @@
                                     </div>
                                     
                                 </div>
-                                <span class="form-control-user" id = "check"></span>
+                                <span class="form-control-user" id = "checkPW"></span>
                                 <br>
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-user" 
                                     id="userEmail" name = "userEmail" placeholder="Email Address">
                                 </div>
+                                
+                                <!-- 인증번호 입력 -->
+                                <div class="form-group" id="mailAuth">
+                                    <input type="email" class="form-control form-control-user" 
+                                    id="userEmailAuth" name = "userEmailAuth" placeholder="인증번호를 입력하세요..">
+                                </div>
+                                
+                                <a onclick = "sendForSignUp();" class="btn btn-primary btn-user btn-block" id="mailCheckBefore">
+                                    인증메일 전송
+                                    
+         							<!-- 인증코드 생성 -->                           
+                                    <input type = "hidden" readonly = "readonly" name = "authCodeCheck"
+                                	id = "authCodeCheck" value = "<%=getAuthCode()%>"/>
+                                	
+                                </a>
+                                
+                                <!-- 인증코드 확인 후 입력창 -->
+                                <a onclick = "mailAuthSuccess(); " class="btn btn-primary btn-user btn-block" id="mailCheckAfter" onchange = "mailAuthSuccess()">
+                                    인증번호 확인
+                                </a>
+                                <span class="form-control-user" id = "checkEmail"></span>
+
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-user" 
                                     id="userName" name = "userName" placeholder="Name">

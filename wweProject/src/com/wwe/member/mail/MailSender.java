@@ -23,15 +23,13 @@ public class MailSender {
 		p.put("mail.smtp.starttls.enable", "true");
 		p.put("mail.smtp.host", "smtp.gmail.com");      // smtp 서버 호스트
         p.put("mail.smtp.auth","true");
-        p.put("mail.smtp.port", "465"); 
+        p.put("mail.smtp.port", "587"); 
 
         Authenticator auth = new MailAuth();
-        
         Session session = Session.getDefaultInstance(p, auth);
         MimeMessage msg = new MimeMessage(session);
         String fromName = "KH_WWE";
         String charSet = "UTF-8";
-        
         
         try {
         msg.setSentDate(new Date());
@@ -39,7 +37,7 @@ public class MailSender {
         InternetAddress from = new InternetAddress();
         from = new InternetAddress(new String(fromName.getBytes(charSet), "8859_1"));
         msg.setFrom(from);
-        
+        System.out.println("4");
         InternetAddress to = new InternetAddress(user); //받는 사람
         msg.setRecipient(Message.RecipientType.TO, to);
         
@@ -47,8 +45,7 @@ public class MailSender {
         msg.setText(content, "UTF-8"); // 메일 내용
         
         Transport.send(msg);
-	
-        System.out.println("메일 send kiki");
+        System.out.println("5");
         }catch (AddressException addr_e) {  //예외처리 주소를 입력하지 않을 경우
             JOptionPane.showMessageDialog(null, "메일을 입력해주세요", "메일주소입력", JOptionPane.ERROR_MESSAGE);
             addr_e.printStackTrace();

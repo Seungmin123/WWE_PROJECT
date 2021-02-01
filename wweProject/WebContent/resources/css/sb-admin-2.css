@@ -11261,3 +11261,23 @@ body.sidebar-toggled footer.sticky-footer {
   visibility : hidden;
 }
 
+#mailCheckAfter{
+  display : none;
+  visibility : hidden;
+}
+
+#mailAuth{
+  display : none;
+  visibility : hidden;
+}
+
+#findBtnForID{
+  display : none;
+  visibility : hidden;
+}
+
+#findBtnForPW{
+  display : none;
+  visibility : hidden;
+}
+

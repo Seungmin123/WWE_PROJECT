@@ -80,9 +80,9 @@ public class MemberDao {
 			pstm.setString(7, member.getUserBirth());
 			res = pstm.executeUpdate();
 			
-			
 		} catch (SQLException e) {
 			System.out.println("회원가입 중 다오 문제 발생");
+			e.printStackTrace();
 		}finally {
 			jdt.close(pstm);
 		}
