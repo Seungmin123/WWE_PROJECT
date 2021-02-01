@@ -4,11 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.wwe.common.code.ErrorCode;
 import com.wwe.common.exception.DataAccessException;
 import com.wwe.common.jdbc.JDBCTemplate;
 import com.wwe.leader.model.vo.Leader;
+import com.wwe.leader.model.vo.Task;
 
 public class LeaderDao {
 
@@ -67,5 +69,60 @@ public class LeaderDao {
 		}
 		return mUserid;
 	}
+	
+	//프로젝트에서 각 팀원이 맡은 업무 리스트를 가져오는 메소드
+	public ArrayList<Task> selectTaskList(Connection conn,String projectId){
+		ArrayList<Task> taskList = new ArrayList<>();
+		PreparedStatement pstm =null;
+		ResultSet rset = null;
+		
+		String query = "SELECT *FROM TB_PROJECT_LEADER "
+				+"WHERE PROJECT_ID = ?";
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1,projectId);
+			
+			rset = pstm.executeQuery();
+			
+			while(rset.next()) {
+				Task task = new Task();
+				task.setProjectId(rset.getString("PROJECT_ID"));
+				task.setTaskId(rset.getString("TASK_ID"));
+				task.setLeaderId(rset.getString("LEADER_ID"));
+				task.setTask(rset.getString("TASK"));
+				task.setMemberId(rset.getString("MEMBER_ID"));
+				taskList.add(task);
+			}
+			
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.TK01,e);
+		}finally {
+			jdt.close(rset,pstm);
+		}
+		return taskList;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

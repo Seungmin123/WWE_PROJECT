@@ -1,6 +1,7 @@
 package com.wwe.leader.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.wwe.leader.model.service.LeaderService;
 import com.wwe.leader.model.vo.Leader;
+import com.wwe.leader.model.vo.Task;
 
 @WebServlet("/leader/*")
 public class LeaderController extends HttpServlet {
@@ -34,7 +36,10 @@ public class LeaderController extends HttpServlet {
 			chkInvalidUser(request,response); //초대팝업에서 초대 버튼 클릭했을 시
 			break;
 		case "inviteimpl" :
-			inviteImpl(request,response);
+			inviteImpl(request,response); //팀원 초대 기능을 수행
+			break;
+		case "gettaskimpl" :
+			selectTaskList(request,response); //프로젝트의 업무 리스트를 불러오는 기능을 수행
 			break;
  		default:
 			break;
@@ -86,6 +91,20 @@ public class LeaderController extends HttpServlet {
 			response.getWriter().print("success");
 		}else {
 			System.out.println("INSERT 실패");
+			response.getWriter().print("failed");
+		}
+	}
+	
+	private void selectTaskList(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException{
+		String projectId = request.getParameter("projectId");
+		System.out.println(projectId);
+		ArrayList<Task> taskList =  leaderService.selectTaskList(projectId);
+		if(taskList.size()>0) {
+			System.out.println("업무리스트 불러오기 성공");
+			request.setAttribute("taskList", taskList);
+			request.getRequestDispatcher("/WEB-INF/view/leader/total_task.jsp").forward(request, response);
+		}else {
+			System.out.println("업무리스트 불러오기 실패");
 			response.getWriter().print("failed");
 		}
 	}

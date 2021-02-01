@@ -323,25 +323,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="text-dark">
-                                    <td>장영우</td>
-                                    <td >팀장페이지 만들기</td>
-                                    <td align="right"><input class="form-check-input" type="checkbox" name="_selected_"value="ROW_1"></td>
-                                </tr>
-                                <tr class="text-dark">
-                                    <td>장영우</td>
-                                    <td >업무관리 페이지 만들기</td>
-                                    <td align="right"><input class="form-check-input" type="checkbox" name="_selected_"value="ROW_2"></td>
-                                </tr>
-                                <tr class="text-dark">
-                                    <td>이승민</td>
-                                    <td>로그인 페이지 만들기</td>
-                                    <td align="right"><input class="form-check-input" type="checkbox" name="_selected_"value="ROW_3"></td>
-                                </tr>
+                            	<!-- DB불러와서 동적으로 tr요소 생성할 곳 -->
                             </tbody>
                         </table>
                         <!-- 게시판 테이블 끝 -->
-                        <div class="invisible">ㅇㄴㅁㄴㅇ</div>
 				</div>
 				<!-- 페이지 컨텐트 시작끝 -->
 			</div>
@@ -390,33 +375,53 @@
 			</div>
 		</div>
 	</div>
-
+    
 	<!-- Bootstrap core JavaScript-->
 
 	<script src="/resources/vendor/jquery/jquery.min.js"></script>
 	<script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<script src="/resources/js/sb-admin-2.min.js"></script>
 	<script src="/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
-	<!-- <script src="/vendor/jquery/jquery.min.js"></script>/ -->
-	<!-- <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
-
-	<!-- Core plugin JavaScript-->
-	<!-- <script src="vendor/jquery-easing/jquery.easing.min.js"></script> -->
-
-	<!-- Custom scripts for all pages-->
-	<!-- <script src="js/sb-admin-2.min.js"></script> -->
+    <script src="/resources/js/leader/manage_task.js"></script>
     <script>
-    let isChk = $('#wholeChk').data('chk');
-        function wohleCheck(){
-        	console.log(isChk)
-        	if($('#wholeChk').data('chk')==false){
-            		$('input[name=_selected_').prop('checked',true);
-            		 $('#wholeChk').data('chk',true);
-            	}else{
-            		$('input[name=_selected_').prop('checked',false);
-            		 $('#wholeChk').data('chk',false);
-            	}
-        	}
+    $(function(){
+    	selectTaskList();
+    });
+    let selectTaskList = ()=>{
+        let trElement;
+        let tdElement;
+        let inputElement;
+        let buttonElement;
+        console.log("${taskList.get(0)}")
+        console.log("${taskList.get(0).task}");
+        <c:forEach var="task" items="${taskList}" varStatus="status">
+           trElement = document.createElement('tr');
+           document.querySelector('tbody').appendChild(trElement);
+               <c:forEach var="i" begin="0" end="2" step="1">
+                  tdElement = document.createElement('td');
+                  <c:if test="${i == 0}">
+                          tdElement.innerHTML ="${task.memberId}";
+                  </c:if>
+                  <c:if test="${i ==1}">
+                             tdElement.innerHTML ="${task.taskId}";
+                  </c:if>
+    			  <c:if test="${i ==2}">
+    			  			tdElement.align="right";
+    			 			buttonElement = document.createElement('button');
+    			  			buttonElement.className = "btn btn-warning btn-sm mr-5 px-3 py-1";
+    			  			buttonElement.innerHTML="수정"
+    			  			inputElement = document.createElement('input');
+    			  			inputElement.className="form-check-input";
+    			  			inputElement.type="checkbox";
+    			  			inputElement.name="_selected_";
+    			  			inputElement.value="ROW_1";
+    			  			tdElement.appendChild(buttonElement);
+    			  			tdElement.appendChild(inputElement);
+                  </c:if>
+                  trElement.appendChild(tdElement);
+               </c:forEach>
+        </c:forEach>
+    }
     </script>
 </body>
 </html>

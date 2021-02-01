@@ -64,7 +64,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Manage</h6>
                 <a class="collapse-item" href="${context}/leader/manage">팀관리</a>
-                <a class="collapse-item" href="${context}/leader/totaltask">업무관리</a>
+                <a class="collapse-item" href="${context}/leader/gettaskimpl?projectId=프로젝트 1">업무관리</a>
             </div>
         </div>
     </li>
