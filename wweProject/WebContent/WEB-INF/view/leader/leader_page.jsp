@@ -334,25 +334,22 @@
                                 <table class="table table-hover table-bordered">
                                         <tr class="table-primary">
                                             <th style="width:50%">계정</th>
-                                            <th style="width:25%">상태</th>
-                                            <th style="width:16.66%">권한</th>
-                                            <th style="width:8.33%" class="text-center">관리</th>
+                                            <th style="width:35.66%">권한</th>
+                                            <th style="width:14.33%" class="text-center">관리</th>
                                         </tr>
                                         <tr class="table-secondary">
                                             <!-- 내 계정일 시(내 계정 표시) -->
-                                            <td>sayeong(내계정)@gmail.com</td>
-                                            <td>활성</td>
+                                            <td>sayeong@gmail.com(내계정)</td>
                                             <td>LEADER</td>
                                             <!-- 수정 버튼 클릭 시 팀원의 권한 변경이나 추방 -->
-                                            <td><button class="btn btn-warning btn-sm btn-block">수정</button></td>
+                                            <td align="center"><button class="btn btn-warning btn-sm" >수정</button></td>
                                         </tr>
                                         <tr class="table-secondary">
                                             <!-- 내 계정일 시(내 계정 표시) -->
                                             <td>hphphp23@naver.com</td>
-                                            <td>활성</td>
                                             <td>READ ONLY</td>
                                             <!-- 수정 버튼 클릭 시 팀원의 권한 변경이나 추방 -->
-                                            <td><button class="btn btn-warning btn-sm btn-block">수정</button></td>
+                                            <td align="center"><button class="btn btn-warning btn-sm">수정</button></td>
                                         </tr>
                                         <!-- 테이블 내용 추가 예정 -->
                                 </table>
@@ -367,38 +364,45 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title">유저 초대</h5>
-                                    <button type="button" id="btn_close"class="close" data-dismiss="modal"aria-label="Close">
+                                    <button type="button" id="btn_close" class="close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <label class="col-form-label" for="inputDefault">초대할 계정</label>
-                                        <input type="text" class="form-control"  id="inputDefault">
+                                <form>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label class="col-form-label" for="inputDefault">초대할 계정</label>
+                                            <input type="text" class="form-control"  id="userId" name="userId">
+                                        </div>
+                                         <!-- 유효한 아이디인지 아닌지를 보여주는 span태그 -->
+                                        <span class="text-danger" id="idChk"></span>
                                     </div>
-                                </div>
-                                <div class="modal-body">
-                                    <label class="col-form-label">권한</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                                        <label class="form-check-label" for="flexRadioDefault1">
-                                          Read permission only
-                                        </label>
-                                      </div>
-                                      <hr>
-                                      <div class="col-form-label">
+                                   
+                                    <div class="modal-body">
+                                        <label class="col-form-label">권한</label>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                                            <label class="form-check-label" for="flexRadioDefault2">
-                                              Write/Read permission
+                                            <input class="form-check-input" type="radio" name="authority" id="read"  value="read" checked >
+                                            <label class="form-check-label" for="read">
+                                              Read Only
                                             </label>
                                           </div>
-                                      </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"data-dismiss="modal">취소</button>
-                                    <button type="button" class="btn btn-primary"  id="btn_invite">초대</button>
-                                </div>
+                                          <hr>
+                                          <div class="col-form-label">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="authority" id="read_write" value="readAndWrite">
+                                                <label class="form-check-label" for="read_write">
+                                                  Write and Read
+                                                </label>
+                                              </div>
+                                          </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary"data-dismiss="modal">취소</button>
+                                        <button type="button" class="btn btn-primary" onclick="idCheck();" id="btn_invite">초대</button>
+                                        <!-- <input type="submit" class="btn btn-primary"  id="btn_invite" value="초대"> -->
+                                    </div>
+                                </form>
+                              
                             </div>
                         </div>
                     </div>
@@ -419,6 +423,7 @@
 
         </div>
         <!-- End of Content Wrapper -->
+
 
     </div>
     <!-- End of Page Wrapper -->
@@ -448,33 +453,15 @@
         </div>
     </div>
 
+	<!--팝업 화면에서 할 수 있는 작업들을 모아놓은 js 파일  -->
+    <script src="/resources/js/leader/popup_task.js"></script>
     <!-- Bootstrap core JavaScript-->
-    <script>
-		// 팝업 띄우기
-		$('#openModalBtn').click(function(e) {
-			$('#popup_modal').show();
-		});
-		// 팝업 닫기
-		$('#btn_close').click(function(e) {
-			$('#popup_modal').hide();
-		})
-		
-		$('#btn_invite').click(function(e){
-			location.href="${context}/leader/inviteimpl";
-		});
-	</script>
     <script src="/resources/vendor/jquery/jquery.min.js"></script>
     <script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/resources/js/sb-admin-2.min.js"></script>
     <script src="/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
-    <!-- <script src="/vendor/jquery/jquery.min.js"></script>/ -->
-    <!-- <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
-
-    <!-- Core plugin JavaScript-->
-    <!-- <script src="vendor/jquery-easing/jquery.easing.min.js"></script> -->
-
-    <!-- Custom scripts for all pages-->
-    <!-- <script src="js/sb-admin-2.min.js"></script> -->
+    
+    
 
 </body>
 </html>
