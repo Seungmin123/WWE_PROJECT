@@ -363,8 +363,7 @@
                                                 <h6 class="font-weight-bold">업무 이름</h6>
                                             </div>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control form-control-user rounded" id="exampleLastName"
-                                                    placeholder="Last Name">
+                                                <input type="text" class="form-control form-control-user rounded" id="exampleLastName">
                                             </div>
                                         </div>
                                         <div class="form-group row">

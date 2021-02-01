@@ -31,109 +31,108 @@
 
                 <!-- Sidebar -->
 
-                    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+                <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-                        <!-- Sidebar - Brand -->
-                        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                            <div class="sidebar-brand-icon rotate-n-15">
-                                <i class="fas fa-laugh-wink"></i>
-                            </div>
-                            <div class="sidebar-brand-text mx-3">WeWorkEasy</div>
+                    <!-- Sidebar - Brand -->
+                    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                        <div class="sidebar-brand-icon rotate-n-15">
+                            <i class="fas fa-laugh-wink"></i>
+                        </div>
+                        <div class="sidebar-brand-text mx-3">WeWorkEasy</div>
+                    </a>
+
+                    <!-- Divider -->
+                    <hr class="sidebar-divider my-0">
+
+                    <!-- Nav Item - Dashboard -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="fas fa-user-alt"></i>
+                            <span>My Page</span></a>
+                    </li>
+
+
+                    <!-- Nav Item - Pages Collapse Menu -->
+                    <li class="nav-item ">
+                        <a class="nav-link" href="#" data-target="#collapseTwo" aria-expanded="true"
+                            aria-controls="collapseTwo">
+                            <i class="fas fa-home"></i>
+                            <span>Main Page</span>
                         </a>
-
-                        <!-- Divider -->
-                        <hr class="sidebar-divider my-0">
-
-                        <!-- Nav Item - Dashboard -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="index.html">
-                                <i class="fas fa-user-alt"></i>
-                                <span>My Page</span></a>
-                        </li>
+                    </li>
 
 
-                        <!-- Nav Item - Pages Collapse Menu -->
-                        <li class="nav-item ">
-                            <a class="nav-link" href="#" data-target="#collapseTwo" aria-expanded="true"
-                                aria-controls="collapseTwo">
-                                <i class="fas fa-home"></i>
-                                <span>Main Page</span>
-                            </a>
-                        </li>
-
-
-                        <!-- Nav Item - Utilities Collapse Menu -->
-                        <li class="nav-item">
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse"
-                                data-target="#collapseUtilities" aria-expanded="true"
-                                aria-controls="collapseUtilities">
-                                <i class="fas fa-crown"></i>
-                                <span>Admin Page</span>
-                            </a>
-                            <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                                data-parent="#accordionSidebar">
-                                <div class="bg-white py-2 collapse-inner rounded">
-                                    <h6 class="collapse-header">Manage</h6>
-                                    <a class="collapse-item" href="${context}/leader/manage">팀관리</a>
-                                    <a class="collapse-item" href="${context}/leader/totaltask">업무관리</a>
-                                </div>
+                    <!-- Nav Item - Utilities Collapse Menu -->
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                            aria-expanded="true" aria-controls="collapseUtilities">
+                            <i class="fas fa-crown"></i>
+                            <span>Admin Page</span>
+                        </a>
+                        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                            data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <h6 class="collapse-header">Manage</h6>
+                                <a class="collapse-item" href="${context}/leader/manage">팀관리</a>
+                                <a class="collapse-item" href="${context}/leader/totaltask">업무관리</a>
                             </div>
-                        </li>
-
-                        <hr class="sidebar-divider my-0">
-
-                        <!-- Heading -->
-                        <div class="sidebar-heading">
-                            views
                         </div>
+                    </li>
 
-                        <!-- Nav Item - Pages Collapse Menu -->
-                        <li class="nav-item">
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse"
-                                data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-                                <i class="fas fa-fw fa-folder"></i>
-                                <span>views</span>
-                            </a>
-                            <div id="collapsePages" class="collapse" aria-labelledby="headingPages"
-                                data-parent="#accordionSidebar">
-                                <div class="bg-white py-2 collapse-inner rounded">
-                                    <h6 class="collapse-header">view Screens:</h6>
-                                    <a class="collapse-item" href="/views/calendar">Calendar</a>
-                                    <a class="collapse-item" href="/views/graph">Graph</a>
-                                </div>
+                    <hr class="sidebar-divider my-0">
+
+                    <!-- Heading -->
+                    <div class="sidebar-heading">
+                        views
+                    </div>
+
+                    <!-- Nav Item - Pages Collapse Menu -->
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                            aria-expanded="true" aria-controls="collapsePages">
+                            <i class="fas fa-fw fa-folder"></i>
+                            <span>views</span>
+                        </a>
+                        <div id="collapsePages" class="collapse" aria-labelledby="headingPages"
+                            data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <h6 class="collapse-header">view Screens:</h6>
+                                <a class="collapse-item" href="/views/calendar">Calendar</a>
+                                <a class="collapse-item" href="/views/graph">Graph</a>
                             </div>
-                        </li>
-
-                        <!-- Nav Item - Charts -->
-
-
-                        <li class="nav-item">
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse"
-                                data-target="#collapsePages1" aria-expanded="true" aria-controls="collapsePages">
-                                <i class="fas fa-fw fa-folder"></i>
-                                <span>Storage</span>
-                            </a>
-                            <div id="collapsePages1" class="collapse" aria-labelledby="headingPages"
-                                data-parent="#accordionSidebar">
-                                <div class="bg-white py-2 collapse-inner rounded">
-                                    <h6 class="collapse-header">Storage</h6>
-                                    <a class="collapse-item" href="/storage/personal">Personal</a>
-                                    <a class="collapse-item" href="/storage/share">Share</a>
-                                </div>
-                            </div>
-                        </li>
-
-
-
-                        <!-- Divider -->
-                        <hr class="sidebar-divider d-none d-md-block">
-
-                        <!-- Sidebar Toggler (Sidebar) -->
-                        <div class="text-center d-none d-md-inline">
-                            <button class="rounded-circle border-0" id="sidebarToggle"></button>
                         </div>
+                    </li>
 
-                    </ul>
+                    <!-- Nav Item - Charts -->
+
+
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages1"
+                            aria-expanded="true" aria-controls="collapsePages">
+                            <i class="fas fa-fw fa-folder"></i>
+                            <span>Storage</span>
+                        </a>
+                        <div id="collapsePages1" class="collapse" aria-labelledby="headingPages"
+                            data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <h6 class="collapse-header">Storage</h6>
+                                <a class="collapse-item" href="/storage/personal">Personal</a>
+                                <a class="collapse-item" href="/storage/share">Share</a>
+                            </div>
+                        </div>
+                    </li>
+
+
+
+                    <!-- Divider -->
+                    <hr class="sidebar-divider d-none d-md-block">
+
+                    <!-- Sidebar Toggler (Sidebar) -->
+                    <div class="text-center d-none d-md-inline">
+                        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+                    </div>
+
+                </ul>
 
                 <!-- End of Sidebar -->
 
@@ -352,76 +351,181 @@
                         </nav>
                         <!-- End of Topbar -->
 
-                        <!-- Start of Page -->
                         <div class="container-fluid">
-                            
-                            <div class="card mb-4 py-3 border-left-primary">
-                                <div class="card-body">
-                                    .border-left-primary
+
+                            <!-- Start of Page -->
+                            <div class="d-flex justify-content-center">
+                                <div class="btn border pl-3 pr-3 shadow-sm bg-light">
+                                    <i class="fas fa-laugh-wink h1 text-dark mr-3 mt-2"></i>
+                                    <span class="text-primay font-weight-bold h1 mr-4">화면설계하기</span>
                                 </div>
                             </div>
-                            
-                            <div class="row">
+                            <hr class="hr">
+
+                            <div class="container border bg-gray-300 shadow-sm col-sm-6 pt-4 mb-4 pb-4">
+                                <div class="container border bg-gray-100 rounded pt-4">
+
+                                    <div class="form-group row">
+                                        <div class="col-sm-3 mb-3 mb-sm-0 d-flex align-items-center">
+                                            <h6 class="font-weight-bold">담당자</h6>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control form-control-user rounded"
+                                                id="exampleLastName">
+                                        </div>
+                                    </div>
+
+                                    <hr class="hr">
+
+                                    <div class="form-group row">
+                                        <div class="col-sm-3 mb-3 mb-sm-0 d-flex align-items-center">
+                                            <h6 class="font-weight-bold">업무 이름</h6>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control form-control-user rounded"
+                                                id="exampleLastName">
+                                        </div>
+                                    </div>
+
+                                    <hr class="hr">
+
+                                    <div class="form-group row">
+                                        <div class="col-sm-3 mb-3 mb-sm-0 d-flex align-items-center">
+                                            <h6 class="font-weight-bold">관리자</h6>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control form-control-user rounded"
+                                                id="exampleLastName">
+                                        </div>
+                                    </div>
+
+                                    <hr class="hr">
+
+                                    <div class="form-group row">
+                                        <div class="col-sm-3 mb-3 mb-sm-0 d-flex align-items-center">
+                                            <h6 class="font-weight-bold">마감기한</h6>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="date" class="form-control form-control-user rounded"
+                                                id="exampleLastName">
+                                        </div>
+                                    </div>
+
+                                    <hr class="hr">
+
+                                    <div class="form-group row">
+                                        <div class="col-sm-3 mb-3 mb-sm-0 d-flex align-items-center">
+                                            <h6 class="font-weight-bold">우선순위</h6>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control form-control-user rounded"
+                                                id="exampleLastName">
+                                        </div>
+                                    </div>
+
+                                    <hr class="hr">
+
+                                    <div class="form-group row">
+                                        <div class="col-sm-3 mb-3 mb-sm-0 d-flex align-items-center">
+                                            <h6 class="font-weight-bold">진행상태</h6>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control form-control-user rounded"
+                                                id="exampleLastName">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr class="hr">
+
+                                <div class="container border bg-gray-100 rounded pt-4">
+
+                                    <div class="form-group row">
+                                        <div class="col-sm-3 mb-3 mb-sm-0">
+                                            <h6 class="font-weight-bold">진행내용</h6>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <textarea name="textarea" rows="3" cols="33"
+                                                class="form-control form-control-user rounded">Write something here</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr class="hr">
+
+                                <div class="container border bg-gray-100 rounded pt-4 pb-4">
+                                    <div class="text-center pt-3 pb-2 mb-3 bg-dark">
+                                        <h1 class="h6 text-white font-weight-bold">Feedback</h1>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between align-items-center">
+                                    <input type="text" class="form-control form-control-user rounded">
+                                    <span href="#" class="btn bg-dark btn-icon-split ml-2 pb-2 pt-2 pl-3 pr-3">
+                                        <span class="text-white small">send</span>
+                                    </span>
+                                    </div>
+
+                                </div>
 
                             </div>
-        
+
                         </div>
                         <!-- /.container-fluid -->
-        
+
                     </div>
 
-                        <!-- Footer -->
-                        <footer class="sticky-footer bg-white">
-                            <div class="container my-auto">
-                                <div class="copyright text-center my-auto">
-                                    <span>Copyright &copy; Your Website 2020</span>
-                                </div>
+                    <!-- Footer -->
+                    <footer class="sticky-footer bg-white">
+                        <div class="container my-auto">
+                            <div class="copyright text-center my-auto">
+                                <span>Copyright &copy; Your Website 2020</span>
                             </div>
-                        </footer>
-                        <!-- End of Footer -->
-
-                    </div>
-                    <!-- End of Content Wrapper -->
+                        </div>
+                    </footer>
+                    <!-- End of Footer -->
 
                 </div>
-                <!-- End of Page Wrapper -->
+                <!-- End of Content Wrapper -->
 
-                <!-- Scroll to Top Button-->
-                <a class="scroll-to-top rounded" href="#page-top">
-                    <i class="fas fa-angle-up"></i>
-                </a>
+            </div>
+            <!-- End of Page Wrapper -->
 
-                <!-- Logout Modal-->
-                <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">Select "Logout" below if you are ready to end your current
-                                session.
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                                <a class="btn btn-primary" href="login.html">Logout</a>
-                            </div>
+            <!-- Scroll to Top Button-->
+            <a class="scroll-to-top rounded" href="#page-top">
+                <i class="fas fa-angle-up"></i>
+            </a>
+
+            <!-- Logout Modal-->
+            <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">Select "Logout" below if you are ready to end your current
+                            session.
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                            <a class="btn btn-primary" href="login.html">Logout</a>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Bootstrap core JavaScript-->
-                <script src="/resources/vendor/jquery/jquery.min.js"></script>
-                <script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <!-- Bootstrap core JavaScript-->
+            <script src="/resources/vendor/jquery/jquery.min.js"></script>
+            <script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-                <!-- Core plugin JavaScript-->
-                <script src="/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+            <!-- Core plugin JavaScript-->
+            <script src="/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-                <!-- Custom scripts for all pages-->
-                <script src="/resources/js/sb-admin-2.min.js"></script>
+            <!-- Custom scripts for all pages-->
+            <script src="/resources/js/sb-admin-2.min.js"></script>
 
         </body>
 

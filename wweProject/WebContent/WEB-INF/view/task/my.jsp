@@ -23,109 +23,108 @@
             <!-- Page Wrapper -->
             <div id="wrapper">
 
-                    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+                <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-                        <!-- Sidebar - Brand -->
-                        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                            <div class="sidebar-brand-icon rotate-n-15">
-                                <i class="fas fa-laugh-wink"></i>
-                            </div>
-                            <div class="sidebar-brand-text mx-3">WeWorkEasy</div>
+                    <!-- Sidebar - Brand -->
+                    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                        <div class="sidebar-brand-icon rotate-n-15">
+                            <i class="fas fa-laugh-wink"></i>
+                        </div>
+                        <div class="sidebar-brand-text mx-3">WeWorkEasy</div>
+                    </a>
+
+                    <!-- Divider -->
+                    <hr class="sidebar-divider my-0">
+
+                    <!-- Nav Item - Dashboard -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="fas fa-user-alt"></i>
+                            <span>My Page</span></a>
+                    </li>
+
+
+                    <!-- Nav Item - Pages Collapse Menu -->
+                    <li class="nav-item ">
+                        <a class="nav-link" href="#" data-target="#collapseTwo" aria-expanded="true"
+                            aria-controls="collapseTwo">
+                            <i class="fas fa-home"></i>
+                            <span>Main Page</span>
                         </a>
-
-                        <!-- Divider -->
-                        <hr class="sidebar-divider my-0">
-
-                        <!-- Nav Item - Dashboard -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="index.html">
-                                <i class="fas fa-user-alt"></i>
-                                <span>My Page</span></a>
-                        </li>
+                    </li>
 
 
-                        <!-- Nav Item - Pages Collapse Menu -->
-                        <li class="nav-item ">
-                            <a class="nav-link" href="#" data-target="#collapseTwo" aria-expanded="true"
-                                aria-controls="collapseTwo">
-                                <i class="fas fa-home"></i>
-                                <span>Main Page</span>
-                            </a>
-                        </li>
-
-
-                        <!-- Nav Item - Utilities Collapse Menu -->
-                        <li class="nav-item">
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse"
-                                data-target="#collapseUtilities" aria-expanded="true"
-                                aria-controls="collapseUtilities">
-                                <i class="fas fa-crown"></i>
-                                <span>Admin Page</span>
-                            </a>
-                            <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                                data-parent="#accordionSidebar">
-                                <div class="bg-white py-2 collapse-inner rounded">
-                                    <h6 class="collapse-header">Manage</h6>
-                                    <a class="collapse-item" href="${context}/leader/manage">팀관리</a>
-                                    <a class="collapse-item" href="${context}/leader/totaltask">업무관리</a>
-                                </div>
+                    <!-- Nav Item - Utilities Collapse Menu -->
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                            aria-expanded="true" aria-controls="collapseUtilities">
+                            <i class="fas fa-crown"></i>
+                            <span>Admin Page</span>
+                        </a>
+                        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                            data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <h6 class="collapse-header">Manage</h6>
+                                <a class="collapse-item" href="${context}/leader/manage">팀관리</a>
+                                <a class="collapse-item" href="${context}/leader/totaltask">업무관리</a>
                             </div>
-                        </li>
-
-                        <hr class="sidebar-divider my-0">
-
-                        <!-- Heading -->
-                        <div class="sidebar-heading">
-                            views
                         </div>
+                    </li>
 
-                        <!-- Nav Item - Pages Collapse Menu -->
-                        <li class="nav-item">
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse"
-                                data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-                                <i class="fas fa-fw fa-folder"></i>
-                                <span>views</span>
-                            </a>
-                            <div id="collapsePages" class="collapse" aria-labelledby="headingPages"
-                                data-parent="#accordionSidebar">
-                                <div class="bg-white py-2 collapse-inner rounded">
-                                    <h6 class="collapse-header">view Screens:</h6>
-                                    <a class="collapse-item" href="/views/calendar">Calendar</a>
-                                    <a class="collapse-item" href="/views/graph">Graph</a>
-                                </div>
+                    <hr class="sidebar-divider my-0">
+
+                    <!-- Heading -->
+                    <div class="sidebar-heading">
+                        views
+                    </div>
+
+                    <!-- Nav Item - Pages Collapse Menu -->
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                            aria-expanded="true" aria-controls="collapsePages">
+                            <i class="fas fa-fw fa-folder"></i>
+                            <span>views</span>
+                        </a>
+                        <div id="collapsePages" class="collapse" aria-labelledby="headingPages"
+                            data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <h6 class="collapse-header">view Screens:</h6>
+                                <a class="collapse-item" href="/views/calendar">Calendar</a>
+                                <a class="collapse-item" href="/views/graph">Graph</a>
                             </div>
-                        </li>
-
-                        <!-- Nav Item - Charts -->
-
-
-                        <li class="nav-item">
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse"
-                                data-target="#collapsePages1" aria-expanded="true" aria-controls="collapsePages">
-                                <i class="fas fa-fw fa-folder"></i>
-                                <span>Storage</span>
-                            </a>
-                            <div id="collapsePages1" class="collapse" aria-labelledby="headingPages"
-                                data-parent="#accordionSidebar">
-                                <div class="bg-white py-2 collapse-inner rounded">
-                                    <h6 class="collapse-header">Storage</h6>
-                                    <a class="collapse-item" href="/storage/personal">Personal</a>
-                                    <a class="collapse-item" href="/storage/share">Share</a>
-                                </div>
-                            </div>
-                        </li>
-
-
-
-                        <!-- Divider -->
-                        <hr class="sidebar-divider d-none d-md-block">
-
-                        <!-- Sidebar Toggler (Sidebar) -->
-                        <div class="text-center d-none d-md-inline">
-                            <button class="rounded-circle border-0" id="sidebarToggle"></button>
                         </div>
+                    </li>
 
-                    </ul>
+                    <!-- Nav Item - Charts -->
+
+
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages1"
+                            aria-expanded="true" aria-controls="collapsePages">
+                            <i class="fas fa-fw fa-folder"></i>
+                            <span>Storage</span>
+                        </a>
+                        <div id="collapsePages1" class="collapse" aria-labelledby="headingPages"
+                            data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <h6 class="collapse-header">Storage</h6>
+                                <a class="collapse-item" href="/storage/personal">Personal</a>
+                                <a class="collapse-item" href="/storage/share">Share</a>
+                            </div>
+                        </div>
+                    </li>
+
+
+
+                    <!-- Divider -->
+                    <hr class="sidebar-divider d-none d-md-block">
+
+                    <!-- Sidebar Toggler (Sidebar) -->
+                    <div class="text-center d-none d-md-inline">
+                        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+                    </div>
+
+                </ul>
                 <!-- End of Sidebar -->
 
                 <!-- Content Wrapper -->
@@ -344,135 +343,138 @@
                         <!-- End of Topbar -->
                         <div class="container-fluid">
 
-                        <!-- Start of Page -->
-                        <div class="d-flex justify-content-center">
-                        <div href="#" class="btn border pl-3 pr-3 shadow-sm bg-light">
-                            <i class="fas fa-laugh-wink h1 text-dark mr-3 mt-2"></i>
-                            <span class="text-primay font-weight-bold h1 mr-4">My List</span>
-                        </div>
-                        </div>
-                        <hr class="hr">
-
-                        <!-- Basic Card Example -->
-                        <div class="row justify-content-around d-flex">
-
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3 d-flex justify-content-center align-items-center">
-                                    <span href="#" class="btn bg-gradient-secondary pl-5 pr-5">
-                                        <span class="h3 pt-2 text-white">TO DO</span>
-                                    </span>
+                            <!-- Start of Page -->
+                            <div class="d-flex justify-content-center">
+                                <div class="btn pl-3 pr-3">
+                                    <i class="fas fa-laugh-wink h1 text-dark mr-3 mt-2"></i>
+                                    <span class="text-primay font-weight-bold h1 mr-4">My List</span>
                                 </div>
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between mb-3">
-                                    <span href="#" class="btn btn-icon-split bg-gray-300 shadow-sm">
-                                        <span class="m-1 text-white">우선순위</span>
-                                    </span>
-                                    <span>
-                                    <a class="icon btn text-white mr-2 bg-gray-300 shadow-sm" href="${context}/task/add">
-                                        <i class="fas fa-plus"></i>
-                                    </a>
-                                    <a class="icon btn text-white bg-gray-300 shadow-sm" >
-                                        <i class="fas fa-minus"></i>
-                                    </a>
-                                    </span>
+                            </div>
+                            <hr class="hr">
+
+                            <!-- Basic Card Example -->
+                            <div class="row justify-content-around d-flex">
+
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3 d-flex justify-content-center align-items-center">
+                                        <span href="#" class="btn bg-gradient-secondary pl-5 pr-5">
+                                            <span class="h3 pt-2 text-white">TO DO</span>
+                                        </span>
                                     </div>
-                                    <div class="d-flex justify-content-between">
-                                    <div class="checkbox pt-4 mr-3">
-                                        <input type="checkbox">
-                                    </div>
-                                    <div class="mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm d-flex align-items-center justify-content-center">
-                                            <div>
-                                                화면설계하기
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between mb-3">
+                                            <span href="#" class="btn btn-icon-split bg-gray-300 shadow-sm">
+                                                <span class="m-1 text-white">우선순위</span>
+                                            </span>
+                                            <span>
+                                                <a class="icon btn text-white mr-2 bg-gray-300 shadow-sm"
+                                                    href="${context}/task/add">
+                                                    <i class="fas fa-plus"></i>
+                                                </a>
+                                                <a class="icon btn text-white bg-gray-300 shadow-sm"
+                                                    onclick="removeTask()">
+                                                    <i class="fas fa-minus"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="checkbox pt-4 mr-3">
+                                                <input type="checkbox">
                                             </div>
-                                        <a href="#" class="btn btn-info btn-circle btn-sm ml-3 mr-3">
-                                            <i class="fas fa-info-circle"></i>
+                                            <a class="mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm d-flex align-items-center justify-content-center text-gray-600 border-0"
+                                                href="${context}/task/detail">
+                                                <div>
+                                                    화면설계하기
+                                                </div>
+                                                <span href="#" class="btn btn-info btn-circle btn-sm ml-3 mr-3">
+                                                    <i class="fas fa-info-circle"></i>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Basic Card Example -->
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3 d-flex justify-content-center align-items-center">
+                                        <a href="#" class="btn bg-gradient-secondary pl-5 pr-5">
+                                            <span class="h3 pt-2 text-white">DOING</span>
                                         </a>
                                     </div>
+                                    <div class="card-body">
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- Basic Card Example -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3 d-flex justify-content-center align-items-center">
-                                    <a href="#" class="btn bg-gradient-secondary pl-5 pr-5">
-                                        <span class="h3 pt-2 text-white">DOING</span>
-                                    </a>
-                                </div>
-                                <div class="card-body">
-                                </div>
-                            </div>
+                                <!-- Basic Card Example -->
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3 d-flex justify-content-center align-items-center">
+                                        <a href="#" class="btn bg-gradient-secondary pl-5 pr-5">
+                                            <span class="h3 pt-2 text-white">DONE</span>
+                                        </a>
+                                    </div>
+                                    <div class="card-body">
 
-                            <!-- Basic Card Example -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3 d-flex justify-content-center align-items-center">
-                                    <a href="#" class="btn bg-gradient-secondary pl-5 pr-5">
-                                        <span class="h3 pt-2 text-white">DONE</span>
-                                    </a>
+                                    </div>
                                 </div>
-                                <div class="card-body">
-                                   
-                                </div>
-                            </div>
 
-                           
+
+                            </div>
                         </div>
-                        </div>
-
-                        </div>
-
-                        <!-- Footer -->
-                        <footer class="sticky-footer bg-white">
-                            <div class="container my-auto">
-                                <div class="copyright text-center my-auto">
-                                    <span>Copyright &copy; Your Website 2020</span>
-                                </div>
-                            </div>
-                        </footer>
-                        <!-- End of Footer -->
 
                     </div>
-                    <!-- End of Content Wrapper -->
+
+                    <!-- Footer -->
+                    <footer class="sticky-footer bg-white">
+                        <div class="container my-auto">
+                            <div class="copyright text-center my-auto">
+                                <span>Copyright &copy; Your Website 2020</span>
+                            </div>
+                        </div>
+                    </footer>
+                    <!-- End of Footer -->
 
                 </div>
-                <!-- End of Page Wrapper -->
+                <!-- End of Content Wrapper -->
 
-                <!-- Scroll to Top Button-->
-                <a class="scroll-to-top rounded" href="#page-top">
-                    <i class="fas fa-angle-up"></i>
-                </a>
+            </div>
+            <!-- End of Page Wrapper -->
 
-                <!-- Logout Modal-->
-                <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">Select "Logout" below if you are ready to end your current
-                                session.
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                                <a class="btn btn-primary" href="login.html">Logout</a>
-                            </div>
+            <!-- Scroll to Top Button-->
+            <a class="scroll-to-top rounded" href="#page-top">
+                <i class="fas fa-angle-up"></i>
+            </a>
+
+            <!-- Logout Modal-->
+            <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">Select "Logout" below if you are ready to end your current
+                            session.
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                            <a class="btn btn-primary" href="login.html">Logout</a>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Bootstrap core JavaScript-->
-                <script src="/resources/vendor/jquery/jquery.min.js"></script>
-                <script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <!-- Bootstrap core JavaScript-->
+            <script src="/resources/vendor/jquery/jquery.min.js"></script>
+            <script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-                <!-- Core plugin JavaScript-->
-                <script src="/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+            <!-- Core plugin JavaScript-->
+            <script src="/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-                <!-- Custom scripts for all pages-->
-                <script src="/resources/js/sb-admin-2.min.js"></script>
+            <!-- Custom scripts for all pages-->
+            <script src="/resources/js/sb-admin-2.min.js"></script>
 
         </body>
 

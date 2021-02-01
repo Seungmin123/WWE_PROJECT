@@ -337,7 +337,6 @@
                                         </a>
                                     </div>
                                 </li>
-
                             </ul>
 
                         </nav>
@@ -346,7 +345,7 @@
 
                          <!-- Start of Page -->
                         <div class="d-flex justify-content-center">
-                        <div href="#" class="btn border pl-3 pr-3 shadow-sm bg-light">
+                        <div href="#" class="btn pl-3 pr-3">
                             <i class="fas fa-laugh-wink h1 text-dark mr-3 mt-2"></i>
                             <span class="text-primay font-weight-bold h1 mr-4">We Work Easy</span>
                         </div>
@@ -364,8 +363,8 @@
                                     </a>
                                 </div>
                                 <div class="card-body">
-                                    <div class="mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm">
-                                        <div>
+                                    <div class="mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm" >
+                                        <a href="${context}/task/detail" class="text-gray-600 border-0" draggable="true">
                                             <div>
                                                 화면설계하기
                                             </div>
@@ -373,10 +372,10 @@
                                                 <div class="progress-bar bg-info" role="progressbar" style="width: 20%"
                                                     aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
-                                        </div>
-                                        <a href="#" class="btn btn-info btn-circle btn-sm ml-3 mr-3">
-                                            <i class="fas fa-info-circle"></i>
                                         </a>
+                                        <span class="btn btn-info btn-circle btn-sm ml-3 mr-3">
+                                            <i class="fas fa-info-circle"></i>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
