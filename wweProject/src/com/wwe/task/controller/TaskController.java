@@ -66,6 +66,7 @@ public class TaskController extends HttpServlet {
 	
 	protected void addTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getRequestDispatcher("/WEB-INF/view/task/add.jsp").forward(request, response);
+		
 	}
 	
 	protected void myTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
