@@ -21,7 +21,7 @@ public class FileUtils {
 	private final int maxSize = 1024 * 1024 * 10;
 	Map<String , List> multiParamMap = new HashMap<String, List>();
 	
-	Map<String, List> fileUpload(HttpServletRequest request){
+	public Map<String, List> fileUpload(HttpServletRequest request){
 		
 		List<FileVo> fileDataList = new ArrayList<FileVo>();
 		MultipartParser mp;
@@ -38,7 +38,7 @@ public class FileUtils {
 				}else if(part.isFile()) {
 					FilePart userFile = (FilePart) part;
 					if(userFile.getFileName() != null) {
-						FileVo fileData = getFileData(userFile);
+						FileVo fileData = getFileData(userFile,(String)request.getAttribute("filterPath"));
 						fileDataList.add(fileData);
 						saveFile(userFile,fileData);
 					}
@@ -54,8 +54,13 @@ public class FileUtils {
 		return multiParamMap;
 	}
 	
+	public void deleteFile(String path) {
+		File file = new File("C:\\\\CODE\\\\wweStorage/"+path);
+		file.delete();
+	}
+	
 	private void saveFile(FilePart userFile, FileVo fileData) throws IOException {
-		String path = "C:\\CODE\\wweStorage" + fileData.getFilePath();
+		String path = "C:\\CODE\\wweStorage/" + fileData.getFilePath();
 		new File(path).mkdirs();
 		File file = new File(path + fileData.getFileRename());
 		userFile.writeTo(file);
@@ -66,7 +71,6 @@ public class FileUtils {
 		String paramName = params.getName();
 		String paramValue = params.getStringValue("UTF-8");
 		
-		
 		List<String> paramList = null;
 		
 		if(multiParamMap.get(paramName) == null) {
@@ -75,12 +79,14 @@ public class FileUtils {
 		}else {
 			paramList = multiParamMap.get(paramName);
 			paramList.add(paramValue);
+			
 		}
 		
+		System.out.println(paramList);
 		return paramList;
 	}
 	
-	private FileVo getFileData(FilePart userFile) throws UnsupportedEncodingException {
+	private FileVo getFileData(FilePart userFile,String filterPath) throws UnsupportedEncodingException {
 		
 		String originFileName = new String(userFile.getFileName().getBytes("iso-8859-1"),"UTF-8");
 		String renameFileName = getRenameFileName(originFileName);
@@ -90,7 +96,7 @@ public class FileUtils {
 		fileData.setFileName(originFileName);
 		fileData.setFileRename(renameFileName);
 		
-		fileData.setFilePath(getSubPath());
+		fileData.setFilePath(filterPath+"/"+getSubPath());
 		
 		return fileData;
 	}
@@ -114,4 +120,5 @@ public class FileUtils {
 		String renameFileName = renameFileID.toString() + originFileName.substring(originFileName.lastIndexOf("."));
 		return renameFileName;
 	}
+	
 }
