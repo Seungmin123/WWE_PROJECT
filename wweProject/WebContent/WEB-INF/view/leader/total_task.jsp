@@ -26,6 +26,8 @@
 	crossorigin="anonymous"></script>
 <link href="/resources/scss/_variables.scss" rel="stylesheet">
 </head>
+
+
 <body id="page-top">
 	<!-- Page Wrapper -->
 	<div id="wrapper">
