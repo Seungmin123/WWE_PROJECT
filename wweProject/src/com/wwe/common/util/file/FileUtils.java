@@ -79,6 +79,7 @@ public class FileUtils {
 		}else {
 			paramList = multiParamMap.get(paramName);
 			paramList.add(paramValue);
+			
 		}
 		
 		System.out.println(paramList);
