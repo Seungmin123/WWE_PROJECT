@@ -38,7 +38,7 @@ public class FileUtils {
 				}else if(part.isFile()) {
 					FilePart userFile = (FilePart) part;
 					if(userFile.getFileName() != null) {
-						FileVo fileData = getFileData(userFile);
+						FileVo fileData = getFileData(userFile,(String)request.getAttribute("filterPath"));
 						fileDataList.add(fileData);
 						saveFile(userFile,fileData);
 					}
@@ -54,6 +54,11 @@ public class FileUtils {
 		return multiParamMap;
 	}
 	
+	public void deleteFile(String path) {
+		File file = new File("C:\\\\CODE\\\\wweStorage/"+path);
+		file.delete();
+	}
+	
 	private void saveFile(FilePart userFile, FileVo fileData) throws IOException {
 		String path = "C:\\CODE\\wweStorage/" + fileData.getFilePath();
 		new File(path).mkdirs();
@@ -66,7 +71,6 @@ public class FileUtils {
 		String paramName = params.getName();
 		String paramValue = params.getStringValue("UTF-8");
 		
-		
 		List<String> paramList = null;
 		
 		if(multiParamMap.get(paramName) == null) {
@@ -77,10 +81,11 @@ public class FileUtils {
 			paramList.add(paramValue);
 		}
 		
+		System.out.println(paramList);
 		return paramList;
 	}
 	
-	private FileVo getFileData(FilePart userFile) throws UnsupportedEncodingException {
+	private FileVo getFileData(FilePart userFile,String filterPath) throws UnsupportedEncodingException {
 		
 		String originFileName = new String(userFile.getFileName().getBytes("iso-8859-1"),"UTF-8");
 		String renameFileName = getRenameFileName(originFileName);
@@ -90,7 +95,7 @@ public class FileUtils {
 		fileData.setFileName(originFileName);
 		fileData.setFileRename(renameFileName);
 		
-		fileData.setFilePath(getSubPath());
+		fileData.setFilePath(filterPath+"/"+getSubPath());
 		
 		return fileData;
 	}
@@ -114,4 +119,5 @@ public class FileUtils {
 		String renameFileName = renameFileID.toString() + originFileName.substring(originFileName.lastIndexOf("."));
 		return renameFileName;
 	}
+	
 }
