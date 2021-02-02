@@ -23,92 +23,91 @@
 
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-            <!-- Sidebar - Brand -->
+            <!-- 사이드바 제목-->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">WEEWORKEASY</div>
+                <div class="sidebar-brand-text mx-3">WeWorkEasy</div>
             </a>
-
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link" href="index.html">
-                    <i class="fas fa-user-alt"></i>
-                    <span>My Page</span></a>
-            </li>
+               <!-- Nav Item - Dashboard -->
+    <li class="nav-item">
+        <a class="nav-link" href="index.html">
+            <i class="fas fa-user-alt"></i>
+            <span>My Page</span></a>
+    </li>
 
 
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item ">
-                <a class="nav-link" href="#" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-home"></i>
-                    <span>Main Page</span>
-                </a>
-            </li>
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item ">
+        <a class="nav-link" href="#" data-target="#collapseTwo"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-home"></i>
+            <span>Main Page</span>
+        </a>
+    </li>
+            
 
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities" >
-                    <i class="fas fa-crown"></i>
-                    <span>Admin Page</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Manage</h6>
-                        <a class="collapse-item" href="${context}/leader/manage">팀관리</a>
-                        <a class="collapse-item" href="${context}/leader/totaltask">업무관리</a>
-                    </div>
-                </div>
-            </li>
+              <!-- Nav Item - Utilities Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+            aria-expanded="true" aria-controls="collapseUtilities" >
+            <i class="fas fa-crown"></i>
+            <span>Admin Page</span>
+        </a>
+        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+            data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Manage</h6>
+                <a class="collapse-item" href="${context}/leader/manage">팀관리</a>
+                <a class="collapse-item" href="${context}/leader/gettaskimpl?projectId=프로젝트 1">업무관리</a>
+            </div>
+        </div>
+    </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
+            <hr class="sidebar-divider my-0">
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                VIEWS
+                views
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true"
-                    aria-controls="collapsePages">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
-                    <span>Views</span>
+                    <span>views</span>
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="${context}/calendar/viewcalendar">Calendar</a>
-                        <a class="collapse-item" href="${context}/calendar/viewgraph">Graph</a>
+                        <h6 class="collapse-header">view Screens:</h6>
+                        <a class="collapse-item" href="/views/calendar">Calendar</a>
+                        <a class="collapse-item" href="/views/graph">Graph</a>
                     </div>
                 </div>
             </li>
+
+            <!-- Nav Item - Charts -->
             
-             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true"
-                    aria-controls="collapsePages">
+            
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages1" aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
-                    <span>Pages</span>
+                    <span>Storage</span>
                 </a>
-            </li>
-            <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div id="collapsePages1" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="${context}/calendar/viewcalendar">Calendar</a>
-                        <a class="collapse-item" href="${context}/calendar/viewgraph">Graph</a>
+                        <h6 class="collapse-header">Storage</h6>
+                        <a class="collapse-item" href="/storage/personal">Personal</a>
+                        <a class="collapse-item" href="/storage/share">Share</a>
                     </div>
                 </div>
-			
-          
+            </li>
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -330,25 +329,27 @@
                              <!-- /유저 초대 팝업을 열기 위한 버튼 -->
 
                             <!-- 유저 정보 테이블 -->
+                            <!-- DB에서 해당 프로젝트의 팀원 정보를 불러와 반복문으로 뿌려줘야할 듯 -->
                             <div class="container">
                                 <table class="table table-hover table-bordered">
                                         <tr class="table-primary">
-                                            <th>이름</th>
-                                            <th>상태</th>
-                                            <th>권한</th>
-                                            <th>관리</th>
+                                            <th style="width:50%">계정</th>
+                                            <th style="width:35.66%">권한</th>
+                                            <th style="width:14.33%" class="text-center">관리</th>
                                         </tr>
                                         <tr class="table-secondary">
-                                            <td>이름</td>
-                                            <td>상태</td>
-                                            <td>권한</td>
-                                            <td>관리</td>
+                                            <!-- 내 계정일 시(내 계정 표시) -->
+                                            <td>sayeong@gmail.com(내계정)</td>
+                                            <td>LEADER</td>
+                                            <!-- 수정 버튼 클릭 시 팀원의 권한 변경이나 추방 -->
+                                            <td align="center"><button class="btn btn-warning btn-sm" >수정</button></td>
                                         </tr>
                                         <tr class="table-secondary">
-                                            <td>이름</td>
-                                            <td>상태</td>
-                                            <td>권한</td>
-                                            <td>관리</td>
+                                            <!-- 내 계정일 시(내 계정 표시) -->
+                                            <td>hphphp23@naver.com</td>
+                                            <td>READ ONLY</td>
+                                            <!-- 수정 버튼 클릭 시 팀원의 권한 변경이나 추방 -->
+                                            <td align="center"><button class="btn btn-warning btn-sm">수정</button></td>
                                         </tr>
                                         <!-- 테이블 내용 추가 예정 -->
                                 </table>
@@ -363,21 +364,45 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title">유저 초대</h5>
-                                    <button type="button" id="btn_close"class="close" data-dismiss="modal"aria-label="Close">
+                                    <button type="button" id="btn_close" class="close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <label class="col-form-label" for="inputDefault">초대할 계정</label>
-                                        <input type="text" class="form-control"  id="inputDefault">
+                                <form>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label class="col-form-label" for="inputDefault">초대할 계정</label>
+                                            <input type="text" class="form-control"  id="userId" name="userId">
+                                        </div>
+                                         <!-- 유효한 아이디인지 아닌지를 보여주는 span태그 -->
+                                        <span class="text-danger" id="idChk"></span>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary">초대</button>
-                                    <button type="button" class="btn btn-secondary"data-dismiss="modal">취소</button>
-						
-                                </div>
+                                   
+                                    <div class="modal-body">
+                                        <label class="col-form-label">권한</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="authority" id="read"  value="read" checked >
+                                            <label class="form-check-label" for="read">
+                                              Read Only
+                                            </label>
+                                          </div>
+                                          <hr>
+                                          <div class="col-form-label">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="authority" id="read_write" value="readAndWrite">
+                                                <label class="form-check-label" for="read_write">
+                                                  Write and Read
+                                                </label>
+                                              </div>
+                                          </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary"data-dismiss="modal">취소</button>
+                                        <button type="button" class="btn btn-primary" onclick="idCheck();" id="btn_invite">초대</button>
+                                        <!-- <input type="submit" class="btn btn-primary"  id="btn_invite" value="초대"> -->
+                                    </div>
+                                </form>
+                              
                             </div>
                         </div>
                     </div>
@@ -398,6 +423,7 @@
 
         </div>
         <!-- End of Content Wrapper -->
+
 
     </div>
     <!-- End of Page Wrapper -->
@@ -427,29 +453,15 @@
         </div>
     </div>
 
+	<!--팝업 화면에서 할 수 있는 작업들을 모아놓은 js 파일  -->
+    <script src="/resources/js/leader/popup_task.js"></script>
     <!-- Bootstrap core JavaScript-->
-    <script>
-		// 팝업 띄우기
-		$('#openModalBtn').click(function(e) {
-			$('#popup_modal').show();
-		});
-		// 팝업 닫기
-		$('#btn_close').click(function(e) {
-			$('#popup_modal').hide();
-		})
-	</script>
     <script src="/resources/vendor/jquery/jquery.min.js"></script>
     <script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/resources/js/sb-admin-2.min.js"></script>
     <script src="/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
-    <!-- <script src="/vendor/jquery/jquery.min.js"></script>/ -->
-    <!-- <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
-
-    <!-- Core plugin JavaScript-->
-    <!-- <script src="vendor/jquery-easing/jquery.easing.min.js"></script> -->
-
-    <!-- Custom scripts for all pages-->
-    <!-- <script src="js/sb-admin-2.min.js"></script> -->
+    
+    
 
 </body>
 </html>
