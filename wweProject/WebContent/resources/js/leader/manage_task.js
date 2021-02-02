@@ -1,4 +1,5 @@
 let isChk = $('#wholeChk').data('chk');
+
 function wohleCheck(){
    if($('#wholeChk').data('chk')==false){
            $('input[name=_selected_').prop('checked',true);
