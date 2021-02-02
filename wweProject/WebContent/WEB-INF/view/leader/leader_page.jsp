@@ -41,6 +41,16 @@
             <span>My Page</span></a>
     </li>
 
+<<<<<<< HEAD
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item ">
+                <a class="nav-link" href="#" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-home"></i>
+                    <span>Main Page</span>
+                </a>
+            </li>
+=======
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item ">
@@ -51,6 +61,7 @@
         </a>
     </li>
             
+>>>>>>> branch 'ttt' of https://github.com/yeongwoojang/WWE_PROJECT
 
               <!-- Nav Item - Utilities Collapse Menu -->
     <li class="nav-item">
