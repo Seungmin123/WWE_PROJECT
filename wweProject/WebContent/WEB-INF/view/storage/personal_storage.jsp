@@ -355,6 +355,7 @@
                                     <h6 class="m-0 font-weight-bold text-primary">FILE INFO</h6>
                                 </div>
                                 <div class="card-body">
+                                
                                     <form action="${context}/storage/upload" enctype="multipart/form-data" method="post">
                                         <input type="file" class="form-control-file" name="file"/>
                                       
