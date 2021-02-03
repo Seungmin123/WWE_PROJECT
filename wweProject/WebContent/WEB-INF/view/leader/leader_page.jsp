@@ -63,7 +63,7 @@
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Manage</h6>
-                <a class="collapse-item" href="${context}/leader/manage">팀관리</a>
+                <a class="collapse-item" href="${context}/leader/manage?projectId=프로젝트 1">팀관리</a>
                 <a class="collapse-item" href="${context}/leader/gettaskimpl?projectId=프로젝트 1">업무관리</a>
             </div>
         </div>
@@ -310,7 +310,7 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
+                <div class="container-fluid" id="test11">
                
                     <div class="container mt-5 col">
                      	
@@ -324,12 +324,11 @@
                 			
                 			 <!-- 유저 초대 팝업을 열기 위한 버튼 -->
                             <div class="container mb-3">
-                             <button type="button" class="btn btn-outline-primary btn-sm px-5"id="openModalBtn">초대</button>
+                             <button type="button" class="btn btn-outline-primary btn-sm px-5" id="btn_open_invite_modal">초대</button>
                             </div>
                              <!-- /유저 초대 팝업을 열기 위한 버튼 -->
 
                             <!-- 유저 정보 테이블 -->
-                            <!-- DB에서 해당 프로젝트의 팀원 정보를 불러와 반복문으로 뿌려줘야할 듯 -->
                             <div class="container">
                                 <table class="table table-hover table-bordered">
                                         <tr class="table-primary">
@@ -337,21 +336,10 @@
                                             <th style="width:35.66%">권한</th>
                                             <th style="width:14.33%" class="text-center">관리</th>
                                         </tr>
-                                        <tr class="table-secondary">
-                                            <!-- 내 계정일 시(내 계정 표시) -->
-                                            <td>sayeong@gmail.com(내계정)</td>
-                                            <td>LEADER</td>
-                                            <!-- 수정 버튼 클릭 시 팀원의 권한 변경이나 추방 -->
-                                            <td align="center"><button class="btn btn-warning btn-sm" >수정</button></td>
-                                        </tr>
-                                        <tr class="table-secondary">
-                                            <!-- 내 계정일 시(내 계정 표시) -->
-                                            <td>hphphp23@naver.com</td>
-                                            <td>READ ONLY</td>
-                                            <!-- 수정 버튼 클릭 시 팀원의 권한 변경이나 추방 -->
-                                            <td align="center"><button class="btn btn-warning btn-sm">수정</button></td>
-                                        </tr>
-                                        <!-- 테이블 내용 추가 예정 -->
+                                        <tbody>
+                                       <!-- DB불러와서 동적으로 tr요소 생성할 곳 -->
+                                        </tbody>
+                                    
                                 </table>
                             </div>
                             <!-- /유저 정보 테이블 -->
@@ -359,12 +347,12 @@
                     </div>
             
                     	  <!-- 팀원 초대 팝업 모달 -->
-                    <div class="modal" id="popup_modal">
+                    <div class="modal" id="invite_modal">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title">유저 초대</h5>
-                                    <button type="button" id="btn_close" class="close">
+                                    <button type="button" id="btn_invite_close" class="close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
@@ -383,7 +371,7 @@
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="authority" id="read"  value="read" checked >
                                             <label class="form-check-label" for="read">
-                                              Read Only
+                                              READ ONLY
                                             </label>
                                           </div>
                                           <hr>
@@ -391,7 +379,7 @@
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" name="authority" id="read_write" value="readAndWrite">
                                                 <label class="form-check-label" for="read_write">
-                                                  Write and Read
+                                                  READ & WRITE
                                                 </label>
                                               </div>
                                           </div>
@@ -403,6 +391,47 @@
                                     </div>
                                 </form>
                               
+                            </div>
+                        </div>
+                    </div>
+                      	  <!-- 유저 권한 수정 모달 -->
+                    <div class="modal" id="modify_modal">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">권한 수정</h5>
+                                    <button type="button" id="btn_modify_close" class="close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form>
+                                    <div class="modal-body">
+                                        <label class="col-form-label">권한</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="mod_authority" id="mod_read"  value="read" checked >
+                                            <label class="form-check-label" for="mod_read">
+                                              READ ONLY
+                                            </label>
+                                          </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="mod_authority" id="mod_read_write" value="read_write">
+                                                <label class="form-check-label" for="mod_read_write">
+                                                  READ & WRITE
+                                                </label>
+                                              </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="mod_authority" id="mod_leader" value="leader">
+                                                <label class="form-check-label" for="mod_leader">
+                                                  LEADER
+                                                </label>
+                                            </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary"data-dismiss="modal">취소</button>
+                                        <button type="button" class="btn btn-primary" onclick="updateAuthority();" id="btn_invite">확인</button>
+                                        <!-- <input type="submit" class="btn btn-primary"  id="btn_invite" value="초대"> -->
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -453,6 +482,42 @@
         </div>
     </div>
 
+	<script>
+    	$(function(){
+    		selectUserListByPid();
+    	});
+    
+        let selectUserListByPid=()=>{
+        	let trElement;
+        	let tdElement;
+        	let buttonElement;
+        	<c:forEach var="user" items = "${userList}" varStatus="status">
+        		trElement = document.createElement('tr');
+        		trElement.setAttribute("seq","${status.index}");
+        		document.querySelector('tbody').appendChild(trElement);
+        		<c:forEach var="i" begin="0" end="2" step="1">
+        			tdElement = document.createElement('td');
+        			<c:if test="${i==0}">
+        				tdElement.id="userTd";
+        				tdElement.innerHTML ="${user.userId}";
+        			</c:if>
+        			<c:if test="${i==1}">
+        				tdElement.innerHTML ="${user.authority}";
+        			</c:if>
+        			<c:if test="${i==2}">
+        				tdElement.align="center";
+        				buttonElement = document.createElement('button');
+        				buttonElement.type="button";
+        				buttonElement.className="btn btn-warning btn-sm";
+        				buttonElement.id = "btn_open_modify_modal";
+        				buttonElement.innerHTML ="수정";
+        				tdElement.appendChild(buttonElement);
+        			</c:if>
+        				trElement.appendChild(tdElement);
+        			</c:forEach>
+        	</c:forEach>
+        }
+    </script>
 	<!--팝업 화면에서 할 수 있는 작업들을 모아놓은 js 파일  -->
     <script src="/resources/js/leader/popup_task.js"></script>
     <!-- Bootstrap core JavaScript-->
@@ -461,7 +526,5 @@
     <script src="/resources/js/sb-admin-2.min.js"></script>
     <script src="/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
     
-    
-
 </body>
 </html>

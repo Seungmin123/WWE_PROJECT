@@ -320,6 +320,94 @@
 		
 	}
 
+
+
+	let showManageProfile = () => {
+		setProfileProjectFirstSet();
+		showDiv('manageProfile');
+		hideDiv('manageFileCloud');
+		hideDiv('manageProject');
+	}
+
+	let showManageCloud = () => {
+		setProfileProjectFirstSet();
+		showDiv('manageFileCloud');
+		hideDiv('manageProfile');
+		hideDiv('manageProject');
+	}
+
+	let showManageProject = () => {
+		setProfileProjectFirstSet();
+		showDiv('manageProject');
+		hideDiv('manageFileCloud');
+		hideDiv('manageProfile');
+	}
+
+	let showModifyProfile = () => {
+		setProfileProjectFirstSet();
+		showDiv('modifyProfile');
+		hideDiv('showProfile');
+	}
+
+	let showModifyProject = () => {
+		setProfileProjectFirstSet();
+		showDiv('modifyProject');
+		hideDiv('showProject');	
+	}
+
+	let setProfileProjectFirstSet = () => {
+		showDiv('showProfile');
+		showDiv('showProject');
+		hideDiv('modifyProfile');
+		hideDiv('modifyProject');
+	}
+
+	let modifyProfile = () => {
+				const url = '/member/modifyimpl';
+				let paramObj = new Object();
+				paramObj.userID = userID.value;
+				paramObj.userPW = userPW.value;
+				paramObj.userEmail = userEmail.value;
+				paramObj.userName = userName.value;
+				paramObj.userAdd = userAdd.value;
+				paramObj.userTell = userTell.value;
+				paramObj.userBirth = userBirth.value;
+				
+				let headerObj = new Headers();
+				//headerObj.append('content-type', 'application/json');
+				headerObj.append('content-type', 'application/x-www-form-urlencoded');
+				
+				if((submitPWCheck = false) || (submitAuthCheck = false)){
+					return;
+				}
+
+				fetch(url, {
+					
+					method : "post",
+					headers : headerObj,		
+					body:"data="+ JSON.stringify(paramObj)
+
+				}).then(response => {
+					//response.ok : 상태코드 200~209 사이라면 ok = true
+					if(response.ok){
+						return response.text();
+					}	
+					//200번대 코드가 아니라면 에러를 발생시켜서 catch 블록으로 이동
+					
+							
+				})	
+				.then((text) => {
+					if(text == "fail"){
+						window.alert("회원정보 수정 실패");
+					}else{
+						
+						//location.href = "/index";
+						location.href= "/member/mypage";
+					}
+				}).catch(error => {
+					error.alertMessage();
+				});
+	}
 	
 
 	

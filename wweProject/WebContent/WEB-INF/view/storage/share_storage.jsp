@@ -318,21 +318,33 @@
                                             <thead>
                                                 <tr>
                                                     <th>FileName</th>
-                                                    <th>Address</th>
+                                                    <th>올린이</th>
                                                     <th>content</th>
                                                     <th>용량</th>
                                                     <th>수정일</th>
                                                 </tr>
                                             </thead>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>김선민</th>
-                                                    <th>경기도 고양시</th>
-                                                    <th>??</th>
-                                                    <th>100TB</th>
-                                                    <th>1998-02-24</th>
-                                                </tr>
-                                            </tfoot>
+                                            	<c:forEach var="fileData" items="${data.fileList}">
+                                            		<tr>
+                                            			<td>${fileData.fileName}</td>
+                                            			<td>${fileData.userId}</td>
+                                            			<td>${fileData.fileContent}</td>
+                                            			<td>
+                                                            <a href="#" onclick="downloadFile(
+                                                                '${fileData.fileName}',
+                                                                '${fileData.fileRename}',
+                                                                '${fileData.filePath}'
+                                                            )">download</a>
+                                                            <a href="#" onclick="deleteFile(
+                                                            	'${fileData.fileIdx}',
+                                                                '${fileData.fileRename}',
+                                                                '${fileData.filePath}',
+                                                                true
+                                                            )">delete</a>
+                                                        </td>
+                                            			<td>${fileData.updateDate}</td>                                    
+                                            		</tr>
+                                            	</c:forEach>
                                             <tbody>
                                             
                                             </tbody>
@@ -347,15 +359,15 @@
                                     <h6 class="m-0 font-weight-bold text-primary">FILE INFO</h6>
                                 </div>
                                 <div class="card-body">
-                                    <form action="post" enctype="application/x-www-form-urlencoded">
-                                        <input type="file" class="form-control-file"/>
-                                        <span class="text">Writer : </span>
-                                        <textarea rows="10" cols="20" placeholder="Content text" class="form-control my-2"></textarea>
+                                    <form action="${context}/storage/sUpload" enctype="multipart/form-data" method="post">
+                                        <input type="file" class="form-control-file" name="file"/>
+                                      
+                                        <textarea rows="10" cols="20" placeholder="Content text" class="form-control my-2 textarea-form" name="content" id="textarea-form"></textarea>
                                     
                                         <button class="btn btn-primary btn-icon-split">
                                             <span class="text">UPLOAD</span>
                                         </button>
-                                        <button class="btn btn-danger btn-icon-split" type="reset">
+                                        <button class="btn btn-danger btn-icon-split">
                                             <span class="text">RESET</span>
                                         </button>
                                     </form>
@@ -428,6 +440,10 @@
     <script src="/resources/js/demo/chart-area-demo.js"></script>
     <script src="/resources/js/demo/chart-pie-demo.js"></script>
     <script src="/resources/js/demo/chart-bar-demo.js"></script>
+    
+    <script src="/resources/js/storage/view-storage.js"></script>
+    
+    <script type="text/javascript"></script>
 
 </body>
 </html>

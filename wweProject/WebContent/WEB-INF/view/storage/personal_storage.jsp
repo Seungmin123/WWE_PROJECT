@@ -318,7 +318,7 @@
                                                 <tr>
                                                     <th>FileName</th>
                                                     <th>content</th>
-                                                    <th>용량</th>
+                                                    <th>옵션</th>
                                                     <th>수정일</th>
                                                 </tr>
                                             </thead>
@@ -335,9 +335,10 @@
                                                                 '${fileData.filePath}'
                                                             )">download</a>
                                                             <a href="#" onclick="deleteFile(
-                                                            	'${fileData.fileName}',
+                                                            	'${fileData.fileIdx}',
                                                                 '${fileData.fileRename}',
-                                                                '${fileData.filePath}'
+                                                                '${fileData.filePath}',
+                                                                false
                                                             )">delete</a>
                                                         </td>
                                             			<td>${fileData.updateDate}</td>                                    
@@ -356,7 +357,7 @@
                                 </div>
                                 <div class="card-body">
                                 
-                                    <form action="${context}/storage/upload" enctype="multipart/form-data" method="post">
+                                    <form action="${context}/storage/pUpload" enctype="multipart/form-data" method="post">
                                         <input type="file" class="form-control-file" name="file"/>
                                       
                                         <textarea rows="10" cols="20" placeholder="Content text" class="form-control my-2 textarea-form" name="content" id="textarea-form"></textarea>
