@@ -7,7 +7,6 @@ public class Leader {
 	private String projectId;
 	
 	
-	
 	public Leader(String userId, String authority, String projectId) {
 		super();
 		this.userId = userId;
