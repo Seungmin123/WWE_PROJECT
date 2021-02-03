@@ -55,7 +55,7 @@ public class FileUtils {
 	}
 	
 	public void deleteFile(String path) {
-		File file = new File("C:\\\\CODE\\\\wweStorage/"+path);
+		File file = new File("C:\\CODE\\wweStorage/"+path);
 		file.delete();
 	}
 	

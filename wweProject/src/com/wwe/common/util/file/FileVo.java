@@ -3,6 +3,7 @@ package com.wwe.common.util.file;
 import java.sql.Date;
 
 public class FileVo {
+	private String fileIdx;
 	private String userId;
 	private String projectId;
 	private String fileName;
@@ -10,10 +11,17 @@ public class FileVo {
 	private String fileContent;
 	private String filePath;
 	private Date updateDate;
-	private String uploader;
 	
 	public FileVo() {
 		// TODO Auto-generated constructor stub
+	}
+
+	public String getFileIdx() {
+		return fileIdx;
+	}
+
+	public void setFileIdx(String fileIdx) {
+		this.fileIdx = fileIdx;
 	}
 
 	public String getUserId() {
@@ -72,19 +80,11 @@ public class FileVo {
 		this.updateDate = updateDate;
 	}
 
-	public String getUploader() {
-		return uploader;
-	}
-
-	public void setUploader(String uploader) {
-		this.uploader = uploader;
-	}
-
 	@Override
 	public String toString() {
 		return "FileVo [userId=" + userId + ", projectId=" + projectId + ", fileName=" + fileName + ", fileRename="
 				+ fileRename + ", fileContent=" + fileContent + ", filePath=" + filePath + ", updateDate=" + updateDate
-				+ ", uploader=" + uploader + "]";
+				+ ", uploader=" + "]";
 	}
 
 	
