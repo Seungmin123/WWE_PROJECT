@@ -2,7 +2,9 @@ package com.wwe.task.model.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.wwe.common.code.ErrorCode;
@@ -40,10 +42,41 @@ public class TaskDao {
 		return res;
 	}
 	
-	public List<String> selectAllTaskList(Connection conn, String projectId){
+	public ArrayList<Task> selectAllTaskList(Connection conn, String projectId){
 		
-		return null;
+		ArrayList<Task> taskList = new ArrayList<>();
+		PreparedStatement pstm = null;
+		ResultSet rset = null;
 		
+		try{
+			String query = "SELECT * FROM TB_TASK WHERE PROJECT_ID = ?";
+			
+			//3. 쿼리문 실행용 객체를 생성
+			pstm = conn.prepareStatement(query);
+			//4. PreparedStatement의 쿼리문을 완성
+			pstm.setString(1, projectId);
+			//5. 쿼리문 실행하고 결과(resultSet)를 받음
+			rset = pstm.executeQuery();
+			
+			while(rset.next()) {
+				Task task = new Task();
+				task.setProjectId(projectId);
+				task.setTaskId(rset.getString("TASK_ID"));
+				task.setDeadLine(rset.getString("DEAD_LINE"));
+				task.setTaskContent(rset.getString("TASK_CONTENT"));
+				task.setTaskPriority(rset.getString("TASK_PRIORITY"));
+				task.setTaskState(rset.getString("TASK_STATE"));
+				
+				taskList.add(task);
+			}
+
+		} catch (SQLException e) {;
+			throw new DataAccessException(ErrorCode.TK01,e);
+		}finally {
+			jdt.close(rset,pstm);
+		}
+		
+		return taskList;
 	}
 
 	

@@ -1,6 +1,7 @@
 package com.wwe.task.model.service;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.wwe.common.jdbc.JDBCTemplate;
@@ -30,15 +31,14 @@ public class TaskService {
 			return res;
 	}
 	
-	public List<String> selectAllTaskList(String projectId){
+	public ArrayList<Task> selectAllTaskList(String projectId){
 		
 		Connection conn = jdt.getConnection();
-		List<String> taskList = null;
+		ArrayList<Task> taskList = null;
 		
 		try {
 			
 			taskList = taskDao.selectAllTaskList(conn, projectId);
-			jdt.commit(conn);
 			
 		} finally {
 			jdt.close(conn);

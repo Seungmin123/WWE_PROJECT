@@ -357,7 +357,7 @@
                                         <h1 class="h4 text-white font-weight-bold">업무추가</h1>
                                     </div>
                                     <hr class="hr">
-                                    <form class="user">
+                                    <form class="user" action="${context}/task/addimpl" method="post">
                                         <div class="form-group row">
                                             <div class="col-sm-3 mb-3 mb-sm-0 d-flex align-items-center">
                                                 <h6 class="font-weight-bold">업무 이름</h6>
@@ -387,7 +387,7 @@
                                             <a href="${context}/task/my" class="btn btn-dark btn-icon-split mr-3">
                                                 <span class="text">취소</span>
                                             </a>
-                                            <button onclick="addTask()" class="btn btn-dark btn-icon-split">
+                                            <button class="btn btn-dark btn-icon-split">
                                                 <span class="text">완료</span>
                                             </button>
                                         </div>

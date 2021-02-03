@@ -373,19 +373,19 @@
                                                 </a>
                                             </span>
                                         </div>
-                                        <div class="d-flex justify-content-between">
-                                            <div class="checkbox pt-4 mr-3">
-                                                <input type="checkbox">
+                                        <div class="d-flex justify-content-between todotask">
+                                            <div class="checkbox pt-4 mr-3" >
+                                                <input type="checkbox" id="priority">
                                             </div>
-                                            <a class="mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm d-flex align-items-center justify-content-center text-gray-600 border-0"
-                                                href="${context}/task/detail" id="todozone" ondragstart="onDragStart(event);">
-                                                <div>
-                                                    화면설계하기
+                                            <button class="mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm align-items-center justify-content-center border-0"
+                                                 ondragstart="onDragStart(event);" draggable="true" onclick="taskDetail();">
+                                                <div class="text-gray-600" id="taskId" name="taskId" >
+                                                    고구마
                                                 </div>
-                                                <span href="#" class="btn btn-info btn-circle btn-sm ml-3 mr-3">
+                                                <span class="btn btn-info btn-circle btn-sm ml-3 mr-3">
                                                     <i class="fas fa-info-circle"></i>
                                                 </span>
-                                            </a>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -393,9 +393,9 @@
                                 <!-- Basic Card Example -->
                                 <div class="card shadow mb-4">
                                     <div class="card-header py-3 d-flex justify-content-center align-items-center">
-                                        <a href="#" class="btn bg-gradient-secondary pl-5 pr-5">
+                                        <div class="btn bg-gradient-secondary pl-5 pr-5">
                                             <span class="h3 pt-2 text-white">DOING</span>
-                                        </a>
+                                        </div>
                                     </div>
                                     <div class="card-body" ondragover="onDragOver(event);" ondrop="onDrop(event);" id="doingzone">
                                     </div>
@@ -404,9 +404,9 @@
                                 <!-- Basic Card Example -->
                                 <div class="card shadow mb-4">
                                     <div class="card-header py-3 d-flex justify-content-center align-items-center">
-                                        <a href="#" class="btn bg-gradient-secondary pl-5 pr-5">
+                                        <div class="btn bg-gradient-secondary pl-5 pr-5">
                                             <span class="h3 pt-2 text-white">DONE</span>
-                                        </a>
+                                        </div>
                                     </div>
                                     <div class="card-body" ondrop="drop(event)" ondragover="allowDrop(event)" id="donezone">
 
@@ -474,6 +474,18 @@
             
             <!-- drag&drop -->
              <script src="/resources/js/task/drag.js"></script>
+             
+             <script type="text/javascript">
+             	$(function(){
+             		selectPriority();
+             	});
+             	
+             	let selectPriority = () =>{
+             		
+             		
+             	}
+             
+             </script>
 
 			
         </body>

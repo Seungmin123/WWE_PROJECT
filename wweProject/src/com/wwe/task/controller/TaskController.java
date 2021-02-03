@@ -1,6 +1,8 @@
 package com.wwe.task.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -52,6 +54,8 @@ public class TaskController extends HttpServlet {
 				break;
 			case "my": myTask(request,response);
 				break;
+			case "feedbackimpl": feedbackImpl(request,response);
+				break;
 			default:
 				break;
 		}
@@ -67,29 +71,39 @@ public class TaskController extends HttpServlet {
 	
 	protected void mainTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		Project project = (Project) request.getSession().getAttribute("project");
+		selectAllTaskList(request,response);
 		
-		String projectId = project.getProjectId();
+		request.getAttribute("taskList");
+		request.setAttribute("leaderId", "임희원");
+
+		request.getRequestDispatcher("/WEB-INF/view/task/main.jsp").forward(request, response);
+	
+	}
+	
+	//업무리스트불러오기
+	protected void selectAllTaskList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		List<String> taskList = taskService.selectAllTaskList(projectId);
+		//Project project = (Project) request.getSession().getAttribute("project");
+		
+		//String projectId = project.getProjectId();
+		String projectId = "프로젝트 1";
+		
+		ArrayList<Task> taskList = taskService.selectAllTaskList(projectId);
+
+		for (Task task : taskList) {
+			System.out.println(task.getTaskId());
+		}
 		
 		if(taskList != null) {
-				  System.out.println(taskList);
-
-				 
-				  request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
+			
+			System.out.println("업무리스트 성공");
 				  
-			  } else { 
-				  System.out.println("업무추가실패");
-				  
-				  request.setAttribute("alertMsg", "업무 추가에 실패하였습니다.");
-				  request.setAttribute("url", "/task/add");
-				  
-				  request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
-			  }
+			request.setAttribute("taskList", taskList);
+			
+		} else {
+			System.out.println("업무리스트 불러오기실패");
+		}
 		
-		
-		request.getRequestDispatcher("/WEB-INF/view/task/main.jsp").forward(request, response);
 	}
 
 	protected void memberTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -97,7 +111,18 @@ public class TaskController extends HttpServlet {
 	}
 	
 	protected void detailTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String taskName = request.getParameter("taskId");
+		
+		request.setAttribute("leaderId", "임희원");
+		
+		System.out.println(taskName);
+		
 		request.getRequestDispatcher("/WEB-INF/view/task/detail.jsp").forward(request, response);
+	}
+	
+	protected void selectDetailById(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 	}
 	
 	protected void addTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -108,17 +133,11 @@ public class TaskController extends HttpServlet {
 	protected void addImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		
-		  String data = request.getParameter("data"); 
+		  String taskName = request.getParameter("taskName"); 
+		  String deadLine = request.getParameter("deadLine"); 
+		  String taskContent = request.getParameter("taskContent");
 		  //Member user = (Member)request.getSession().getAttribute("user");
 		  
-		  System.out.println(data);
-		  
-		  Gson gson = new Gson();
-		  Map parsedData = gson.fromJson(data, Map.class);
-		  
-		  String taskName = (String) parsedData.get("taskName"); 
-		  String deadLine = (String) parsedData.get("deadLine"); 
-		  String taskContent = (String)parsedData.get("taskContent"); 
 		  //String projectId = 
 		  //String userId = user.getUserID();
 		  String userId = "wwe123";
@@ -161,5 +180,14 @@ public class TaskController extends HttpServlet {
 	protected void myTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getRequestDispatcher("/WEB-INF/view/task/my.jsp").forward(request, response);
 	}
+	
+	
+	protected void feedbackImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("/WEB-INF/view/task/detail.jsp").forward(request, response);
+		
+		
+		
+	}
+	
 
 }

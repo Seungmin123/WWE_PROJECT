@@ -370,8 +370,7 @@
                                             <h6 class="font-weight-bold">담당자</h6>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control form-control-user rounded"
-                                                id="exampleLastName">
+                                            <div class="form-control form-control-user rounded"></div>
                                         </div>
                                     </div>
 
@@ -382,8 +381,7 @@
                                             <h6 class="font-weight-bold">업무 이름</h6>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control form-control-user rounded"
-                                                id="exampleLastName">
+                                            <div class="form-control form-control-user rounded"></div>
                                         </div>
                                     </div>
 
@@ -394,8 +392,7 @@
                                             <h6 class="font-weight-bold">관리자</h6>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control form-control-user rounded"
-                                                id="exampleLastName">
+                                            <div class="form-control form-control-user rounded">${leaderId}</div>
                                         </div>
                                     </div>
 
@@ -406,8 +403,7 @@
                                             <h6 class="font-weight-bold">마감기한</h6>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="date" class="form-control form-control-user rounded"
-                                                id="exampleLastName">
+                                            <div class="form-control form-control-user rounded"></div>
                                         </div>
                                     </div>
 
@@ -418,8 +414,7 @@
                                             <h6 class="font-weight-bold">우선순위</h6>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control form-control-user rounded"
-                                                id="exampleLastName">
+                                            <div class="form-control form-control-user rounded"></div>
                                         </div>
                                     </div>
 
@@ -446,7 +441,7 @@
                                         </div>
                                         <div class="col-sm-9">
                                             <textarea name="textarea" rows="3" cols="33"
-                                                class="form-control form-control-user rounded">Write something here</textarea>
+                                                class="form-control form-control-user rounded"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -460,9 +455,9 @@
 
                                     <div class="d-flex justify-content-between align-items-center">
                                     <input type="text" class="form-control form-control-user rounded">
-                                    <span href="#" class="btn bg-dark btn-icon-split ml-2 pb-2 pt-2 pl-3 pr-3">
+                                    <a href="${context}/task/feedbackimpl" class="btn bg-dark btn-icon-split ml-2 pb-2 pt-2 pl-3 pr-3">
                                         <span class="text-white small">send</span>
-                                    </span>
+                                    </a>
                                     </div>
 
                                 </div>
@@ -529,6 +524,4 @@
 
         </body>
 
-        </html>
-
-        </html>
+</html>
