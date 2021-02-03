@@ -1,27 +1,27 @@
 package com.wwe.task.model.vo;
 
 public class Task {
-   
-   private int tIdx;
-   private String taskId;
-   private String taskContent;
-   private String taskPriority;
-   private String deadLine;
-   private String taskState;
-   private String userId;
-   private String projectId;
-   
-   public Task() {
-      super();
-   }
+	
+	private int tIdx;
+	private String taskId;
+	private String taskContent;
+	private String taskPriority;
+	private String deadLine;
+	private String taskState;
+	private String userId;
+	private String projectId;
+	
+	public Task() {
+		super();
+	}
 
-   public int gettIdx() {
-      return tIdx;
-   }
+	public int gettIdx() {
+		return tIdx;
+	}
 
-   public void settIdx(int tIdx) {
-      this.tIdx = tIdx;
-   }
+	public void settIdx(int tIdx) {
+		this.tIdx = tIdx;
+	}
 
    public String getTaskId() {
       return taskId;

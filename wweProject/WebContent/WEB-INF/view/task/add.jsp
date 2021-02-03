@@ -363,7 +363,7 @@
                                                 <h6 class="font-weight-bold">업무 이름</h6>
                                             </div>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control form-control-user rounded" id="exampleLastName">
+                                                <input type="text" id="taskName" name="taskName" class="form-control form-control-user rounded">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -371,7 +371,7 @@
                                                 <h6 class="font-weight-bold">마감 기한</h6>
                                             </div>
                                             <div class="col-sm-9">
-                                                <input type="date" class="form-control form-control-user rounded" id="exampleLastName">
+                                                <input type="date" id="deadLine" name="deadLine"  class="form-control form-control-user rounded">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -379,7 +379,7 @@
                                                 <h6 class="font-weight-bold">상세 설명</h6>
                                             </div>
                                             <div class="col-sm-9">
-                                                <textarea name="textarea" rows="3" cols="27" class="form-control form-control-user rounded">Write something here</textarea>
+                                                <textarea name="taskContent" id="taskContent" name="detail" rows="3" cols="27" class="form-control form-control-user rounded">Write something here</textarea>
                                             </div>
                                         </div>
                                         <hr>
@@ -387,9 +387,9 @@
                                             <a href="${context}/task/my" class="btn btn-dark btn-icon-split mr-3">
                                                 <span class="text">취소</span>
                                             </a>
-                                            <a href="${context}/task/my" class="btn btn-dark btn-icon-split">
+                                            <button onclick="addTask()" class="btn btn-dark btn-icon-split">
                                                 <span class="text">완료</span>
-                                            </a>
+                                            </button>
                                         </div>
                                     </form>
                                     <hr>
@@ -449,6 +449,7 @@
 
                 <!-- Custom scripts for all pages-->
                 <script src="/resources/js/sb-admin-2.min.js"></script>
+                <script src="/resources/js/task/task.js"></script>
 
         </body>
 

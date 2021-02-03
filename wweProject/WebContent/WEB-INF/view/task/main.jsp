@@ -366,7 +366,7 @@
                                     <div class="mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm" >
                                         <a href="${context}/task/detail" class="text-gray-600 border-0" draggable="true">
                                             <div>
-                                                화면설계하기
+                                               
                                             </div>
                                             <div class="progress progress-sm">
                                                 <div class="progress-bar bg-info" role="progressbar" style="width: 20%"
