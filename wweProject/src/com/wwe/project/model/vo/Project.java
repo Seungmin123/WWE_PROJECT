@@ -9,12 +9,14 @@ public class Project {
 	private String leaderId;
 	private String userId;
 	private Date workTime;
+	private String authority;
+	private int isAllowed;
 	
 	public Project() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Project(String projectId, Date dueDate, int progress, String leaderId, String userId, Date workTime) {
+	public Project(String projectId, Date dueDate, int progress, String leaderId, String userId, Date workTime, String authority, int isAllowed) {
 		super();
 		this.projectId = projectId;
 		this.dueDate = dueDate;
@@ -22,6 +24,8 @@ public class Project {
 		this.leaderId = leaderId;
 		this.userId = userId;
 		this.workTime = workTime;
+		this.authority = authority;
+		this.isAllowed = isAllowed;
 	}
 
 	public String getProjectId() {
@@ -71,4 +75,21 @@ public class Project {
 	public void setWorkTime(Date workTime) {
 		this.workTime = workTime;
 	}
+
+	public String getAuthority() {
+		return authority;
+	}
+
+	public void setAuthority(String authority) {
+		this.authority = authority;
+	}
+
+	public int getIsAllowed() {
+		return isAllowed;
+	}
+
+	public void setIsAllowed(int isAllowed) {
+		this.isAllowed = isAllowed;
+	}
+	
 }
