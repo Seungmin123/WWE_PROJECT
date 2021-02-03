@@ -72,7 +72,6 @@ public class ProController extends HttpServlet {
 		Member member = (Member)session.getAttribute("user");
 		Project project = (Project)session.getAttribute("isAllowed");
 		
-		
 		proService.selectInvitedProject(member.getUserID());
 		
 		request.getRequestDispatcher("/WEB-INF/view/project/invitedProject.jsp")
