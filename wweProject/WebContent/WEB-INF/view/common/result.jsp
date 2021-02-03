@@ -23,7 +23,6 @@
          //location.href: 현재 페이지의 url 출력
          location.href = context + '${url}'; 
       </c:if>
-                                                        
    </script>
 </body>
 </html>
