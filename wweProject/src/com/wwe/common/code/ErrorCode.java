@@ -1,9 +1,12 @@
 package com.wwe.common.code;
 
 public enum ErrorCode {
-	SM01("회원정보를 조회하는 도중 에러가 발생하였습니다.","/member/login.do"),
+	SM01("회원정보를 조회하는 도중 에러가 발생하였습니다"),
+	SM02("프로젝트의 팀원리스트를 조회하는 도중 에러가 발생했습니다."),
 	IN01("팀원을 초대하는 도중 에러가 발생했습니다."),
+	UU01("팀원의 권한을 변경하는 도중 에러가 발했습니다."),
 	TK01("업무리스트를 조회하는 도중 에러가 발생했습니다."),
+	TK02("업무추가 중 에러가 발생했습니다.","/task/my"),
 	UM01("회원정보 수정 중 에러가 발생하였습니다."),
 	DM01("회원정보 삭제 중 에러가 발생하였습니다."),
 	//SB01("게시판 정보를 조회하는 도중 에러가 발생","/board/list"(에러발생시 이동할 페이지));
@@ -24,7 +27,7 @@ public enum ErrorCode {
 	//result.jsp를 사용해 띄울 안내문구
 	private String errMsg;
 	//result.jsp를 사용해 이동시킬 경로
-	private String url = "/index.do";
+	private String url = "/index";
 	
 	//index로 이동시킬 경우
 	ErrorCode(String errMsg) {
