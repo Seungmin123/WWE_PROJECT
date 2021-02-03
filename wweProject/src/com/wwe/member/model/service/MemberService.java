@@ -24,6 +24,17 @@ public class MemberService {
 		return res;
 	}
 	
+	public Member getMemberProject(String userID) {
+		
+		Connection conn = jdt.getConnection();
+		
+		Member res = memberDao.getMemberProject(conn, userID);
+		
+		jdt.close(conn);
+		
+		return res;
+	}
+	
 	public int insertMember(Member member) {
 		
 		Connection conn = jdt.getConnection();
@@ -77,6 +88,26 @@ public class MemberService {
 			jdt.close(conn);
 		}
 	}
+	
+	public int modifyMember(Member member) {
+		
+		Connection conn = jdt.getConnection();
+		int res = 0;
+		
+		try {
+			
+			res = memberDao.modifyMember(conn,member);
+			jdt.commit(conn);
+			
+		} finally {
+			jdt.close(conn);
+		}
+		
+		return res;
+		
+		
+		
+	}	
 	
 	
 	
