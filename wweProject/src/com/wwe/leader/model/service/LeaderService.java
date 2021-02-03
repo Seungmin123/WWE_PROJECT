@@ -10,8 +10,8 @@ import com.wwe.common.exception.DataAccessException;
 import com.wwe.common.exception.ToAlertException;
 import com.wwe.common.jdbc.JDBCTemplate;
 import com.wwe.leader.model.dao.LeaderDao;
-import com.wwe.leader.model.vo.Leader;
-import com.wwe.leader.model.vo.Task;
+import com.wwe.leader.model.vo.ProjUser;
+import com.wwe.task.model.vo.Task;
 
 public class LeaderService {
 
@@ -42,8 +42,11 @@ public class LeaderService {
 	public String chkInvalidUser(String userId) {
 		Connection conn = jdt.getConnection();
 		String mUserId= " ";
-		mUserId = leaderDao.chkInvalidUser(conn, userId);
-		jdt.close(conn);
+		try {
+			mUserId = leaderDao.chkInvalidUser(conn, userId);
+		}finally {
+			jdt.close(conn);
+		}
 		return mUserId;
 		
 	}
@@ -51,10 +54,44 @@ public class LeaderService {
 	//프로젝트에서 각 팀원이 맡은 업무 리스트를 가져오는 메소드
 	public ArrayList<Task> selectTaskList(String projectId) {
 		Connection conn = jdt.getConnection();
-		ArrayList<Task> taskList = leaderDao.selectTaskList(conn, projectId);
-		jdt.close(conn);
-		
+		ArrayList<Task> taskList = null;
+		try {
+		 taskList = leaderDao.selectTaskList(conn, projectId);
+		}finally {
+			jdt.close(conn);
+		}
 		return taskList;
+	}
+	
+	//프로젝트의 팀원 정보를 가져오는 메소드
+	public ArrayList<ProjUser> selectUserListByPid(String projectId){
+		Connection conn = jdt.getConnection();
+		ArrayList<ProjUser> userList = null;
+		try {
+			userList = leaderDao.selectUserListByPid(conn, projectId);
+		}finally {
+			jdt.close(conn);
+		}
+		return userList;
+	}
+	
+	//프로젝트에 속한 팀원의 권한을 변경하는 메소드
+	public int updateAuthority(ProjUser projUser) {
+		Connection conn = jdt.getConnection();
+		int res = 0;
+		try {
+			res = leaderDao.updateAuthority(conn, projUser);
+			System.out.println("service : "+res);
+			jdt.commit(conn);
+		}catch(DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		}finally {
+			jdt.close(conn);
+		}
+		
+		
+		return res;
 	}
 	
 	

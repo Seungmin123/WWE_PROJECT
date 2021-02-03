@@ -39,8 +39,11 @@ public class StorageController extends HttpServlet {
 		case "share":
 			shareStorage(request,response);
 			break;
-		case "upload":
-			uploadFile(request,response);
+		case "pUpload":
+			uploadFile(request,response,false);
+			break;
+		case "sUpload":
+			uploadFile(request,response,true);
 			break;
 		case "download":
 			downloadFile(request,response);
@@ -63,23 +66,32 @@ public class StorageController extends HttpServlet {
 	
 	private void personalStorage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String idx = "sunmin";
-		Map<String, Object> commandMap = storageService.selectStorage(idx);
+		Map<String, Object> commandMap = storageService.selectStorage(idx,false);
 		request.setAttribute("data", commandMap);
 		request.getRequestDispatcher("/WEB-INF/view/storage/personal_storage.jsp").forward(request, response);
 	}
 	
 	private void shareStorage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String idx = "project1";
+		Map<String, Object> commanMap = storageService.selectStorage(idx,true);
+		request.setAttribute("data", commanMap);
 		request.getRequestDispatcher("/WEB-INF/view/storage/share_storage.jsp").forward(request, response);
 	}
 	
-	private void uploadFile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void uploadFile(HttpServletRequest request, HttpServletResponse response,boolean isTeam) throws ServletException, IOException {
 		// 파일 업로드
 		HttpSession session = request.getSession();
+		
 		// 유저 객체 생성할곳
-		request.setAttribute("filterPath", "sunmin");
-		storageService.insertStroage("sunmin", request);
-		response.sendRedirect("/storage/personal");
-		//request.getRequestDispatcher("/WEB-INF/view/storage/personal_storage.jsp").forward(request, response);
+		if(isTeam) {
+			request.setAttribute("filterPath", "project1");
+			storageService.insertStroage("im","project1",isTeam, request);		
+			response.sendRedirect("/storage/share");
+		}else {
+			request.setAttribute("filterPath", "sunmin");
+			storageService.insertStroage("sunmin","project1",isTeam, request);		
+			response.sendRedirect("/storage/personal");
+		}
 	}
 	
 	private void downloadFile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -89,22 +101,24 @@ public class StorageController extends HttpServlet {
 		
 		response.setHeader("content-disposition", "attachment; filename="+originName);
 		request.getRequestDispatcher("/file"+path+reName).forward(request, response);
-
-		//request.getRequestDispatcher("/WEB-INF/view/storage/personal_storage.jsp").forward(request, response);
 	}
 	
 	private void deleteFile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String originName = request.getParameter("ofname");
+		String idx = request.getParameter("fileIdx");
 		String reName = request.getParameter("rfname");
 		String path = request.getParameter("savePath");
+		String isTeam = request.getParameter("isTeam");
+		String url = "";
 		
+		if(isTeam.equals("true")) {
+			storageService.deleteStorage(idx, true);
+			url="share";
+		}else {
+			storageService.deleteStorage(idx, false);
+			url="personal";
+		}
 		new FileUtils().deleteFile(path+reName);
-		response.sendRedirect("/storage/personal");
-		
-		//response.setHeader("content-disposition", "attachment; filename="+originName);
-		//request.getRequestDispatcher("/file"+path+reName).forward(request, response);
-
-		//request.getRequestDispatcher("/WEB-INF/view/storage/personal_storage.jsp").forward(request, response);
+		response.sendRedirect("/storage/" + url);
 	}
 
 }

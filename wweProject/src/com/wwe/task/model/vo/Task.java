@@ -1,77 +1,82 @@
 package com.wwe.task.model.vo;
 
 public class Task {
-	
-	private String taskId;
-	private String taskContent;
-	private String taskPriority;
-	private String deadLine;
-	private String taskState;
-	private String userId;
-	
-	public Task(String taskId, String taskContent, String taskPriority, String deadLine, String taskState,
-			String userId) {
-		super();
-		this.taskId = taskId;
-		this.taskContent = taskContent;
-		this.taskPriority = taskPriority;
-		this.deadLine = deadLine;
-		this.taskState = taskState;
-		this.userId = userId;
-	}
+   
+   private int tIdx;
+   private String taskId;
+   private String taskContent;
+   private String taskPriority;
+   private String deadLine;
+   private String taskState;
+   private String userId;
+   private String projectId;
+   
+   public Task() {
+      super();
+   }
 
-	public String getTaskId() {
-		return taskId;
-	}
+   public int gettIdx() {
+      return tIdx;
+   }
 
-	public void setTaskId(String taskId) {
-		this.taskId = taskId;
-	}
+   public void settIdx(int tIdx) {
+      this.tIdx = tIdx;
+   }
 
-	public String getTaskContent() {
-		return taskContent;
-	}
+   public String getTaskId() {
+      return taskId;
+   }
 
-	public void setTaskContent(String taskContent) {
-		this.taskContent = taskContent;
-	}
+   public void setTaskId(String taskId) {
+      this.taskId = taskId;
+   }
 
-	public String getTaskPriority() {
-		return taskPriority;
-	}
+   public String getTaskContent() {
+      return taskContent;
+   }
 
-	public void setTaskPriority(String taskPriority) {
-		this.taskPriority = taskPriority;
-	}
+   public void setTaskContent(String taskContent) {
+      this.taskContent = taskContent;
+   }
 
-	public String getDeadLine() {
-		return deadLine;
-	}
+   public String getTaskPriority() {
+      return taskPriority;
+   }
 
-	public void setDeadLine(String deadLine) {
-		this.deadLine = deadLine;
-	}
+   public void setTaskPriority(String taskPriority) {
+      this.taskPriority = taskPriority;
+   }
 
-	public String getTaskState() {
-		return taskState;
-	}
+   public String getDeadLine() {
+      return deadLine;
+   }
 
-	public void setTaskState(String taskState) {
-		this.taskState = taskState;
-	}
+   public void setDeadLine(String deadLine) {
+      this.deadLine = deadLine;
+   }
 
-	public String getUserId() {
-		return userId;
-	}
+   public String getTaskState() {
+      return taskState;
+   }
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+   public void setTaskState(String taskState) {
+      this.taskState = taskState;
+   }
 
-	@Override
-	public String toString() {
-		return "Task [taskId=" + taskId + ", taskContent=" + taskContent + ", taskPriority=" + taskPriority
-				+ ", deadLine=" + deadLine + ", taskState=" + taskState + ", userId=" + userId + "]";
-	}
-	
+   public String getUserId() {
+      return userId;
+   }
+
+   public void setUserId(String userId) {
+      this.userId = userId;
+   }
+
+   public String getProjectId() {
+      return projectId;
+   }
+
+   public void setProjectId(String projectId) {
+      this.projectId = projectId;
+   }
+
 }

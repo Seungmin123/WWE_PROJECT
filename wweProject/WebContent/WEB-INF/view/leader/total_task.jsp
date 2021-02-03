@@ -317,6 +317,7 @@
                         <table class="table">
                             <thead>
                                 <tr class="text-dark table-primary">
+                                	<th scope="col">No.</th>
                                     <th scope="col">담당자</th>
                                     <th scope="col">업무</th>
                                     <th scope="col" class="text-right" onclick="wohleCheck()"style="cursor:pointer" data-chk=false  id="wholeChk"> 전체선택</th>
@@ -327,6 +328,57 @@
                             </tbody>
                         </table>
                         <!-- 게시판 테이블 끝 -->
+                       <div class="row">
+                            <div class="col-sm-12 col-md-5">
+                                <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
+                                    Showing 51 to 57 of 57 entries
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-7">
+                                <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+                                    <ul class="pagination">
+                                        <li class="paginate_button page-item previous" id="dataTable_previous">
+                                            <a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                        </li>
+                                        <li class="paginate_button page-item ">
+                                            <a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a>
+                                        </li>
+                                        <li class="paginate_button page-item ">
+                                            <a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a>
+                                        </li>
+                                        <li class="paginate_button page-item ">
+                                            <a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a>
+                                        </li>
+                                        <li class="paginate_button page-item ">
+                                            <a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a>
+                                        </li>
+                                        <li class="paginate_button page-item ">
+                                            <a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a>
+                                        </li>
+                                        <li class="paginate_button page-item ">
+                                            <a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a>
+                                        </li>
+                                        <li class="paginate_button page-item ">
+                                            <a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a>
+                                        </li>
+                                        <li class="paginate_button page-item ">
+                                            <a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a>
+                                        </li>
+                                        <li class="paginate_button page-item ">
+                                            <a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a>
+                                        </li>
+                                        <li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a>
+                                        </li>
+                                        <li class="paginate_button page-item active">
+                                            <a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a>
+                                        </li>
+                                        <li class="paginate_button page-item next disabled" id="dataTable_next">
+                                            <a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
 				</div>
 				<!-- 페이지 컨텐트 시작끝 -->
 			</div>
@@ -392,20 +444,21 @@
         let tdElement;
         let inputElement;
         let buttonElement;
-        console.log("${taskList.get(0)}")
-        console.log("${taskList.get(0).task}");
         <c:forEach var="task" items="${taskList}" varStatus="status">
            trElement = document.createElement('tr');
            document.querySelector('tbody').appendChild(trElement);
-               <c:forEach var="i" begin="0" end="2" step="1">
+               <c:forEach var="i" begin="0" end="3" step="1">
                   tdElement = document.createElement('td');
-                  <c:if test="${i == 0}">
-                          tdElement.innerHTML ="${task.memberId}";
+                  <c:if test="${i==0}">
+                  		tdElement.innerHTML = "${task.tIdx}"
                   </c:if>
-                  <c:if test="${i ==1}">
+                  <c:if test="${i == 1}">
+                          tdElement.innerHTML ="${task.userId}";
+                  </c:if>
+                  <c:if test="${i ==2}">
                              tdElement.innerHTML ="${task.taskId}";
                   </c:if>
-    			  <c:if test="${i ==2}">
+    			  <c:if test="${i ==3}">
     			  			tdElement.align="right";
     			 			buttonElement = document.createElement('button');
     			  			buttonElement.className = "btn btn-warning btn-sm mr-5 px-3 py-1";

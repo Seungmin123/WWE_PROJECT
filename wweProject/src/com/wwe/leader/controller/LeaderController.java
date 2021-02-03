@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.wwe.leader.model.service.LeaderService;
-import com.wwe.leader.model.vo.Leader;
-import com.wwe.leader.model.vo.Task;
+import com.wwe.leader.model.vo.ProjUser;
+import com.wwe.task.model.vo.Task;
 
 @WebServlet("/leader/*")
 public class LeaderController extends HttpServlet {
@@ -41,6 +41,9 @@ public class LeaderController extends HttpServlet {
 		case "gettaskimpl" :
 			selectTaskList(request,response); //프로젝트의 업무 리스트를 불러오는 기능을 수행
 			break;
+		case "updateauthority" :
+			updateAuthority(request,response);
+			break;
  		default:
 			break;
 		}
@@ -54,7 +57,11 @@ public class LeaderController extends HttpServlet {
 
 	//팀관리 페이지로 이동
 	private void manage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		
+		//실제로는 세션에 있는 projectId를 받아서 처리할 예정
+		String projectId = request.getParameter("projectId");
+		ArrayList<ProjUser> userList = leaderService.selectUserListByPid(projectId);
+		request.setAttribute("userList", userList); //페이지에 DB에서 읽어온 유저 리스트를 전송
 		request.getRequestDispatcher("/WEB-INF/view/leader/leader_page.jsp").forward(request, response);
 	}
 	
@@ -64,7 +71,7 @@ public class LeaderController extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/view/leader/total_task.jsp").forward(request, response);
 	}
 	
-	//팀에 유저를 초대하는 작업을 처리
+	//팀원을 초대하기 위해 입력한 아이디가 유효한지 확인
 	private void chkInvalidUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			String userId = request.getParameter("userId");
 			System.out.println(userId);
@@ -76,6 +83,7 @@ public class LeaderController extends HttpServlet {
 			}
 	}
 	
+	//팀에 유저를 초대하는 작업을 처리
 	private void inviteImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String data = request.getParameter("data");
 		Gson gson = new Gson();
@@ -95,6 +103,7 @@ public class LeaderController extends HttpServlet {
 		}
 	}
 	
+	//프로젝트의 유저당 업무 리스트를 가져오는 메소드
 	private void selectTaskList(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException{
 		String projectId = request.getParameter("projectId");
 		System.out.println(projectId);
@@ -105,6 +114,32 @@ public class LeaderController extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/view/leader/total_task.jsp").forward(request, response);
 		}else {
 			System.out.println("업무리스트 불러오기 실패");
+			response.getWriter().print("failed");
+		}
+	}
+	
+	private void updateAuthority(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException{
+		String data = request.getParameter("data");
+		Gson gson = new Gson();
+		Map parsedData = gson.fromJson(data, Map.class);
+		
+		String projectId = parsedData.get("projectId").toString();
+		String userId = parsedData.get("userId").toString();
+		String authority = parsedData.get("authority").toString();
+		
+		System.out.println(projectId);
+		System.out.println(userId);
+		System.out.println(authority);
+		ProjUser projUser = new ProjUser();
+		projUser.setProjectId(projectId);
+		projUser.setUserId(userId);
+		projUser.setAuthority(authority);
+		
+		int res = leaderService.updateAuthority(projUser);
+		//권한 변경 성공 시 1반환
+		if(res==1) {
+			response.getWriter().print("success");
+		}else {
 			response.getWriter().print("failed");
 		}
 	}

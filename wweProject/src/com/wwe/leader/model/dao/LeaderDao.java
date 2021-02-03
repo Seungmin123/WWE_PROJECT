@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import com.wwe.common.code.ErrorCode;
 import com.wwe.common.exception.DataAccessException;
 import com.wwe.common.jdbc.JDBCTemplate;
-import com.wwe.leader.model.vo.Leader;
-import com.wwe.leader.model.vo.Task;
+import com.wwe.leader.model.vo.ProjUser;
+import com.wwe.task.model.vo.Task;
 
 public class LeaderDao {
 
@@ -39,7 +39,6 @@ public class LeaderDao {
 			jdt.close(pstm);
 		}
 		return res;
-		
 	}
 	
 	//팀원 초대 시 입력한 아이디가 유효한 아이디인지 체크하는 메소드
@@ -50,10 +49,9 @@ public class LeaderDao {
 		PreparedStatement pstm =null;
 		ResultSet rset = null;
 		
+		String query = "SELECT USER_ID FROM TB_USER "
+				+"WHERE USER_ID =?";
 		try {
-			String query = "SELECT USER_ID FROM TB_USER "
-					+"WHERE USER_ID =?";
-			
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, userId);
 			rset = pstm.executeQuery();
@@ -76,8 +74,9 @@ public class LeaderDao {
 		PreparedStatement pstm =null;
 		ResultSet rset = null;
 		
-		String query = "SELECT *FROM TB_PROJECT_LEADER "
-				+"WHERE PROJECT_ID = ?";
+		String query = "SELECT *FROM TB_TASK "
+				+"WHERE PROJECT_ID = ? "
+				+"ORDER BY T_IDX ASC";
 		try {
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1,projectId);
@@ -86,11 +85,11 @@ public class LeaderDao {
 			
 			while(rset.next()) {
 				Task task = new Task();
+				task.settIdx(rset.getInt("T_IDX"));
 				task.setProjectId(rset.getString("PROJECT_ID"));
 				task.setTaskId(rset.getString("TASK_ID"));
-				task.setLeaderId(rset.getString("LEADER_ID"));
-				task.setTask(rset.getString("TASK"));
-				task.setMemberId(rset.getString("MEMBER_ID"));
+				task.setTaskContent(rset.getString("TASK_CONTENT"));
+				task.setUserId(rset.getString("USER_ID"));
 				taskList.add(task);
 			}
 			
@@ -102,6 +101,57 @@ public class LeaderDao {
 		return taskList;
 	}
 	
+	//프로젝트의 팀원 정보를 가져오는 메소드
+	public ArrayList<ProjUser> selectUserListByPid(Connection conn,String projectId){
+		ArrayList<ProjUser> userList = new ArrayList<>();
+		PreparedStatement pstm = null;
+		ResultSet rset = null;
+		
+		String query = "SELECT *FROM TB_PROJECT_USER "
+				+"WHERE PROJECT_ID =?";
+		try {
+		
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1,projectId);
+			rset = pstm.executeQuery();
+			
+			while(rset.next()) {
+				ProjUser user = new ProjUser();
+				user.setUserId(rset.getString("USER_ID"));
+				user.setAuthority(rset.getString("AUTHORITY"));
+				user.setProjectId(rset.getString("PROJECT_ID"));
+				userList.add(user);
+			}
+		}catch(SQLException e) {
+			throw new DataAccessException(ErrorCode.SM02, e);
+		}finally {
+			jdt.close(rset,pstm);
+		}
+		return userList;
+	}
+	
+	//프로젝트에 속한 팀원의 권한을 변경하는 메소드
+	public int updateAuthority(Connection conn, ProjUser projUser) {
+			int res = 0;
+			PreparedStatement pstm = null;
+			
+			String query = "UPDATE TB_PROJECT_USER "
+					+"SET AUTHORITY = ? "
+					+"WHERE PROJECT_ID = ? AND USER_ID = ?";
+			try {
+				pstm = conn.prepareStatement(query);
+				pstm.setString(1, projUser.getAuthority());
+				pstm.setString(2, projUser.getProjectId());
+				pstm.setString(3, projUser.getUserId());
+				res = pstm.executeUpdate();
+				System.out.println(res);
+			} catch (SQLException e) {
+				throw new DataAccessException(ErrorCode.UU01, e);
+			}finally {
+				jdt.close(pstm);
+			}
+			return res;
+	}
 	
 	
 	

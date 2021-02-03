@@ -11281,3 +11281,8 @@ body.sidebar-toggled footer.sticky-footer {
   visibility : hidden;
 }
 
+.mypageitem{
+  display : none;
+  visibility : hidden;
+}
+

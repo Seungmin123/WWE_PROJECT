@@ -16,7 +16,7 @@ public class StorageService {
 	JDBCTemplate jdt = JDBCTemplate.getInstance();
 	StorageDao storageDao = new StorageDao();
 	
-	public void insertStroage(String userId, HttpServletRequest request) {
+	public void insertStroage(String userId, String projectId,boolean isTeam ,HttpServletRequest request) {
 		Connection conn = jdt.getConnection();
 		
 		Map<String,List> StorageData = new FileUtils().fileUpload(request);
@@ -27,8 +27,14 @@ public class StorageService {
 			//storageDao.insertStorage(conn, Storage);
 			for(FileVo data : (List<FileVo>)StorageData.get("fileData")) {
 				data.setUserId(userId);
+				data.setProjectId(projectId);
 				data.setFileContent(StorageData.get("content").get(0).toString());
-				storageDao.insertStorage(conn, data);
+				if(isTeam) {
+					storageDao.insertShareStorage(conn, data);
+				}else {
+					storageDao.insertPersonalStorage(conn, data);
+				}
+				
 			}
 			jdt.commit(conn);
 		} catch (Exception e) {
@@ -39,18 +45,34 @@ public class StorageService {
 		}	
 	}
 	
-	public void deleteStorage(String reName) {
+	public void deleteStorage(String idx,boolean isTeam) {
 		Connection conn = jdt.getConnection();
-		
+
+		try {
+			if(isTeam) {
+				storageDao.deleteShareStorage(conn, idx);
+			}else {
+				storageDao.deletePersonalStorage(conn, idx);
+			}
+		} catch (Exception e) {
+			System.out.println("Service Error");
+		} finally {
+			jdt.close(conn);
+		}
 		
 	}
 	
-	public Map<String, Object> selectStorage(String idx){
+	public Map<String, Object> selectStorage(String idx, boolean isTeam){
 		Map<String, Object> commendMap = new HashMap<String, Object>();
+		List<FileVo> fileList = null;
 		Connection conn = jdt.getConnection();
 		
 		try {
-			List<FileVo> fileList = storageDao.selectStorage(conn, idx);
+			if(isTeam) {
+				fileList = storageDao.selectShareStorage(conn, idx);
+			}else {
+				fileList = storageDao.selectPersonalStorage(conn, idx);
+			}
 			commendMap.put("fileList", fileList);
 		}catch (Exception e) {
 			System.out.println("Service Error");

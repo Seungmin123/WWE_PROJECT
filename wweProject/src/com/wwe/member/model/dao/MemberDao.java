@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.wwe.common.jdbc.JDBCTemplate;
 import com.wwe.member.mail.MailSender;
@@ -47,9 +48,42 @@ public class MemberDao {
 				if(rset.getString("user_profile") != null) {
 					member.setUserProfile(rset.getString("user_profile"));
 				}
-				
-				
 			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			jdt.close(rset);
+			jdt.close(pstm);
+		}
+		return member;
+	}
+	
+	public Member getMemberProject(Connection conn, String userID) {
+		
+		Member member = null;
+		ResultSet rset = null;
+		PreparedStatement pstm = null;
+		ArrayList<String> projectArr = null;
+		
+		try {
+			
+			String query = null;
+			conn = jdt.getConnection();
+			projectArr = new ArrayList<String>();
+			projectArr.add("first Step");
+			
+			query = "select * from tb_project_user where user_id = ?";
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, userID);
+			rset = pstm.executeQuery();
+			
+			while(rset.next()) {
+				projectArr.add(rset.getString("project_id"));
+			}
+			member = new Member();
+			member.setUserProject(projectArr);
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -181,5 +215,36 @@ public class MemberDao {
 	public void mailSender(Connection conn, String user, String title, String content) {
 		MailSender mail = new MailSender();
 		mail.GmailSet(user, title, content);
+	}
+	
+public int modifyMember(Connection conn, Member member) {		
+		int res = 0;
+		PreparedStatement pstm = null;
+		
+		System.out.println("dao" + member.getUserPW());
+		try {
+//			String query = "insert into tb_user(user_id, user_pw, user_email, user_name, user_add, user_tell, user_birth) "
+//					+ "values(?,?,?,?,?,?,?)";
+			String query = "update tb_user set user_pw = ?, user_email = ?, user_name = ?, user_add = ?, user_tell = ?, user_birth = ?"
+					+ "where user_id = ?";
+			pstm = conn.prepareStatement(query);
+			
+			pstm.setString(1, member.getUserPW());
+			pstm.setString(2, member.getUserEmail());
+			pstm.setString(3, member.getUserName());
+			pstm.setString(4, member.getUserAdd());
+			pstm.setString(5, member.getUserTell());
+			pstm.setString(6, member.getUserBirth());
+			pstm.setString(7, member.getUserID());
+			res = pstm.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println("회원정보 수정 중 문제 발생");
+			e.printStackTrace();
+		}finally {
+			jdt.close(pstm);
+		}
+
+		return res;
 	}
 }

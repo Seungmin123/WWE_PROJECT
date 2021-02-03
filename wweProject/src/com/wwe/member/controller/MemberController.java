@@ -63,7 +63,9 @@ public class MemberController extends HttpServlet {
 				break;
 				
 			case "mypage" : myPage(request, response);
-			break;	
+				break;
+			case "modifyimpl" : modifyImpl(request, response);
+				break;
 				
 			case "logout" : logout(request, response);
 				break;
@@ -102,10 +104,12 @@ public class MemberController extends HttpServlet {
 		String userPW = (String) parsedData.get("userPW");
 		
 		Member user = memberService.memberAuthenticate(userID, userPW);
+		Member userProject = memberService.getMemberProject(userID);
 		
 		if(user != null) {
 			//session scope로 user 전달
 			request.getSession().setAttribute("user", user);
+			request.getSession().setAttribute("project", userProject);
 			response.getWriter().print("success");
 		}else {
 			response.getWriter().print("fail");
@@ -238,6 +242,50 @@ public class MemberController extends HttpServlet {
 		
 		ms.GmailSet(userEmail, "wwe 인증메일", "인증번호는?? 뚜둔 \n" + userAuthCode);
 		System.out.println("메일 전송송");
+	}
+	
+	private void modifyImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
+		String data = request.getParameter("data");
+		System.out.println(data);
+		
+		Gson gson = new Gson();
+		Map parsedData = gson.fromJson(data, Map.class);
+		
+		String userID = (String) parsedData.get("userID");
+		String userPW = (String) parsedData.get("userPW");
+		String userEmail = (String) parsedData.get("userEmail");
+		String userName = (String) parsedData.get("userName");
+		String userAdd = (String) parsedData.get("userAdd");
+		String userTell = (String) parsedData.get("userTell");
+		String userBirth = (String) parsedData.get("userBirth");
+	
+		
+		
+		Member member = new Member();
+		member.setUserID(userID);
+		member.setUserPW(userPW);
+		member.setUserEmail(userEmail);
+		member.setUserName(userName);
+		member.setUserAdd(userAdd);
+		member.setUserTell(userTell);
+		member.setUserBirth(userBirth);
+		
+		int res = memberService.modifyMember(member);
+		
+		
+		
+		if(res == 1) {	
+			System.out.println("회원가입 성공");
+			request
+			.getRequestDispatcher("/WEB-INF/view/member/MyPage.jsp")
+			.forward(request, response);
+		}else {
+			System.out.println("회원가입 실패");
+			request
+			.getRequestDispatcher("/WEB-INF/view/member/Logout.jsp")
+			.forward(request, response);
+		}
 	}
 
 	
