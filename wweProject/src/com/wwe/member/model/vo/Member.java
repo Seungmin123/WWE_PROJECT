@@ -1,5 +1,7 @@
 package com.wwe.member.model.vo;
 
+import java.util.ArrayList;
+
 public class Member {
 	private String userID;
 	private String userPW;
@@ -9,6 +11,7 @@ public class Member {
 	private String userTell;
 	private String userBirth;
 	private String userProfile;
+	private ArrayList<String> userProject;
 	
 	public Member() {
 		super();
@@ -76,6 +79,14 @@ public class Member {
 
 	public void setUserProfile(String userProfile) {
 		this.userProfile = userProfile;
+	}
+
+	public ArrayList<String> getUserProject() {
+		return userProject;
+	}
+
+	public void setUserProject(ArrayList<String> userProject) {
+		this.userProject = userProject;
 	}
 
 	

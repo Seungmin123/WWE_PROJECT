@@ -22,7 +22,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/member/mypage">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-chess-knight"></i>
                 </div>
@@ -365,7 +365,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Recent Project</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">★WWE★</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">♣ ${sessionScope.project.userProject[1]}</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -383,7 +383,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Project</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">ICT</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">♣ ${sessionScope.project.userProject[2]} </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -403,7 +403,7 @@
                                             	Project</div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">한이음</div>
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">♣ ${sessionScope.project.userProject[3]} </div>
                                                 </div>
                                                 <div class="col">
                                                     <div class="progress progress-sm mr-2">
@@ -439,33 +439,113 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        
                     </div>
 
                     <div class="row">
 
-                        <div class="col-lg-6">
-
-                            <!-- Default Card Example -->
-                            <div class="card mb-4">
-                                <div class="card-header">
-                                    <h6 class="m-0 font-weight-bold text-primary">개인정보 관리</h6>
+                        <div class="col-lg-4">
+                        
+                        	<div class="card mb-4 py-3 border-left-danger">
+                                <div class="card-body d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold">개인정보 관리</h6>
+                                    
+                                    <a onclick="showManageProfile()" class="btn btn-success btn-circle btn-sm">
+                                        <i class="fas fa-arrow-right"></i>
+                                    </a>
                                 </div>
-                                <div class="card-body">
+                           	</div>
+                           	
+                           	<div class="card mb-4 py-3 border-left-success">
+                                <div class="card-body d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold">프로젝트 관리</h6>
+                                    
+                                    <a onclick="showManageProject()" class="btn btn-success btn-circle btn-sm">
+                                        <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                           	</div>
+                           	
+                           	<div class="card mb-4 py-3 border-left-warning">
+                                <div class="card-body d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold">파일클라우드 관리</h6>
+                                    
+                                    <a onclick="showManageCloud()" class="btn btn-success btn-circle btn-sm">
+                                        <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                           	</div>
+
+                            
+
+                        </div>
+
+                        <div class="col-lg-8">
+                        
+                        	<!-- Default Card Example -->
+                            <div class="card mb-4 mypageitem" id="manageProfile">
+                                <div class="card-header d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">개인정보 관리</h6>
+                                    <a onclick="showModifyProfile()" class="btn btn-primary btn-icon-split btn-sm">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-flag"></i>
+                                        </span>
+                                        <span class="text">수정하기</span>
+                                    </a>
+                                </div>
+                                <div class="card-body text-center" id="showProfile">
                                    <!-- 개인정보 출력 -->
-                                   <h6 class="m-0 font-weight-bold text-cyan">아이디 : ${sessionScope.user.userID}</h6>
-                                   <h6 class="m-0 font-weight-bold text-cyan">비밀번호 : ${sessionScope.user.userPW}</h6>
-                                   <h6 class="m-0 font-weight-bold text-cyan">이름 : ${sessionScope.user.userName}</h6>
-                                   <h6 class="m-0 font-weight-bold text-cyan">이메일 : ${sessionScope.user.userEmail}</h6>
-                                   <h6 class="m-0 font-weight-bold text-cyan">주소 : ${sessionScope.user.userAdd}</h6>
-                                   <h6 class="m-0 font-weight-bold text-cyan">전화번호 : ${sessionScope.user.userTell}</h6>
-                                   <h6 class="m-0 font-weight-bold text-cyan">생일 : ${sessionScope.user.userBirth}</h6>
+                                   <h6 class="m-0 font-weight-bold text-cyan">★ 아이디 : ${sessionScope.user.userID}</h6><br>
+                                   <h6 class="m-0 font-weight-bold text-cyan">★ 비밀번호 : ${sessionScope.user.userPW}</h6><br>
+                                   <h6 class="m-0 font-weight-bold text-cyan">★ 이름 : ${sessionScope.user.userName}</h6><br>
+                                   <h6 class="m-0 font-weight-bold text-cyan">★ 이메일 : ${sessionScope.user.userEmail}</h6><br>
+                                   <h6 class="m-0 font-weight-bold text-cyan">★ 주소 : ${sessionScope.user.userAdd}</h6><br>
+                                   <h6 class="m-0 font-weight-bold text-cyan">★ 전화번호 : ${sessionScope.user.userTell}</h6><br>
+                                   <h6 class="m-0 font-weight-bold text-cyan">★ 생일 : ${sessionScope.user.userBirth}</h6><br>
+                                </div>
+                                
+                                <div class="card-body text-center mypageitem" id="modifyProfile">
+                                   <!-- 개인정보 출력 -->
+                                   <h6 class="m-0 font-weight-bold text-cyan">★ 아이디 : ${sessionScope.user.userID}</h6><br>
+                                   <input type ="hidden" id = "userID" name ="userID" value="${sessionScope.user.userID}">
+                                   <h6 class="m-0 font-weight-bold text-cyan">★ 비밀번호
+                                   <input type="text" class="form-control form-control-user" 
+                                    id="userPW" name = "userPW" value="${sessionScope.user.userPW}"></h6><br>
+                                   <h6 class="m-0 font-weight-bold text-cyan">★ 이름
+                                   <input type="text" class="form-control form-control-user" 
+                                    id="userName" name = "userName" value="${sessionScope.user.userName}"></h6><br>
+                                   <h6 class="m-0 font-weight-bold text-cyan">★ 이메일
+                                   <input type="email" class="form-control form-control-user" 
+                                    id="userEmail" name = "userEmail" value="${sessionScope.user.userEmail}"></h6><br>
+                                   <h6 class="m-0 font-weight-bold text-cyan">★ 주소
+                                   <input type="text" class="form-control form-control-user" 
+                                    id="userAdd" name = "userAdd" value="${sessionScope.user.userAdd}"></h6><br>
+                                   <h6 class="m-0 font-weight-bold text-cyan">★ 전화번호
+                                   <input type="text" class="form-control form-control-user" 
+                                    id="userTell" name = "userTell" value="${sessionScope.user.userTell}"></h6><br>
+                                   <h6 class="m-0 font-weight-bold text-cyan">★ 생일
+                                   <input type="date" class="form-control form-control-user" 
+                                    id="userBirth" name = "userBirth" value="${sessionScope.user.userBirth}"></h6><br>
+                                   <a onclick="modifyProfile()" class="btn btn-info btn-icon-split btn-sm">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-flag"></i>
+                                        </span>
+                                        <span class="text">완료</span>
+                                    </a>
                                 </div>
                             </div>
 
                             <!-- Basic Card Example -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
+                            <div class="card shadow mb-4 mypageitem "id="manageFileCloud">
+                                <div class="card-header d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">파일 클라우드</h6>
+                                    <a href="/storage/personal" class="btn btn-primary btn-icon-split btn-sm">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-flag"></i>
+                                        </span>
+                                        <span class="text">이동하기</span>
+                                    </a>
                                 </div>
                                 <div class="card-body">
                                     <h6 class="m-0 font-weight-bold text-orange text-center">504 MB / 1 GB</h6>
@@ -478,41 +558,69 @@
                                 </div>
                             </div>
 
-                        </div>
-
-                        <div class="col-lg-6">
-
                             <!-- Dropdown Card Example -->
-                            <div class="card shadow mb-4">
+                            <div class="card shadow mb-4 mypageitem" id="manageProject">
                                 <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <div class="card-header d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">프로젝트 관리</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
+                                    <a onclick="showModifyProject()" class="btn btn-primary btn-icon-split btn-sm">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-flag"></i>
+                                        </span>
+                                        <span class="text">수정하기</span>
+                                    </a>
                                 </div>
                                 <!-- Card Body -->
-                                <div class="card-body">
-                                    <h6 class="m-0 font-weight-bold text-cyan">프로젝트 1 : ★WWE★</h6>
-                                    <h6 class="m-0 font-weight-bold text-cyan">프로젝트 2 : IC</h6>
-                                    <h6 class="m-0 font-weight-bold text-cyan">프로젝트 3 : 한이음</h6>
-                                    <h6 class="m-0 font-weight-bold text-cyan">프로젝트 4 : College Party</h6>
-                                    <h6 class="m-0 font-weight-bold text-cyan">프로젝트 5 : Let's go Jeju</h6>
-                                    
+                                <div class="card-body text-center" id="showProject">
+                                    <h6 class="m-0 font-weight-bold text-cyan">♣ ${sessionScope.project.userProject[1]}</h6><br>
+                                    <h6 class="m-0 font-weight-bold text-cyan">♣ ${sessionScope.project.userProject[2]}</h6><br>
+                                    <h6 class="m-0 font-weight-bold text-cyan">♣ ${sessionScope.project.userProject[3]}</h6><br>
+                                    <h6 class="m-0 font-weight-bold text-cyan">♣ ${sessionScope.project.userProject[4]}</h6><br>
+                                    <h6 class="m-0 font-weight-bold text-cyan">♣ ${sessionScope.project.userProject[5]}</h6><br>
                                 </div>
+                                <div class="card-body text-center mypageitem" id="modifyProject">
+                                   <h6 class="m-0 font-weight-bold text-cyan">♣ ${sessionScope.project.userProject[1]} 
+                                   <a href="#" class="btn btn-danger btn-icon-split btn-sm">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-trash"></i>
+                                        </span>
+                                        <span class="text">탈퇴</span>
+                                    </a></h6> <br>
+                                   <h6 class="m-0 font-weight-bold text-cyan">♣ ${sessionScope.project.userProject[2]}
+									<a href="#" class="btn btn-danger btn-icon-split btn-sm">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-trash"></i>
+                                        </span>
+                                        <span class="text">탈퇴</span>
+                                    </a></h6> <br>
+                                   <h6 class="m-0 font-weight-bold text-cyan">♣ ${sessionScope.project.userProject[3]}
+									<a href="#" class="btn btn-danger btn-icon-split btn-sm">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-trash"></i>
+                                        </span>
+                                        <span class="text">탈퇴</span>
+                                    </a></h6> <br>
+                                   <h6 class="m-0 font-weight-bold text-cyan">♣ ${sessionScope.project.userProject[4]}
+                                   <a href="#" class="btn btn-danger btn-icon-split btn-sm">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-trash"></i>
+                                        </span>
+                                        <span class="text">탈퇴</span>
+                                    </a></h6> <br>
+                                   <h6 class="m-0 font-weight-bold text-cyan">♣ ${sessionScope.project.userProject[5]}
+                                   <a href="#" class="btn btn-danger btn-icon-split btn-sm"> 
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-trash"></i>
+                                        </span>
+                                        <span class="text">탈퇴</span>
+                                    </a></h6> <br>
+                                </div>
+                                
+                               
+                                
                             </div>
+                            
+                            
 
                             <!-- Collapsable Card Example -->
                             <!-- <div class="card shadow mb-4">
@@ -577,10 +685,10 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">로그아웃???????????????????</div>
                 <div class="modal-footer">
+                	<a class="btn btn-primary" href="/member/logout">Logout</a>
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="/member/logout">Logout</a>
                 </div>
             </div>
         </div>
