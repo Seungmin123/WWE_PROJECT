@@ -19,7 +19,7 @@
         </head>
 
         <body id="page-top">
-
+        
             <!-- Page Wrapper -->
             <div id="wrapper">
 
@@ -371,10 +371,6 @@
                                                     href="${context}/task/add">
                                                     <i class="fas fa-plus"></i>
                                                 </a>
-                                                <a class="icon btn text-white bg-gray-300 shadow-sm"
-                                                    onclick="removeTask()">
-                                                    <i class="fas fa-minus"></i>
-                                                </a>
                                             </span>
                                         </div>
                                         <div class="d-flex justify-content-between">
@@ -382,7 +378,7 @@
                                                 <input type="checkbox">
                                             </div>
                                             <a class="mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm d-flex align-items-center justify-content-center text-gray-600 border-0"
-                                                href="${context}/task/detail">
+                                                href="${context}/task/detail" id="todozone" ondragstart="onDragStart(event);">
                                                 <div>
                                                     화면설계하기
                                                 </div>
@@ -401,7 +397,7 @@
                                             <span class="h3 pt-2 text-white">DOING</span>
                                         </a>
                                     </div>
-                                    <div class="card-body">
+                                    <div class="card-body" ondragover="onDragOver(event);" ondrop="onDrop(event);" id="doingzone">
                                     </div>
                                 </div>
 
@@ -412,7 +408,7 @@
                                             <span class="h3 pt-2 text-white">DONE</span>
                                         </a>
                                     </div>
-                                    <div class="card-body">
+                                    <div class="card-body" ondrop="drop(event)" ondragover="allowDrop(event)" id="donezone">
 
                                     </div>
                                 </div>
@@ -475,8 +471,11 @@
 
             <!-- Custom scripts for all pages-->
             <script src="/resources/js/sb-admin-2.min.js"></script>
+            
+            <!-- drag&drop -->
+             <script src="/resources/js/task/drag.js"></script>
 
-
+			
         </body>
 
         </html>

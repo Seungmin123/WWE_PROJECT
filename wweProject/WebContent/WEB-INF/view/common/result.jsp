@@ -22,7 +22,11 @@
       <c:if test="${url != null}">
          //location.href: 현재 페이지의 url 출력
          location.href = context + '${url}'; 
+<<<<<<< HEAD
       </c:if>
+=======
+      </c:if>                                             
+>>>>>>> branch 'sayeong' of https://github.com/yeongwoojang/WWE_PROJECT.git
    </script>
 </body>
 </html>
