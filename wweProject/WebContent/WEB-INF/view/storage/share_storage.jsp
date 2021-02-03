@@ -330,17 +330,21 @@
                                             			<td>${fileData.userId}</td>
                                             			<td>${fileData.fileContent}</td>
                                             			<td>
-                                                            <a href="#" onclick="downloadFile(
+                                                            <a href="#" class="text-info" onclick="downloadFile(
                                                                 '${fileData.fileName}',
                                                                 '${fileData.fileRename}',
                                                                 '${fileData.filePath}'
-                                                            )">download</a>
-                                                            <a href="#" onclick="deleteFile(
+                                                            )">
+                                                            	<i class="fas fa-file-download"></i>
+                                                            </a>
+                                                            <a href="#" class="text-danger" onclick="deleteFile(
                                                             	'${fileData.fileIdx}',
                                                                 '${fileData.fileRename}',
                                                                 '${fileData.filePath}',
                                                                 true
-                                                            )">delete</a>
+                                                            )">
+                                                            	<i class="fas fa-trash-alt"></i>
+                                                            </a>
                                                         </td>
                                             			<td>${fileData.updateDate}</td>                                    
                                             		</tr>

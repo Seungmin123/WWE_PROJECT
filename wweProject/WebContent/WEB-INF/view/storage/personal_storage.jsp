@@ -313,7 +313,7 @@
                             </div>
                                 <div class="card-body overflow-auto">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
                                                     <th>FileName</th>
@@ -329,17 +329,21 @@
                                             			<td>${fileData.fileName}</td>
                                             			<td>${fileData.fileContent}</td>
                                             			<td>
-                                                            <a href="#" onclick="downloadFile(
+                                                            <a href="#" class="text-info"  onclick="downloadFile(
                                                                 '${fileData.fileName}',
                                                                 '${fileData.fileRename}',
                                                                 '${fileData.filePath}'
-                                                            )">download</a>
-                                                            <a href="#" onclick="deleteFile(
+                                                            )">
+                                                            	<i class="fas fa-file-download"></i>
+                                                            </a>
+                                                            <a href="#" class="text-danger" onclick="deleteFile(
                                                             	'${fileData.fileIdx}',
                                                                 '${fileData.fileRename}',
                                                                 '${fileData.filePath}',
                                                                 false
-                                                            )">delete</a>
+                                                            )">
+                                                            	<i class="fas fa-trash-alt"></i>
+                                                            </a>
                                                         </td>
                                             			<td>${fileData.updateDate}</td>                                    
                                             		</tr>

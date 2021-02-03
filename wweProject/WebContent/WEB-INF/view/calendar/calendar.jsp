@@ -335,25 +335,15 @@
                                 </div>
                                 <div class="card-body">
                                     <div id="user-list">
-                                    	<div class="card shadow mb-4">
-                                    		<div class="card-body border d-flex justify-content-between">
-                                    		김선민
-                                    		<a href="#" class="btn btn-success btn-circle">
-                                       			 <i class="fas fa-check"></i>
-                                    		</a>
-                                    		</div>
-                                    		<div class="card-body border d-flex justify-content-between">
-                                    		이승민
-                                    		<a href="#" class="btn btn-success btn-circle">
-                                       			 <i class="fas fa-check"></i>
-                                    		</a>
-                                    		</div>
-                                    		<div class="card-body border d-flex justify-content-between">
-                                    		장영우
-                                    		<a href="#" class="btn btn-success btn-circle">
-                                       			 <i class="fas fa-check"></i>
-                                    		</a>
-                                    		</div>
+                                    	<div class="card shadow mb-4">                                  		
+                                    		<c:forEach var="user" items="${userList}">
+                                    			<div class="card-body border d-flex justify-content-between">
+                                    				${user.userId}
+                                    				<a href="#" class="btn btn-danger btn-circle" onclick="checkValue(this)">
+                                       			 		<i class="fas fa-times"></i>
+                                    				</a>
+                                    			</div>
+                                    		</c:forEach>
                                     	</div>
                                     </div>
                                 </div>
@@ -460,6 +450,19 @@
             });
             calendar.render();
           });
+        </script>
+        <script type="text/javascript">
+        	function checkValue(id) {
+        		console.dir(id);
+                id.parentElement.style.color = "red";
+                id.className = "btn btn-success btn-circle";
+                
+                let mark = document.createElement('i');
+                mark.className = "fas fa-check";
+                
+                id.innerHTML = "";
+                id.appendChild(mark);
+			}
         </script>
 
 </body>
