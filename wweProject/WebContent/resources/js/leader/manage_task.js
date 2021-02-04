@@ -4,6 +4,7 @@
 
 let isChk = $('#wholeChk').data('chk');
 let pageIdx = 1;
+let pageCycle = 3;
 //전체선택 클릭 시
 function wohleCheck(){
    if($('#wholeChk').data('chk')==false){
@@ -32,49 +33,88 @@ $(document).on('click','#btn_page',function(event){
 });
 
 //다음버튼 클릭 시
-$(document).on('click','#btn_next',function(e){
-	let lastPage;
-	document.querySelectorAll('#btn_page').forEach((e,i)=>{
+let nextBtnClick =(totalPageCount)=>{
+	if(pageIdx!=totalPageCount){
+		let lastPage;
+		document.querySelectorAll('#btn_page').forEach((e,i)=>{
 		lastPage = e.getAttribute('idx');
 	});
-	if(pageIdx!=lastPage){
-			pageIdx++;
-	document.querySelectorAll('#wrap_btn_page').forEach((e,i)=>{
+	
+	if(pageIdx<lastPage){
+		pageIdx++;
+		document.querySelectorAll('#wrap_btn_page').forEach((e,i)=>{
 		if(e.childNodes[0].getAttribute('idx')==pageIdx){
 			e.className = "paginate_button page-item previous active";
-			document.querySelector('tbody').innerHTML="";
-			selectTaskList();
 		}else{
 			e.className = "paginate_button page-item previous";
 		}
+		document.querySelector('tbody').innerHTML="";
+		selectTaskList();
 	});
-	document.querySelector('tbody').innerHTML="";
-	selectTaskList();
+	
+	}else if(pageIdx==lastPage){
+		pageIdx++;
+		pageCycle = totalPageCount - (totalPageCount - pageIdx);
+		document.querySelector('#paging_ui').innerHTML = "";
+		doPaging();
+		document.querySelectorAll('#wrap_btn_page').forEach((e,i)=>{
+		if(e.childNodes[0].getAttribute('idx')==pageIdx){
+			e.className = "paginate_button page-item previous active";
+		}else{
+			e.className = "paginate_button page-item previous";
+		}
+		document.querySelector('tbody').innerHTML="";
+			selectTaskList();
+	});
 	}
-
-});
-
-//이전버튼 클릭 시
-$(document).on('click','#btn_prev',function(e){
-	if(pageIdx!=1){
-		pageIdx--;
-	document.querySelectorAll('#wrap_btn_page').forEach((e,i)=>{
-		if(e.childNodes[0].getAttribute('idx')==pageIdx){
-			e.className = "paginate_button page-item previous active";
-			document.querySelector('tbody').innerHTML="";
-			selectTaskList();
-		}else{
-			e.className = "paginate_button page-item previous";
-		}
-	});
-	document.querySelector('tbody').innerHTML="";
-	selectTaskList();
 	}
 	
-});
+}
+//이전버튼 클릭 시
+let prevBtnClick = (totalPageCount)=>{
+		if(pageIdx!=1){
+			let firstPage;
+			document.querySelectorAll('#btn_page').forEach((e,i)=>{
+				if(i==0){
+					firstPage = e.getAttribute('idx');
+					return false;
+				}
+			
+			});
+			
+			if(pageIdx!=firstPage){
+				
+				pageIdx--;
+				document.querySelectorAll('#wrap_btn_page').forEach((e,i)=>{
+				if(e.childNodes[0].getAttribute('idx')==pageIdx){
+					e.className = "paginate_button page-item previous active";
+				}else{
+					e.className = "paginate_button page-item previous";
+				}
+				document.querySelector('tbody').innerHTML="";
+				selectTaskList();
+				});
+			}else if(pageIdx==firstPage){
+				pageCycle = 3;	
+				pageIdx = pageIdx - pageCycle;
+				document.querySelector('#paging_ui').innerHTML = "";
+				doPaging();
+				document.querySelectorAll('#wrap_btn_page').forEach((e,i)=>{
+				if(e.childNodes[0].getAttribute('idx')==pageIdx+pageCycle-1){
+					e.className = "paginate_button page-item previous active";
+					pageIdx = pageIdx+pageCycle-1;
+				}else{
+					e.className = "paginate_button page-item previous";
+				}
+				document.querySelector('tbody').innerHTML="";
+					selectTaskList();
+					 
+				});
+			}
+		}
+	}
 
 //페이지를 새로고침하는 함수
 let reloadPage = ()=>{
 	location.reload();
 }
-
