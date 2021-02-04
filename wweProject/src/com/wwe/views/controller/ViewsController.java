@@ -55,13 +55,16 @@ public class ViewsController extends HttpServlet {
 	}
 	
 	private void viewcalendar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("잘들어감");
 		
 		// 해당 프로젝트의 이름을 받아온다...
 		String pId = "프로젝트 1";
 		
 		//해당 프로젝트의 구성원 정보를 받아 request로 넘겨준다.
 		List<ProjUser> userList = leaderService.selectUserListByPid(pId);
+		//ArrayList<Task> myList = taskService.selectMyList(userId); 희원이누나 구현중인듯
+		// 값을 Task 배열로 저장하즈아아!!!!
+		
+		
 		request.setAttribute("userList", userList);
 		request.getRequestDispatcher("/WEB-INF/view/calendar/calendar.jsp").forward(request, response);
 	}

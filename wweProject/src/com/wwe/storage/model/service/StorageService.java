@@ -34,7 +34,6 @@ public class StorageService {
 				}else {
 					storageDao.insertPersonalStorage(conn, data);
 				}
-				
 			}
 			jdt.commit(conn);
 		} catch (Exception e) {

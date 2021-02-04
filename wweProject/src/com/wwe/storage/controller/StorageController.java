@@ -2,6 +2,7 @@ package com.wwe.storage.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import org.apache.catalina.Session;
 
 import com.wwe.common.util.file.FileUtils;
 import com.wwe.common.util.file.FileVo;
+import com.wwe.common.util.page.PageUtils;
 import com.wwe.member.model.vo.Member;
 import com.wwe.storage.model.service.StorageService;
 
@@ -74,8 +76,14 @@ public class StorageController extends HttpServlet {
 		HttpSession session = request.getSession();
 		Member member = (Member) session.getAttribute("user");
 		
-		Map<String, Object> commandMap = storageService.selectStorage(member.getUserID(),false);		
-		request.setAttribute("data", commandMap);
+		Map<String, Object> commandMap = storageService.selectStorage(member.getUserID(),false);
+		List<Object> fileList = (List<Object>) commandMap.get("fileList");		
+		
+		PageUtils page = new PageUtils(request.getParameter("page"), fileList.size());
+		request.setAttribute("dataList", page.getCommandList(fileList));
+		request.setAttribute("viewList", page.getViewPages());
+		request.setAttribute("pageNum", page.getPageNum());
+		request.setAttribute("maxPage", page.getMaxPageNum());
 		request.getRequestDispatcher("/WEB-INF/view/storage/personal_storage.jsp").forward(request, response);
 	}
 	
@@ -83,8 +91,14 @@ public class StorageController extends HttpServlet {
 		
 		String idx = "project1";
 
-		Map<String, Object> commanMap = storageService.selectStorage(idx,true);
-		request.setAttribute("data", commanMap);
+		Map<String, Object> commandMap = storageService.selectStorage(idx,true);
+		List<Object> fileList = (List<Object>) commandMap.get("fileList");
+		
+		PageUtils page = new PageUtils(request.getParameter("page"), fileList.size());
+		request.setAttribute("dataList", page.getCommandList(fileList));
+		request.setAttribute("viewList", page.getViewPages());
+		request.setAttribute("pageNum", page.getPageNum());
+		request.setAttribute("maxPage", page.getMaxPageNum());
 		request.getRequestDispatcher("/WEB-INF/view/storage/share_storage.jsp").forward(request, response);
 	}
 	

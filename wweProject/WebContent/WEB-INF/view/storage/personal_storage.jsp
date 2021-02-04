@@ -324,7 +324,7 @@
                                             </thead>
                                             <tbody id="table-data">
                                             	
-                                            	<c:forEach var="fileData" items="${data.fileList}">
+                                            	<c:forEach var="fileData" items="${dataList}">
                                             		<tr>
                                             			<td>${fileData.fileName}</td>
                                             			<td>${fileData.fileContent}</td>
@@ -350,6 +350,33 @@
                                             	</c:forEach>
                                             </tbody>
                                         </table>
+                                        <ul class="pagination">
+                                            <li class="page-item">
+                                            <a class="page-link" href="${context}/storage/personal?page=1">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                            </li>
+                                            <c:forEach var="item" items="${viewList}" varStatus="status">
+                                            	<c:choose>
+                                            		<c:when test="${item eq pageNum}">
+                                            			<li class="page-item bg-primary"><a class="page-link bg-primary text-white" href="${context}/storage/personal?page=${item}">${item}</a></li>
+                                            		</c:when>
+                                             		<c:when test="${item > maxPage}">
+                                            			<li class="page-item disabled"><a class="page-link">${item}</a></li>
+                                            		</c:when>
+                                            		<c:otherwise>
+                                            			<li class="page-item"><a class="page-link" href="${context}/storage/personal?page=${item}">${item}</a></li>
+                                            		</c:otherwise>
+                                            	</c:choose>
+                                            
+                                            </c:forEach>
+    
+                                            <li class="page-item">
+                                            <a class="page-link" href="${context}/storage/personal?page=0">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                         </div>
