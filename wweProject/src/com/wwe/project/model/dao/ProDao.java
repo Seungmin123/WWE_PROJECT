@@ -19,7 +19,7 @@ public class ProDao {
 	
 	JDBCTemplate jdt = JDBCTemplate.getInstance();
 	
-	//새 프로젝트 생성 (view 단에서 받아오기)
+	//새 프로젝트 생성해서 DB에 추가
 	public int insertNewProject(Connection conn, Project project) {
 	      int res = 0;
 	      PreparedStatement pstm = null;
@@ -41,14 +41,14 @@ public class ProDao {
 	         throw new DataAccessException(ErrorCode.IB01, e); 
 	
 	      }finally {
-	    	  jdt.close(pstm);
+	    	  jdt.close(rset,pstm);
 	      }
 	      
 	      return res;
 	   }
 	
 	//새 프로젝트의 참여자 - DB에서 아이디로 식별해 가져오고, 보여주는 건 이름
-	public Member addMember(Connection conn, String userId, String userName) {
+	public Member selectMember(Connection conn, String userId, String userName) {
 		Member member = new Member();
 		PreparedStatement pstm = null;
 		ResultSet rset = null;

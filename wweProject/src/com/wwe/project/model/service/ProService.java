@@ -11,17 +11,16 @@ import com.wwe.project.model.dao.ProDao;
 import com.wwe.project.model.vo.Project;
 
 public class ProService {
-
-	JDBCTemplate jdt = JDBCTemplate.getInstance();
 	ProDao proDao = new ProDao();
-	Project pro = new Project();
+	JDBCTemplate jdt = JDBCTemplate.getInstance();
 	
 	//새 프로젝트 생성
-	public Project createProject(Project project){
+	public int createProject(Project project){
 		Connection conn = jdt.getConnection();
+		int res = 0;
 		
 		try {
-			proDao.insertNewProject(conn,project);
+			res = proDao.insertNewProject(conn,project);
 			jdt.commit(conn);
 			
 		} catch (DataAccessException e) {
@@ -31,16 +30,16 @@ public class ProService {
 			jdt.close(conn);
 		}
 		
-		return project;
+		return res;
 	}
 	
-	//새 프로젝트 참여자
+	//새 프로젝트 참여자 추가
 	public Member addMember(String userId, String userName){
 		Connection conn = jdt.getConnection();
 		Member member = null;
 		
 		try {
-			member = proDao.addMember(conn, userId, userName);
+			member = proDao.selectMember(conn, userId, userName);
 		}finally {
 			jdt.close(conn);
 		}
