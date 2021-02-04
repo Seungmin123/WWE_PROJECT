@@ -452,36 +452,45 @@
 				<!-- 팀원 별 표시 -->
 				<script>
 				
+				<!-- 업무리스트 출력 -->
+             	<script>
+				
 				$(function(){
     					selectTaskList();
    				 });
     			let selectTaskList = ()=>{
-       				 let divElement;
-       				 let aElement;
-        			 let spanElment;
-       			<c:forEach var="task" items="${taskList}" varStatus="status">
-          			 divElement = document.createElement('div');
-          			 document.querySelector('.leaderList').appendChild(divElement);
-               	<c:forEach var="i" begin="0" end="3" step="1">
-                 	 tdElement = document.createElement('td');
-                  	<c:if test="${i==0}">
-                  		divElement.innerHTML ="${task.taskId}";
-                  	</c:if>
-    			  	<c:if test="${i ==3}">
-    			  			tdElement.align="right";
-    			 			buttonElement = document.createElement('button');
-    			  			buttonElement.className = "btn btn-warning btn-sm mr-5 px-3 py-1";
-    			  			buttonElement.innerHTML="수정"
-    			  			inputElement = document.createElement('input');
-    			  			inputElement.className="form-check-input";
-    			  			inputElement.type="checkbox";
-    			  			inputElement.name="_selected_";
-    			  			inputElement.value="ROW_1";
-    			  			tdElement.appendChild(buttonElement);
-    			  			tdElement.appendChild(inputElement);
-                  	</c:if>
-                  			trElement.appendChild(tdElement);
-               		</c:forEach>
+       				 let todotask;
+       				 let checkBox;
+        			 let inputElement;
+        			 let todobutton;
+        			 let taskName;
+        			 let issue;
+       			<c:forEach var="task" items="${taskist}" varStatus="status">
+          			<c:if test="${my.taskState == 'ST00'}" >
+       					todotask = document.createElement('div');
+       					todobutton = document.createElement('div');
+       					issue = document.createElement('span');
+       					taskName = document.createElement('a');
+
+       					todotask.setAttribute('class','d-flex justify-content-between');
+       					todobutton.setAttribute('class', 'mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm align-items-center justify-content-center border-0');
+       					todobutton.setAttribute('ondragstart','onDragStart(event);');
+       					todobutton.setAttribute('draggable','true');
+       					todobutton.setAttribute('id','todozone');
+       					taskName.setAttribute('class','text-gray-600');
+       					taskName.setAttribute('href','${context}/task/detail');
+       					issue.setAttribute('class','btn btn-sm ml-1 mr-1');
+
+       					taskName.innerHTML += '${my.taskId}';
+				
+       					checkBox.appendChild(inputElement);
+       					todobutton.appendChild(taskName);
+       					todobutton.appendChild(issue);
+       					todotask.appendChild(todobutton);
+
+       					document.querySelector('.todolist').appendChild(todotask);
+
+              		</c:if>
         		</c:forEach>
     }
     </script>
