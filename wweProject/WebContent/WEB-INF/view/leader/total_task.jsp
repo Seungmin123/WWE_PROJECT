@@ -473,9 +473,11 @@
     	prevBtn.href="#";
     	prevBtn.setAttribute("aria-controls","dataTable");
     	prevBtn.setAttribute('id','btn_prev');
+    	prevBtn.setAttribute('onclick','prevBtnClick('+pageCount+')');
     	wrapPrevBtn.appendChild(prevBtn);
     	document.querySelector('#paging_ui').appendChild(wrapPrevBtn);
-    	for(i=0;i<pageCount;i++){
+    	for(i=pageIdx-1;i<pageCycle;i++){
+    		console.log("i : "+pageIdx);
     		let liElement = document.createElement('li');
     		liElement.setAttribute('id','wrap_btn_page');
     		if(i==0){
@@ -500,6 +502,7 @@
      	nextBtn.href="#";
      	nextBtn.setAttribute("aria-controls","dataTable");
      	nextBtn.setAttribute('id','btn_next');
+     	nextBtn.setAttribute('onclick','nextBtnClick('+pageCount+')');
      	nextBtn.innerHTML="다음";
      	wrapNextBtn.appendChild(nextBtn);
      	
