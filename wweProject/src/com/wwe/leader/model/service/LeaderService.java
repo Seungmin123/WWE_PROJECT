@@ -94,7 +94,17 @@ public class LeaderService {
 		return res;
 	}
 	
-	
+	public ArrayList<Task> selectSearchTask(Task task){
+		Connection conn = jdt.getConnection();
+		ArrayList<Task> taskList = new ArrayList<>();
+		try {
+			taskList = leaderDao.selectSearchTask(conn, task);
+		}finally {
+			jdt.close(conn);
+		}
+		
+		return taskList;
+	}
 	
 	
 	
