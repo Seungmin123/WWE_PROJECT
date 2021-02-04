@@ -168,6 +168,8 @@ public class TaskDao {
 				task.setTaskId(rset.getString("task_id"));
 				task.setTaskPriority(rset.getString("task_priority"));
 				task.setTaskState(rset.getString("task_state"));
+				task.setDeadLine(rset.getString("dead_line"));
+				task.setStartDate(rset.getString("start_date"));
 				
 				myList.add(task);
 			}
