@@ -54,12 +54,16 @@
                                             Login
                                         </a>
                                         <hr>
-                                        <a href="index.html" class="btn btn-google btn-user btn-block">
-                                            <i class="fab fa-google fa-fw"></i> Login with Google
+                                       
+										<a href="https://kauth.kakao.com/oauth/authorize?
+										client_id=aede6a7de778e3191a75f6f270b8e947&
+										redirect_uri=http://localhost:9393/member/kakao&
+										response_type=code" 
+										class="btn btn-kakao btn-user btn-block">
+                                            <i class="fab fa-kickstarter-k fa-fw"></i> Login with Kakao
                                         </a>
-                                        <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                            <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                                        </a>
+                                      
+                                        
                                     </form>
                                     <hr>
                                     <div class="text-center">
@@ -90,6 +94,7 @@
     <!-- Custom scripts for all pages-->
     <script src="../resources/js/sb-admin-2.min.js"></script>
     <script src="../resources/js/model/signController.js"></script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 
 </body>
 
