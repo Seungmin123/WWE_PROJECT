@@ -301,10 +301,10 @@
                     <!-- 검색inputBox시작 -->
                         <form class=" form-inline float-right mb-2 mt-2">
                             <div class="input-group input-group-sm">
-                                <input type="text" class="form-control bg-light border small" placeholder="검색" aria-label="Search" aria-describedby="inputGroup-sizing-sm">
+                                <input type="text" class="form-control bg-light border small" id="inp_word" placeholder="검색" aria-label="Search" aria-describedby="inputGroup-sizing-sm">
                                 <div class="input-group-append">
                                     <!-- 검색 버튼 -->
-                                    <button class="btn btn-secondary" type="button">
+                                    <button class="btn btn-secondary" id="btn_search" onclick="searchTask();" type="button">
                                         <i class="fas fa-search fa-sm"></i>
                                     </button>
                                     <!-- 검색버튼 끝 -->
@@ -398,27 +398,38 @@
     <script src="/resources/js/leader/manage_task.js"></script>
     <script>
     $(function(){
-    	selectTaskList();
-    	doPaging();
+    	selectTaskList("");
+    	doPaging("");
     });
     //동적으로 업무리스트 게시판 생성하는 함수
-    let selectTaskList = ()=>{
+    let selectTaskList = (data)=>{
         
         let task;
+       
 		let sliceTaskList;
-		
-		let taskList = new Array();
-        
-   		<c:forEach var="i" begin="0" end="${taskList.size()-1}" step="1">
+		let taskList;
+       
+		let pageCount;
+		if(data==""){
+			taskList = new Array();
+			<c:forEach var="i" begin="0" end="${taskList.size()-1}" step="1">
    			task = new Object();
    			task.tIdx = "${taskList.get(i).tIdx}";
    			task.userId = "${taskList.get(i).userId}";
    			task.taskId = "${taskList.get(i).taskId}";
    			taskList.push(task);
-   		</c:forEach>
+   			</c:forEach>
+   			
+   			pageCount = taskList.length / 10 == 0 ? taskList.length/10 : parseInt(taskList.length/10) + 1;
+		}else{
+			taskList = data;
+			pageCount = data.length / 10 == 0 ? taskList.length/10 : parseInt(taskList.length/10) + 1;
+		}
    		
-   		let pageCount = taskList.length / 10 == 0 ? taskList.length/10 : parseInt(taskList.length/10) + 1;
+   		
+   		
    		sliceTaskList = new Array(pageCount);
+   		
    		let iSize = 0;
    		for(i = 0; i < sliceTaskList.length; i++){
    			sliceTaskList[i] = new Array();
@@ -461,10 +472,17 @@
     }
     
     //페이징 처리를 위한 번호 버튼을 생성하는 함수
-    let doPaging =()=>{
-    	let taskCount = "${taskCount}";
+    let doPaging =(count)=>{
+    	let taskCount;
+    	if(count==""){
+    		taskCount = "${taskCount}";
+    	}else{
+    		taskCount = count;
+    	}
     	let pageCount = taskCount%10==0 ? taskCount/10 : parseInt(taskCount/10)+1;
-    	
+    	if(taskCount<=10){
+    		pageCycle = 1;
+    	}
     	let wrapPrevBtn = document.createElement('li');
     	wrapPrevBtn.className ="paginate_button page-item previous";
     	let prevBtn = document.createElement('a');
@@ -477,7 +495,6 @@
     	wrapPrevBtn.appendChild(prevBtn);
     	document.querySelector('#paging_ui').appendChild(wrapPrevBtn);
     	for(i=pageIdx-1;i<pageCycle;i++){
-    		console.log("i : "+pageIdx);
     		let liElement = document.createElement('li');
     		liElement.setAttribute('id','wrap_btn_page');
     		if(i==0){
