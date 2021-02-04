@@ -1,6 +1,9 @@
 package com.wwe.storage.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -10,7 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.Session;
+
 import com.wwe.common.util.file.FileUtils;
+import com.wwe.common.util.file.FileVo;
+import com.wwe.common.util.page.PageUtils;
+import com.wwe.member.model.vo.Member;
 import com.wwe.storage.model.service.StorageService;
 
 
@@ -40,10 +48,10 @@ public class StorageController extends HttpServlet {
 			shareStorage(request,response);
 			break;
 		case "pUpload":
-			uploadFile(request,response,false);
+			uploadFile(request,response,false); // 개인저장소 관련
 			break;
 		case "sUpload":
-			uploadFile(request,response,true);
+			uploadFile(request,response,true); // 공유저장소 관련
 			break;
 		case "download":
 			downloadFile(request,response);
@@ -65,31 +73,50 @@ public class StorageController extends HttpServlet {
 	}
 	
 	private void personalStorage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String idx = "sunmin";
-		Map<String, Object> commandMap = storageService.selectStorage(idx,false);
-		request.setAttribute("data", commandMap);
+		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("user");
+		
+		Map<String, Object> commandMap = storageService.selectStorage(member.getUserID(),false);
+		List<Object> fileList = (List<Object>) commandMap.get("fileList");		
+		
+		PageUtils page = new PageUtils(request.getParameter("page"), fileList.size());
+		request.setAttribute("dataList", page.getCommandList(fileList));
+		request.setAttribute("viewList", page.getViewPages());
+		request.setAttribute("pageNum", page.getPageNum());
+		request.setAttribute("maxPage", page.getMaxPageNum());
 		request.getRequestDispatcher("/WEB-INF/view/storage/personal_storage.jsp").forward(request, response);
 	}
 	
 	private void shareStorage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		String idx = "project1";
-		Map<String, Object> commanMap = storageService.selectStorage(idx,true);
-		request.setAttribute("data", commanMap);
+
+		Map<String, Object> commandMap = storageService.selectStorage(idx,true);
+		List<Object> fileList = (List<Object>) commandMap.get("fileList");
+		
+		PageUtils page = new PageUtils(request.getParameter("page"), fileList.size());
+		request.setAttribute("dataList", page.getCommandList(fileList));
+		request.setAttribute("viewList", page.getViewPages());
+		request.setAttribute("pageNum", page.getPageNum());
+		request.setAttribute("maxPage", page.getMaxPageNum());
 		request.getRequestDispatcher("/WEB-INF/view/storage/share_storage.jsp").forward(request, response);
 	}
 	
 	private void uploadFile(HttpServletRequest request, HttpServletResponse response,boolean isTeam) throws ServletException, IOException {
 		// 파일 업로드
 		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("user");
 		
-		// 유저 객체 생성할곳
-		if(isTeam) {
-			request.setAttribute("filterPath", "project1");
-			storageService.insertStroage("im","project1",isTeam, request);		
+		String userId = member.getUserID();
+		String projectId = "project1"; // 프로젝트 입장 기능 추가후에 사용가능
+		
+		// 로그인한 세션정보로 파일을 업로드
+		request.setAttribute("filterPath", userId);
+		storageService.insertStroage(userId,projectId,isTeam, request);
+		
+		if(isTeam) {	
 			response.sendRedirect("/storage/share");
-		}else {
-			request.setAttribute("filterPath", "sunmin");
-			storageService.insertStroage("sunmin","project1",isTeam, request);		
+		}else {	
 			response.sendRedirect("/storage/personal");
 		}
 	}

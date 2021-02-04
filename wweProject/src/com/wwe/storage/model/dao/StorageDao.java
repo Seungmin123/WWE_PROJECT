@@ -101,7 +101,8 @@ public class StorageDao {
 		
 		String sql = "select file_name,file_content,file_path,update_date,file_rename,file_idx,user_id "
 					+ "from tb_private_file "
-					+ "where user_id = ? and is_del = 0";
+					+ "where user_id = ? and is_del = 0 "
+					+ "order by file_idx desc";
 		
 		res = new ArrayList<FileVo>();
 
@@ -137,7 +138,8 @@ public class StorageDao {
 		
 		String teamSql = "select file_name,file_content,file_path,update_date,file_rename,file_idx,user_id "
 						+ "from tb_public_file "
-						+ "where project_id = ? and is_del = 0";
+						+ "where project_id = ? and is_del = 0 "
+						+ "order by file_idx desc";
 			
 		res = new ArrayList<FileVo>();
 

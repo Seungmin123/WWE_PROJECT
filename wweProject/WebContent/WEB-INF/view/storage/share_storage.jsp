@@ -324,31 +324,61 @@
                                                     <th>수정일</th>
                                                 </tr>
                                             </thead>
-                                            	<c:forEach var="fileData" items="${data.fileList}">
+                                            <tbody>
+                                            	<c:forEach var="fileData" items="${dataList}">
                                             		<tr>
                                             			<td>${fileData.fileName}</td>
                                             			<td>${fileData.userId}</td>
                                             			<td>${fileData.fileContent}</td>
                                             			<td>
-                                                            <a href="#" onclick="downloadFile(
+                                                            <a href="#" class="text-info" onclick="downloadFile(
                                                                 '${fileData.fileName}',
                                                                 '${fileData.fileRename}',
                                                                 '${fileData.filePath}'
-                                                            )">download</a>
-                                                            <a href="#" onclick="deleteFile(
+                                                            )">
+                                                            	<i class="fas fa-file-download"></i>
+                                                            </a>
+                                                            <a href="#" class="text-danger" onclick="deleteFile(
                                                             	'${fileData.fileIdx}',
                                                                 '${fileData.fileRename}',
                                                                 '${fileData.filePath}',
                                                                 true
-                                                            )">delete</a>
+                                                            )">
+                                                            	<i class="fas fa-trash-alt"></i>
+                                                            </a>
                                                         </td>
                                             			<td>${fileData.updateDate}</td>                                    
                                             		</tr>
                                             	</c:forEach>
-                                            <tbody>
-                                            
                                             </tbody>
                                         </table>
+                                        <ul class="pagination">
+                                            <li class="page-item">
+                                            <a class="page-link" href="${context}/storage/share?page=1">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                            </li>
+                                            <c:forEach var="item" items="${viewList}" varStatus="status">
+                                            	<c:choose>
+                                            		<c:when test="${item eq pageNum}">
+                                            			<li class="page-item bg-primary"><a class="page-link bg-primary text-white" href="${context}/storage/share?page=${item}">${item}</a></li>
+                                            		</c:when>
+                                            		<c:when test="${item > maxPage}">
+                                            			<li class="page-item disabled"><a class="page-link">${item}</a></li>
+                                            		</c:when>
+                                            		<c:otherwise>
+                                            			<li class="page-item"><a class="page-link" href="${context}/storage/share?page=${item}">${item}</a></li>
+                                            		</c:otherwise>
+                                            	</c:choose>
+                                            
+                                            </c:forEach>
+    
+                                            <li class="page-item">
+                                            <a class="page-link" href="${context}/storage/share?page=0">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                         </div>
