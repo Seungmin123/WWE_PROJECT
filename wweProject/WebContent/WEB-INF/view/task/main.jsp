@@ -142,20 +142,6 @@
                                 <i class="fa fa-bars"></i>
                             </button>
 
-                            <!-- Topbar Search -->
-                            <form
-                                class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                                <div class="input-group">
-                                    <input type="text" class="form-control bg-light border-0 small"
-                                        placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary" type="button">
-                                            <i class="fas fa-search fa-sm"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-
                             <!-- Topbar Navbar -->
                             <ul class="navbar-nav ml-auto">
 
@@ -345,9 +331,9 @@
 
                          <!-- Start of Page -->
                         <div class="d-flex justify-content-center">
-                        <div href="#" class="btn pl-3 pr-3">
+                        <div class="btn pl-3 pr-3">
                             <i class="fas fa-laugh-wink h1 text-dark mr-3 mt-2"></i>
-                            <span class="text-primay font-weight-bold h1 mr-4">We Work Easy</span>
+                            <span class="text-primay font-weight-bold h1 mr-4" id="projectId">${taskList[0].projectId}</span>
                         </div>
                         </div>
                         <hr class="hr">
@@ -357,16 +343,16 @@
 
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                    <a class="m-0 font-weight-bold text-primary" href="${context}/task/member">윤예나</a>
-                                    <a href="#" class="btn btn-primary btn-icon-split ml-3">
+                                    <a class="m-0 font-weight-bold text-primary" id="leaderName" href="${context}/task/member">${leaderId}</a>
+                                    <div class="btn btn-primary btn-icon-split ml-3">
                                         <span class="text">Leader</span>
-                                    </a>
+                                    </div>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body leaderList">
                                     <div class="mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm" >
                                         <a href="${context}/task/detail" class="text-gray-600 border-0" draggable="true">
                                             <div>
-                                               
+                                     			${taskList[0].taskId}
                                             </div>
                                             <div class="progress progress-sm">
                                                 <div class="progress-bar bg-info" role="progressbar" style="width: 20%"
@@ -384,7 +370,7 @@
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
                                     <a class="m-0 font-weight-bold text-primary" href="${context}/task/my">My List</a>
-                                    <span href="#" class="btn btn-info btn-icon-split ml-3">
+                                    <span class="btn btn-info btn-icon-split ml-3" id="mName">
                                         <span class="text">팀원</span>
                                     </span>
                                 </div>
@@ -396,35 +382,9 @@
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
                                     <a class="m-0 font-weight-bold text-primary" href="${context}/task/member">김선민</a>
-                                    <span href="#" class="btn btn-info btn-icon-split ml-3">
-                                        <span class="text">팀원</span>
+                                    <span href="#" class="btn btn-info btn-icon-split ml-3" id="mName">
+                                        <span class="text" id="mName">팀원</span>
                                     </span>
-                                </div>
-                                <div class="card-body">
-                                   
-                                </div>
-                            </div>
-
-                            <!-- Basic Card Example -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                    <a class="m-0 font-weight-bold text-primary" href="${context}/task/member">이승민</a>
-                                    <a href="#" class="btn btn-info btn-icon-split ml-3">
-                                        <span class="text">팀원</span>
-                                    </a>
-                                </div>
-                                <div class="card-body">
-                                    
-                                </div>
-                            </div>
-
-                            <!-- Basic Card Example -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                    <a class="m-0 font-weight-bold text-primary" href="${context}/task/member">장영우</a>
-                                    <a href="#" class="btn btn-info btn-icon-split ml-3">
-                                        <span class="text">팀원</span>
-                                    </a>
                                 </div>
                                 <div class="card-body">
                                    
@@ -487,7 +447,53 @@
 
                 <!-- Custom scripts for all pages-->
                 <script src="/resources/js/sb-admin-2.min.js"></script>
+                
 
+				<!-- 팀원 별 표시 -->
+				<script>
+				
+				<!-- 업무리스트 출력 -->
+             	<script>
+				
+				$(function(){
+    					selectTaskList();
+   				 });
+    			let selectTaskList = ()=>{
+       				 let todotask;
+       				 let checkBox;
+        			 let inputElement;
+        			 let todobutton;
+        			 let taskName;
+        			 let issue;
+       			<c:forEach var="task" items="${taskist}" varStatus="status">
+          			<c:if test="${my.taskState == 'ST00'}" >
+       					todotask = document.createElement('div');
+       					todobutton = document.createElement('div');
+       					issue = document.createElement('span');
+       					taskName = document.createElement('a');
+
+       					todotask.setAttribute('class','d-flex justify-content-between');
+       					todobutton.setAttribute('class', 'mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm align-items-center justify-content-center border-0');
+       					todobutton.setAttribute('ondragstart','onDragStart(event);');
+       					todobutton.setAttribute('draggable','true');
+       					todobutton.setAttribute('id','todozone');
+       					taskName.setAttribute('class','text-gray-600');
+       					taskName.setAttribute('href','${context}/task/detail');
+       					issue.setAttribute('class','btn btn-sm ml-1 mr-1');
+
+       					taskName.innerHTML += '${my.taskId}';
+				
+       					checkBox.appendChild(inputElement);
+       					todobutton.appendChild(taskName);
+       					todobutton.appendChild(issue);
+       					todotask.appendChild(todobutton);
+
+       					document.querySelector('.todolist').appendChild(todotask);
+
+              		</c:if>
+        		</c:forEach>
+    }
+    </script>
         </body>
 
         </html>

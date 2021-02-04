@@ -86,7 +86,7 @@ public class ProController extends HttpServlet {
 		if(project != null) {
 		
 		request.getSession().getAttribute("user");
-		
+		}
 		
 		
 		
