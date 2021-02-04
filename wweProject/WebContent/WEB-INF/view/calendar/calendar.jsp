@@ -428,27 +428,11 @@
                   {
                       title : '김선민만세',
                       start : '2021-01-28',
-                      end : '2021-01-31'
-                  },
-                  {
-                      title : '김선민만세',
-                      start : '2021-01-28',
-                      end : '2021-01-31'
-                  },
-                  {
-                      title : '김선민만세',
-                      start : '2021-01-26',
-                      end : '2021-01-31',
-                      color : 'red'
-                  },
-                  {
-                      title : '김선민만세',
-                      start : '2021-01-28',
                       end : '2021-02-03'
                   }
               ]
             });
-            calendar.render();
+            calendar.render(); 
           });
         </script>
         <script type="text/javascript">
@@ -462,6 +446,24 @@
                 
                 id.innerHTML = "";
                 id.appendChild(mark);
+
+                const url = '/views/calendar';
+                let headerObj = new Headers();
+                let paramObj = new Object();
+
+                headerObj.append("content-type","application/x-www-form-urlencoded");
+                paramObj.id = '김선민만세';
+
+                fetch(url,{
+                    method : 'post',
+                    headers : headerObj,
+                    body : "data="+JSON.stringify(paramObj)
+                }).then(response => {
+                    return response.text();
+                }).then(text => {
+                    console.dir(text);
+                });
+
 			}
         </script>
 

@@ -1,7 +1,10 @@
 package com.wwe.views.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.wwe.leader.model.service.LeaderService;
 import com.wwe.leader.model.vo.ProjUser;
+import com.wwe.task.model.service.TaskService;
+import com.wwe.task.model.vo.Task;
 
 /**
  * 
@@ -21,6 +26,7 @@ import com.wwe.leader.model.vo.ProjUser;
 public class ViewsController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	LeaderService leaderService = new LeaderService();
+	TaskService taskService = new TaskService();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -55,6 +61,8 @@ public class ViewsController extends HttpServlet {
 	}
 	
 	private void viewcalendar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		List<Object> taskList = new ArrayList<Object>();
+		Map<String, Object> commandMap = new HashMap<String, Object>();
 		
 		// 해당 프로젝트의 이름을 받아온다...
 		String pId = "프로젝트 1";
@@ -64,9 +72,12 @@ public class ViewsController extends HttpServlet {
 		//ArrayList<Task> myList = taskService.selectMyList(userId); 희원이누나 구현중인듯
 		// 값을 Task 배열로 저장하즈아아!!!!
 		for (ProjUser users : userList) {
-			
+			commandMap.put(users.getUserId(), taskService.selectMyList(users.getUserId()));
 		}
 		
+		System.out.println(commandMap);
+		
+		response.getWriter().print("김선민만세");
 		
 		request.setAttribute("userList", userList);
 		request.getRequestDispatcher("/WEB-INF/view/calendar/calendar.jsp").forward(request, response);
