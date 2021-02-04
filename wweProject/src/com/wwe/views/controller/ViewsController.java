@@ -63,6 +63,9 @@ public class ViewsController extends HttpServlet {
 		List<ProjUser> userList = leaderService.selectUserListByPid(pId);
 		//ArrayList<Task> myList = taskService.selectMyList(userId); 희원이누나 구현중인듯
 		// 값을 Task 배열로 저장하즈아아!!!!
+		for (ProjUser users : userList) {
+			
+		}
 		
 		
 		request.setAttribute("userList", userList);
