@@ -5,7 +5,7 @@
 
         <head>
             <meta charset="UTF-8">
-            <title>Insert title here</title>
+            <title>My List</title>
 
             <!-- Custom fonts for this template-->
             <link href="/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -141,19 +141,6 @@
                                 <i class="fa fa-bars"></i>
                             </button>
 
-                            <!-- Topbar Search -->
-                            <form
-                                class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                                <div class="input-group">
-                                    <input type="text" class="form-control bg-light border-0 small"
-                                        placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary" type="button">
-                                            <i class="fas fa-search fa-sm"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
 
                             <!-- Topbar Navbar -->
                             <ul class="navbar-nav ml-auto">
@@ -357,13 +344,14 @@
 
                                 <div class="card shadow mb-4">
                                     <div class="card-header py-3 d-flex justify-content-center align-items-center">
-                                        <span href="#" class="btn bg-gradient-secondary pl-5 pr-5">
+                                        <span class="btn bg-gradient-secondary pl-5 pr-5">
                                             <span class="h3 pt-2 text-white">TO DO</span>
                                         </span>
                                     </div>
-                                    <div class="card-body">
+                                    <!-- todoList 추가영역 -->
+                                    <div class="card-body todolist">
                                         <div class="d-flex justify-content-between mb-3">
-                                            <span href="#" class="btn btn-icon-split bg-gray-300 shadow-sm">
+                                            <span class="btn btn-icon-split bg-gray-300 shadow-sm">
                                                 <span class="m-1 text-white">우선순위</span>
                                             </span>
                                             <span>
@@ -377,15 +365,15 @@
                                             <div class="checkbox pt-4 mr-3" >
                                                 <input type="checkbox" id="priority">
                                             </div>
-                                            <button class="mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm align-items-center justify-content-center border-0"
-                                                 ondragstart="onDragStart(event);" draggable="true" onclick="taskDetail();">
-                                                <div class="text-gray-600" id="taskId" name="taskId" >
-                                                    고구마
-                                                </div>
-                                                <span class="btn btn-info btn-circle btn-sm ml-3 mr-3">
+                                            <div class="mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm align-items-center justify-content-center border-0"
+                                                 ondragstart="onDragStart(event);" draggable="true"id="todozone">
+                                                <a class="text-gray-600" href="${context}/task/detail">
+                                                    ${myList[0].taskId}
+                                                </a>
+                                                <span class="btn btn-sm">
                                                     <i class="fas fa-info-circle"></i>
                                                 </span>
-                                            </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -397,6 +385,7 @@
                                             <span class="h3 pt-2 text-white">DOING</span>
                                         </div>
                                     </div>
+                                    <!-- doingList추가영역 -->
                                     <div class="card-body" ondragover="onDragOver(event);" ondrop="onDrop(event);" id="doingzone">
                                     </div>
                                 </div>
@@ -408,6 +397,7 @@
                                             <span class="h3 pt-2 text-white">DONE</span>
                                         </div>
                                     </div>
+                                    <!-- doneList추가영역 -->
                                     <div class="card-body" ondrop="drop(event)" ondragover="allowDrop(event)" id="donezone">
 
                                     </div>
@@ -473,7 +463,9 @@
             <script src="/resources/js/sb-admin-2.min.js"></script>
             
             <!-- drag&drop -->
-             <script src="/resources/js/task/drag.js"></script>
+            <script src="/resources/js/task/drag.js"></script>
+             
+            <script src="/resources/js/task/task.js"></script>
              
              <script type="text/javascript">
              	$(function(){
@@ -486,6 +478,91 @@
              	}
              
              </script>
+             
+             <!-- 업무리스트 출력 -->
+             	<script>
+				
+				$(function(){
+    					selectTaskList();
+   				 });
+    			let selectTaskList = ()=>{
+       				 let todotask;
+       				 let checkBox;
+        			 let inputElement;
+        			 let todobutton;
+        			 let taskName;
+        			 let issue;
+       			<c:forEach var="my" items="${myList}" varStatus="status">
+          			<c:if test="${my.taskState == 'ST00'}" >
+       					todotask = document.createElement('div');
+       					checkBox = document.createElement('div');
+       					inputElement = document.createElement('input');
+       					todobutton = document.createElement('div');
+       					issue = document.createElement('span');
+       					taskName = document.createElement('a');
+       					
+       					inputElement.setAttribute('type','checkbox');
+       					inputElement.setAttribute('id','priority');
+       					todotask.setAttribute('class','d-flex justify-content-between');
+       					checkBox.setAttribute('class','checkbox pt-4 mr-3');
+       					todobutton.setAttribute('class', 'mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm align-items-center justify-content-center border-0');
+       					todobutton.setAttribute('ondragstart','onDragStart(event);');
+       					todobutton.setAttribute('draggable','true');
+       					todobutton.setAttribute('id','todozone');
+       					taskName.setAttribute('class','text-gray-600');
+       					taskName.setAttribute('href','${context}/task/detail');
+       					issue.setAttribute('class','btn btn-sm ml-1 mr-1');
+
+       					taskName.innerHTML += '${my.taskId}';
+				
+       					checkBox.appendChild(inputElement);
+       					todobutton.appendChild(taskName);
+       					todobutton.appendChild(issue);
+       					todotask.appendChild(checkBox);
+       					todotask.appendChild(todobutton);
+
+       					document.querySelector('.todolist').appendChild(todotask);
+
+              		</c:if>
+              		
+              		<c:if test="${my.taskState == 'ST01'}" >
+              		
+	              		todotask = document.createElement('div');
+	   					checkBox = document.createElement('div');
+	   					inputElement = document.createElement('input');
+	   					todobutton = document.createElement('div');
+	   					issue = document.createElement('span');
+	   					taskName = document.createElement('a');
+	   					
+	   					inputElement.setAttribute('type','checkbox');
+	   					inputElement.setAttribute('id','priority');
+	   					todotask.setAttribute('class','d-flex justify-content-between');
+	   					checkBox.setAttribute('class','checkbox pt-4 mr-3');
+	   					todobutton.setAttribute('class', 'mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm align-items-center justify-content-center border-0');
+	   					todobutton.setAttribute('ondragstart','onDragStart(event);');
+	   					todobutton.setAttribute('draggable','true');
+	   					todobutton.setAttribute('id','todozone');
+	   					taskName.setAttribute('class','text-gray-600');
+	   					taskName.setAttribute('href','${context}/task/detail');
+	   					
+	   					
+	   					taskName.innerHTML += '${my.taskId}';
+				
+	   					checkBox.appendChild(inputElement);
+	   					todobutton.appendChild(taskName);
+	   					todobutton.appendChild(issue);
+	   					todotask.appendChild(checkBox);
+	   					todotask.appendChild(todobutton);
+	
+	   					document.querySelector('.todolist').appendChild(todotask);
+	              			
+              		</c:if>
+              		
+              		<c:if test="${my.taskState == 'ST02'}" >
+              		</c:if>
+        		</c:forEach>
+   			 }
+  		  </script>
 
 			
         </body>

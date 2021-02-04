@@ -142,20 +142,6 @@
                                 <i class="fa fa-bars"></i>
                             </button>
 
-                            <!-- Topbar Search -->
-                            <form
-                                class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                                <div class="input-group">
-                                    <input type="text" class="form-control bg-light border-0 small"
-                                        placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary" type="button">
-                                            <i class="fas fa-search fa-sm"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-
                             <!-- Topbar Navbar -->
                             <ul class="navbar-nav ml-auto">
 
@@ -362,7 +348,7 @@
                                         <span class="text">Leader</span>
                                     </div>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body leaderList">
                                     <div class="mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm" >
                                         <a href="${context}/task/detail" class="text-gray-600 border-0" draggable="true">
                                             <div>
@@ -462,16 +448,43 @@
                 <!-- Custom scripts for all pages-->
                 <script src="/resources/js/sb-admin-2.min.js"></script>
                 
-                <!-- 프로젝트 이름표시 -->
-                <script type="text/javascript">
-                	
-                
-                </script>
 
 				<!-- 팀원 별 표시 -->
-				<script type="text/javascript">
+				<script>
 				
-				</script>
+				$(function(){
+    					selectTaskList();
+   				 });
+    			let selectTaskList = ()=>{
+       				 let divElement;
+       				 let aElement;
+        			 let spanElment;
+       			<c:forEach var="task" items="${taskList}" varStatus="status">
+          			 divElement = document.createElement('div');
+          			 document.querySelector('.leaderList').appendChild(divElement);
+               	<c:forEach var="i" begin="0" end="3" step="1">
+                 	 tdElement = document.createElement('td');
+                  	<c:if test="${i==0}">
+                  		divElement.innerHTML ="${task.taskId}";
+                  	</c:if>
+    			  	<c:if test="${i ==3}">
+    			  			tdElement.align="right";
+    			 			buttonElement = document.createElement('button');
+    			  			buttonElement.className = "btn btn-warning btn-sm mr-5 px-3 py-1";
+    			  			buttonElement.innerHTML="수정"
+    			  			inputElement = document.createElement('input');
+    			  			inputElement.className="form-check-input";
+    			  			inputElement.type="checkbox";
+    			  			inputElement.name="_selected_";
+    			  			inputElement.value="ROW_1";
+    			  			tdElement.appendChild(buttonElement);
+    			  			tdElement.appendChild(inputElement);
+                  	</c:if>
+                  			trElement.appendChild(tdElement);
+               		</c:forEach>
+        		</c:forEach>
+    }
+    </script>
         </body>
 
         </html>

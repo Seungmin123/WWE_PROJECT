@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.wwe.member.model.vo.Member;
 import com.wwe.project.model.vo.Project;
+import com.wwe.task.feedback.Feedback;
 import com.wwe.task.model.service.TaskService;
 import com.wwe.task.model.vo.Task;
 
@@ -54,7 +55,9 @@ public class TaskController extends HttpServlet {
 				break;
 			case "my": myTask(request,response);
 				break;
-			case "feedbackimpl": feedbackImpl(request,response);
+			case "myimpl": selectMyList(request,response);
+				break;
+			case "insertfeedback": insertFeedback(request,response);
 				break;
 			default:
 				break;
@@ -69,12 +72,13 @@ public class TaskController extends HttpServlet {
 		doGet(request, response);
 	}
 	
+	//메인페이지 이동
 	protected void mainTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		selectAllTaskList(request,response);
 		
 		request.getAttribute("taskList");
-		request.setAttribute("leaderId", "임희원");
+		request.setAttribute("leaderId", "임희원");//프로젝트 session으로 받아오기
 
 		request.getRequestDispatcher("/WEB-INF/view/task/main.jsp").forward(request, response);
 	
@@ -90,10 +94,6 @@ public class TaskController extends HttpServlet {
 		
 		ArrayList<Task> taskList = taskService.selectAllTaskList(projectId);
 
-		for (Task task : taskList) {
-			System.out.println(task.getTaskId());
-		}
-		
 		if(taskList != null) {
 			
 			System.out.println("업무리스트 성공");
@@ -106,30 +106,38 @@ public class TaskController extends HttpServlet {
 		
 	}
 
+	//멤버 별 업무리스트
 	protected void memberTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getRequestDispatcher("/WEB-INF/view/task/member.jsp").forward(request, response);
 	}
 	
+	//업무상세내역
 	protected void detailTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String taskName = request.getParameter("taskId");
+		String taskId = "업무삭제하기" ; //세션 값으로 받아와야 할까?
+		request.setAttribute("leaderId", "임희원"); // 세션 값으로 받아오기
 		
-		request.setAttribute("leaderId", "임희원");
+		ArrayList<Task> detailList = taskService.detailTask(taskId);
 		
-		System.out.println(taskName);
+		if(detailList != null) {
+			request.setAttribute("detailList", detailList);
+			
+			request.getRequestDispatcher("/WEB-INF/view/task/detail.jsp").forward(request, response);
+		}else {
+			System.out.println("상세정보 불거오기 실패");
+			
+			request.getRequestDispatcher("/WEB-INF/view/task/my.jsp").forward(request, response);
+		}
 		
-		request.getRequestDispatcher("/WEB-INF/view/task/detail.jsp").forward(request, response);
+		
 	}
 	
-	protected void selectDetailById(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-	}
-	
+	//업무추가 페이지 이동
 	protected void addTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getRequestDispatcher("/WEB-INF/view/task/add.jsp").forward(request, response);
 	}
 	
-	//업무 추가
+	//업무 추가 실행
 	protected void addImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		
@@ -177,16 +185,70 @@ public class TaskController extends HttpServlet {
 		 
 	}
 	
+	//내 업무리스트 페이지 이동
 	protected void myTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		selectMyList(request,response);
+		
+		request.getAttribute("myList");
+		
 		request.getRequestDispatcher("/WEB-INF/view/task/my.jsp").forward(request, response);
 	}
 	
+	//내 업무리스트 불러오기
+	protected void selectMyList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		//세션으로 아이디값 받아와서 하기
+		Member user = (Member) request.getSession().getAttribute("user");
+		String userId = user.getUserID();
+		//String userId = "wwe123";
+		
+		ArrayList<Task> myList = taskService.selectMyList(userId);
+		
+		if(myList != null) {
+			System.out.println("내 업무리스트 불러오기 성공");
+			request.setAttribute("myList", myList);
+			
+		}else {
+			System.out.println("내 업무리스트 불러오기 실패");
+			
+			request.setAttribute("alertMsg", "내 업무리스트를 불러오지 못했습니다.");
+			request.setAttribute("url", "/task/main");
+			  
+			request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
+		}
+		
+	}
 	
-	protected void feedbackImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/view/task/detail.jsp").forward(request, response);
+	//피드백 추가
+	protected void insertFeedback(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		//id세션에서 받아오기
+		String data = request.getParameter("feedback");
+		Gson gson = new Gson();
+		Map parsedData = gson.fromJson(data, Map.class);
 		
+		Feedback feedback = null;
 		
+		String feedbackComment = (String) parsedData.get("feedbackComment");
+		Task task = (Task) request.getAttribute("detailList");
+		String taskId = task.getTaskId();
+		int privateComment = 0;
+		
+		feedback.setFeedbackComment(feedbackComment);
+		feedback.setTaskId(taskId);
+		feedback.setPrivateComment(privateComment);
+		
+		int res = taskService.insertFeedback(feedback);
+		
+		if(res > 0) { 
+			  System.out.println("피드백추가성공");
+			  
+		 } else { 
+			 System.out.println("피드백추가실패");
+			  
+		 }
+			
 	}
 	
 
