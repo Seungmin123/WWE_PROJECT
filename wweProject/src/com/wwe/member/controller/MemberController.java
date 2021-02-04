@@ -1,7 +1,12 @@
 package com.wwe.member.controller;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
-import java.net.URLDecoder;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -11,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.wwe.member.mail.MailSender;
 import com.wwe.member.model.service.MemberService;
 import com.wwe.member.model.vo.Member;
@@ -65,6 +72,9 @@ public class MemberController extends HttpServlet {
 			case "mypage" : myPage(request, response);
 				break;
 			case "modifyimpl" : modifyImpl(request, response);
+				break;
+				
+			case "kakao" : kakao(request, response);
 				break;
 				
 			case "logout" : logout(request, response);
@@ -163,7 +173,10 @@ public class MemberController extends HttpServlet {
 	
 	private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		memberService.kakaoLogout((String)request.getAttribute("access_Token"));
+		request.getSession().removeAttribute("project");
 		request.getSession().removeAttribute("user");
+		request.getSession().removeAttribute("access_Token");
 		request.getRequestDispatcher("/WEB-INF/view/index/index.jsp")
 		.forward(request, response);
 	}
@@ -179,11 +192,35 @@ public class MemberController extends HttpServlet {
 		.forward(request, response);
 	}
 	
-	private void myPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void myPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
 		
 		request.getRequestDispatcher("/WEB-INF/view/member/MyPage.jsp")
 		.forward(request, response);
 	}
+	
+	
+	
+	private void kakao(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
+		
+		String code = request.getParameter("code");
+		System.out.println(code);
+		String access_Token = memberService.getAccessToken(code);
+		Member userInfo = memberService.kakaoUserInfo(access_Token);
+		
+		
+		if(userInfo.getUserEmail() != null) {
+			
+			userInfo = memberService.memberAuthenticateWithEmail(userInfo.getUserEmail());
+			request.getSession().setAttribute("user", userInfo);
+			request.getSession().setAttribute("access_Token", access_Token);
+			request.getRequestDispatcher("/WEB-INF/view/member/MyPage.jsp")
+			.forward(request, response);
+			
+		}
+		
+	}
+	
+
 	
 	private void findIDImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -287,6 +324,7 @@ public class MemberController extends HttpServlet {
 			.forward(request, response);
 		}
 	}
+	
 
 	
 }
