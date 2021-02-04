@@ -349,20 +349,7 @@
                                     </div>
                                 </div>
                                 <div class="card-body leaderList">
-                                    <div class="mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm" >
-                                        <a href="${context}/task/detail" class="text-gray-600 border-0" draggable="true">
-                                            <div>
-                                     			${taskList[0].taskId}
-                                            </div>
-                                            <div class="progress progress-sm">
-                                                <div class="progress-bar bg-info" role="progressbar" style="width: 20%"
-                                                    aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        </a>
-                                        <span class="btn btn-info btn-circle btn-sm ml-3 mr-3">
-                                            <i class="fas fa-info-circle"></i>
-                                        </span>
-                                    </div>
+                                
                                 </div>
                             </div>
 
@@ -452,6 +439,7 @@
 				<!-- 팀원 별 표시 -->
 				<script>
 				
+				</script>
 				<!-- 업무리스트 출력 -->
              	<script>
 				
@@ -459,38 +447,41 @@
     					selectTaskList();
    				 });
     			let selectTaskList = ()=>{
-       				 let todotask;
-       				 let checkBox;
-        			 let inputElement;
-        			 let todobutton;
-        			 let taskName;
+       				 let tasklist;
+       				 let taskname;
+       				 let divElement;
+        			 let progressbar;
+        			 let innerprogress;
         			 let issue;
-       			<c:forEach var="task" items="${taskist}" varStatus="status">
-          			<c:if test="${my.taskState == 'ST00'}" >
-       					todotask = document.createElement('div');
-       					todobutton = document.createElement('div');
+       			<c:forEach var="task" items="${taskList}" varStatus="status">
+       					tasklist = document.createElement('div');
+       					divElement = document.createElement('div');
+       					taskname = document.createElement('a');
+       					progressbar = document.createElement('div');
+       					innerprogress = document.createElement('div');
        					issue = document.createElement('span');
-       					taskName = document.createElement('a');
-
-       					todotask.setAttribute('class','d-flex justify-content-between');
-       					todobutton.setAttribute('class', 'mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm align-items-center justify-content-center border-0');
-       					todobutton.setAttribute('ondragstart','onDragStart(event);');
-       					todobutton.setAttribute('draggable','true');
-       					todobutton.setAttribute('id','todozone');
-       					taskName.setAttribute('class','text-gray-600');
-       					taskName.setAttribute('href','${context}/task/detail');
+       					
+       					tasklist.setAttribute('class','mb-4 py-3 bg-gray-100 pl-4 d-flex justify-content-center rounded shadow-sm');
+       					taskname.setAttribute('class','text-gray-600 border-0');
+       					taskname.setAttribute('href','${context}/task/detail');
+       					progressbar.setAttribute('class','progress progress-sm');
+       					innerprogress.setAttribute('class','progress-bar bg-info');
+       					innerprogress.setAttribute('role','progressbar');
+       					innerprogress.setAttribute('aria-valuenow','50');
+       					innerprogress.setAttribute('aria-valuemin','aria-valuemin');
+       					innerprogress.setAttribute('aria-valuemax','100');
+       					innerprogress.setAttribute('style','width: 20%');
        					issue.setAttribute('class','btn btn-sm ml-1 mr-1');
 
-       					taskName.innerHTML += '${my.taskId}';
+       					divElement.innerHTML += '${task.taskId}';
 				
-       					checkBox.appendChild(inputElement);
-       					todobutton.appendChild(taskName);
-       					todobutton.appendChild(issue);
-       					todotask.appendChild(todobutton);
+       					taskname.appendChild(divElement);
+       					progressbar.appendChild(innerprogress);
+       					taskname.appendChild(progressbar);
+       					tasklist.appendChild(taskname);
+       					tasklist.appendChild(issue);
 
-       					document.querySelector('.todolist').appendChild(todotask);
-
-              		</c:if>
+       					document.querySelector('.leaderList').appendChild(tasklist);
         		</c:forEach>
     }
     </script>

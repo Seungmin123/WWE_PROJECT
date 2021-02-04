@@ -199,9 +199,9 @@ public class TaskController extends HttpServlet {
 	protected void selectMyList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		//세션으로 아이디값 받아와서 하기
-		Member user = (Member) request.getSession().getAttribute("user");
-		String userId = user.getUserID();
-		//String userId = "wwe123";
+		//Member user = (Member) request.getSession().getAttribute("user");
+		//String userId = user.getUserID();
+		String userId = "wwe123";
 		
 		ArrayList<Task> myList = taskService.selectMyList(userId);
 		
