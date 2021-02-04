@@ -6,6 +6,7 @@ import java.sql.Date;
 import com.wwe.common.exception.DataAccessException;
 import com.wwe.common.exception.ToAlertException;
 import com.wwe.common.jdbc.JDBCTemplate;
+import com.wwe.member.model.vo.Member;
 import com.wwe.project.model.dao.ProDao;
 import com.wwe.project.model.vo.Project;
 
@@ -16,12 +17,11 @@ public class ProService {
 	Project pro = new Project();
 	
 	//새 프로젝트 생성
-	public int createProject(Project project){
+	public Project createProject(Project project){
 		Connection conn = jdt.getConnection();
-		int res = 0;
 		
 		try {
-			res = proDao.insertNewProject(conn,project);
+			proDao.insertNewProject(conn,project);
 			jdt.commit(conn);
 			
 		} catch (DataAccessException e) {
@@ -31,7 +31,21 @@ public class ProService {
 			jdt.close(conn);
 		}
 		
-		return res;
+		return project;
+	}
+	
+	//새 프로젝트 참여자
+	public Member addMember(String userId, String userName){
+		Connection conn = jdt.getConnection();
+		Member member = null;
+		
+		try {
+			member = proDao.addMember(conn, userId, userName);
+		}finally {
+			jdt.close(conn);
+		}
+		
+		return member;
 	}
 	
 	//최근 프로젝트
@@ -49,7 +63,7 @@ public class ProService {
 	}
 	
 	//초대된 프로젝트 
-	public Project selectInvitedProject(String userId){	
+	public Project selectInvitedProject(String userId, int isAllowed){	
 		Connection conn = jdt.getConnection();
 		Project project = null;
 		
@@ -61,5 +75,4 @@ public class ProService {
 		
 		return project;
 	}
-	
 }

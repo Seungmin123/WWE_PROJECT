@@ -107,7 +107,6 @@ public class TaskController extends HttpServlet {
 	//업무 추가
 	protected void addImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		
 		  String data = request.getParameter("data"); 
 		  //Member user = (Member)request.getSession().getAttribute("user");
 		  

@@ -34,6 +34,7 @@
         .due {
             border-color: lightgrey;
             border-radius: 5px;
+            width: 100px;
         }
 
         .new-project {
@@ -112,7 +113,7 @@
                 <label class="input-group-text" for="inputGroupSelect01">참여자</label>
             </div>
             <select class="custom-select" id="inputGroupSelect01">
-                <option selected></option>
+                
                 <option value="1">영우</option>
                 <option value="2">선민</option>
                 <option value="3">승민</option>
