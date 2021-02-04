@@ -150,20 +150,6 @@
                                 <i class="fa fa-bars"></i>
                             </button>
 
-                            <!-- Topbar Search -->
-                            <form
-                                class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                                <div class="input-group">
-                                    <input type="text" class="form-control bg-light border-0 small"
-                                        placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary" type="button">
-                                            <i class="fas fa-search fa-sm"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-
                             <!-- Topbar Navbar -->
                             <ul class="navbar-nav ml-auto">
 
@@ -357,7 +343,7 @@
                             <div class="d-flex justify-content-center">
                                 <div class="btn border pl-3 pr-3 shadow-sm bg-light">
                                     <i class="fas fa-laugh-wink h1 text-dark mr-3 mt-2"></i>
-                                    <span class="text-primay font-weight-bold h1 mr-4">화면설계하기</span>
+                                    <span class="text-primay font-weight-bold h1 mr-4">${detailList[0].taskId}</span>
                                 </div>
                             </div>
                             <hr class="hr">
@@ -370,8 +356,7 @@
                                             <h6 class="font-weight-bold">담당자</h6>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control form-control-user rounded"
-                                                id="exampleLastName">
+                                            <div class="form-control form-control-user rounded">${detailList[0].userId}</div>
                                         </div>
                                     </div>
 
@@ -379,11 +364,10 @@
 
                                     <div class="form-group row">
                                         <div class="col-sm-3 mb-3 mb-sm-0 d-flex align-items-center">
-                                            <h6 class="font-weight-bold">업무 이름</h6>
+                                            <h6 class="font-weight-bold">업무 상세</h6>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control form-control-user rounded"
-                                                id="exampleLastName">
+                                            <div class="form-control form-control-user rounded">${detailList[0].taskContent}</div>
                                         </div>
                                     </div>
 
@@ -394,8 +378,7 @@
                                             <h6 class="font-weight-bold">관리자</h6>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control form-control-user rounded"
-                                                id="exampleLastName">
+                                            <div class="form-control form-control-user rounded">${leaderId}</div>
                                         </div>
                                     </div>
 
@@ -406,8 +389,7 @@
                                             <h6 class="font-weight-bold">마감기한</h6>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="date" class="form-control form-control-user rounded"
-                                                id="exampleLastName">
+                                            <div class="form-control form-control-user rounded">${detailList[0].deadLine}</div>
                                         </div>
                                     </div>
 
@@ -418,8 +400,21 @@
                                             <h6 class="font-weight-bold">우선순위</h6>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control form-control-user rounded"
-                                                id="exampleLastName">
+                                            <div class="form-control form-control-user rounded"> 
+                                            
+                                            <c:set var="name" value="${detailList[0].taskPriority}"/>
+
+                                            <c:choose>
+                                            	<c:when test="${name eq 'PR00'}" >
+                                            		일반
+                                            	</c:when>
+                                            	<c:when test="${name eq 'PR01'}">
+                                            		긴급
+                                            	</c:when>
+                                            	<c:when test="${name eq 'PR02'}">
+                                            		일반
+                                            	</c:when>
+                                            </c:choose></div>
                                         </div>
                                     </div>
 
@@ -430,8 +425,22 @@
                                             <h6 class="font-weight-bold">진행상태</h6>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control form-control-user rounded"
-                                                id="exampleLastName">
+                                            <div class="form-control form-control-user rounded">
+                                            
+                                            <c:set var="name" value="${detailList[0].taskState}"/>
+
+                                            <c:choose>
+                                            	<c:when test="${name eq 'ST00'}" >
+                                            		대기
+                                            	</c:when>
+                                            	<c:when test="${name eq 'ST01'}">
+                                            		진행
+                                            	</c:when>
+                                            	<c:when test="${name eq 'ST02'}">
+                                            		완료
+                                            	</c:when>
+                                            </c:choose>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -446,7 +455,7 @@
                                         </div>
                                         <div class="col-sm-9">
                                             <textarea name="textarea" rows="3" cols="33"
-                                                class="form-control form-control-user rounded">Write something here</textarea>
+                                                class="form-control form-control-user rounded"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -457,14 +466,19 @@
                                     <div class="text-center pt-3 pb-2 mb-3 bg-dark">
                                         <h1 class="h6 text-white font-weight-bold">Feedback</h1>
                                     </div>
-
-                                    <div class="d-flex justify-content-between align-items-center">
-                                    <input type="text" class="form-control form-control-user rounded">
-                                    <span href="#" class="btn bg-dark btn-icon-split ml-2 pb-2 pt-2 pl-3 pr-3">
-                                        <span class="text-white small">send</span>
-                                    </span>
-                                    </div>
-
+									
+									<form method="post">
+                                    	<div class="d-flex justify-content-between align-items-center">
+                                    		<input type="text" class="form-control form-control-user col-sm-2 mr-2 rounded" placeholder="닉네임" id="nick" name="nick">
+                                    		<input type="text" class="form-control form-control-user rounded" id="feedbackComment" name="feedbackComment"> 
+                                    		<i class="fas fa-unlock ml-2"></i>
+                                    		<button onclick="feedBack();"  class="btn bg-dark btn-icon-split ml-2 pb-2 pt-2 pl-3 pr-3">
+                                        	<span class="text-white small">send</span>
+                                   			</button>
+                                   		 </div>
+                                   	</form>	 
+                                   		 <hr class="hr">
+                                   		 <div class="test"></div>
                                 </div>
 
                             </div>
@@ -526,9 +540,10 @@
 
             <!-- Custom scripts for all pages-->
             <script src="/resources/js/sb-admin-2.min.js"></script>
+            
+            <!-- feedback비동기 -->
+            <script src="/resources/js/task/task.js"></script>
 
         </body>
 
-        </html>
-
-        </html>
+</html>

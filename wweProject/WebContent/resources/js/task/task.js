@@ -1,9 +1,11 @@
-let addTask = () => {
-				const url = '/task/addimpl';
+let feedBack = () => {
+				const url = '/task/insertfeedback';
 				let paramObj = new Object();
-				paramObj.taskName = taskName.value;
-				paramObj.deadLine = deadLine.value;
-				paramObj.taskContent = taskContent.value;
+				paramObj.nick = nick.value;
+				paramObj.feedbackComment = feedbackComment.value;
+				
+				alert(nick);
+				alert(feedbackComment);
 				
 				let headerObj = new Headers();
 				headerObj.append('content-type', 'application/x-www-form-urlencoded');
@@ -12,7 +14,7 @@ let addTask = () => {
 					
 					method : "post",
 					headers : headerObj,		
-					body:"data="+ JSON.stringify(paramObj)
+					body:"feedback="+ JSON.stringify(paramObj)
 
 				}).then(response => {
 					//response.ok : 상태코드 200~209 사이라면 ok = true
@@ -25,10 +27,17 @@ let addTask = () => {
 					if(text == "fail"){
 						window.alert("내용을 입력해주세요.");
 					}else{
-						window.alert("업무 추가 성공");
-						location.href= "/task/my";
+						window.alert("피드백 등록완료");
+						document.querySelector('.test').innerHTML = `${nick} : ${feedbackComment}`;
+						document.querySelector('#nick').innerHTML = "";
+						document.querySelector('#feedbackComment').innerHTML = "";
+						
 					}
 				}).catch(error => {
 					error.alertMessage();
 				});
 	}
+	
+	
+	
+	

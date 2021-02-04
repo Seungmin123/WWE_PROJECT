@@ -142,20 +142,6 @@
                                 <i class="fa fa-bars"></i>
                             </button>
 
-                            <!-- Topbar Search -->
-                            <form
-                                class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                                <div class="input-group">
-                                    <input type="text" class="form-control bg-light border-0 small"
-                                        placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary" type="button">
-                                            <i class="fas fa-search fa-sm"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-
                             <!-- Topbar Navbar -->
                             <ul class="navbar-nav ml-auto">
 
@@ -345,9 +331,9 @@
 
                          <!-- Start of Page -->
                         <div class="d-flex justify-content-center">
-                        <div href="#" class="btn pl-3 pr-3">
+                        <div class="btn pl-3 pr-3">
                             <i class="fas fa-laugh-wink h1 text-dark mr-3 mt-2"></i>
-                            <span class="text-primay font-weight-bold h1 mr-4">We Work Easy</span>
+                            <span class="text-primay font-weight-bold h1 mr-4" id="projectId">${taskList[0].projectId}</span>
                         </div>
                         </div>
                         <hr class="hr">
@@ -357,16 +343,16 @@
 
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                    <a class="m-0 font-weight-bold text-primary" href="${context}/task/member">윤예나</a>
-                                    <a href="#" class="btn btn-primary btn-icon-split ml-3">
+                                    <a class="m-0 font-weight-bold text-primary" id="leaderName" href="${context}/task/member">${leaderId}</a>
+                                    <div class="btn btn-primary btn-icon-split ml-3">
                                         <span class="text">Leader</span>
-                                    </a>
+                                    </div>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body leaderList">
                                     <div class="mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm" >
                                         <a href="${context}/task/detail" class="text-gray-600 border-0" draggable="true">
                                             <div>
-                                               
+                                     			${taskList[0].taskId}
                                             </div>
                                             <div class="progress progress-sm">
                                                 <div class="progress-bar bg-info" role="progressbar" style="width: 20%"
@@ -384,7 +370,7 @@
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
                                     <a class="m-0 font-weight-bold text-primary" href="${context}/task/my">My List</a>
-                                    <span href="#" class="btn btn-info btn-icon-split ml-3">
+                                    <span class="btn btn-info btn-icon-split ml-3" id="mName">
                                         <span class="text">팀원</span>
                                     </span>
                                 </div>
@@ -396,35 +382,9 @@
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
                                     <a class="m-0 font-weight-bold text-primary" href="${context}/task/member">김선민</a>
-                                    <span href="#" class="btn btn-info btn-icon-split ml-3">
-                                        <span class="text">팀원</span>
+                                    <span href="#" class="btn btn-info btn-icon-split ml-3" id="mName">
+                                        <span class="text" id="mName">팀원</span>
                                     </span>
-                                </div>
-                                <div class="card-body">
-                                   
-                                </div>
-                            </div>
-
-                            <!-- Basic Card Example -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                    <a class="m-0 font-weight-bold text-primary" href="${context}/task/member">이승민</a>
-                                    <a href="#" class="btn btn-info btn-icon-split ml-3">
-                                        <span class="text">팀원</span>
-                                    </a>
-                                </div>
-                                <div class="card-body">
-                                    
-                                </div>
-                            </div>
-
-                            <!-- Basic Card Example -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                    <a class="m-0 font-weight-bold text-primary" href="${context}/task/member">장영우</a>
-                                    <a href="#" class="btn btn-info btn-icon-split ml-3">
-                                        <span class="text">팀원</span>
-                                    </a>
                                 </div>
                                 <div class="card-body">
                                    
@@ -487,7 +447,44 @@
 
                 <!-- Custom scripts for all pages-->
                 <script src="/resources/js/sb-admin-2.min.js"></script>
+                
 
+				<!-- 팀원 별 표시 -->
+				<script>
+				
+				$(function(){
+    					selectTaskList();
+   				 });
+    			let selectTaskList = ()=>{
+       				 let divElement;
+       				 let aElement;
+        			 let spanElment;
+       			<c:forEach var="task" items="${taskList}" varStatus="status">
+          			 divElement = document.createElement('div');
+          			 document.querySelector('.leaderList').appendChild(divElement);
+               	<c:forEach var="i" begin="0" end="3" step="1">
+                 	 tdElement = document.createElement('td');
+                  	<c:if test="${i==0}">
+                  		divElement.innerHTML ="${task.taskId}";
+                  	</c:if>
+    			  	<c:if test="${i ==3}">
+    			  			tdElement.align="right";
+    			 			buttonElement = document.createElement('button');
+    			  			buttonElement.className = "btn btn-warning btn-sm mr-5 px-3 py-1";
+    			  			buttonElement.innerHTML="수정"
+    			  			inputElement = document.createElement('input');
+    			  			inputElement.className="form-check-input";
+    			  			inputElement.type="checkbox";
+    			  			inputElement.name="_selected_";
+    			  			inputElement.value="ROW_1";
+    			  			tdElement.appendChild(buttonElement);
+    			  			tdElement.appendChild(inputElement);
+                  	</c:if>
+                  			trElement.appendChild(tdElement);
+               		</c:forEach>
+        		</c:forEach>
+    }
+    </script>
         </body>
 
         </html>

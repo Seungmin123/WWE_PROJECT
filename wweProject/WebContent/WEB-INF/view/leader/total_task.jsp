@@ -297,7 +297,7 @@
 				<!-- End of Topbar -->
 
 				<!-- 페이지 컨텐트 시작-->
-				<div class="container border" >
+				<div class="container-md border" >
                     <!-- 검색inputBox시작 -->
                         <form class=" form-inline float-right mb-2 mt-2">
                             <div class="input-group input-group-sm">
@@ -328,57 +328,18 @@
                             </tbody>
                         </table>
                         <!-- 게시판 테이블 끝 -->
-                       <div class="row">
-                            <div class="col-sm-12 col-md-5">
-                                <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
-                                    Showing 51 to 57 of 57 entries
-                                </div>
-                            </div>
+                        
+                        <!--게시판 페이징 처리 부분 -->
+                       <div class="row justify-content-center">
                             <div class="col-sm-12 col-md-7">
                                 <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
-                                    <ul class="pagination">
-                                        <li class="paginate_button page-item previous" id="dataTable_previous">
-                                            <a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
-                                        </li>
-                                        <li class="paginate_button page-item ">
-                                            <a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a>
-                                        </li>
-                                        <li class="paginate_button page-item ">
-                                            <a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a>
-                                        </li>
-                                        <li class="paginate_button page-item ">
-                                            <a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a>
-                                        </li>
-                                        <li class="paginate_button page-item ">
-                                            <a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a>
-                                        </li>
-                                        <li class="paginate_button page-item ">
-                                            <a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a>
-                                        </li>
-                                        <li class="paginate_button page-item ">
-                                            <a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a>
-                                        </li>
-                                        <li class="paginate_button page-item ">
-                                            <a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a>
-                                        </li>
-                                        <li class="paginate_button page-item ">
-                                            <a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a>
-                                        </li>
-                                        <li class="paginate_button page-item ">
-                                            <a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a>
-                                        </li>
-                                        <li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a>
-                                        </li>
-                                        <li class="paginate_button page-item active">
-                                            <a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a>
-                                        </li>
-                                        <li class="paginate_button page-item next disabled" id="dataTable_next">
-                                            <a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
-                                        </li>
+                                    <ul class="pagination justify-content-center" id="paging_ui">
+                                    	<!--DB를 읽어와서 동적으로 업무 목록을 생성하는 부분  -->
                                     </ul>
                                 </div>
                             </div>
                         </div>
+                         <!--게시판 페이징 처리 부분 끝-->
 				</div>
 				<!-- 페이지 컨텐트 시작끝 -->
 			</div>
@@ -438,42 +399,111 @@
     <script>
     $(function(){
     	selectTaskList();
+    	doPaging();
     });
+    //동적으로 업무리스트 게시판 생성하는 함수
     let selectTaskList = ()=>{
-        let trElement;
-        let tdElement;
-        let inputElement;
-        let buttonElement;
-        <c:forEach var="task" items="${taskList}" varStatus="status">
-           trElement = document.createElement('tr');
-           document.querySelector('tbody').appendChild(trElement);
-               <c:forEach var="i" begin="0" end="3" step="1">
-                  tdElement = document.createElement('td');
-                  <c:if test="${i==0}">
-                  		tdElement.innerHTML = "${task.tIdx}"
-                  </c:if>
-                  <c:if test="${i == 1}">
-                          tdElement.innerHTML ="${task.userId}";
-                  </c:if>
-                  <c:if test="${i ==2}">
-                             tdElement.innerHTML ="${task.taskId}";
-                  </c:if>
-    			  <c:if test="${i ==3}">
-    			  			tdElement.align="right";
-    			 			buttonElement = document.createElement('button');
-    			  			buttonElement.className = "btn btn-warning btn-sm mr-5 px-3 py-1";
-    			  			buttonElement.innerHTML="수정"
-    			  			inputElement = document.createElement('input');
-    			  			inputElement.className="form-check-input";
-    			  			inputElement.type="checkbox";
-    			  			inputElement.name="_selected_";
-    			  			inputElement.value="ROW_1";
-    			  			tdElement.appendChild(buttonElement);
-    			  			tdElement.appendChild(inputElement);
-                  </c:if>
-                  trElement.appendChild(tdElement);
-               </c:forEach>
-        </c:forEach>
+        
+        let task;
+		let sliceTaskList;
+		
+		let taskList = new Array();
+        
+   		<c:forEach var="i" begin="0" end="${taskList.size()-1}" step="1">
+   			task = new Object();
+   			task.tIdx = "${taskList.get(i).tIdx}";
+   			task.userId = "${taskList.get(i).userId}";
+   			task.taskId = "${taskList.get(i).taskId}";
+   			taskList.push(task);
+   		</c:forEach>
+   		
+   		let pageCount = taskList.length / 10 == 0 ? taskList.length/10 : parseInt(taskList.length/10) + 1;
+   		sliceTaskList = new Array(pageCount);
+   		let iSize = 0;
+   		for(i = 0; i < sliceTaskList.length; i++){
+   			sliceTaskList[i] = new Array();
+   			while(true){
+   				sliceTaskList[i].push(taskList[iSize]);
+   				if(++iSize % 10 == 0 || iSize == taskList.length){
+   					break;
+   				}
+   			}
+   		}
+   		for(i = pageIdx-1; i< pageIdx; i++){
+   			for(j = 0; j< sliceTaskList[i].length; j++){
+   				let trElement = document.createElement('tr');
+           		document.querySelector('tbody').appendChild(trElement);
+           		for(k =0; k <= 3; k++){
+           			let tdElement = document.createElement('td');
+           			if(k==0){
+               			tdElement.innerHTML = sliceTaskList[i][j].tIdx;
+               		}else if(k==1){
+               			tdElement.innerHTML =sliceTaskList[i][j].userId;
+               		}else if(k==2){
+               			let aElement = document.createElement('a');
+               			aElement.href="#";
+               			aElement.innerHTML = sliceTaskList[i][j].taskId;
+               			tdElement.appendChild(aElement);
+               		}else{
+               			tdElement.align="right";
+    			  		let inputElement = document.createElement('input');
+    			  		inputElement.className="form-check-input";
+    			  		inputElement.type="checkbox";
+    			  		inputElement.name="_selected_";
+    			  		inputElement.value="ROW_1";
+    			  		tdElement.appendChild(inputElement);
+               		}
+           	 	  trElement.appendChild(tdElement);
+           		}
+           		
+   			}
+   		}
+    }
+    
+    //페이징 처리를 위한 번호 버튼을 생성하는 함수
+    let doPaging =()=>{
+    	let taskCount = "${taskCount}";
+    	let pageCount = taskCount%10==0 ? taskCount/10 : parseInt(taskCount/10)+1;
+    	
+    	let wrapPrevBtn = document.createElement('li');
+    	wrapPrevBtn.className ="paginate_button page-item previous";
+    	let prevBtn = document.createElement('a');
+    	prevBtn.className="page-link";
+    	prevBtn.innerHTML ="이전";
+    	prevBtn.href="#";
+    	prevBtn.setAttribute("aria-controls","dataTable");
+    	prevBtn.setAttribute('id','btn_prev');
+    	wrapPrevBtn.appendChild(prevBtn);
+    	document.querySelector('#paging_ui').appendChild(wrapPrevBtn);
+    	for(i=0;i<pageCount;i++){
+    		let liElement = document.createElement('li');
+    		liElement.setAttribute('id','wrap_btn_page');
+    		if(i==0){
+    			liElement.className ="paginate_button page-item previous active";
+    		}else{
+    			liElement.className ="paginate_button page-item previous";
+    		}
+    		document.querySelector('#paging_ui').appendChild(liElement);
+    		let aElement = document.createElement('a');
+    		aElement.className = "page-link";
+    		aElement.setAttribute("idx",i+1);
+    		aElement.href="#";
+    		aElement.setAttribute('id',"btn_page");
+    		aElement.setAttribute('aria-controls',"dataTable");
+    		aElement.innerHTML = i+1;
+    		liElement.appendChild(aElement);
+    	}
+     	let wrapNextBtn = document.createElement('li');
+     	wrapNextBtn.className ="paginate_button page-item next"
+     	let nextBtn = document.createElement('a');
+     	nextBtn.className ="page-link";
+     	nextBtn.href="#";
+     	nextBtn.setAttribute("aria-controls","dataTable");
+     	nextBtn.setAttribute('id','btn_next');
+     	nextBtn.innerHTML="다음";
+     	wrapNextBtn.appendChild(nextBtn);
+     	
+     	document.querySelector('#paging_ui').appendChild(wrapNextBtn);
     }
     </script>
 </body>
