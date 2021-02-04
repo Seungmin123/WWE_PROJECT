@@ -60,6 +60,52 @@ public class MemberDao {
 		return member;
 	}
 	
+	public Member memberAuthenticateWithEmail(Connection conn, String userEmail) {
+		
+		Member member = null;
+		ResultSet rset = null;
+		PreparedStatement pstm = null;
+		
+		
+		
+		try {
+			
+			String query = null;
+			conn = jdt.getConnection();
+			
+			query = "select * from tb_user where user_email = ?";
+			pstm = conn.prepareStatement(query);
+			
+			pstm.setString(1, userEmail);
+			
+			
+			rset = pstm.executeQuery();
+			
+			if(rset.next()) {
+				
+				member = new Member();
+				member.setUserID(rset.getString("user_id"));
+				member.setUserPW(rset.getString("user_pw"));
+				member.setUserEmail(rset.getString("user_email"));
+				member.setUserName(rset.getString("user_name"));	
+				member.setUserAdd(rset.getString("user_add"));	
+				member.setUserTell(rset.getString("user_tell"));
+				member.setUserBirth(rset.getString("user_birth"));
+				if(rset.getString("user_profile") != null) {
+					member.setUserProfile(rset.getString("user_profile"));
+				}
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			jdt.close(rset);
+			jdt.close(pstm);
+		}
+		return member;
+	}
+	
 	public Member getMemberProject(Connection conn, String userID) {
 		
 		Member member = null;
