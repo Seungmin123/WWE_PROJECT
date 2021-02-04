@@ -111,6 +111,7 @@ public class LeaderController extends HttpServlet {
 		if(taskList.size()>0) {
 			System.out.println("업무리스트 불러오기 성공");
 			request.setAttribute("taskList", taskList);
+			request.setAttribute("taskCount", taskList.size());
 			request.getRequestDispatcher("/WEB-INF/view/leader/total_task.jsp").forward(request, response);
 		}else {
 			System.out.println("업무리스트 불러오기 실패");
@@ -143,19 +144,5 @@ public class LeaderController extends HttpServlet {
 			response.getWriter().print("failed");
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }
