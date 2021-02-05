@@ -366,9 +366,12 @@
                             </div>
 
                             <!-- Basic Card Example -->
+                            <c:forEach var="member" items="${memberList}">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                    <a class="m-0 font-weight-bold text-primary" href="${context}/task/member">김선민</a>
+                                    <a class="m-0 font-weight-bold text-primary" href="${context}/task/member">
+                                    ${member}
+                                    </a>
                                     <span href="#" class="btn btn-info btn-icon-split ml-3" id="mName">
                                         <span class="text" id="mName">팀원</span>
                                     </span>
@@ -377,6 +380,7 @@
                                    
                                 </div>
                             </div>
+                            </c:forEach>
                         </div>
                         </div>
 
