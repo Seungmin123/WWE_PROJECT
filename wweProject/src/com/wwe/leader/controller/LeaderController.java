@@ -44,9 +44,11 @@ public class LeaderController extends HttpServlet {
 		case "updateauthority" :
 			updateAuthority(request,response);
 			break;
-		case "search" :
-			searchTask(request,response);
+		case "searchbytask" :
+			searchTaskByTask(request,response);
 			break;
+		case "searchbyid" :
+			searchTaskById(request,response);
  		default:
 			break;
 		}
@@ -148,7 +150,7 @@ public class LeaderController extends HttpServlet {
 		}
 	}
 	
-	private void searchTask(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException{
+	private void searchTaskByTask(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException{
 		String data = request.getParameter("data");
 		Gson gson = new Gson();
 		
@@ -161,7 +163,7 @@ public class LeaderController extends HttpServlet {
 		task.setProjectId(projectId);
 		task.setTaskId(word);
 		
-		ArrayList<Task> searchTaskList = leaderService.selectSearchTask(task);
+		ArrayList<Task> searchTaskList = leaderService.selectTaskByTask(task);
 		
 		if(searchTaskList.size()>0) {
 			String jArray = gson.toJson(searchTaskList);
@@ -169,7 +171,29 @@ public class LeaderController extends HttpServlet {
 		}else {
 			response.getWriter().print("failed");
 		}
+	}
+	
+	private void searchTaskById(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException{
+		String data = request.getParameter("data");
+		Gson gson = new Gson();
 		
+		Map parsedData = gson.fromJson(data, Map.class);
+		
+		String projectId = parsedData.get("projectId").toString();		
+		String word = parsedData.get("word").toString();		
+		
+		Task task = new Task();
+		task.setProjectId(projectId);
+		task.setTaskId(word);
+		
+		ArrayList<Task> searchTaskList = leaderService.selectTaskById(task);
+		
+		if(searchTaskList.size()>0) {
+			String jArray = gson.toJson(searchTaskList);
+			response.getWriter().print(jArray);
+		}else {
+			response.getWriter().print("failed");
+		}
 	}
 	
 	

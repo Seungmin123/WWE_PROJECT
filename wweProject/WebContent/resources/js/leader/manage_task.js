@@ -145,9 +145,9 @@ let prevBtnClick = (totalPageCount)=>{
 	}
 
 //업무명으로 업무목록을 검색
-let searchTask = ()=>{
+let searchTaskByTask = ()=>{
 	let word = document.querySelector('#inp_word').value;
-	let url = "/leader/search";
+	let url = "/leader/searchbytask";
 	let paramObj = new Object();
 	paramObj.projectId = "프로젝트 1";
 	paramObj.word = word;
@@ -175,14 +175,44 @@ let searchTask = ()=>{
 			}
 		}).catch(error=>{
 			erorr.alertMessage();
-		})
+		});
 	}
 }
 
-
-
-
-
+//유저아이디로 업무 검색
+let searchTaskById = ()=>{
+	let word = document.querySelector('#inp_word').value;
+	let url = "/leader/searchbyid";
+	let paramObj = new Object();
+	paramObj.projectId = "프로젝트 1";
+	paramObj.word = word;
+	let headerObj = new Headers();
+	headerObj.append('content-type','application/x-www-form-urlencoded');
+	if(word){
+		fetch(url,{
+			method : "POST",
+			headers : headerObj,
+			body : "data=" + JSON.stringify(paramObj)
+		}).then(response=>{
+			if(response.ok){
+				return response.text();
+			}
+			throw new AsyncPageError(response.text());
+		}).then(msg=>{
+			if(msg != 'failed'){
+				jsonData = JSON.parse(msg);
+				document.querySelector('tbody').innerHTML="";
+				document.querySelector('#paging_ui').innerHTML = "";
+				selectTaskList(jsonData);
+				doPaging(jsonData.length);
+			}else{
+				alert("조건에 일치하는 업무가 없습니다.");
+			}
+		}).catch(error=>{
+			erorr.alertMessage();
+		});
+	}	
+}
 
 //페이지를 새로고침하는 함수
 let reloadPage = ()=>{

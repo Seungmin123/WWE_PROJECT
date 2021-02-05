@@ -36,7 +36,7 @@ public class JDBCTemplate {
 	//Connection 객체를 만들 메서드
 	public Connection getConnection() {
 		
-		String url = "jdbc:oracle:thin:@wwedb_high?TNS_ADMIN=C:/wallet/Wallet_WweDB";
+		String url = "jdbc:oracle:thin:@wwedb_medium?TNS_ADMIN=C:/wallet/Wallet_WweDB";
 		String user = "admin";
 		String password = "Weworkeasy93!";
 
