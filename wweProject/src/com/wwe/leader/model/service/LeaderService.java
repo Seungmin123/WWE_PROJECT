@@ -94,11 +94,12 @@ public class LeaderService {
 		return res;
 	}
 	
-	public ArrayList<Task> selectSearchTask(Task task){
+	//업무명으로 업무 검색하는 메소드
+	public ArrayList<Task> selectTaskByTask(Task task){
 		Connection conn = jdt.getConnection();
 		ArrayList<Task> taskList = new ArrayList<>();
 		try {
-			taskList = leaderDao.selectSearchTask(conn, task);
+			taskList = leaderDao.selectTaskByTask(conn, task);
 		}finally {
 			jdt.close(conn);
 		}
@@ -106,6 +107,17 @@ public class LeaderService {
 		return taskList;
 	}
 	
+	//유저아이디로 업무를 검색하는 메소드
+	public ArrayList<Task> selectTaskById(Task task){
+		Connection conn = jdt.getConnection();
+		ArrayList<Task> taskList = new ArrayList<>();
+		try {
+			taskList = leaderDao.selectTaskByTask(conn, task);
+		}finally {
+			jdt.close(conn);
+		}
+		return taskList;
+	}
 	
 	
 	

@@ -153,7 +153,8 @@ public class LeaderDao {
 			return res;
 	}
 	
-	public ArrayList<Task> selectSearchTask(Connection conn,Task task){
+	//업무명으로 업무 검색하는 메소드
+	public ArrayList<Task> selectTaskByTask(Connection conn,Task task){
 		ArrayList<Task> taskList = new ArrayList<Task>();
 		PreparedStatement pstm = null;
 		ResultSet rset = null;
@@ -184,30 +185,42 @@ public class LeaderDao {
 		}finally {
 			jdt.close(rset,pstm);
 		}
-		
 		return taskList;
-		
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	//유저아이디로 업무를 검색하는 메소드
+	public ArrayList<Task> selectTaskById(Connection conn,Task task){
+		ArrayList<Task> taskList = new ArrayList<Task>();
+		PreparedStatement pstm = null;
+		ResultSet rset = null;
+		
+		System.out.println(task.getProjectId());
+		System.out.println(task.getTaskId());
+		String query = "SELECT T_IDX, PROJECT_ID, TASK_ID, TASK_CONTENT, USER_ID FROM TB_TASK "
+				+"WHERE PROJECT_ID = ? AND USER_ID LIKE '%'||?||'%'";
+		
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, task.getProjectId());
+			pstm.setString(2, task.getTaskId());
+			rset = pstm.executeQuery();
+			
+			while(rset.next()) {
+				Task mTask = new Task();
+				System.out.println(rset.getString("TASK_ID"));
+				mTask.settIdx(rset.getInt("T_IDX"));
+				mTask.setProjectId(rset.getString("PROJECT_ID"));
+				mTask.setTaskId(rset.getString("TASK_ID"));
+				mTask.setTaskContent(rset.getString("TASK_CONTENT"));
+				mTask.setUserId(rset.getString("USER_ID"));
+				taskList.add(mTask);
+			}
+		}catch(SQLException e) {
+			throw new DataAccessException(ErrorCode.SC01,e);
+		}finally {
+			jdt.close(rset,pstm);
+		}
+		return taskList;
+	}
 	
 }

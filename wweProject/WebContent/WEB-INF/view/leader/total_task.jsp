@@ -304,7 +304,7 @@
                                 <input type="text" class="form-control bg-light border small" id="inp_word" placeholder="검색" aria-label="Search" aria-describedby="inputGroup-sizing-sm">
                                 <div class="input-group-append">
                                     <!-- 검색 버튼 -->
-                                    <button class="btn btn-secondary" id="btn_search" onclick="searchTask();" type="button">
+                                    <button class="btn btn-secondary" id="btn_search" onclick="searchTaskByTask();" type="button">
                                         <i class="fas fa-search fa-sm"></i>
                                     </button>
                                     <!-- 검색버튼 끝 -->
@@ -466,7 +466,6 @@
                		}
            	 	  trElement.appendChild(tdElement);
            		}
-           		
    			}
    		}
     }
