@@ -467,12 +467,12 @@
                                         <h1 class="h6 text-white font-weight-bold">Feedback</h1>
                                     </div>
 									
-									<form method="post">
+									<form>
                                     	<div class="d-flex justify-content-between align-items-center">
                                     		<input type="text" class="form-control form-control-user col-sm-2 mr-2 rounded" placeholder="닉네임" id="nick" name="nick">
                                     		<input type="text" class="form-control form-control-user rounded" id="feedbackComment" name="feedbackComment"> 
                                     		<i class="fas fa-unlock ml-2"></i>
-                                    		<button onclick="feedBack();"  class="btn bg-dark btn-icon-split ml-2 pb-2 pt-2 pl-3 pr-3">
+                                    		<button type="button" onclick="feedBack();" class="btn bg-dark btn-icon-split ml-2 pb-2 pt-2 pl-3 pr-3">
                                         	<span class="text-white small">send</span>
                                    			</button>
                                    		 </div>

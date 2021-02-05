@@ -361,20 +361,7 @@
                                                 </a>
                                             </span>
                                         </div>
-                                        <div class="d-flex justify-content-between todotask">
-                                            <div class="checkbox pt-4 mr-3" >
-                                                <input type="checkbox" id="priority">
-                                            </div>
-                                            <div class="mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm align-items-center justify-content-center border-0"
-                                                 ondragstart="onDragStart(event);" draggable="true"id="todozone">
-                                                <a class="text-gray-600" href="${context}/task/detail">
-                                                    ${myList[0].taskId}
-                                                </a>
-                                                <span class="btn btn-sm">
-                                                    <i class="fas fa-info-circle"></i>
-                                                </span>
-                                            </div>
-                                        </div>
+                                      
                                     </div>
                                 </div>
 
@@ -429,7 +416,6 @@
             <a class="scroll-to-top rounded" href="#page-top">
                 <i class="fas fa-angle-up"></i>
             </a>
-
             <!-- Logout Modal-->
             <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
@@ -503,15 +489,15 @@
        					
        					inputElement.setAttribute('type','checkbox');
        					inputElement.setAttribute('id','priority');
-       					todotask.setAttribute('class','d-flex justify-content-between');
+       					todotask.setAttribute('class','d-flex');
        					checkBox.setAttribute('class','checkbox pt-4 mr-3');
-       					todobutton.setAttribute('class', 'mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm align-items-center justify-content-center border-0');
+       					todobutton.setAttribute('class', 'mb-4 py-3 bg-gray-100 pl-4 d-flex justify-content-center rounded shadow-sm border-0');
        					todobutton.setAttribute('ondragstart','onDragStart(event);');
        					todobutton.setAttribute('draggable','true');
        					todobutton.setAttribute('id','todozone');
        					taskName.setAttribute('class','text-gray-600');
        					taskName.setAttribute('href','${context}/task/detail');
-       					issue.setAttribute('class','btn btn-sm ml-1 mr-1');
+       					issue.setAttribute('class','btn btn-sm ml-1');
 
        					taskName.innerHTML += '${my.taskId}';
 				

@@ -3,8 +3,10 @@ package com.wwe.task.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -76,12 +78,38 @@ public class TaskController extends HttpServlet {
 	protected void mainTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		selectAllTaskList(request,response);
+		selectName(request,response);
 		
-		request.getAttribute("taskList");
-		request.setAttribute("leaderId", "임희원");//프로젝트 session으로 받아오기
+		//request.getAttribute("taskList");
+		//request.getAttribute("memberList");
+		//request.getAttribute("")
+		
+		
 
 		request.getRequestDispatcher("/WEB-INF/view/task/main.jsp").forward(request, response);
 	
+	}
+	
+	//이름불러오기
+	protected void selectName(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		//Project project = (Project) request.getSession().getAttribute("project");
+		
+		//String projectId = project.getProjectId();
+		String projectId = "프로젝트 1";
+		
+		ArrayList<String> memberList = taskService.selectName(projectId);
+
+		if(memberList != null) {
+			
+			System.out.println("업무리스트 성공");
+				  
+			request.setAttribute("memberList", memberList);
+			
+		} else {
+			System.out.println("업무리스트 불러오기실패");
+		}
+		
 	}
 	
 	//업무리스트불러오기
@@ -92,7 +120,18 @@ public class TaskController extends HttpServlet {
 		//String projectId = project.getProjectId();
 		String projectId = "프로젝트 1";
 		
+		
 		ArrayList<Task> taskList = taskService.selectAllTaskList(projectId);
+		
+		//leaderList로 넘기기 위한 id
+		request.setAttribute("leaderId", "wwe123");//프로젝트 session으로 받아오기
+		String leaderId = "www123";
+		//myList로 넘겨 질 업무 식별 하기위한 id
+		//Member user = (Member) request.getSession().getAttribute("user");
+		//String userId = user.getUserID();
+		String userId = "test";
+		
+		
 
 		if(taskList != null) {
 			
@@ -199,9 +238,9 @@ public class TaskController extends HttpServlet {
 	protected void selectMyList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		//세션으로 아이디값 받아와서 하기
-		Member user = (Member) request.getSession().getAttribute("user");
-		String userId = user.getUserID();
-		//String userId = "wwe123";
+		//Member user = (Member) request.getSession().getAttribute("user");
+		//String userId = user.getUserID();
+		String userId = "wwe123";
 		
 		ArrayList<Task> myList = taskService.selectMyList(userId);
 		

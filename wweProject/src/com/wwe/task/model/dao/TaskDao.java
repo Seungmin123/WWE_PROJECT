@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.wwe.common.code.ErrorCode;
 import com.wwe.common.exception.DataAccessException;
@@ -70,6 +72,7 @@ public class TaskDao {
 				task.setTaskContent(rset.getString("TASK_CONTENT"));
 				task.setTaskPriority(rset.getString("TASK_PRIORITY"));
 				task.setTaskState(rset.getString("TASK_STATE"));
+				task.setUserId(rset.getString("user_id"));
 				
 				taskList.add(task);
 			}
@@ -170,6 +173,7 @@ public class TaskDao {
 				task.setTaskState(rset.getString("task_state"));
 				task.setDeadLine(rset.getString("dead_line"));
 				task.setStartDate(rset.getString("start_date"));
+				task.setProjectId(rset.getString("project_id"));
 				
 				myList.add(task);
 			}
@@ -181,6 +185,40 @@ public class TaskDao {
 		}
 		
 		return myList;
+	}
+	
+	//프로젝트 멤버이름 불러오기
+	public ArrayList<String> selectName(Connection conn, String projectId){
+		
+		ArrayList<String> memberList = new ArrayList<>();
+		PreparedStatement pstm = null;
+		ResultSet rset = null;
+		
+		try{
+			String query = "SELECT USER_ID FROM TB_PROJECT_USER WHERE PROJECT_ID = ?";
+			
+			//3. 쿼리문 실행용 객체를 생성
+			pstm = conn.prepareStatement(query);
+			//4. PreparedStatement의 쿼리문을 완성
+			pstm.setString(1, projectId);
+			//5. 쿼리문 실행하고 결과(resultSet)를 받음
+			rset = pstm.executeQuery();
+			
+			while(rset.next()) {
+				Task task = new Task();
+				task.setUserId(rset.getString("user_id"));
+				
+				memberList.add(task.getUserId());
+			}
+
+		} catch (SQLException e) {;
+			throw new DataAccessException(ErrorCode.TK01,e);
+		}finally {
+			jdt.close(rset,pstm);
+		}
+		
+		return memberList;
+		
 	}
 
 	

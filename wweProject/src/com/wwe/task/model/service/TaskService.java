@@ -2,6 +2,7 @@ package com.wwe.task.model.service;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.wwe.common.jdbc.JDBCTemplate;
 import com.wwe.task.feedback.Feedback;
@@ -100,6 +101,24 @@ public class TaskService {
 		}
 		
 		return myList;
+	}
+	
+	//프로젝트 별 이름 불러오기
+	public ArrayList<String> selectName(String projectId){
+		
+		Connection conn = jdt.getConnection();
+		ArrayList<String> memberList = null;
+		
+		try {
+			
+			memberList = taskDao.selectName(conn, projectId);
+			
+		} finally {
+			jdt.close(conn);
+		}
+		
+		return memberList;
+		
 	}
 
 	
