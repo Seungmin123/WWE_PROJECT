@@ -200,7 +200,7 @@ public class LeaderDao {
 		
 		System.out.println(task.getProjectId());
 		System.out.println(task.getTaskId());
-		String query = "SELECT T_IDX, PROJECT_ID, TASK_ID, TASK_CONTENT, USER_ID FROM TB_TASK "
+		String query = "SELECT * FROM TB_TASK "
 				+"WHERE PROJECT_ID = ? AND USER_ID LIKE '%'||?||'%'";
 		
 		try {
@@ -246,9 +246,46 @@ public class LeaderDao {
 			res = pstm.executeUpdate();
 		}catch (SQLException e) {
 			throw new DataAccessException(ErrorCode.UT01, e);
+		}finally {
+			jdt.close(pstm);
 		}
 		return res;
 	}
+	
+	//선택한 업무를 삭제하는 메소드
+	public int deleteTask(Connection conn, int tIdx) {
+		int res = 0;
+		PreparedStatement pstm = null;
+		
+		String query = "DELETE FROM TB_TASK "
+				+"WHERE T_IDX = ?";
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setInt(1, tIdx);
+			res = pstm.executeUpdate();
+		}catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.DT01, e);
+		}finally {
+			jdt.close(pstm);
+		}
+		return res;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }

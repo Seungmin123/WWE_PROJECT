@@ -53,8 +53,12 @@ public class LeaderController extends HttpServlet {
 			break;
 		case "searchbyid" :
 			searchTaskById(request,response); //유저명으로 업무목록을 검색
+			break;
 		case "modifytask" :
 			modifyTaskByIdx(request,response); //업무내용을 수정
+			break;
+		case "deletetask" :
+			deleteTask(request,response);
 			break;
  		default:
 			break;
@@ -229,6 +233,24 @@ public class LeaderController extends HttpServlet {
 			response.getWriter().print("failed");
 		}
 		
+	}
+	
+	public void deleteTask(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
+		
+		String data = request.getParameter("data");
+		
+		Gson gson = new Gson();
+		Map parsedData = gson.fromJson(data, Map.class);
+		
+		int tIdx = Integer.parseInt(parsedData.get("tIdx").toString());
+		
+		int res = leaderService.deleteTask(tIdx);
+		
+		if(res>0) {
+			response.getWriter().print("success");
+		}else {
+			response.getWriter().print("failed");
+		}
 	}
 	
 	

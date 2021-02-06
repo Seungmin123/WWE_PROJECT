@@ -119,6 +119,7 @@ public class LeaderService {
 		return taskList;
 	}
 	
+	//업무를 수정하는 메소드
 	public int updateTask(Task task) {
 		Connection conn = jdt.getConnection();
 		int res = 0;
@@ -134,6 +135,19 @@ public class LeaderService {
 		return res;
 	}
 	
+	//선택한 업무를 삭제하는 메소드
+	public int deleteTask(int tIdx) {
+		Connection conn = jdt.getConnection();
+		int res =0;
+		try {
+			res = leaderDao.deleteTask(conn, tIdx);
+			jdt.commit(conn);
+		}catch(DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		}
+		return res;
+	}
 	
 	
 	

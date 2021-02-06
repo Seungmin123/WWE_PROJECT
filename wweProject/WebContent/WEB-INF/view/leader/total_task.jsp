@@ -352,7 +352,7 @@
                             	<!-- DB불러와서 동적으로 tr요소 생성할 곳 -->
                             </tbody>
                         </table>
-                        <button type="button" class="btn btn-danger btn-sm float-right">삭제</button>
+                        <button type="button" class="btn btn-danger btn-sm float-right" id="btn_delete_task" onclick="deleteTask();">삭제</button>
                         <!-- 게시판 테이블 끝 -->
                         
                         <!--게시판 페이징 처리 부분 -->

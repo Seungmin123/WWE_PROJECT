@@ -33,6 +33,7 @@ let modify = ()=>{
 	let month = ("0"+(1+today.getMonth())).slice(-2);
 	let day = ("0" + today.getDate()).slice(-2);
 	
+	
 	today = new Date(year, month-1, day);
 	let tempArr = modDeadLine.split('-');
 	let modDate = new Date(tempArr[0], tempArr[1]-1, tempArr[2]);
@@ -76,5 +77,54 @@ let modify = ()=>{
 			error.alertMessage();
 		});	
 	}
-	
 }
+
+//업무를 삭제하는 함수
+let deleteTask = ()=>{
+	let checkedList = document.getElementsByName('_selected_');
+	let idxList = document.querySelectorAll('a[tIdx]');
+	let deleteIdx;
+	
+	checkedList.forEach((e,i)=>{
+		if(e.checked==true){
+			deleteIdx = idxList[i].getAttribute("tIdx");
+		}
+	});
+	let url = "/leader/deletetask"
+	let paramObj = new Object();
+	paramObj.tIdx = deleteIdx;
+	let headerObj = new Headers();
+	headerObj.append('content-type','application/x-www-form-urlencoded');
+	
+	fetch(url,{
+		method : "POST",
+		headers : headerObj,
+		body : "data="+JSON.stringify(paramObj)
+	}).then(response=>{
+		if(response.ok){
+			return response.text();
+		}else{
+			throw new AsyncPageError(response.text());
+		}
+	}).then(msg =>{
+		if(msg=='success'){
+			alert("업무가 삭제되었습니다.");
+			reloadPage();
+		}else{
+			alert('업무를 삭제하지 못했습니다.');
+		}
+	}).catch(error=>{
+		error.alertMessage();
+	});
+}
+
+
+
+
+
+
+
+
+
+
+

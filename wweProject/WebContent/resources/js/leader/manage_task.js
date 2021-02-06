@@ -162,6 +162,7 @@ let searchtask = ()=>{
 	pageCycle = 3;
 	let word = document.querySelector('#inp_word').value;
 	let url;
+	console.log(menu)
 	if(menu=='업무명'){
 		url = "/leader/searchbytask";
 	}else if(menu=='아이디'){
@@ -195,7 +196,7 @@ let searchtask = ()=>{
 				alert("조건에 일치하는 업무가 없습니다.");
 			}
 		}).catch(error=>{
-			erorr.alertMessage();
+			error.alertMessage();
 			
 		});
 	}
