@@ -9,12 +9,15 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Connection;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.wwe.common.jdbc.JDBCTemplate;
 import com.wwe.member.model.dao.MemberDao;
+import com.wwe.member.model.vo.Alarm;
 import com.wwe.member.model.vo.Member;
 
 public class MemberService {
@@ -259,6 +262,25 @@ public class MemberService {
 	        // TODO Auto-generated catch block
 	        e.printStackTrace();
 	    }
+	}
+	
+	public Map<String, Object> selectAlarm(String userID, String projectID){
+		Map<String, Object> commandMap = new HashMap<String, Object>();
+		List<Alarm> alarmList = null;
+		Connection conn = jdt.getConnection();
+		
+		try {
+			alarmList = memberDao.selectAlarm(conn, userID, projectID);
+		
+			commandMap.put("alarmList", alarmList);
+		}catch(Exception e) {
+			System.out.println("Service Error");
+		}finally {
+			jdt.close(conn);
+		}
+		
+		return commandMap;
+		
 	}
 
 }

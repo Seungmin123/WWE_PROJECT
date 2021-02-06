@@ -5,9 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.wwe.common.jdbc.JDBCTemplate;
 import com.wwe.member.mail.MailSender;
+import com.wwe.member.model.vo.Alarm;
 import com.wwe.member.model.vo.Member;
 
 public class MemberDao {
@@ -263,7 +265,7 @@ public class MemberDao {
 		mail.GmailSet(user, title, content);
 	}
 	
-public int modifyMember(Connection conn, Member member) {		
+	public int modifyMember(Connection conn, Member member) {		
 		int res = 0;
 		PreparedStatement pstm = null;
 		
@@ -293,4 +295,38 @@ public int modifyMember(Connection conn, Member member) {
 
 		return res;
 	}
+	
+	public List<Alarm> selectAlarm(Connection conn, String userID, String projectID){
+		List<Alarm> alarmList = null;
+		PreparedStatement pstm = null;
+		ResultSet rset = null;
+		
+		String query = "select type_alarm, add_date, writer from tb_user_issue where user_id = ? and project_id = ? and is_checked = '0'";
+		
+		try {
+			
+			alarmList = new ArrayList<Alarm>();
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, userID);
+			pstm.setString(2, projectID);
+			rset = pstm.executeQuery();
+			
+			while(rset.next()) {
+				
+				Alarm alarmMember = new Alarm();
+				alarmMember.setTypeOfAlarm(rset.getString("type_alarm"));
+				alarmMember.setAddDate(rset.getDate("add_date"));
+				alarmMember.setWriter(rset.getString("writer"));
+				alarmList.add(alarmMember);
+				
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return alarmList;
+	}
+	
+	
 }

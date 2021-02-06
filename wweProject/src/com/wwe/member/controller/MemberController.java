@@ -1,12 +1,7 @@
 package com.wwe.member.controller;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -14,10 +9,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import com.wwe.member.mail.MailSender;
 import com.wwe.member.model.service.MemberService;
 import com.wwe.member.model.vo.Member;
@@ -75,6 +69,9 @@ public class MemberController extends HttpServlet {
 				break;
 				
 			case "kakao" : kakao(request, response);
+				break;
+				
+			case "alarm" : alarmModule(request, response);
 				break;
 				
 			case "logout" : logout(request, response);
@@ -323,6 +320,25 @@ public class MemberController extends HttpServlet {
 			.getRequestDispatcher("/WEB-INF/view/member/Logout.jsp")
 			.forward(request, response);
 		}
+	}
+	
+	// 알람기능을 위한 처리부분
+	private void alarmModule(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		
+		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("user");
+		
+		Map<String, Object> commandMap = memberService.selectAlarm(member.getUserID(), "프로젝트 1");
+		List<Object> alarmList = (List<Object>) commandMap.get("alarmList");
+		
+		System.out.println(member.getUserID());
+		
+		System.out.println(alarmList.toString());
+		
+		request.setAttribute("alarmList", commandMap);
+		request.getRequestDispatcher("/WEB-INF/view/member/MyPage.jsp").forward(request, response);
+		
 	}
 	
 
