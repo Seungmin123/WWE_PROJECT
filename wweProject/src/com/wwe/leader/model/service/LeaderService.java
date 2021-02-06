@@ -112,13 +112,27 @@ public class LeaderService {
 		Connection conn = jdt.getConnection();
 		ArrayList<Task> taskList = new ArrayList<>();
 		try {
-			taskList = leaderDao.selectTaskByTask(conn, task);
+			taskList = leaderDao.selectTaskById(conn, task);
 		}finally {
 			jdt.close(conn);
 		}
 		return taskList;
 	}
 	
+	public int updateTask(Task task) {
+		Connection conn = jdt.getConnection();
+		int res = 0;
+		try {
+			res = leaderDao.updateTask(conn, task);
+			jdt.commit(conn);
+		}catch (DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		}finally {
+			jdt.close(conn);
+		}
+		return res;
+	}
 	
 	
 	

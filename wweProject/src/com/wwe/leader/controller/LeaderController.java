@@ -1,7 +1,11 @@
 package com.wwe.leader.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -42,13 +46,16 @@ public class LeaderController extends HttpServlet {
 			selectTaskList(request,response); //프로젝트의 업무 리스트를 불러오는 기능을 수행
 			break;
 		case "updateauthority" :
-			updateAuthority(request,response);
+			updateAuthority(request,response); //팀원의 궈한을 수정
 			break;
 		case "searchbytask" :
-			searchTaskByTask(request,response);
+			searchTaskByTask(request,response); //업무명으로 업무목록을 검색
 			break;
 		case "searchbyid" :
-			searchTaskById(request,response);
+			searchTaskById(request,response); //유저명으로 업무목록을 검색
+		case "modifytask" :
+			modifyTaskByIdx(request,response); //업무내용을 수정
+			break;
  		default:
 			break;
 		}
@@ -184,7 +191,7 @@ public class LeaderController extends HttpServlet {
 		
 		Task task = new Task();
 		task.setProjectId(projectId);
-		task.setTaskId(word);
+		task.setUserId(word);
 		
 		ArrayList<Task> searchTaskList = leaderService.selectTaskById(task);
 		
@@ -194,6 +201,34 @@ public class LeaderController extends HttpServlet {
 		}else {
 			response.getWriter().print("failed");
 		}
+	}
+	
+	//업무를 수정하는 메소드
+	public void modifyTaskByIdx(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
+		String data = request.getParameter("data");
+		Gson gson = new Gson();
+		
+		Map parsedData = gson.fromJson(data, Map.class);
+		
+		String taskId = parsedData.get("taskId").toString();
+		String deadLine = parsedData.get("deadLine").toString();
+		String modifiedContent = parsedData.get("modifiedContent").toString();
+		int tIdx = Integer.parseInt(parsedData.get("tIdx").toString());
+
+		Task task = new Task();
+		task.setTaskId(taskId);
+		task.setDeadLine(deadLine);
+		task.setTaskContent(modifiedContent);
+		task.settIdx(tIdx);
+		
+		int res = leaderService.updateTask(task);
+		
+		if(res>0) {
+			response.getWriter().print("success");
+		}else {
+			response.getWriter().print("failed");
+		}
+		
 	}
 	
 	

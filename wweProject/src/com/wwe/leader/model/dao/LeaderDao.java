@@ -90,6 +90,8 @@ public class LeaderDao {
 				task.setTaskId(rset.getString("TASK_ID"));
 				task.setTaskContent(rset.getString("TASK_CONTENT"));
 				task.setUserId(rset.getString("USER_ID"));
+				task.setDeadLine(rset.getString("DEAD_LINE"));
+				task.setStartDate(rset.getString("START_DATE"));
 				taskList.add(task);
 			}
 			
@@ -161,7 +163,7 @@ public class LeaderDao {
 		
 		System.out.println(task.getProjectId());
 		System.out.println(task.getTaskId());
-		String query = "SELECT T_IDX, PROJECT_ID, TASK_ID, TASK_CONTENT, USER_ID FROM TB_TASK "
+		String query = "SELECT*FROM TB_TASK "
 				+"WHERE PROJECT_ID = ? AND TASK_ID LIKE '%'||?||'%'";
 		
 		try {
@@ -178,6 +180,8 @@ public class LeaderDao {
 				mTask.setTaskId(rset.getString("TASK_ID"));
 				mTask.setTaskContent(rset.getString("TASK_CONTENT"));
 				mTask.setUserId(rset.getString("USER_ID"));
+				mTask.setDeadLine(rset.getString("DEAD_LINE"));
+				mTask.setStartDate(rset.getString("START_DATE"));
 				taskList.add(mTask);
 			}
 		}catch(SQLException e) {
@@ -202,7 +206,7 @@ public class LeaderDao {
 		try {
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, task.getProjectId());
-			pstm.setString(2, task.getTaskId());
+			pstm.setString(2, task.getUserId());
 			rset = pstm.executeQuery();
 			
 			while(rset.next()) {
@@ -213,6 +217,8 @@ public class LeaderDao {
 				mTask.setTaskId(rset.getString("TASK_ID"));
 				mTask.setTaskContent(rset.getString("TASK_CONTENT"));
 				mTask.setUserId(rset.getString("USER_ID"));
+				mTask.setDeadLine(rset.getString("DEAD_LINE"));
+				mTask.setStartDate(rset.getString("START_DATE"));
 				taskList.add(mTask);
 			}
 		}catch(SQLException e) {
@@ -222,5 +228,27 @@ public class LeaderDao {
 		}
 		return taskList;
 	}
+	
+	//업무수정을하는 메소드
+	public int updateTask(Connection conn, Task task) {
+		int res=0;
+		PreparedStatement pstm = null;
+		
+		String query = "UPDATE TB_TASK SET TASK_ID =?, DEAD_LINE = ?, TASK_CONTENT = ? "
+				+"WHERE T_IDX = ?";
+		
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, task.getTaskId());
+			pstm.setString(2, task.getDeadLine());
+			pstm.setString(3, task.getTaskContent());
+			pstm.setInt(4, task.gettIdx());
+			res = pstm.executeUpdate();
+		}catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.UT01, e);
+		}
+		return res;
+	}
+	
 	
 }
