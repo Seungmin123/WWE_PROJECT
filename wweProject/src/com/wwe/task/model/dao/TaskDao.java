@@ -149,19 +149,20 @@ public class TaskDao {
 	}
 	
 	//내 업무리스트 불러오기
-	public ArrayList<Task> selectMyList(Connection conn, String userId){
+	public ArrayList<Task> selectMyList(Connection conn, String userId,String projectId){
 		
 		ArrayList<Task> myList = new ArrayList<>();
 		PreparedStatement pstm = null;
 		ResultSet rset = null;
 		
 		try{
-			String query = "SELECT * FROM TB_TASK WHERE USER_ID = ?";
+			String query = "SELECT * FROM TB_TASK WHERE USER_ID = ? AND PROJECT_ID = ?";
 			
 			//3. 쿼리문 실행용 객체를 생성
 			pstm = conn.prepareStatement(query);
 			//4. PreparedStatement의 쿼리문을 완성
 			pstm.setString(1, userId);
+			pstm.setString(2, projectId);
 			//5. 쿼리문 실행하고 결과(resultSet)를 받음
 			rset = pstm.executeQuery();
 			
@@ -196,12 +197,10 @@ public class TaskDao {
 		
 		try{
 			String query = "SELECT USER_ID FROM TB_PROJECT_USER WHERE PROJECT_ID = ?";
-			
-			//3. 쿼리문 실행용 객체를 생성
+
 			pstm = conn.prepareStatement(query);
-			//4. PreparedStatement의 쿼리문을 완성
 			pstm.setString(1, projectId);
-			//5. 쿼리문 실행하고 결과(resultSet)를 받음
+			
 			rset = pstm.executeQuery();
 			
 			while(rset.next()) {
@@ -220,6 +219,71 @@ public class TaskDao {
 		return memberList;
 		
 	}
+	
+	public Map<String, List<String>> selectTaskbyMem(Connection conn, String projectId){
+		
+			Map<String, List<String>> taskByMember = new HashMap<>();
+			PreparedStatement pstm = null;
+			ResultSet rset = null;
+			
+			try{
+				String query = "SELECT * FROM TB_TASK WHERE PROJECT_ID = ?";
+				
+				//3. 쿼리문 실행용 객체를 생성
+				pstm = conn.prepareStatement(query);
+				//4. PreparedStatement의 쿼리문을 완성
+				pstm.setString(1, projectId);
+				//5. 쿼리문 실행하고 결과(resultSet)를 받음
+				rset = pstm.executeQuery();
+				
+				while(rset.next()) {
+					Task task = new Task();
+					task.setUserId(rset.getString("user_id"));
+					task.setTaskId(rset.getString("task_id"));
+					
+					ArrayList<String> taskList = new ArrayList<>();
+					
+					taskByMember.put(task.getUserId(), taskList);
+				}
 
+			} catch (SQLException e) {;
+				throw new DataAccessException(ErrorCode.TK01,e);
+			}finally {
+				jdt.close(rset,pstm);
+			}
+			
+			return taskByMember;
+	}
+
+	//알람기능 넣는 메서드
+	public int insertTaskIssue(Connection conn, String userId,String projectId,String typeAlarm) {
+		
+		int res = 0;
+		PreparedStatement pstm = null;
+		
+		try {
+			String query = "INSERT INTO TB_USER_ISSUE(USER_ID, PROJECT_ID, TYPE_ALARM, WRITER) VALUES(SELECT USER_ID FROM TB_USER_ID WHERE USER_ID != ?), ?, ?, ?)";
+
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, userId);
+			pstm.setString(2, projectId);
+			pstm.setString(3,typeAlarm);
+			pstm.setString(4, userId);
+
+			res = pstm.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.TK02, e);
+		}finally {
+			jdt.close(pstm);
+		}
+
+		return res;
+		
+	}
+	
+	public int deleteTask(Connection conn, String projectId) {
+		return 0;
+	}
 	
 }

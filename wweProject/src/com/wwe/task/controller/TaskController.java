@@ -80,14 +80,36 @@ public class TaskController extends HttpServlet {
 		selectAllTaskList(request,response);
 		selectName(request,response);
 		
-		//request.getAttribute("taskList");
-		//request.getAttribute("memberList");
-		//request.getAttribute("")
+		selectTaskbyMem(request,response);
 		
+		request.getAttribute("leaderId");
+		request.setAttribute("userId","yeongwoo");
+		request.getAttribute("memberList");
+		request.getAttribute("taskByMember");
+		request.getAttribute("taskList");
 		
 
 		request.getRequestDispatcher("/WEB-INF/view/task/main.jsp").forward(request, response);
 	
+	}
+	
+	//마감기한 지난 업무 삭제하기
+	protected void deleteTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		
+		//Project project = (Project) request.getSession().getAttribute("project");
+		
+		//String projectId = project.getProjectId();
+		String projectId = "프로젝트 1";
+
+		ArrayList<String> taskList = (ArrayList<String>) request.getAttribute("taskList");
+		
+		for (String task : taskList) {
+			
+		}
+		int res = taskService.deleteTask(projectId);
+		
+		
 	}
 	
 	//이름불러오기
@@ -125,7 +147,7 @@ public class TaskController extends HttpServlet {
 		
 		//leaderList로 넘기기 위한 id
 		request.setAttribute("leaderId", "wwe123");//프로젝트 session으로 받아오기
-		String leaderId = "www123";
+		String leaderId = "wwe123";
 		//myList로 넘겨 질 업무 식별 하기위한 id
 		//Member user = (Member) request.getSession().getAttribute("user");
 		//String userId = user.getUserID();
@@ -145,15 +167,48 @@ public class TaskController extends HttpServlet {
 		
 	}
 
-	//멤버 별 업무리스트
+	//멤버 별 리스트 
 	protected void memberTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		//멤버 별 업무리스트
+		//memberList로 맞춰서 업무리스트 가져오기
+		selectTaskbyMem(request,response);
+		
+		request.getAttribute("taskByMember");
+		
 		request.getRequestDispatcher("/WEB-INF/view/task/member.jsp").forward(request, response);
 	}
+	
+	//멤버 별 리스트 뽑아오기
+	protected void selectTaskbyMem(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		//멤버 별 업무리스트
+		//memberList로 맞춰서 업무리스트 가져오기
+		//프로젝트 세션에서 불러오기
+		//String projectId = request.getSession().getAttribute("project");
+		String projectId = "프로젝트 1";
+		
+		Map<String,List<String>> taskByMember = taskService.selectTaskbyMem(projectId);
+
+		
+		if(taskByMember != null) {
+			
+			System.out.println("멤버 별 리스트 성공");
+			
+			request.setAttribute("taskByMember", taskByMember);
+			
+		}else {
+			System.out.println("멤버 별 리스트 실패");
+		}
+	}
+	
+	
 	
 	//업무상세내역
 	protected void detailTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String taskId = "업무삭제하기" ; //세션 값으로 받아와야 할까?
+		//String leaderId = request.getSession.getAttribute("project");
 		request.setAttribute("leaderId", "임희원"); // 세션 값으로 받아오기
 		
 		ArrayList<Task> detailList = taskService.detailTask(taskId);
@@ -167,7 +222,6 @@ public class TaskController extends HttpServlet {
 			
 			request.getRequestDispatcher("/WEB-INF/view/task/my.jsp").forward(request, response);
 		}
-		
 		
 	}
 	
@@ -211,6 +265,18 @@ public class TaskController extends HttpServlet {
 			  request.setAttribute("alertMsg", "업무 추가에 성공하였습니다.");
 			  request.setAttribute("url", "/task/my");
 			  
+			  //추가 성공 시 이슈에 알림 주기 메소드
+			  String typeAlarm = "업무추가";
+			  int result = taskService.insertTaskIssue(userId, projectId, typeAlarm);
+			  
+			  if(result > 1) {
+				  
+				  System.out.println("알림성공");
+				  
+			  }else {
+				  System.out.println("알림실패");
+			  }
+			  
 			  request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
 			  
 		  } else { 
@@ -241,8 +307,9 @@ public class TaskController extends HttpServlet {
 		//Member user = (Member) request.getSession().getAttribute("user");
 		//String userId = user.getUserID();
 		String userId = "wwe123";
+		String projectId = "프로젝트 1"; //나중에 세션으로 받아오기
 		
-		ArrayList<Task> myList = taskService.selectMyList(userId);
+		ArrayList<Task> myList = taskService.selectMyList(userId,projectId);
 		
 		if(myList != null) {
 			System.out.println("내 업무리스트 불러오기 성공");
@@ -270,8 +337,9 @@ public class TaskController extends HttpServlet {
 		Feedback feedback = null;
 		
 		String feedbackComment = (String) parsedData.get("feedbackComment");
-		Task task = (Task) request.getAttribute("detailList");
-		String taskId = task.getTaskId();
+		//Task task = (Task) request.getAttribute("detailList");
+		//String taskId = task.getTaskId();
+		String taskId = "업무삭제하기";
 		int privateComment = 0;
 		
 		feedback.setFeedbackComment(feedbackComment);
@@ -287,8 +355,7 @@ public class TaskController extends HttpServlet {
 			 System.out.println("피드백추가실패");
 			  
 		 }
-			
 	}
 	
-
+	//권한 땡겨오는 메서드 만들기
 }

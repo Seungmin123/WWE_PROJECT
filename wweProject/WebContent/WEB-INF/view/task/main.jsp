@@ -38,7 +38,7 @@
 
                         <!-- Nav Item - Dashboard -->
                         <li class="nav-item">
-                            <a class="nav-link" href="index.html">
+                            <a class="nav-link" href="${context}/member/mypage">
                                 <i class="fas fa-user-alt"></i>
                                 <span>My Page</span></a>
                         </li>
@@ -46,7 +46,7 @@
 
                         <!-- Nav Item - Pages Collapse Menu -->
                         <li class="nav-item ">
-                            <a class="nav-link" href="#" data-target="#collapseTwo" aria-expanded="true"
+                            <a class="nav-link" href="project/newpro" data-target="#collapseTwo" aria-expanded="true"
                                 aria-controls="collapseTwo">
                                 <i class="fas fa-home"></i>
                                 <span>Main Page</span>
@@ -297,8 +297,8 @@
                                 <li class="nav-item dropdown no-arrow">
                                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                        <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                                        <span class="mr-2 d-none d-lg-inline text-gray-600 small">${sessionScope.user.userName} 님</span>
+                             		   <img class="img-profile rounded-circle" src="../resources/assets/img/icon/whale.png">
                                     </a>
                                     <!-- Dropdown - User Information -->
                                     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -338,8 +338,11 @@
                         </div>
                         <hr class="hr">
 
+						<!-- 멤버 별 업무리스트 뽑아오기 -->
                         <!-- Basic Card Example -->
+                      
                         <div class="row justify-content-around d-flex">
+                          
 
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
@@ -353,34 +356,39 @@
                                 </div>
                             </div>
 
+
                             <!-- Basic Card Example -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
                                     <a class="m-0 font-weight-bold text-primary" href="${context}/task/my">My List</a>
-                                    <span class="btn btn-info btn-icon-split ml-3" id="mName">
+                                    <span class="btn btn-info btn-icon-split ml-3">
                                         <span class="text">팀원</span>
                                     </span>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body mylist">
                                 </div>
                             </div>
 
+							<c:forEach var="member" items="${memberList}" varStatus="status">
+							<c:if test="${member != leaderId && member!= userId}">
+							
                             <!-- Basic Card Example -->
-                            <c:forEach var="member" items="${memberList}">
-                            <div class="card shadow mb-4">
+                            <div class="card shadow mb-4 ">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                    <a class="m-0 font-weight-bold text-primary" href="${context}/task/member">
+                                    <a class="m-0 font-weight-bold text-primary" id="mName" href="${context}/task/member">
                                     ${member}
                                     </a>
-                                    <span href="#" class="btn btn-info btn-icon-split ml-3" id="mName">
+                                    <span class="btn btn-info btn-icon-split ml-3" >
                                         <span class="text" id="mName">팀원</span>
                                     </span>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body memberlist">
                                    
                                 </div>
                             </div>
-                            </c:forEach>
+							</c:if>
+    						</c:forEach>
+                            
                         </div>
                         </div>
 
@@ -458,6 +466,7 @@
         			 let innerprogress;
         			 let issue;
        			<c:forEach var="task" items="${taskList}" varStatus="status">
+       					<c:if test="${task.userId == leaderId}">
        					tasklist = document.createElement('div');
        					divElement = document.createElement('div');
        					taskname = document.createElement('a');
@@ -486,8 +495,79 @@
        					tasklist.appendChild(issue);
 
        					document.querySelector('.leaderList').appendChild(tasklist);
+       					
+       					</c:if>
+       					
+       					<c:if test="${task.userId == userId}">
+       					tasklist = document.createElement('div');
+       					divElement = document.createElement('div');
+       					taskname = document.createElement('a');
+       					progressbar = document.createElement('div');
+       					innerprogress = document.createElement('div');
+       					issue = document.createElement('span');
+       					
+       					tasklist.setAttribute('class','mb-4 py-3 bg-gray-100 pl-4 d-flex justify-content-center rounded shadow-sm');
+       					taskname.setAttribute('class','text-gray-600 border-0');
+       					taskname.setAttribute('href','${context}/task/detail');
+       					progressbar.setAttribute('class','progress progress-sm');
+       					innerprogress.setAttribute('class','progress-bar bg-info');
+       					innerprogress.setAttribute('role','progressbar');
+       					innerprogress.setAttribute('aria-valuenow','50');
+       					innerprogress.setAttribute('aria-valuemin','aria-valuemin');
+       					innerprogress.setAttribute('aria-valuemax','100');
+       					innerprogress.setAttribute('style','width: 20%');
+       					issue.setAttribute('class','btn btn-sm ml-1 mr-1');
+
+       					divElement.innerHTML += '${task.taskId}';
+				
+       					taskname.appendChild(divElement);
+       					progressbar.appendChild(innerprogress);
+       					taskname.appendChild(progressbar);
+       					tasklist.appendChild(taskname);
+       					tasklist.appendChild(issue);
+
+       					document.querySelector('.myList').appendChild(tasklist);
+       					
+       					</c:if>
+       					
+       					<c:if test="${member != leaderId && member!= userId}">
+       					<c:forEach var="member" items="${memberList}" varStatus="status">
+       					<c:if test="${task.userId == member}">
+       					tasklist = document.createElement('div');
+       					divElement = document.createElement('div');
+       					taskname = document.createElement('a');
+       					progressbar = document.createElement('div');
+       					innerprogress = document.createElement('div');
+       					issue = document.createElement('span');
+       					
+       					tasklist.setAttribute('class','mb-4 py-3 bg-gray-100 pl-4 d-flex justify-content-center rounded shadow-sm');
+       					taskname.setAttribute('class','text-gray-600 border-0');
+       					taskname.setAttribute('href','${context}/task/detail');
+       					progressbar.setAttribute('class','progress progress-sm');
+       					innerprogress.setAttribute('class','progress-bar bg-info');
+       					innerprogress.setAttribute('role','progressbar');
+       					innerprogress.setAttribute('aria-valuenow','50');
+       					innerprogress.setAttribute('aria-valuemin','aria-valuemin');
+       					innerprogress.setAttribute('aria-valuemax','100');
+       					innerprogress.setAttribute('style','width: 20%');
+       					issue.setAttribute('class','btn btn-sm ml-1 mr-1');
+
+       					divElement.innerHTML += '${task.taskId}';
+				
+       					taskname.appendChild(divElement);
+       					progressbar.appendChild(innerprogress);
+       					taskname.appendChild(progressbar);
+       					tasklist.appendChild(taskname);
+       					tasklist.appendChild(issue);
+
+       					document.querySelector('.memberList').appendChild(tasklist);
+       					
+       					</c:if>
+       					</c:forEach>
+       					</c:if>
         		</c:forEach>
-    }
+   				}
+
     </script>
         </body>
 
