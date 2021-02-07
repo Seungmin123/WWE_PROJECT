@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ include file="/WEB-INF/view/include/header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,10 +16,10 @@
   
 <div id="chat-circle" class="btn btn-raised">
         <div id="chat-overlay"></div>
-        <i class="material-icons">WWE Chat</i>
+        <i class="material-icons">speaker_phone</i>
   </div>
   
-  <div class="chat-box" id="chat-box">
+  <div class="chat-box">
     <div class="chat-box-header">
       WWE Chat
       <span class="chat-box-toggle"><i class="material-icons">close</i></span>
@@ -45,23 +44,23 @@
   
 </div>
 	
-
 <script>
-	var win = window.open("/client.html", "PopupWin", "width=500,height=600");
 
+
+
+
+    
+    var win = window.open("/client.html", "PopupWin", "width=500,height=600");
+
+    
 	var win = window.open("", "PopupWin", "width=500,height=600");
 
-	win.document.write("<p>새창에 표시될 내용 입니다.</p>");
+win.document.write("<p>새창에 표시될 내용 입니다.</p>");
 
-	var win = window.open("/client.html", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400");
-
-
+var win = window.open("/client.html", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400");
 
 
-
+    
 </script>
-
-
-
 </body>
 </html>
