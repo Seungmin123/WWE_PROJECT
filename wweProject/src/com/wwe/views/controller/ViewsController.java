@@ -51,8 +51,10 @@ public class ViewsController extends HttpServlet {
 			break;
 		case "graph":
 			viewgraph(request,response);
+			break;
 		case "test":
 			viewcalendar(request,response);
+			break;
 		default:
 			break;
 		}
@@ -78,6 +80,13 @@ public class ViewsController extends HttpServlet {
 	}
 	
 	private void viewgraph(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 해당 프로젝트의 이름을 받아온다...
+		String pId = "프로젝트 1";
+				
+		//해당 프로젝트의 구성원 정보를 받아 request로 넘겨준다.
+		List<ProjUser> userList = leaderService.selectUserListByPid(pId);
+				
+		request.setAttribute("userList", userList);
 		request.getRequestDispatcher("/WEB-INF/view/calendar/graph.jsp").forward(request, response);
 	}
 	
@@ -92,7 +101,7 @@ public class ViewsController extends HttpServlet {
 		List<String> filterList = (List<String>) filterMap.get("name");
 		
 		// 해당 프로젝트의 이름을 받아온다...
-		String pId = "프로젝트 1";
+		String pId = "프로젝트 1"; // 향후 세션값으로 교체 
 		
 		//해당 프로젝트의 구성원 정보를 받기
 		List<ProjUser> userList = leaderService.selectUserListByPid(pId);		
@@ -100,7 +109,7 @@ public class ViewsController extends HttpServlet {
 		// 해당 프로젝트의 구성원들의 각 업무리스트 가져오기
 		for (ProjUser users : userList) { // 각 인원별
 			if(!filterList.contains(users.getUserId())){
-				for (Task task : taskService.selectMyList(users.getUserId())) { // 업무리스트 순환
+				for (Task task : taskService.selectMyList(users.getUserId(),pId)) { // 업무리스트 순환
 					taskList.add(new UserByTaskVo(task.getTaskId(),task.getStartDate(),task.getDeadLine(),colorList[colorIdx])); // 파싱파싱
 				}
 			}

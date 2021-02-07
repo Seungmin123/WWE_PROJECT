@@ -341,25 +341,15 @@
                                 </div>
                                 <div class="card-body">
                                     <div id="user-list">
-                                    	<div class="card shadow mb-4">
-                                    		<div class="card-body border d-flex justify-content-between">
-                                    		김선민
-                                    		<a href="#" class="btn btn-success btn-circle">
-                                       			 <i class="fas fa-check"></i>
-                                    		</a>
-                                    		</div>
-                                    		<div class="card-body border d-flex justify-content-between">
-                                    		이승민
-                                    		<a href="#" class="btn btn-success btn-circle">
-                                       			 <i class="fas fa-check"></i>
-                                    		</a>
-                                    		</div>
-                                    		<div class="card-body border d-flex justify-content-between">
-                                    		장영우
-                                    		<a href="#" class="btn btn-success btn-circle">
-                                       			 <i class="fas fa-check"></i>
-                                    		</a>
-                                    		</div>
+                                    	<div class="card shadow mb-4">                                  		
+                                    		<c:forEach var="user" items="${userList}" varStatus="status">
+                                    			<div class="card-body border d-flex justify-content-between">
+                                    				<label for="checkList${status.index}">${user.userId}</label>
+                                    				<input type="checkbox" value="${user.userId}" onclick="checkValue(this)" name="proUsers" id="checkList${status.index}" checked="checked">
+                                       			 		
+                                    				</input>
+                                    			</div>
+                                    		</c:forEach>
                                     	</div>
                                     </div>
                                 </div>
