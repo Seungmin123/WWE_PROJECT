@@ -311,8 +311,9 @@
                                 <li class="nav-item dropdown no-arrow">
                                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                        <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                                        <span class="mr-2 d-none d-lg-inline text-gray-600 small">${sessionScope.user.userName} 님</span>
+                              			<img class="img-profile rounded-circle"
+                                        src="../resources/assets/img/icon/whale.png">
                                     </a>
                                     <!-- Dropdown - User Information -->
                                     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -348,31 +349,35 @@
                         <div class="d-flex justify-content-center">
                         <div href="#" class="btn pl-3 pr-3">
                             <i class="fas fa-laugh-wink h1 text-dark mr-3 mt-2"></i>
-                            <span class="text-primay font-weight-bold h1 mr-4">임희원's List</span>
+                            <span class="text-primay font-weight-bold h1 mr-4">${name}'s List</span>
                         </div>
                         </div>
                         <hr class="hr">
 
                         <!-- Basic Card Example -->
                         <div class="row justify-content-around d-flex">
-
+						
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3 d-flex justify-content-center align-items-center">
                                     <span class="btn bg-gradient-secondary pl-5 pr-5">
                                         <span class="h3 pt-2 text-white">TO DO</span>
                                     </span>
                                 </div>
+                                
                                 <div class="card-body">
-                                    
+                                <c:forEach var="task" items="${taskList}" varStatus="status">
+                               
+                                    <c:if test="${task.taskState == 'ST00' and task.userId == name}">
                                     <a class="mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm d-flex align-items-center justify-content-center text-gray-600 border-0" href="${context}/task/detail">
                                             <div>
-                                                화면설계하기
+                                                ${task.taskId}
                                             </div>
-                                        <span class="btn btn-info btn-circle btn-sm ml-3 mr-3">
-                                            <i class="fas fa-info-circle"></i>
+                                        <span class="btn btn-sm ml-1 mr-1">
+                                            
                                         </span>
                                     </a>
-
+                                    </c:if>
+								</c:forEach>
                                 </div>
                             </div>
 
@@ -384,6 +389,18 @@
                                     </a>
                                 </div>
                                 <div class="card-body">
+                                <c:forEach var="task" items="${memTaskList}" varStatus="status">
+                                    <c:if test="${task.taskState == 'ST01' and task.userId == name}">
+                                    <a class="mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm d-flex align-items-center justify-content-center text-gray-600 border-0" href="${context}/task/detail">
+                                            <div>
+                                                ${task.taskId}
+                                            </div>
+                                        <span class="btn btn-sm ml-1 mr-1">
+                                     
+                                        </span>
+                                    </a>
+                                    </c:if>
+								</c:forEach>
                                 </div>
                             </div>
 
@@ -395,12 +412,23 @@
                                     </a>
                                 </div>
                                 <div class="card-body">
+                                <c:forEach var="task" items="${memTaskList}" varStatus="status">
+                                   <c:if test="${task.taskState == 'ST02' and task.userId == name}">
+                                    <a class="mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm d-flex align-items-center justify-content-center text-gray-600 border-0" href="${context}/task/detail">
+                                            <div>
+                                                ${task.taskId}
+                                            </div>
+                                        <span class="btn btn-sm ml-1 mr-1">
+                                         
+                                        </span>
+                                    </a>
+                                    </c:if>
+								</c:forEach>
                                    
                                 </div>
                             </div>
-
-                           
                         </div>
+
                         </div>
 
                         </div>

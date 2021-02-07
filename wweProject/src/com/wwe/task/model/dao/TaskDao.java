@@ -26,7 +26,7 @@ public class TaskDao {
 		PreparedStatement pstm = null;
 		
 		try {
-			String query = "insert into tb_task(t_idx,task_id,task_content,dead_line,user_id,project_id,user_id) "
+			String query = "insert into tb_task(t_idx,task_id,task_content,dead_line,user_id,project_id)"
 					+ "values(sc_t_idx.nextval,?,?,?,?,?)";
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, task.getTaskId());
@@ -34,7 +34,6 @@ public class TaskDao {
 			pstm.setString(3, task.getDeadLine());
 			pstm.setString(4, task.getUserId());
 			pstm.setString(5, task.getProjectId());
-			pstm.setString(6, task.getUserId());
 			
 			res = pstm.executeUpdate();
 			
@@ -131,7 +130,7 @@ public class TaskDao {
 		
 		try {
 			String query = "insert into tb_feedback(TASK_ID,FEEDBACK_COMMENT,PRIVATE_COMMENT) "
-					+ "values(?,?)";
+					+ "values(?,?,?)";
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, feedback.getTaskId());
 			pstm.setString(2, feedback.getFeedbackComment());
@@ -149,19 +148,20 @@ public class TaskDao {
 	}
 	
 	//내 업무리스트 불러오기
-	public ArrayList<Task> selectMyList(Connection conn, String userId){
+	public ArrayList<Task> selectMyList(Connection conn, String userId,String projectId){
 		
 		ArrayList<Task> myList = new ArrayList<>();
 		PreparedStatement pstm = null;
 		ResultSet rset = null;
 		
 		try{
-			String query = "SELECT * FROM TB_TASK WHERE USER_ID = ?";
+			String query = "SELECT * FROM TB_TASK WHERE USER_ID = ? AND PROJECT_ID = ?";
 			
 			//3. 쿼리문 실행용 객체를 생성
 			pstm = conn.prepareStatement(query);
 			//4. PreparedStatement의 쿼리문을 완성
 			pstm.setString(1, userId);
+			pstm.setString(2, projectId);
 			//5. 쿼리문 실행하고 결과(resultSet)를 받음
 			rset = pstm.executeQuery();
 			
@@ -196,12 +196,10 @@ public class TaskDao {
 		
 		try{
 			String query = "SELECT USER_ID FROM TB_PROJECT_USER WHERE PROJECT_ID = ?";
-			
-			//3. 쿼리문 실행용 객체를 생성
+
 			pstm = conn.prepareStatement(query);
-			//4. PreparedStatement의 쿼리문을 완성
 			pstm.setString(1, projectId);
-			//5. 쿼리문 실행하고 결과(resultSet)를 받음
+			
 			rset = pstm.executeQuery();
 			
 			while(rset.next()) {
@@ -220,6 +218,76 @@ public class TaskDao {
 		return memberList;
 		
 	}
+	
+	public ArrayList<Task> selectTaskbyMem(Connection conn, String projectId, String userId, String leaderId){
+		
+		ArrayList<Task> taskByMember = new ArrayList<>();
+			PreparedStatement pstm = null;
+			ResultSet rset = null;
+			
+			try{
+				String query = "SELECT * FROM TB_TASK WHERE PROJECT_ID = ? AND USER_ID != ? AND USER_ID = ?";
+				
+				//3. 쿼리문 실행용 객체를 생성
+				pstm = conn.prepareStatement(query);
+				//4. PreparedStatement의 쿼리문을 완성
+				pstm.setString(1, projectId);
+				pstm.setString(2, userId);
+				pstm.setString(3, leaderId);
+				//5. 쿼리문 실행하고 결과(resultSet)를 받음
+				rset = pstm.executeQuery();
+				
+				while(rset.next()) {
+					Task task = new Task();
+					task.setProjectId(projectId);
+					task.setTaskId(rset.getString("TASK_ID"));
+					task.setDeadLine(rset.getString("DEAD_LINE"));
+					task.setTaskContent(rset.getString("TASK_CONTENT"));
+					task.setTaskPriority(rset.getString("TASK_PRIORITY"));
+					task.setTaskState(rset.getString("TASK_STATE"));
+					task.setUserId(rset.getString("user_id"));
+					
+					taskByMember.add(task);
+				}
 
+			} catch (SQLException e) {;
+				throw new DataAccessException(ErrorCode.TK01,e);
+			}finally {
+				jdt.close(rset,pstm);
+			}
+			
+			return taskByMember;
+	}
+
+	//알람기능 넣는 메서드
+	public int insertTaskIssue(Connection conn, String userId,String projectId,String typeAlarm) {
+		
+		int res = 0;
+		PreparedStatement pstm = null;
+		
+		try {
+			String query = "INSERT INTO TB_USER_ISSUE(USER_ID, PROJECT_ID, TYPE_ALARM, WRITER) VALUES(SELECT USER_ID FROM TB_USER_ID WHERE USER_ID != ?), ?, ?, ?)";
+
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, userId);
+			pstm.setString(2, projectId);
+			pstm.setString(3, typeAlarm);
+			pstm.setString(4, userId);
+			
+			res = pstm.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.TK02, e);
+		}finally {
+			jdt.close(pstm);
+		}
+
+		return res;
+		
+	}
+	
+	public int deleteTask(Connection conn, String projectId) {
+		return 0;
+	}
 	
 }

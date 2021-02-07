@@ -2,6 +2,7 @@ package com.wwe.task.model.service;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import com.wwe.common.jdbc.JDBCTemplate;
@@ -87,14 +88,14 @@ public class TaskService {
 	}
 	
 	//내 업무리스트 불러오기
-	public ArrayList<Task> selectMyList(String userId){
+	public ArrayList<Task> selectMyList(String userId,String projectId){
 		
 		Connection conn = jdt.getConnection();
 		ArrayList<Task> myList = null;
 		
 		try {
 			
-			myList = taskDao.selectMyList(conn, userId);
+			myList = taskDao.selectMyList(conn, userId, projectId);
 			
 		} finally {
 			jdt.close(conn);
@@ -120,7 +121,44 @@ public class TaskService {
 		return memberList;
 		
 	}
+	
+	public ArrayList<Task> selectTaskbyMem(String projectId,String userId, String leaderId){
 
+		Connection conn = jdt.getConnection();
+		ArrayList<Task> taskByMember = null;
+		
+		try {
+			
+			taskByMember = taskDao.selectTaskbyMem(conn, projectId, userId, leaderId);
+			
+		} finally {
+			jdt.close(conn);
+		}
+		
+		return taskByMember;
+	}
+
+	//알람 추가하기
+	public int insertTaskIssue(String userId,String projectId,String typeAlarm) {
+		
+		Connection conn = jdt.getConnection();
+		int res = 0;
+		
+		try {
+			
+			res = taskDao.insertTaskIssue(conn,userId,projectId,typeAlarm);
+			jdt.commit(conn);
+			
+		} finally {
+			jdt.close(conn);
+		}
+		
+		return res;
+	}
+
+	public int deleteTask(String projectId) {
+		return 0;
+	}
 	
 
 }

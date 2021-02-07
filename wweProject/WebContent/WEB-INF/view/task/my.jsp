@@ -297,8 +297,9 @@
                                 <li class="nav-item dropdown no-arrow">
                                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                        <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                                        <span class="mr-2 d-none d-lg-inline text-gray-600 small">${sessionScope.user.userName} 님</span>
+                               			<img class="img-profile rounded-circle"
+                                        src="../resources/assets/img/icon/whale.png">
                                     </a>
                                     <!-- Dropdown - User Information -->
                                     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -496,7 +497,7 @@
        					todobutton.setAttribute('draggable','true');
        					todobutton.setAttribute('id','todozone');
        					taskName.setAttribute('class','text-gray-600');
-       					taskName.setAttribute('href','${context}/task/detail');
+       					taskName.setAttribute('href','${context}/task/detail?name=${my.taskId}');
        					issue.setAttribute('class','btn btn-sm ml-1');
 
        					taskName.innerHTML += '${my.taskId}';
@@ -529,7 +530,7 @@
 	   					todobutton.setAttribute('draggable','true');
 	   					todobutton.setAttribute('id','todozone');
 	   					taskName.setAttribute('class','text-gray-600');
-	   					taskName.setAttribute('href','${context}/task/detail');
+	   					taskName.setAttribute('href','${context}/task/detail?name=${my.taskId}');
 	   					
 	   					
 	   					taskName.innerHTML += '${my.taskId}';
