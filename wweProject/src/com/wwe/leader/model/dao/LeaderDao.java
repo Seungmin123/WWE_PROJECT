@@ -253,15 +253,26 @@ public class LeaderDao {
 	}
 	
 	//선택한 업무를 삭제하는 메소드
-	public int deleteTask(Connection conn, int tIdx) {
+	public int deleteTask(Connection conn, ArrayList<Integer> tIdx) {
 		int res = 0;
 		PreparedStatement pstm = null;
+		String query = "DELETE FROM TB_TASK WHERE T_IDX IN ( ";
 		
-		String query = "DELETE FROM TB_TASK "
-				+"WHERE T_IDX = ?";
+		for(int i = 0; i<tIdx.size(); i++) {
+			if(i==tIdx.size()-1) {
+				query += "? )";
+				
+			}else {
+				query += "?,";
+			}
+			
+		}
+		
 		try {
 			pstm = conn.prepareStatement(query);
-			pstm.setInt(1, tIdx);
+			for(int i = 0; i< tIdx.size(); i++) {
+				pstm.setInt(i+1,Integer.parseInt(String.valueOf(tIdx.get(i))));
+			}
 			res = pstm.executeUpdate();
 		}catch (SQLException e) {
 			throw new DataAccessException(ErrorCode.DT01, e);

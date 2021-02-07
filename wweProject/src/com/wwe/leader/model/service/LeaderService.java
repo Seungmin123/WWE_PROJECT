@@ -136,7 +136,7 @@ public class LeaderService {
 	}
 	
 	//선택한 업무를 삭제하는 메소드
-	public int deleteTask(int tIdx) {
+	public int deleteTask(ArrayList<Integer> tIdx) {
 		Connection conn = jdt.getConnection();
 		int res =0;
 		try {
