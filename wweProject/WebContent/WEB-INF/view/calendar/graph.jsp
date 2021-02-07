@@ -30,7 +30,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="/member/mypage">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>My Page</span></a>
             </li>
@@ -38,7 +38,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="/task/main">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Main Page</span></a>
             </li>
@@ -46,10 +46,18 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="index.html">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Admin Page</span></a>
-            </li>
+        		<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+            		<i class="fas fa-crown"></i>
+            			<span>Admin Page</span>
+        		</a>
+        	<div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+            	<div class="bg-white py-2 collapse-inner rounded">
+                	<h6 class="collapse-header">Manage</h6>
+                		<a class="collapse-item" href="/leader/manage?projectId=프로젝트 1">팀관리</a>
+                		<a class="collapse-item" href="/leader/gettaskimpl?projectId=프로젝트 1">업무관리</a>
+            		</div>
+        		</div>
+    		</li>
 
             <hr class="sidebar-divider my-0">
 
@@ -269,9 +277,9 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">${sessionScope.user.userName} 님</span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="../resources/assets/img/icon/whale.png">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

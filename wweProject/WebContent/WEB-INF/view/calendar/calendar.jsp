@@ -32,7 +32,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="/member/mypage">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>My Page</span></a>
             </li>
@@ -40,7 +40,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="/task/main">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Main Page</span></a>
             </li>
@@ -48,10 +48,18 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="index.html">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Admin Page</span></a>
-            </li>
+        		<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+            		<i class="fas fa-crown"></i>
+            			<span>Admin Page</span>
+        		</a>
+        	<div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+            	<div class="bg-white py-2 collapse-inner rounded">
+                	<h6 class="collapse-header">Manage</h6>
+                		<a class="collapse-item" href="/leader/manage?projectId=프로젝트 1">팀관리</a>
+                		<a class="collapse-item" href="/leader/gettaskimpl?projectId=프로젝트 1">업무관리</a>
+            		</div>
+        		</div>
+    		</li>
 
             <hr class="sidebar-divider my-0">
 
@@ -271,9 +279,9 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">${sessionScope.user.userName} 님</span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="../resources/assets/img/icon/whale.png">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -336,12 +344,12 @@
                                 <div class="card-body">
                                     <div id="user-list">
                                     	<div class="card shadow mb-4">                                  		
-                                    		<c:forEach var="user" items="${userList}">
+                                    		<c:forEach var="user" items="${userList}" varStatus="status">
                                     			<div class="card-body border d-flex justify-content-between">
-                                    				${user.userId}
-                                    				<a href="#" class="btn btn-danger btn-circle" onclick="checkValue(this)">
-                                       			 		<i class="fas fa-times"></i>
-                                    				</a>
+                                    				<label for="checkList${status.index}">${user.userId}</label>
+                                    				<input type="checkbox" value="${user.userId}" onclick="checkValue(this)" name="proUsers" id="checkList${status.index}" checked="checked">
+                                       			 		
+                                    				</input>
                                     			</div>
                                     		</c:forEach>
                                     	</div>
@@ -419,49 +427,54 @@
     <script src="/resources/js/demo/chart-pie-demo.js"></script>
     <script src="/resources/js/demo/chart-bar-demo.js"></script>
     <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function() {
+          let drawCalendar = (text) => {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
               initialView: 'dayGridMonth',
               eventColor : 'pink',
-              events : [
-                  {
-                      title : '김선민만세',
-                      start : '2021-01-28',
-                      end : '2021-01-31'
-                  },
-                  {
-                      title : '김선민만세',
-                      start : '2021-01-28',
-                      end : '2021-01-31'
-                  },
-                  {
-                      title : '김선민만세',
-                      start : '2021-01-26',
-                      end : '2021-01-31',
-                      color : 'red'
-                  },
-                  {
-                      title : '김선민만세',
-                      start : '2021-01-28',
-                      end : '2021-02-03'
-                  }
-              ]
+              events : text
             });
             calendar.render();
-          });
+          }
+          
+          let inputData = () => {
+            const url = '/views/test';
+                let headerObj = new Headers();
+                let paramObj = new Object();
+                let list = document.querySelectorAll('input[name="proUsers"]');
+                let userList = [];
+
+                list.forEach((data,index)=>{
+                    if(data.checked === false){
+                        userList[index] = data.value;
+                    }
+                });
+
+                headerObj.append("content-type","application/x-www-form-urlencoded");
+                paramObj.name = userList;
+                console.dir(JSON.stringify(paramObj));
+
+                fetch(url,{
+                    method : 'POST',
+                    headers : headerObj,
+                    body : 'data='+JSON.stringify(paramObj)
+                }).then(response => {
+                    return response.json();
+                }).then(text => {
+                    console.dir(JSON.stringify(text));
+                    drawCalendar(text);
+                });
+          }
+
+        
+
         </script>
+
+
         <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded',inputData());
         	function checkValue(id) {
-        		console.dir(id);
-                id.parentElement.style.color = "red";
-                id.className = "btn btn-success btn-circle";
-                
-                let mark = document.createElement('i');
-                mark.className = "fas fa-check";
-                
-                id.innerHTML = "";
-                id.appendChild(mark);
+        		inputData();
 			}
         </script>
 
