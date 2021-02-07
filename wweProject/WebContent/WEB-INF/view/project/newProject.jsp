@@ -28,7 +28,7 @@
             height: 100%;
         }
         
-     #chat-circle {
+ 		#chat-circle { 
             position: fixed;
             bottom: 50px;
             right: 50px;
@@ -92,7 +92,8 @@
         }
 
         .chat-box-header {
-            background: #5A5EB9;
+            background-color: #1abc9c;
+  			background-image: linear-gradient(180deg, #1abc9c 10%, #224abe 100%);
             height: 70px;
             border-top-left-radius: 5px;
             border-top-right-radius: 5px;
