@@ -122,14 +122,14 @@ public class TaskService {
 		
 	}
 	
-	public Map<String, List<String>> selectTaskbyMem(String projectId){
+	public ArrayList<Task> selectTaskbyMem(String projectId,String userId, String leaderId){
 
 		Connection conn = jdt.getConnection();
-		Map<String,List<String>> taskByMember = null;
+		ArrayList<Task> taskByMember = null;
 		
 		try {
 			
-			taskByMember = taskDao.selectTaskbyMem(conn, projectId);
+			taskByMember = taskDao.selectTaskbyMem(conn, projectId, userId, leaderId);
 			
 		} finally {
 			jdt.close(conn);

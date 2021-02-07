@@ -84,9 +84,7 @@ public class TaskController extends HttpServlet {
 		
 		request.getAttribute("leaderId");
 		request.setAttribute("userId","yeongwoo");
-		request.getAttribute("memberList");
 		request.getAttribute("taskByMember");
-		request.getAttribute("taskList");
 		
 
 		request.getRequestDispatcher("/WEB-INF/view/task/main.jsp").forward(request, response);
@@ -173,9 +171,21 @@ public class TaskController extends HttpServlet {
 		//멤버 별 업무리스트
 		//memberList로 맞춰서 업무리스트 가져오기
 		selectTaskbyMem(request,response);
+		selectAllTaskList(request,response);
 		
-		request.getAttribute("taskByMember");
+		String name = request.getParameter("name");
+		request.setAttribute("name", name);
+		ArrayList<Task> memTaskList = new ArrayList<>();
+		ArrayList<Task> TaskList = (ArrayList<Task>) request.getAttribute("taskList");
 		
+		for (Task task : TaskList) {
+			if(task.getUserId() == name) {
+
+			}
+		}
+
+		
+		request.setAttribute("memTaskList", memTaskList);
 		request.getRequestDispatcher("/WEB-INF/view/task/member.jsp").forward(request, response);
 	}
 	
@@ -186,9 +196,16 @@ public class TaskController extends HttpServlet {
 		//memberList로 맞춰서 업무리스트 가져오기
 		//프로젝트 세션에서 불러오기
 		//String projectId = request.getSession().getAttribute("project");
+		//session에서 leaderId userId 받아오기
 		String projectId = "프로젝트 1";
+		String userId = "yeongwoo";
+		String leaderId = "wwe123";
 		
-		Map<String,List<String>> taskByMember = taskService.selectTaskbyMem(projectId);
+		ArrayList<Task> taskByMember = taskService.selectTaskbyMem(projectId,leaderId,userId);
+		
+		for (Task task : taskByMember) {
+			System.out.println(task);
+		}
 
 		
 		if(taskByMember != null) {
@@ -207,7 +224,7 @@ public class TaskController extends HttpServlet {
 	//업무상세내역
 	protected void detailTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String taskId = "업무삭제하기" ; //세션 값으로 받아와야 할까?
+		String taskId = request.getParameter("name") ; //세션 값으로 받아와야 할까?
 		//String leaderId = request.getSession.getAttribute("project");
 		request.setAttribute("leaderId", "임희원"); // 세션 값으로 받아오기
 		
@@ -241,7 +258,7 @@ public class TaskController extends HttpServlet {
 		  
 		  //String projectId = 
 		  //String userId = user.getUserID();
-		  String userId = "wwe123";
+		  String userId = "yeongwoo";
 		  String projectId = "프로젝트 1";
 		  
 		  if(taskName == null || taskContent == null || deadLine == null) {
@@ -267,15 +284,15 @@ public class TaskController extends HttpServlet {
 			  
 			  //추가 성공 시 이슈에 알림 주기 메소드
 			  String typeAlarm = "업무추가";
-			  int result = taskService.insertTaskIssue(userId, projectId, typeAlarm);
+			  //int result = taskService.insertTaskIssue(userId, projectId, typeAlarm);
 			  
-			  if(result > 1) {
+			  ///if(result > 1) {
 				  
-				  System.out.println("알림성공");
+				  //System.out.println("알림성공");
 				  
-			  }else {
-				  System.out.println("알림실패");
-			  }
+			  //}else {
+				  //System.out.println("알림실패");
+			  //}
 			  
 			  request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
 			  
@@ -306,7 +323,7 @@ public class TaskController extends HttpServlet {
 		//세션으로 아이디값 받아와서 하기
 		//Member user = (Member) request.getSession().getAttribute("user");
 		//String userId = user.getUserID();
-		String userId = "wwe123";
+		String userId = "yeongwoo";
 		String projectId = "프로젝트 1"; //나중에 세션으로 받아오기
 		
 		ArrayList<Task> myList = taskService.selectMyList(userId,projectId);
@@ -358,4 +375,5 @@ public class TaskController extends HttpServlet {
 	}
 	
 	//권한 땡겨오는 메서드 만들기
+	
 }

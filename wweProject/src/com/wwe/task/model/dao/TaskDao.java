@@ -26,7 +26,7 @@ public class TaskDao {
 		PreparedStatement pstm = null;
 		
 		try {
-			String query = "insert into tb_task(t_idx,task_id,task_content,dead_line,user_id,project_id,user_id) "
+			String query = "insert into tb_task(t_idx,task_id,task_content,dead_line,user_id,project_id)"
 					+ "values(sc_t_idx.nextval,?,?,?,?,?)";
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, task.getTaskId());
@@ -34,7 +34,6 @@ public class TaskDao {
 			pstm.setString(3, task.getDeadLine());
 			pstm.setString(4, task.getUserId());
 			pstm.setString(5, task.getProjectId());
-			pstm.setString(6, task.getUserId());
 			
 			res = pstm.executeUpdate();
 			
@@ -131,7 +130,7 @@ public class TaskDao {
 		
 		try {
 			String query = "insert into tb_feedback(TASK_ID,FEEDBACK_COMMENT,PRIVATE_COMMENT) "
-					+ "values(?,?)";
+					+ "values(?,?,?)";
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, feedback.getTaskId());
 			pstm.setString(2, feedback.getFeedbackComment());
@@ -220,30 +219,35 @@ public class TaskDao {
 		
 	}
 	
-	public Map<String, List<String>> selectTaskbyMem(Connection conn, String projectId){
+	public ArrayList<Task> selectTaskbyMem(Connection conn, String projectId, String userId, String leaderId){
 		
-			Map<String, List<String>> taskByMember = new HashMap<>();
+		ArrayList<Task> taskByMember = new ArrayList<>();
 			PreparedStatement pstm = null;
 			ResultSet rset = null;
 			
 			try{
-				String query = "SELECT * FROM TB_TASK WHERE PROJECT_ID = ?";
+				String query = "SELECT * FROM TB_TASK WHERE PROJECT_ID = ? AND USER_ID != ? AND USER_ID = ?";
 				
 				//3. 쿼리문 실행용 객체를 생성
 				pstm = conn.prepareStatement(query);
 				//4. PreparedStatement의 쿼리문을 완성
 				pstm.setString(1, projectId);
+				pstm.setString(2, userId);
+				pstm.setString(3, leaderId);
 				//5. 쿼리문 실행하고 결과(resultSet)를 받음
 				rset = pstm.executeQuery();
 				
 				while(rset.next()) {
 					Task task = new Task();
+					task.setProjectId(projectId);
+					task.setTaskId(rset.getString("TASK_ID"));
+					task.setDeadLine(rset.getString("DEAD_LINE"));
+					task.setTaskContent(rset.getString("TASK_CONTENT"));
+					task.setTaskPriority(rset.getString("TASK_PRIORITY"));
+					task.setTaskState(rset.getString("TASK_STATE"));
 					task.setUserId(rset.getString("user_id"));
-					task.setTaskId(rset.getString("task_id"));
 					
-					ArrayList<String> taskList = new ArrayList<>();
-					
-					taskByMember.put(task.getUserId(), taskList);
+					taskByMember.add(task);
 				}
 
 			} catch (SQLException e) {;
@@ -267,9 +271,9 @@ public class TaskDao {
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, userId);
 			pstm.setString(2, projectId);
-			pstm.setString(3,typeAlarm);
+			pstm.setString(3, typeAlarm);
 			pstm.setString(4, userId);
-
+			
 			res = pstm.executeUpdate();
 			
 		} catch (SQLException e) {

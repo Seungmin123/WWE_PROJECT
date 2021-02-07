@@ -497,7 +497,7 @@
        					todobutton.setAttribute('draggable','true');
        					todobutton.setAttribute('id','todozone');
        					taskName.setAttribute('class','text-gray-600');
-       					taskName.setAttribute('href','${context}/task/detail');
+       					taskName.setAttribute('href','${context}/task/detail?name=${my.taskId}');
        					issue.setAttribute('class','btn btn-sm ml-1');
 
        					taskName.innerHTML += '${my.taskId}';
@@ -530,7 +530,7 @@
 	   					todobutton.setAttribute('draggable','true');
 	   					todobutton.setAttribute('id','todozone');
 	   					taskName.setAttribute('class','text-gray-600');
-	   					taskName.setAttribute('href','${context}/task/detail');
+	   					taskName.setAttribute('href','${context}/task/detail?name=${my.taskId}');
 	   					
 	   					
 	   					taskName.innerHTML += '${my.taskId}';

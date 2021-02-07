@@ -1,5 +1,4 @@
 // my list 드래그 드롭기능
-
 function onDragStart(event){
 	event.dataTransfer.setData('text/plain',event.target.id);
 	event.currentTarget.style.backgroundColor = 'gray';
