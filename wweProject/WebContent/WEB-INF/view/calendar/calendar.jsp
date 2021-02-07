@@ -344,12 +344,12 @@
                                 <div class="card-body">
                                     <div id="user-list">
                                     	<div class="card shadow mb-4">                                  		
-                                    		<c:forEach var="user" items="${userList}">
+                                    		<c:forEach var="user" items="${userList}" varStatus="status">
                                     			<div class="card-body border d-flex justify-content-between">
-                                    				${user.userId}
-                                    				<a href="#" class="btn btn-danger btn-circle" onclick="checkValue(this)">
-                                       			 		<i class="fas fa-times"></i>
-                                    				</a>
+                                    				<label for="checkList${status.index}">${user.userId}</label>
+                                    				<input type="checkbox" value="${user.userId}" onclick="checkValue(this)" name="proUsers" id="checkList${status.index}" checked="checked">
+                                       			 		
+                                    				</input>
                                     			</div>
                                     		</c:forEach>
                                     	</div>
@@ -427,51 +427,54 @@
     <script src="/resources/js/demo/chart-pie-demo.js"></script>
     <script src="/resources/js/demo/chart-bar-demo.js"></script>
     <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function() {
+          let drawCalendar = (text) => {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
               initialView: 'dayGridMonth',
               eventColor : 'pink',
-              events : [
-                  {
-                      title : '김선민만세',
-                      start : '2021-01-28',
-                      end : '2021-02-03'
-                  }
-              ]
+              events : text
             });
-            calendar.render(); 
-          });
-        </script>
-        <script type="text/javascript">
-        	function checkValue(id) {
-        		console.dir(id);
-                id.parentElement.style.color = "red";
-                id.className = "btn btn-success btn-circle";
-                
-                let mark = document.createElement('i');
-                mark.className = "fas fa-check";
-                
-                id.innerHTML = "";
-                id.appendChild(mark);
-
-                const url = '/views/calendar';
+            calendar.render();
+          }
+          
+          let inputData = () => {
+            const url = '/views/test';
                 let headerObj = new Headers();
                 let paramObj = new Object();
+                let list = document.querySelectorAll('input[name="proUsers"]');
+                let userList = [];
 
-                headerObj.append("content-type","application/x-www-form-urlencoded");
-                paramObj.id = '김선민만세';
-
-                fetch(url,{
-                    method : 'post',
-                    headers : headerObj,
-                    body : "data="+JSON.stringify(paramObj)
-                }).then(response => {
-                    return response.text();
-                }).then(text => {
-                    console.dir(text);
+                list.forEach((data,index)=>{
+                    if(data.checked === false){
+                        userList[index] = data.value;
+                    }
                 });
 
+                headerObj.append("content-type","application/x-www-form-urlencoded");
+                paramObj.name = userList;
+                console.dir(JSON.stringify(paramObj));
+
+                fetch(url,{
+                    method : 'POST',
+                    headers : headerObj,
+                    body : 'data='+JSON.stringify(paramObj)
+                }).then(response => {
+                    return response.json();
+                }).then(text => {
+                    console.dir(JSON.stringify(text));
+                    drawCalendar(text);
+                });
+          }
+
+        
+
+        </script>
+
+
+        <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded',inputData());
+        	function checkValue(id) {
+        		inputData();
 			}
         </script>
 
