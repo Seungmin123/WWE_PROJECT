@@ -19,6 +19,7 @@ import com.wwe.leader.model.service.LeaderService;
 import com.wwe.leader.model.vo.ProjUser;
 import com.wwe.task.model.service.TaskService;
 import com.wwe.task.model.vo.Task;
+import com.wwe.views.model.vo.GraphDataSetVo;
 import com.wwe.views.model.vo.UserByTaskVo;
 
 /**
@@ -52,8 +53,11 @@ public class ViewsController extends HttpServlet {
 		case "graph":
 			viewgraph(request,response);
 			break;
-		case "test":
+		case "calendarimpl":
 			viewcalendar(request,response);
+			break;
+		case "graphimpl":
+			graphimpl(request,response);
 			break;
 		default:
 			break;
@@ -69,22 +73,14 @@ public class ViewsController extends HttpServlet {
 	}
 	
 	private void calendar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
-		// 해당 프로젝트의 이름을 받아온다...
-		String pId = "프로젝트 1";
-		
-		//해당 프로젝트의 구성원 정보를 받아 request로 넘겨준다.
-		List<ProjUser> userList = leaderService.selectUserListByPid(pId);
+		List<ProjUser> userList = getProjectId(request, response);
 		
 		request.setAttribute("userList", userList);
 		request.getRequestDispatcher("/WEB-INF/view/calendar/calendar.jsp").forward(request, response);
 	}
 	
 	private void viewgraph(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 해당 프로젝트의 이름을 받아온다...
-		String pId = "프로젝트 1";
-				
-		//해당 프로젝트의 구성원 정보를 받아 request로 넘겨준다.
-		List<ProjUser> userList = leaderService.selectUserListByPid(pId);
+		List<ProjUser> userList = getProjectId(request, response);
 				
 		request.setAttribute("userList", userList);
 		request.getRequestDispatcher("/WEB-INF/view/calendar/graph.jsp").forward(request, response);
@@ -100,16 +96,12 @@ public class ViewsController extends HttpServlet {
 		Map filterMap = gson.fromJson(filterData, Map.class);
 		List<String> filterList = (List<String>) filterMap.get("name");
 		
-		// 해당 프로젝트의 이름을 받아온다...
-		String pId = "프로젝트 1"; // 향후 세션값으로 교체 
-		
-		//해당 프로젝트의 구성원 정보를 받기
-		List<ProjUser> userList = leaderService.selectUserListByPid(pId);		
+		List<ProjUser> userList = getProjectId(request, response);		
 		
 		// 해당 프로젝트의 구성원들의 각 업무리스트 가져오기
 		for (ProjUser users : userList) { // 각 인원별
 			if(!filterList.contains(users.getUserId())){
-				for (Task task : taskService.selectMyList(users.getUserId(),pId)) { // 업무리스트 순환
+				for (Task task : taskService.selectMyList(users.getUserId(),users.getProjectId())) { // 업무리스트 순환
 					taskList.add(new UserByTaskVo(task.getTaskId(),task.getStartDate(),task.getDeadLine(),colorList[colorIdx])); // 파싱파싱
 				}
 			}
@@ -121,5 +113,41 @@ public class ViewsController extends HttpServlet {
 		response.setContentType("application/json");
 		response.getWriter().print(data);
 	}
+	
+	private void graphimpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Gson gson = new Gson();
+		GraphDataSetVo dataSet = new GraphDataSetVo();
+		
+		/*
+		 * dataSet.SetDataSet(5, "rgba(255, 99, 132, 0.2)", "rgba(255, 99, 132, 1)");
+		 * dataSet.SetDataSet(6, "rgba(255, 99, 132, 0.2)", "rgba(255, 99, 132, 1)");
+		 * dataSet.SetDataSet(7, "rgba(255, 99, 132, 0.2)", "rgba(255, 99, 132, 1)");
+		 * dataSet.SetDataSet(10, "rgba(255, 99, 132, 0.2)", "rgba(255, 99, 132, 1)");
+		 */
+		List<ProjUser> userList = getProjectId(request, response);
+		
+		for (ProjUser users : userList) { // 각 인원별
+			int taskNum = 0;
+			for (Task task : taskService.selectMyList(users.getUserId(),users.getProjectId())) { // 업무리스트 순환
+				taskNum++;
+			}
+			dataSet.SetDataSet(taskNum*0.1, "rgba(255, 99, 132, 0.2)", "purple");
+		}
+		
+		String data = gson.toJson(dataSet);
+		response.setContentType("application/json");
+		response.getWriter().print(data);
+	}
+	
+	// 프로젝트 아이디를 받아와 해당프로젝트의 구성원 리스트를 반환
+	private List<ProjUser> getProjectId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		// 해당 프로젝트의 이름을 받아온다...
+		String pId = "프로젝트 1"; // 향후 세션값으로 교체 
+						
+		//해당 프로젝트의 구성원 정보를 받기
+		List<ProjUser> userList = leaderService.selectUserListByPid(pId);
+		return userList;
+	}
+	
 
 }

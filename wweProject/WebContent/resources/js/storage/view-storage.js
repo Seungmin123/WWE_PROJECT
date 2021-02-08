@@ -16,3 +16,20 @@ function deleteFile(idx,rfname,savePath,isTeam) {
     };
     location.href = '${context}' + "/storage/delete?" + urlEncodeForm(params);
 }
+
+function searchMyFile(isTeam) {
+    if(window.event.keyCode == 13){
+        let keyWord = document.querySelector('#searchValue').value;
+
+        if(!keyWord){
+            location.href = '${context}' + '/storage/personal?page=1';
+        }else{
+            location.href = '${context}' + '/storage/search?keyWord=' + keyWord;
+        }
+        
+
+
+
+
+    }
+}

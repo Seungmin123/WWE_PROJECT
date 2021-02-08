@@ -399,7 +399,7 @@
                                 <div class="card-body">
                                     <form action="${context}/storage/sUpload" enctype="multipart/form-data" method="post">
                                         <input type="file" class="form-control-file" name="file"/>
-                                      
+                                      	<span class="text">writer : ${sessionScope.user.userID}</span>
                                         <textarea rows="10" cols="20" placeholder="Content text" class="form-control my-2 textarea-form" name="content" id="textarea-form"></textarea>
                                     
                                         <button class="btn btn-primary btn-icon-split">

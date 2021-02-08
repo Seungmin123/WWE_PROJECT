@@ -316,10 +316,17 @@
                     <div class="row">
                         <!-- DataTales Example -->
                         <div class="card shadow mb-4 col-xl-9 col-lg-8">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Storage</h6>
+                            <div class="card-header py-3 d-flex justify-content-between">
+                                <div>
+                                    <a href="${context}/storage/personal?page=1"><h6 class="m-0 font-weight-bold text-primary">Storage</h6></a>
+                                </div>
+                                <div id="dataTable_filter" class="dataTables_filter">
+                                    <input type="search" class="form-control form-control-sm" placeholder="search" aria-controls="dataTable" id="searchValue" onkeypress="searchMyFile()"/>
+                                    
+                                </div>
                             </div>
-                                <div class="card-body overflow-auto">
+                                <div class="card-body">
+                                    
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
                                             <thead>
