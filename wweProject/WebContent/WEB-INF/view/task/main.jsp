@@ -333,7 +333,7 @@
                         <div class="d-flex justify-content-center">
                         <div class="btn pl-3 pr-3">
                             <i class="fas fa-laugh-wink h1 text-dark mr-3 mt-2"></i>
-                            <span class="text-primay font-weight-bold h1 mr-4" id="projectId">${taskList[0].projectId}</span>
+                            <span class="text-primay font-weight-bold h1 mr-4" id="projectId">${project.projectId}</span>
                         </div>
                         </div>
                         <hr class="hr">
