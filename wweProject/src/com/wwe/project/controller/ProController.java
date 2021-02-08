@@ -53,7 +53,7 @@ public class ProController extends HttpServlet {
 	private void newPro(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		
-		request.getRequestDispatcher("/WEB-INF/view/project/newProject.jsp")
+		request.getRequestDispatcher("/WEB-INF/view/project/newProject2.jsp")
 		.forward(request, response);
 	}
 	
