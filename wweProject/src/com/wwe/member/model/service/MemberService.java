@@ -247,6 +247,7 @@ public class MemberService {
 	        
 	        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 	        
+	        
 	        String line = "";
 	        String result = "";
 	        
@@ -335,6 +336,7 @@ public class MemberService {
 			if(res == 0) {
 				System.out.println("등록오류");
 			}else {
+				jdt.commit(conn);
 				System.out.println("등록완료");
 			}
 			
@@ -345,9 +347,7 @@ public class MemberService {
 		}finally {
 			jdt.close(conn);
 		}
-		
-		
-		
+
 	}
 
 }
