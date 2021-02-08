@@ -39,11 +39,12 @@ public class ProService {
 		Member member = null;
 		
 		try {
+			//dao에서 받은걸
 			member = proDao.selectMember(conn, userId, userName);
 		}finally {
 			jdt.close(conn);
 		}
-		
+		//반환
 		return member;
 	}
 	
@@ -67,6 +68,7 @@ public class ProService {
 		Project project = null;
 		
 		try {
+			//dao에 conn과 유저아이디와 수락여부 넘기기
 			proDao.selectInvitedProject(conn,userId, 0);
 		}finally {
 			jdt.close(conn);

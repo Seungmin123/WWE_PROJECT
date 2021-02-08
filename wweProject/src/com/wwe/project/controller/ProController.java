@@ -1,6 +1,7 @@
 package com.wwe.project.controller;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -64,45 +65,17 @@ public class ProController extends HttpServlet {
 		String title = request.getParameter("title"); //프로젝트 제목
 		String addMember = request.getParameter("addMember"); //추가한 팀원
 
-		//진행기간
-		//프로젝트 시작날짜
-		SimpleDateFormat inStart = new SimpleDateFormat("yyyy-MM-dd");
-		String parameter = request.getParameter("startDate");
-		Date startDate = null;
-		try {
-			startDate = (Date) inStart.parse(parameter);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//시작날짜 출력
-		//SimpleDateFormat fmtStart = new SimpleDateFormat("yyyy-MM-dd");
-		//out.println(fmt.format(date));
-		
-		//프로젝트 마감날짜
-		SimpleDateFormat inEnd = new SimpleDateFormat("yyyy-MM-dd");
-		String parameter2 = request.getParameter("endDate");
-		Date endDate = null;
-		try {
-			endDate = (Date) inEnd.parse(parameter2);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//마감날짜 출력
-		//SimpleDateFormat fmtEnd = new SimpleDateFormat("yyyy-MM-dd");
-		//out.println(fmt.format(date));
-		
 		Project project = new Project();
 		project.setUserId(userId);
 		project.setTitle(title);
 		project.setAddMember(addMember);
-		project.setStartDate(startDate);
-		project.setEndDate(endDate);
-		
+
 		int res = proService.createProject(project);
 	
 		if(res > 0) {
+			
+			request.getSession().setAttribute("project", project);
+			
 			//프로젝트 메인화면으로 이동
 			request.getRequestDispatcher("/WEB-INF/view/task/main.jsp")
 			.forward(request, response);
@@ -110,6 +83,22 @@ public class ProController extends HttpServlet {
 		}else {
 			response.getWriter().print("fail");
 		}
+	}
+	
+	//새 프로젝트 참여자 추가
+	private void addMember(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("user");
+	
+		proService.addMember(member.getUserID(), member.getUserName());
+	
+		//경고창 설정
+		request.setAttribute("alertMsg", "게시글 등록이 완료되었습니다.");
+		//url 설정
+		request.setAttribute("url", "/index.do");
+		//request를 result.jsp로 보냄
+		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
+		.forward(request, response);
 	}
 	
 	//최근 프로젝트
@@ -129,12 +118,17 @@ public class ProController extends HttpServlet {
 	private void invitedPro(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		
+		//세션에서
 		HttpSession session = request.getSession();
+		//유저 정보를 받아오고
 		Member member = (Member)session.getAttribute("user");
+		//프로젝트 초대 수락 여부 받아오기
 		Project project = (Project)session.getAttribute("isAllowed");
 		
+		//service단에 유저의 아이디와 초대수락여부 넘기기
 		proService.selectInvitedProject(member.getUserID(), project.getIsAllowed());
 		
+		//초대프로젝트 페이지로 이동
 		request.getRequestDispatcher("/WEB-INF/view/project/invitedProject.jsp")
 		.forward(request, response);
 	}
