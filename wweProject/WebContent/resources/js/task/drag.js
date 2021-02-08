@@ -1,7 +1,10 @@
 // my list 드래그 드롭기능
-function onDragStart(event){
+let taskId;
+function onDragStart(data,event){
 	event.dataTransfer.setData('text/plain',event.target.id);
 	event.currentTarget.style.backgroundColor = 'gray';
+	taskId = data.childNodes[0].innerHTML
+	console.log(taskId);
 }
         	
 function onDragOver(event){
@@ -10,32 +13,32 @@ function onDragOver(event){
         	
 function onDrop(event){
 	const id = event.dataTransfer.getData('text');
-        		
 	const draggableElement = document.getElementById(id);
 	const dropzone = event.target;
-        		
+    
+	//console.dir(event);
 	dropzone.appendChild(draggableElement);
+	/*document.querySelectorAll('#taskName').forEach((e,i)=>{
+		if()
+			alert(e.innerHTML)
+			
+	});*/
 	
-	//드래그 대상에서 이동할 데이터 삭제
-    draggableElement.parentNode.removeChild(dropzone);
-   
-    //드롭 대상에 데이터 추가
-    event.currentTarget.appendChild(dropzone);
-   
+    updateState();
     //드롭 완료 후 이벤트 버블링을 막기 위해 호출           
     event.stopPropagation();
  		
     event.dataTransfer.clearData();
 }
 
-//taskId랑 userId도 같이 보내야하잖아...? 어떻게해...
-
+//state값을 보내서 상태값 변경
 let updateState = ()=>{
-	let state = 'ST01';
+	let state = "ST01";
 	
-	const url = "/task/updateState"
+	const url = "/task/updatestate"
 	let paramObj = new Object();
 	paramObj.state = state;
+	paramObj.taskId = taskId;
 	let headerObj = new Headers();
 	headerObj.append('content-type','application/x-www-form-urlencoded');
 	

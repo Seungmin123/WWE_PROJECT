@@ -182,12 +182,12 @@ public class TaskService {
 	}
 	
 	//업무상태 변경해주는 메서드
-	public int updateState(String taskState) {
+	public int updateState(String taskState, String taskId, String userId) {
 		
 		Connection conn = jdt.getConnection();
 		int res = 0;
 		try {
-			res = taskDao.updateState(conn, taskState);
+			res = taskDao.updateState(conn, taskState, taskId, userId);
 			jdt.commit(conn);
 		} catch (DataAccessException e) {
 			jdt.rollback(conn);
