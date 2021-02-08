@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
+import com.wwe.common.code.AddAlarmCode;
 import com.wwe.member.mail.MailSender;
 import com.wwe.member.model.service.MemberService;
 import com.wwe.member.model.vo.Member;
@@ -47,28 +48,27 @@ public class MemberController extends HttpServlet {
 				break;
 			case "signup" : signUp(request, response);
 				break;
-			case "find" : find(request, response);
-				break;
-			case "findresult" : findResult(request, response);
-				break;
-				
 			case "signinimpl" : signInImpl(request, response);
 				break;
 			case "signupimpl" : signUpImpl(request, response);
+				break;
+				
+			case "find" : find(request, response);
+				break;
+			case "findresult" : findResult(request, response);
 				break;
 			case "findidimpl" : findIDImpl(request, response);
 				break;
 			case "findpwimpl" : findPWImpl(request, response);
 				break;
-				
-			case "mailsender" : sendMail(request, response);
-				break;
-				
-			case "mypage" : myPage(request, response);
-				break;
+			
 			case "modifyimpl" : modifyImpl(request, response);
 				break;
-				
+			
+			case "mailsender" : sendMail(request, response);
+				break;
+			case "mypage" : myPage(request, response);
+				break;
 			case "kakao" : kakao(request, response);
 				break;
 				
@@ -102,6 +102,23 @@ public class MemberController extends HttpServlet {
 		.forward(request, response);
 	}
 	
+	private void find(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		request.getRequestDispatcher("/WEB-INF/view/member/FindSign.jsp")
+		.forward(request, response);
+	}
+	
+	private void findResult(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("/WEB-INF/view/member/FindResult.jsp")
+		.forward(request, response);
+	}
+	
+	private void myPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
+		
+		request.getRequestDispatcher("/WEB-INF/view/member/MyPage.jsp")
+		.forward(request, response);
+	}
+	
 	private void signInImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String data = request.getParameter("data");
@@ -114,21 +131,21 @@ public class MemberController extends HttpServlet {
 		Member user = memberService.memberAuthenticate(userID, userPW);
 		Member userProject = memberService.getMemberProject(userID);
 		
+		
 		if(user != null) {
 			//session scope로 user 전달
 			request.getSession().setAttribute("user", user);
 			request.getSession().setAttribute("project", userProject);
 			response.getWriter().print("success");
 			
+			//*******************************현재 선택한 프로젝트로 변경 요망**************************************
+			//Map<String, Object> commandMap = memberService.selectAlarm(user.getUserID(), project.getProjectId());
 			Map<String, Object> commandMap = memberService.selectAlarm(user.getUserID(), "프로젝트 1");
 			List<Object> alarmList = (List<Object>) commandMap.get("alarmList");
 			
 			request.getSession().setAttribute("alarmList", alarmList);
-			
-		}else {
-			response.getWriter().print("fail");
-			
 		}
+		
 		request
 		.getRequestDispatcher("/WEB-INF/view/member/MyPage.jsp")
 		.forward(request, response);
@@ -164,9 +181,7 @@ public class MemberController extends HttpServlet {
 		
 		int res = memberService.insertMember(member);
 		
-		
-		
-		if(res == 1) {	
+		if(res != 0) {	
 			System.out.println("회원가입 성공");
 			request
 			.getRequestDispatcher("/WEB-INF/view/member/MyPage.jsp")
@@ -179,31 +194,39 @@ public class MemberController extends HttpServlet {
 		}
 	}
 	
-	private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		memberService.kakaoLogout((String)request.getAttribute("access_Token"));
-		request.getSession().removeAttribute("project");
-		request.getSession().removeAttribute("user");
-		request.getSession().removeAttribute("access_Token");
-		request.getRequestDispatcher("/WEB-INF/view/index/index.jsp")
-		.forward(request, response);
+	private void findTools(Member user, HttpServletRequest request) {
+		if(user != null) {
+			request.getSession().setAttribute("user", user);
+		}
 	}
 	
-	private void find(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void findIDImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		request.getRequestDispatcher("/WEB-INF/view/member/FindSign.jsp")
-		.forward(request, response);
+		String data = request.getParameter("data");
+		Gson gson = new Gson();
+		Map parsedData = gson.fromJson(data, Map.class);
+
+		String userEmail = (String) parsedData.get("userEmail");
+		
+		System.out.println(userEmail);
+		
+		Member user = memberService.findMemberID(userEmail);
+		
+		findTools(user, request);
 	}
 	
-	private void findResult(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/view/member/FindResult.jsp")
-		.forward(request, response);
-	}
-	
-	private void myPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
+	private void findPWImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		request.getRequestDispatcher("/WEB-INF/view/member/MyPage.jsp")
-		.forward(request, response);
+		String data = request.getParameter("data");
+		Gson gson = new Gson();
+		Map parsedData = gson.fromJson(data, Map.class);
+
+		String userID = (String) parsedData.get("userID");
+		String userEmail = (String) parsedData.get("userEmail");
+		
+		Member user = memberService.findMemberPW(userID, userEmail);
+		
+		findTools(user, request);
 	}
 	
 	
@@ -226,51 +249,6 @@ public class MemberController extends HttpServlet {
 			
 		}
 		
-	}
-	
-
-	
-	private void findIDImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String data = request.getParameter("data");
-		Gson gson = new Gson();
-		Map parsedData = gson.fromJson(data, Map.class);
-
-		String userEmail = (String) parsedData.get("userEmail");
-		
-		System.out.println(userEmail);
-		
-		Member user = memberService.findMemberID(userEmail);
-		
-		if(user != null) {
-			//session scope로 user 전달
-			request.getSession().setAttribute("user", user);
-			response.getWriter().print("find id success");
-		}else {
-			response.getWriter().print("fail");
-		}
-	}
-	
-	private void findPWImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String data = request.getParameter("data");
-		Gson gson = new Gson();
-		Map parsedData = gson.fromJson(data, Map.class);
-
-		String userID = (String) parsedData.get("userID");
-		String userEmail = (String) parsedData.get("userEmail");
-		
-		Member user = memberService.findMemberPW(userID, userEmail);
-		
-		if(user != null) {
-			//session scope로 user 전달
-			request.getSession().setAttribute("user", user);
-			response.getWriter().print("find PW success");
-			System.out.println("cont / find PW success");
-		}else {
-			response.getWriter().print("find PW fail");
-			System.out.println("cont / find PW fail");
-		}
 	}
 	
 	private void sendMail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -319,7 +297,6 @@ public class MemberController extends HttpServlet {
 		int res = memberService.modifyMember(member);
 		
 		
-		
 		if(res == 1) {	
 			System.out.println("회원가입 성공");
 			request
@@ -331,6 +308,16 @@ public class MemberController extends HttpServlet {
 			.getRequestDispatcher("/WEB-INF/view/member/Logout.jsp")
 			.forward(request, response);
 		}
+	}
+	
+	private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		memberService.kakaoLogout((String)request.getAttribute("access_Token"));
+		request.getSession().removeAttribute("project");
+		request.getSession().removeAttribute("user");
+		request.getSession().removeAttribute("access_Token");
+		request.getRequestDispatcher("/WEB-INF/view/index/index.jsp")
+		.forward(request, response);
 	}
 	
 	// 알람기능을 위한 처리부분
