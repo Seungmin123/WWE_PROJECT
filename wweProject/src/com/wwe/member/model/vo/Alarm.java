@@ -6,7 +6,7 @@ public class Alarm {
 	
 	private String userID;
 	private String typeOfAlarm;
-	private Date addDate;
+	private String addDate;
 	private String writer;
 	
 	
@@ -38,12 +38,12 @@ public class Alarm {
 	}
 
 
-	public Date getAddDate() {
+	public String getAddDate() {
 		return addDate;
 	}
 
 
-	public void setAddDate(Date addDate) {
+	public void setAddDate(String addDate) {
 		this.addDate = addDate;
 	}
 	

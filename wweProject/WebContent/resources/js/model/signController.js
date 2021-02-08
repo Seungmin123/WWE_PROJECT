@@ -21,53 +21,56 @@
                                         	
 	}
 
-	let hideDiv = function(divID){
-		document.getElementById(divID).style.display = 'none';
-		document.getElementById(divID).style.visibility = 'hidden';
-		
-	}
-
-	let showDiv = function(divID){
-		document.getElementById(divID).style.display = 'block';
-		document.getElementById(divID).style.visibility = 'visible';
-	}
-
-	let setDivFirstSet = () => {
-		hideDiv('whale-LeftPic');
-		hideDiv('whale-RightID');
-		hideDiv('whale-RightPW');
-		
-		showDiv('whale-LeftFirstSet');
-		showDiv('whale-RightFirstSet');
-	}
-
-	let hideLeftRight = () => {
-
-		hideDiv('whale-LeftFirstSet');
-		showDiv('whale-LeftPic');
-		hideDiv('whale-RightFirstSet');
-
+	function confirmSave(){
+		var isRemember;
+		let checkbox = document.getElementById('rememberCheck');
+		if(checkbox.checked){
+			isRemember = confirm("저장하면 아이디 비번 유출 될 수도 있어욥");
 		}
 
-
-	let showFindID = () => {
-
-		hideLeftRight();
-		showDiv('whale-RightID');
-		hideDiv('whale-RightPW');
-
+		if(!isRemember){
+			checkbox.checked = false;
 		}
+	}
 
-	let showFindPW = () => {
-		
-		hideLeftRight();
-		showDiv('whale-RightPW');
-		hideDiv('whale-RightID');
+	 function setCookie(name, value, expiredays) //쿠키 저장함수
+    {
+        var todayDate = new Date();
+        todayDate.setDate(todayDate.getDate() + expiredays);
+        document.cookie = name + "=" + escape(value) + "; path=/; expires="
+                + todayDate.toGMTString() + ";"
+	}
+	
+	function getCookie(Name) { // 쿠키 불러오는 함수
+        var search = Name + "=";
+        if (document.cookie.length > 0) { // if there are any cookies
+            offset = document.cookie.indexOf(search);
+            if (offset != -1) { // if cookie exists
+                offset += search.length; // set index of beginning of value
+                end = document.cookie.indexOf(";", offset); // set index of end of cookie value
+                if (end == -1)
+                    end = document.cookie.length;
+                return unescape(document.cookie.substring(offset, end));
+            }
+        }
+    }
+	
+    function checkCookie() {
+        if (document.getElementById('rememberCheck').checked == true) { // 아이디 저장을 체크 하였을때
+            setCookie("rememberID", document.getElementById('userID').value, 7); //쿠키이름을 rememberID로 아이디입력필드값을 7일동안 저장
+            setCookie("rememberPW", document.getElementById('userPW').value, 7); //쿠키이름을 rememberPW로 비번입력필드값을 7일동안 저장
+        } else { // 아이디 저장을 체크 하지 않았을때
+            setCookie("rememberID", document.getElementById('userID').value, 0); //날짜를 0으로 저장하여 쿠키삭제
+            setCookie("rememberPW", document.getElementById('userPW').value, 0); //날짜를 0으로 저장하여 쿠키삭제
+        }
+    }
 
-		}
 	
 
+
 	let signin = () => {
+
+				checkCookie();
 				const url = '/member/signinimpl';
 				let paramObj = new Object();
 				paramObj.userID = userID.value;
@@ -320,48 +323,6 @@
 		
 	}
 
-
-
-	let showManageProfile = () => {
-		setProfileProjectFirstSet();
-		showDiv('manageProfile');
-		hideDiv('manageFileCloud');
-		hideDiv('manageProject');
-	}
-
-	let showManageCloud = () => {
-		setProfileProjectFirstSet();
-		showDiv('manageFileCloud');
-		hideDiv('manageProfile');
-		hideDiv('manageProject');
-	}
-
-	let showManageProject = () => {
-		setProfileProjectFirstSet();
-		showDiv('manageProject');
-		hideDiv('manageFileCloud');
-		hideDiv('manageProfile');
-	}
-
-	let showModifyProfile = () => {
-		setProfileProjectFirstSet();
-		showDiv('modifyProfile');
-		hideDiv('showProfile');
-	}
-
-	let showModifyProject = () => {
-		setProfileProjectFirstSet();
-		showDiv('modifyProject');
-		hideDiv('showProject');	
-	}
-
-	let setProfileProjectFirstSet = () => {
-		showDiv('showProfile');
-		showDiv('showProject');
-		hideDiv('modifyProfile');
-		hideDiv('modifyProject');
-	}
-
 	let modifyProfile = () => {
 				const url = '/member/modifyimpl';
 				let paramObj = new Object();
@@ -400,13 +361,90 @@
 					if(text == "fail"){
 						window.alert("회원정보 수정 실패");
 					}else{
-						
 						//location.href = "/index";
 						location.href= "/member/mypage";
 					}
 				}).catch(error => {
 					error.alertMessage();
 				});
+	}
+
+	let hideDiv = function(divID){
+		document.getElementById(divID).style.display = 'none';
+		document.getElementById(divID).style.visibility = 'hidden';
+		
+	}
+
+	let showDiv = function(divID){
+		document.getElementById(divID).style.display = 'block';
+		document.getElementById(divID).style.visibility = 'visible';
+	}
+
+	let setDivFirstSet = () => {
+		hideDiv('whale-LeftPic');
+		hideDiv('whale-RightID');
+		hideDiv('whale-RightPW');
+		
+		showDiv('whale-LeftFirstSet');
+		showDiv('whale-RightFirstSet');
+	}
+
+	let hideLeftRight = () => {
+		hideDiv('whale-LeftFirstSet');
+		showDiv('whale-LeftPic');
+		hideDiv('whale-RightFirstSet');
+	}
+
+	let showFindID = () => {
+		hideLeftRight();
+		showDiv('whale-RightID');
+		hideDiv('whale-RightPW');
+	}
+
+	let showFindPW = () => {
+		hideLeftRight();
+		showDiv('whale-RightPW');
+		hideDiv('whale-RightID');
+	}
+	
+	let showManageProfile = () => {
+		setProfileProjectFirstSet();
+		showDiv('manageProfile');
+		hideDiv('manageFileCloud');
+		hideDiv('manageProject');
+	}
+
+	let showManageCloud = () => {
+		setProfileProjectFirstSet();
+		showDiv('manageFileCloud');
+		hideDiv('manageProfile');
+		hideDiv('manageProject');
+	}
+
+	let showManageProject = () => {
+		setProfileProjectFirstSet();
+		showDiv('manageProject');
+		hideDiv('manageFileCloud');
+		hideDiv('manageProfile');
+	}
+
+	let showModifyProfile = () => {
+		setProfileProjectFirstSet();
+		showDiv('modifyProfile');
+		hideDiv('showProfile');
+	}
+
+	let showModifyProject = () => {
+		setProfileProjectFirstSet();
+		showDiv('modifyProject');
+		hideDiv('showProject');	
+	}
+
+	let setProfileProjectFirstSet = () => {
+		showDiv('showProfile');
+		showDiv('showProject');
+		hideDiv('modifyProfile');
+		hideDiv('modifyProject');
 	}
 	
 	

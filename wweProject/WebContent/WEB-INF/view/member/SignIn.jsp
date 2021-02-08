@@ -11,6 +11,15 @@
 
     <!-- Custom styles for this template-->
     <link href="../resources/css/sb-admin-2.css" rel="stylesheet">
+    <script>
+    	window.onload = function(){
+    		if(getCookie("rememberID") && getCookie("rememberPW")){
+    			document.getElementById('userID').value = getCookie("rememberID");
+    			document.getElementById('userPW').value = getCookie("rememberPW");
+    			document.getElementById('rememberCheck').checked = true;
+    		}
+    	}
+    </script>
 </head>
 
 <body class="bg-gradient-primary">
@@ -34,7 +43,7 @@
                                     </div>
                                     
                                     <!-- login용 ID 와 PW 받기 -->
-                                    <form class="user" action = "${context}/member/signin" method = "post">
+                                    <form class="user" action = "${context}/member/signin" method = "post" id ="loginForm" name = "loginform">
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-user"
                                                 id="userID" name = "userID" placeholder="ID">
@@ -45,8 +54,8 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember
+                                                <input type="checkbox" class="custom-control-input" id="rememberCheck" name="rememberCheck" onclick="confirmSave()">
+                                                <label class="custom-control-label" for="rememberCheck">Remember
                                                     Me</label>
                                             </div>
                                         </div>
