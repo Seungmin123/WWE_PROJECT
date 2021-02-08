@@ -116,7 +116,6 @@
 		let paramObj = new Object();
 		let projectId = "프로젝트 1" //임의로 정한 프로젝트ID값, 추후에 세션값으로 처리해야할 듯
 		let authority = authorityChk("mod_authority");
-		
 		paramObj.projectId = projectId;
 		paramObj.userId = userId;
 		paramObj.authority = authority;
@@ -145,6 +144,19 @@
                 error.alertMessage();
             });
 	}
+	
+	$(document).on('click','#btn_delete_member',function(e){
+		let projectId = '프로젝트 1';
+		let deleteMember =  e.target.getAttribute('deleteId');
+		
+		let url = "leader/deletemember";
+		let paramObj = new Object();
+		let headerObj = new Headers();
+		paramObj.projectId = projectId;
+		paramObj.deleteMember = deleteMember;
+		headerObj.append('content-type','application/x-www-form-urlencoded');
+		
+	});
 	
 	//페이지를 새로고침하는 함수
 	let reloadPage = ()=>{
