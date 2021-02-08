@@ -242,8 +242,8 @@ public class LeaderController extends HttpServlet {
 		Gson gson = new Gson();
 		Map parsedData = gson.fromJson(data, Map.class);
 		
-		int tIdx = Integer.parseInt(parsedData.get("tIdx").toString());
 		
+		ArrayList<Integer> tIdx = (ArrayList<Integer>)parsedData.get("tIdx");
 		int res = leaderService.deleteTask(tIdx);
 		
 		if(res>0) {

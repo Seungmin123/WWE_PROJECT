@@ -83,11 +83,11 @@ let modify = ()=>{
 let deleteTask = ()=>{
 	let checkedList = document.getElementsByName('_selected_');
 	let idxList = document.querySelectorAll('a[tIdx]');
-	let deleteIdx;
+	let deleteIdx = new Array();
 	
 	checkedList.forEach((e,i)=>{
 		if(e.checked==true){
-			deleteIdx = idxList[i].getAttribute("tIdx");
+			deleteIdx.push(idxList[i].getAttribute("tIdx"));
 		}
 	});
 	let url = "/leader/deletetask"
