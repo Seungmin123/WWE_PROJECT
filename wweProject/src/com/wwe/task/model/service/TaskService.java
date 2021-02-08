@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.wwe.common.exception.DataAccessException;
+import com.wwe.common.exception.ToAlertException;
 import com.wwe.common.jdbc.JDBCTemplate;
 import com.wwe.task.feedback.Feedback;
 import com.wwe.task.model.dao.TaskDao;
@@ -22,10 +24,11 @@ public class TaskService {
 			int res = 0;
 			
 			try {
-				
 				res = taskDao.insertTask(conn, task);
 				jdt.commit(conn);
-				
+			} catch (DataAccessException e) {
+				jdt.rollback(conn);
+				throw new ToAlertException(e.error);
 			} finally {
 				jdt.close(conn);
 			}
@@ -80,6 +83,9 @@ public class TaskService {
 			res = taskDao.insertFeedback(conn, feedback);
 			jdt.commit(conn);
 			
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
 		} finally {
 			jdt.close(conn);
 		}
@@ -149,6 +155,9 @@ public class TaskService {
 			res = taskDao.insertTaskIssue(conn,userId,projectId,typeAlarm);
 			jdt.commit(conn);
 			
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
 		} finally {
 			jdt.close(conn);
 		}
@@ -157,7 +166,36 @@ public class TaskService {
 	}
 
 	public int deleteTask(String projectId) {
-		return 0;
+		
+		Connection conn = jdt.getConnection();
+		int res = 0;
+		try {
+			res = taskDao.deleteTask(conn, projectId);
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		} finally {
+			jdt.close(conn);
+		}
+		return res;	
+	}
+	
+	//업무상태 변경해주는 메서드
+	public int updateState(String taskState) {
+		
+		Connection conn = jdt.getConnection();
+		int res = 0;
+		try {
+			res = taskDao.updateState(conn, taskState);
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		} finally {
+			jdt.close(conn);
+		}
+		return res;	
 	}
 	
 
