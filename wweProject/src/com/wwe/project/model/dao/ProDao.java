@@ -26,14 +26,13 @@ public class ProDao {
 	      
 	      try {
 	    	 String sql = "insert into tb_project "
-		    		  	+ "(user_id,due_date,progress,leader_id) "
-		    		  	+ "values(?, ?, ?, ?)";
+		    		  	+ "(project_id, due_date, progress, leader_id) "
+		    		  	+ "values(?, ?, 0, ?)";
     	  
 	         pstm = conn.prepareStatement(sql);
 	         pstm.setString(1, project.getProjectId());
 	         pstm.setDate(2, project.getDueDate());
-	         pstm.setInt(3, project.getProgress());
-	         pstm.setString(4, project.getLeaderId());
+	         pstm.setString(3, project.getLeaderId());
 	         res = pstm.executeUpdate();
 	         
 	      } catch (SQLException e) {
@@ -43,6 +42,8 @@ public class ProDao {
 	    	  jdt.close(pstm);
 	      }
 	      
+	      //성공하면 1, 실패하면 0 반환
+	      //(1은 쿼리를 실행한 횟수)
 	      return res;
 	   }
 	
@@ -51,20 +52,6 @@ public class ProDao {
 		Member member = new Member();
 		PreparedStatement pstm = null;
 		ResultSet rset = null;
-		
-		
-		/*
-		 * SELECT * FROM TB_USER WHERE USER_ID =fdg;
-		 * 
-		 * pstm.setString(1, fdg);
-		 * 
-		 * while(rset.next()) {
-		 * 
-		 * 
-		 * }
-		 */
-		
-		
 		
 		try{
 			String query = "select * from tb_user "
@@ -87,30 +74,32 @@ public class ProDao {
 	}
 
 	//최근 프로젝트 받아오기 (최근 작업시간 순으로)
-	public ArrayList<Project> selectRecentProject(Connection conn, Date workTime, String userId){
+	public ArrayList<Project> selectRecentProject(Connection conn, String userId){
 		ArrayList<Project> recentProject = new ArrayList<>();
 		PreparedStatement pstm = null;
 		ResultSet rset = null;
 		
 		try{
-			String query = "select * "
-							+ "from tb_project_master p"
-							+ "where p.work_time = (select max(work_time)"
-											+ "from tb_user u "
-											+ "where u.user_id = p.user_id) "
-											+ "order by work_time desc";
-			
+			String query = "select user_id, project_id, work_time "
+							+ "from tb_project_master"
+							+ "where user_id = ?"
+							+ "order by work_time desc";
+	
+			//= sql에 쿼리 입력
 			pstm = conn.prepareStatement(query);
+			pstm.setString(1, userId);
+
+			//= sql의 쿼리 실행
 			rset = pstm.executeQuery();
 			
+			//쿼리를 실행해서 얻은 데이터가 다음값이 없을 때까지(= false) 반복
 			while(rset.next()) {
 				Project project = new Project();
 				project.setUserId(rset.getString("user_id"));
 				project.setProjectId(rset.getString("project_id"));
 				project.setWorkTime(rset.getDate("work_time"));
-				project.setDueDate(rset.getDate("due_date"));
-				project.setProgress(rset.getInt("progress"));
-				project.setLeaderId(rset.getString("leader_id"));
+				
+				//얻어진 project 객체를 list에 붙임
 				recentProject.add(project);
 			}
 			
@@ -124,25 +113,29 @@ public class ProDao {
 		return recentProject;
 	}
 	
+	
 	//초대된 프로젝트 받아오기
-	public ArrayList<Project> selectInvitedProject(Connection conn, String userId, int isAllowed) {
-		ArrayList<Project> projectList = new ArrayList<>(); 
+	public ArrayList<Project> selectInvitedProject(Connection conn, String userId, String isInvited) {
+		ArrayList<Project> projectList = new ArrayList<>();
 		PreparedStatement pstm = null;
 		ResultSet rset = null;
 		
 		try {
 			String query = "select * from tb_user_issue "
-						 + "where user_id = ? and is_allowed = 0";
+						 + "where user_id = ? and is_invited = ?";
 			
 			pstm = conn.prepareStatement(query);
+			pstm.setString(1, userId);
+			pstm.setString(2, isInvited);
+			
 			rset = pstm.executeQuery();
 			
 			while(rset.next()) {
 				Project project = new Project();
 				project.setUserId(rset.getString("user_id"));
 				project.setProjectId(rset.getString("project_id"));
-				project.setDueDate(rset.getDate("due_date"));
-				project.setProgress(rset.getInt("progress"));
+				project.setIsInvited(rset.getString("is_invited"));
+				
 				projectList.add(project);
 			}
 			
@@ -155,4 +148,3 @@ public class ProDao {
 		return projectList;
 	}
 }
-

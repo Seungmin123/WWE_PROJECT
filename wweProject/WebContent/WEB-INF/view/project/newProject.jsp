@@ -643,7 +643,7 @@
                 let paramObj = new Object();
 
                 paramObj.title = $('#title').val();
-                paramObj.due = $('#deadline').val();
+                paramObj.deadline = $('#deadline').val();
 
                 let headerObj = new Headers();
                 headerObj.append("content-type", "application/x-www-form-urlencoded");
