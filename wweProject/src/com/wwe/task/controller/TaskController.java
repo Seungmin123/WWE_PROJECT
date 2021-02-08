@@ -61,6 +61,8 @@ public class TaskController extends HttpServlet {
 				break;
 			case "insertfeedback": insertFeedback(request,response);
 				break;
+			case "updatestate": updateState(request,response);
+				break;
 			default:
 				break;
 		}
@@ -79,11 +81,15 @@ public class TaskController extends HttpServlet {
 		
 		selectAllTaskList(request,response);
 		selectName(request,response);
-		
+			
 		selectTaskbyMem(request,response);
 		
+		//deleteTask(request,response);
+		
 		request.getAttribute("leaderId");
-		request.setAttribute("userId","yeongwoo");
+		//request.setAttribute("userId","yeongwoo");
+		Member user = (Member) request.getSession().getAttribute("user");
+		String userId = user.getUserID();
 		request.getAttribute("taskByMember");
 		
 
@@ -99,14 +105,14 @@ public class TaskController extends HttpServlet {
 		
 		//String projectId = project.getProjectId();
 		String projectId = "프로젝트 1";
-
-		ArrayList<String> taskList = (ArrayList<String>) request.getAttribute("taskList");
 		
-		for (String task : taskList) {
-			
-		}
 		int res = taskService.deleteTask(projectId);
 		
+		if(res > 0) {
+			System.out.println("업무삭제 완료");
+		}else {
+			System.out.println("업무삭제 실패");
+		}
 		
 	}
 	
@@ -147,9 +153,9 @@ public class TaskController extends HttpServlet {
 		request.setAttribute("leaderId", "wwe123");//프로젝트 session으로 받아오기
 		String leaderId = "wwe123";
 		//myList로 넘겨 질 업무 식별 하기위한 id
-		//Member user = (Member) request.getSession().getAttribute("user");
-		//String userId = user.getUserID();
-		String userId = "test";
+		Member user = (Member) request.getSession().getAttribute("user");
+		String userId = user.getUserID();
+		//String userId = "test";
 		
 		
 
@@ -170,7 +176,6 @@ public class TaskController extends HttpServlet {
 		
 		//멤버 별 업무리스트
 		//memberList로 맞춰서 업무리스트 가져오기
-		selectTaskbyMem(request,response);
 		selectAllTaskList(request,response);
 		
 		String name = request.getParameter("name");
@@ -198,7 +203,10 @@ public class TaskController extends HttpServlet {
 		//String projectId = request.getSession().getAttribute("project");
 		//session에서 leaderId userId 받아오기
 		String projectId = "프로젝트 1";
-		String userId = "yeongwoo";
+		Member user = (Member) request.getSession().getAttribute("user");
+		String userId = user.getUserID();
+		//String userId = "yeongwoo";
+		
 		String leaderId = "wwe123";
 		
 		ArrayList<Task> taskByMember = taskService.selectTaskbyMem(projectId,leaderId,userId);
@@ -235,7 +243,7 @@ public class TaskController extends HttpServlet {
 			
 			request.getRequestDispatcher("/WEB-INF/view/task/detail.jsp").forward(request, response);
 		}else {
-			System.out.println("상세정보 불거오기 실패");
+			System.out.println("상세정보 불러오기 실패");
 			
 			request.getRequestDispatcher("/WEB-INF/view/task/my.jsp").forward(request, response);
 		}
@@ -254,11 +262,11 @@ public class TaskController extends HttpServlet {
 		  String taskName = request.getParameter("taskName"); 
 		  String deadLine = request.getParameter("deadLine"); 
 		  String taskContent = request.getParameter("taskContent");
-		  //Member user = (Member)request.getSession().getAttribute("user");
+		  Member user = (Member)request.getSession().getAttribute("user");
 		  
 		  //String projectId = 
-		  //String userId = user.getUserID();
-		  String userId = "yeongwoo";
+		  String userId = user.getUserID();
+		  //String userId = "yeongwoo";
 		  String projectId = "프로젝트 1";
 		  
 		  if(taskName == null || taskContent == null || deadLine == null) {
@@ -284,15 +292,15 @@ public class TaskController extends HttpServlet {
 			  
 			  //추가 성공 시 이슈에 알림 주기 메소드
 			  String typeAlarm = "업무추가";
-			  //int result = taskService.insertTaskIssue(userId, projectId, typeAlarm);
+			  int result = taskService.insertTaskIssue(userId, projectId, typeAlarm);
 			  
-			  ///if(result > 1) {
+			  if(result > 1) {
 				  
-				  //System.out.println("알림성공");
+				  System.out.println("알림성공");
 				  
-			  //}else {
-				  //System.out.println("알림실패");
-			  //}
+			  }else {
+				  System.out.println("알림실패");
+			  }
 			  
 			  request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
 			  
@@ -321,9 +329,8 @@ public class TaskController extends HttpServlet {
 	protected void selectMyList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		//세션으로 아이디값 받아와서 하기
-		//Member user = (Member) request.getSession().getAttribute("user");
-		//String userId = user.getUserID();
-		String userId = "yeongwoo";
+		Member user = (Member) request.getSession().getAttribute("user");
+		String userId = user.getUserID();
 		String projectId = "프로젝트 1"; //나중에 세션으로 받아오기
 		
 		ArrayList<Task> myList = taskService.selectMyList(userId,projectId);
@@ -374,6 +381,35 @@ public class TaskController extends HttpServlet {
 		 }
 	}
 	
+	//업무상태값변경하기
+	public void updateState(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String data = request.getParameter("data");
+		Gson gson = new Gson();
+		Map parsedData = gson.fromJson(data, Map.class);
+		
+		String taskState = (String) parsedData.get("state");
+		
+		int res = taskService.updateState(taskState);
+		
+		if(res > 0) {
+			System.out.println("수정완료");
+		}else {
+			System.out.println("수정실패");
+		}
+		
+		
+	}
+	
 	//권한 땡겨오는 메서드 만들기
+	
+	public void selectAuthority(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+	}
+	
+	//업무 수정 메서드
+	public void updateTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+	}
 	
 }

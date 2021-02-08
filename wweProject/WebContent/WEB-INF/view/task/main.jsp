@@ -370,7 +370,7 @@
                             </div>
 
 							<c:forEach var="member" items="${memberList}" varStatus="status">
-							<c:if test="${member != leaderId && member!= userId}">
+							<c:if test="${member != leaderId && member!= user.userID}">
 							
                             <!-- Basic Card Example -->
                             <div class="card shadow mb-4 ">
@@ -517,7 +517,7 @@
        					
        					</c:if>
        					
-       					<c:if test="${task.userId == userId}">
+       					<c:if test="${task.userId == user.userID}">
        					tasklist = document.createElement('div');
        					divElement = document.createElement('div');
        					taskname = document.createElement('a');

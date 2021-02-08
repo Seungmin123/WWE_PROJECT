@@ -488,10 +488,11 @@
        					issue = document.createElement('span');
        					taskName = document.createElement('a');
        					
-       					inputElement.setAttribute('type','checkbox');
-       					inputElement.setAttribute('id','priority');
-       					todotask.setAttribute('class','d-flex');
-       					checkBox.setAttribute('class','checkbox pt-4 mr-3');
+       					//inputElement.setAttribute('type','checkbox');
+       					/* inputElement.setAttribute('id','priority'); */
+       					//todotask.setAttribute('class','d-flex');
+       					//checkBox.setAttribute('class','checkbox pt-4 mr-3');
+       					//checkBox.setAttribute('id','priority');
        					todobutton.setAttribute('class', 'mb-4 py-3 bg-gray-100 pl-4 d-flex justify-content-center rounded shadow-sm border-0');
        					todobutton.setAttribute('ondragstart','onDragStart(event);');
        					todobutton.setAttribute('draggable','true');
@@ -505,7 +506,7 @@
        					checkBox.appendChild(inputElement);
        					todobutton.appendChild(taskName);
        					todobutton.appendChild(issue);
-       					todotask.appendChild(checkBox);
+       					//todotask.appendChild(checkBox);
        					todotask.appendChild(todobutton);
 
        					document.querySelector('.todolist').appendChild(todotask);
