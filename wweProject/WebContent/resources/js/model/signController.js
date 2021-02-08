@@ -96,9 +96,9 @@
 				.then((text) => {
 					if(text == "fail"){
 						window.alert("ID / PW를 확인하세요");
-					}else{
-						
-						//location.href = "/index";
+					}
+					else{
+						//로그인 성공
 						location.href= "/member/mypage";
 					}
 				}).catch(error => {
@@ -408,8 +408,6 @@
 					error.alertMessage();
 				});
 	}
-	
-
 	
 	
 	

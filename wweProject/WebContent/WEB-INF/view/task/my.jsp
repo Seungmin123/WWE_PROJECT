@@ -351,10 +351,10 @@
                                     </div>
                                     <!-- todoList 추가영역 -->
                                     <div class="card-body todolist">
-                                        <div class="d-flex justify-content-between mb-3">
-                                            <span class="btn btn-icon-split bg-gray-300 shadow-sm">
+                                        <div class="d-flex justify-content-end mb-3">
+                                            <!-- <span class="btn btn-icon-split bg-gray-300 shadow-sm">
                                                 <span class="m-1 text-white">우선순위</span>
-                                            </span>
+                                            </span> -->
                                             <span>
                                                 <a class="icon btn text-white mr-2 bg-gray-300 shadow-sm"
                                                     href="${context}/task/add">
@@ -374,7 +374,7 @@
                                         </div>
                                     </div>
                                     <!-- doingList추가영역 -->
-                                    <div class="card-body" ondragover="onDragOver(event);" ondrop="onDrop(event);" id="doingzone">
+                                    <div class="card-body doingzone" ondragover="onDragOver(event);" ondrop="onDrop(event);">
                                     </div>
                                 </div>
 
@@ -386,7 +386,8 @@
                                         </div>
                                     </div>
                                     <!-- doneList추가영역 -->
-                                    <div class="card-body" ondrop="drop(event)" ondragover="allowDrop(event)" id="donezone">
+                                    <div class="card-body donezone" ondrop="onDrop(event);" ondragover="onDragOver(event);">
+                          
 
                                     </div>
                                 </div>
@@ -480,7 +481,8 @@
         			 let taskName;
         			 let issue;
        			<c:forEach var="my" items="${myList}" varStatus="status">
-          			<c:if test="${my.taskState == 'ST00'}" >
+       			<c:choose>
+					<c:when test="${my.taskState == 'ST00'}">       					
        					todotask = document.createElement('div');
        					checkBox = document.createElement('div');
        					inputElement = document.createElement('input');
@@ -494,7 +496,7 @@
        					//checkBox.setAttribute('class','checkbox pt-4 mr-3');
        					//checkBox.setAttribute('id','priority');
        					todobutton.setAttribute('class', 'mb-4 py-3 bg-gray-100 pl-4 d-flex justify-content-center rounded shadow-sm border-0');
-       					todobutton.setAttribute('ondragstart','onDragStart(event);');
+       					todobutton.setAttribute('ondragstart','onDragStart(this,event);');
        					todobutton.setAttribute('draggable','true');
        					todobutton.setAttribute('id','todozone');
        					taskName.setAttribute('class','text-gray-600');
@@ -502,52 +504,78 @@
        					issue.setAttribute('class','btn btn-sm ml-1');
 
        					taskName.innerHTML += '${my.taskId}';
-				
-       					checkBox.appendChild(inputElement);
+       					//checkBox.appendChild(inputElement);
        					todobutton.appendChild(taskName);
        					todobutton.appendChild(issue);
        					//todotask.appendChild(checkBox);
        					todotask.appendChild(todobutton);
-
+       				
        					document.querySelector('.todolist').appendChild(todotask);
+       				</c:when>
+       				<c:when test="${my.taskState == 'ST01'}">       					
+   						todotask = document.createElement('div');
+   						checkBox = document.createElement('div');
+   						inputElement = document.createElement('input');
+   						todobutton = document.createElement('div');
+   						issue = document.createElement('span');
+   						taskName = document.createElement('a');
+   					
+   						//inputElement.setAttribute('type','checkbox');
+   						/* inputElement.setAttribute('id','priority'); */
+   						//todotask.setAttribute('class','d-flex');
+   						//checkBox.setAttribute('class','checkbox pt-4 mr-3');
+   						//checkBox.setAttribute('id','priority');
+   						todobutton.setAttribute('class', 'mb-4 py-3 bg-gray-100 pl-4 d-flex justify-content-center rounded shadow-sm border-0');
+   						todobutton.setAttribute('ondragstart','onDragStart(this,event);');
+   						todobutton.setAttribute('draggable','true');
+   						todobutton.setAttribute('id','todozone');
+   						taskName.setAttribute('class','text-gray-600');
+   						taskName.setAttribute('href','${context}/task/detail?name=${my.taskId}');
+   						issue.setAttribute('class','btn btn-sm ml-1');
 
-              		</c:if>
-              		
-              		<c:if test="${my.taskState == 'ST01'}" >
-              		
-	              		todotask = document.createElement('div');
-	   					checkBox = document.createElement('div');
-	   					inputElement = document.createElement('input');
-	   					todobutton = document.createElement('div');
-	   					issue = document.createElement('span');
-	   					taskName = document.createElement('a');
-	   					
-	   					inputElement.setAttribute('type','checkbox');
-	   					inputElement.setAttribute('id','priority');
-	   					todotask.setAttribute('class','d-flex justify-content-between');
-	   					checkBox.setAttribute('class','checkbox pt-4 mr-3');
-	   					todobutton.setAttribute('class', 'mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm align-items-center justify-content-center border-0');
-	   					todobutton.setAttribute('ondragstart','onDragStart(event);');
-	   					todobutton.setAttribute('draggable','true');
-	   					todobutton.setAttribute('id','todozone');
-	   					taskName.setAttribute('class','text-gray-600');
-	   					taskName.setAttribute('href','${context}/task/detail?name=${my.taskId}');
-	   					
-	   					
-	   					taskName.innerHTML += '${my.taskId}';
+   						taskName.innerHTML += '${my.taskId}';
+   						//checkBox.appendChild(inputElement);
+   						todobutton.appendChild(taskName);
+   						todobutton.appendChild(issue);
+   						//todotask.appendChild(checkBox);
+   						todotask.appendChild(todobutton);
+   				
+   						document.querySelector('.doingzone').appendChild(todotask);
+   					</c:when>
+   					<c:when test="${my.taskState == 'ST02'}">       					
+						todotask = document.createElement('div');
+						checkBox = document.createElement('div');
+						inputElement = document.createElement('input');
+						todobutton = document.createElement('div');
+						issue = document.createElement('span');
+						taskName = document.createElement('a');
+					
+						//inputElement.setAttribute('type','checkbox');
+						/* inputElement.setAttribute('id','priority'); */
+						//todotask.setAttribute('class','d-flex');
+						//checkBox.setAttribute('class','checkbox pt-4 mr-3');
+						//checkBox.setAttribute('id','priority');
+						todobutton.setAttribute('class', 'mb-4 py-3 bg-gray-100 pl-4 d-flex justify-content-center rounded shadow-sm border-0');
+						todobutton.setAttribute('ondragstart','onDragStart(this,event);');
+						todobutton.setAttribute('draggable','true');
+						todobutton.setAttribute('id','todozone');
+						taskName.setAttribute('class','text-gray-600');
+						taskName.setAttribute('href','${context}/task/detail?name=${my.taskId}');
+						issue.setAttribute('class','btn btn-sm ml-1');
+
+						taskName.innerHTML += '${my.taskId}';
+						//checkBox.appendChild(inputElement);
+						todobutton.appendChild(taskName);
+						todobutton.appendChild(issue);
+						//todotask.appendChild(checkBox);
+						todotask.appendChild(todobutton);
 				
-	   					checkBox.appendChild(inputElement);
-	   					todobutton.appendChild(taskName);
-	   					todobutton.appendChild(issue);
-	   					todotask.appendChild(checkBox);
-	   					todotask.appendChild(todobutton);
-	
-	   					document.querySelector('.todolist').appendChild(todotask);
-	              			
-              		</c:if>
+						document.querySelector('.donezone').appendChild(todotask);
+					</c:when>
+
+       			</c:choose>
               		
-              		<c:if test="${my.taskState == 'ST02'}" >
-              		</c:if>
+          			
         		</c:forEach>
    			 }
   		  </script>

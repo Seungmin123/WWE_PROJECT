@@ -336,6 +336,7 @@
 
                         </nav>
                         <!-- End of Topbar -->
+                        
                         <div class="container-fluid">
                         <div class="container-sm d-flex justify-content-center">
                             <div class="col-lg-6">
@@ -375,7 +376,7 @@
                                             <a href="${context}/task/my" class="btn btn-dark btn-icon-split mr-3">
                                                 <span class="text">취소</span>
                                             </a>
-                                            <button class="btn btn-dark btn-icon-split">
+                                            <button class="btn btn-dark btn-icon-split" onclick="calendar();">
                                                 <span class="text">완료</span>
                                             </button>
                                         </div>

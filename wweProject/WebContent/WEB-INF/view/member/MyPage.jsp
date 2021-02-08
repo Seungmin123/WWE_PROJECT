@@ -184,8 +184,67 @@
 						
 						
                         <!-- Nav Item - Alerts -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="/member/alarm" id="alertsDropdown" role="button"
+                       
+                        
+                        
+                        
+                        <!-- <script>
+                        	$('#alarmList').on('click', function() {
+                        		$('#alarmList').load(window.location.href + '#alarmList');
+                        	});
+                        	
+                        </script> -->
+                        
+                       <%--  <a class="dropdown-item" href="${context}/member/alarm" id="alertsDropdown"
+                                data-toggle="modal" data-target="#alarmModal">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter">3+</span>
+                        </a>
+								
+								<!-- alarmModal -->
+								<div class="modal fade" id="alarmModal" tabindex="-1"
+									role="dialog" aria-labelledby="exampleModalLabel"
+									aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+											<!-- 제목 -->
+												<h5 class="modal-title" id="exampleModalLabel">alarm</h5>
+												<button class="close" type="button" data-dismiss="modal"
+													aria-label="Close">
+													<span aria-hidden="true">×</span>
+												</button>
+											</div>
+											<!-- 본문 -->
+											<!-- <div class="modal-body">로그아웃???????????????????</div>
+											<div class="modal-footer">
+												<a class="btn btn-primary" href="/member/logout">Logout</a>
+												<button class="btn btn-secondary" type="button"
+													data-dismiss="modal">Cancel</button>
+											</div> -->
+											<div class = "modal-body">
+											<c:forEach var="alarmData" items="${alarmList}">
+												<a class="dropdown-item d-flex align-items-center" href="#">
+													<div class="mr-3">
+														<div class="icon-circle bg-primary">
+															<i class="fas fa-file-alt text-white"></i>
+														</div>
+													</div>
+													<div>
+														<div class="small text-gray-500">${alarmData.addDate}</div>
+														<span class="font-weight-bold">${alarmData.writer}
+															님이 ${alarmData.typeOfAlarm}를 추가 하셨습니다.</span>
+													</div>
+												</a>
+											</c:forEach>
+											</div>
+										</div>
+									</div>
+								</div> --%>
+
+								<li class="nav-item dropdown no-arrow mx-1" id ="alarmList">
+                            <a class="nav-link dropdown-toggle" id="alertsDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
                                 <!-- Counter - Alerts -->
@@ -195,55 +254,32 @@
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="alertsDropdown">
                                 <h6 class="dropdown-header">
-                                    Alerts Center
+                                    Alerts History Center
                                 </h6>
                                 
                                 <c:forEach var = "alarmData" items = "${alarmList}">
-                                	<a class="dropdown-item d-flex align-items-center" href="#">
+                                	<a class="dropdown-item d-flex align-items-center">
 	                                    <div class="mr-3">
-	                                        <div class="icon-circle bg-primary">
-	                                            <i class="fas fa-file-alt text-white"></i>
-	                                        </div>
+	                                        
+	                                        	<c:if test="${alarmData.typeOfAlarm eq '업무'}">
+	                                        		<div class="icon-circle bg-primary">
+	                                            		<i class="fas fa-file-alt text-white"></i>
+	                                            	</div>
+	                                            </c:if>
+	                                        	<c:if test="${alarmData.typeOfAlarm eq '인원'}">
+	                                        		<div class="icon-circle bg-success">
+	                                            		<i class="fas fa-user-friends text-white"></i>
+	                                            	</div>
+	                                            </c:if>
+	                                        
 	                                    </div>
 	                                    <div>
 	                                        <div class="small text-gray-500">${alarmData.addDate}</div>
-	                                        <span class="font-weight-bold">${alarmData.writer} 님이 ${alarmData.typeOfAlarm} 하셨습니다.</span>
+	                                        <span class="font-weight-bold">${alarmData.writer} 님이 ${alarmData.typeOfAlarm}를 추가 하셨습니다.</span>
 	                                    </div>
                                	 	</a>
                                 </c:forEach>
-                                <!-- <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-primary">
-                                            <i class="fas fa-file-alt text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 12, 2019</div>
-                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-success">
-                                            <i class="fas fa-donate text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 7, 2019</div>
-                                        $290.29 has been deposited into your account!
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-warning">
-                                            <i class="fas fa-exclamation-triangle text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 2, 2019</div>
-                                        Spending Alert: We've noticed unusually high spending for your account.
-                                    </div>
-                                </a> -->
+                               
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
                             </div>
                         </li>
