@@ -466,12 +466,12 @@
     <script src="/resources/js/leader/modify_task.js"></script>
     <script>
     $(function(){
+    	pageCycle = parseInt("${taskCount}")/10 >=3 ? 3 : parseInt("${taskCount}")%10 ==0 ?parseInt("${taskCount}")/10 :parseInt("${taskCount}"/10) + 1;
     	selectTaskList("");
-    	doPaging("");
+        doPaging("");
     });
     //동적으로 업무리스트 게시판 생성하는 함수
     let selectTaskList = (data)=>{
-        
         let task;
        
 		let sliceTaskList;
@@ -480,18 +480,17 @@
 		let pageCount;
 		if(data==""){
 			taskList = new Array();
-			
 			<c:forEach var="i" begin="0" end="${taskList.size()-1}" step="1">
-   			task = new Object();
-   			task.tIdx = "${taskList.get(i).tIdx}";
-   			task.userId = "${taskList.get(i).userId}";
-   			task.taskId = "${taskList.get(i).taskId}";
-   			task.taskContent = "${taskList.get(i).taskContent}";
-   			task.startDate = "${taskList.get(i).startDate}";
-   			task.deadLine = "${taskList.get(i).deadLine}";
-   			taskList.push(task);
-   			</c:forEach>
+				task = new Object();
+   				task.tIdx = "${taskList.get(i).tIdx}";
+   				task.userId = "${taskList.get(i).userId}";
+   				task.taskId = "${taskList.get(i).taskId}";
+   				task.taskContent = "${taskList.get(i).taskContent}";
+   				task.startDate = "${taskList.get(i).startDate}";
+   				task.deadLine = "${taskList.get(i).deadLine}";
+   				taskList.push(task);
    			
+   			</c:forEach>
    			pageCount = taskList.length / 10 == 0 ? taskList.length/10 : parseInt(taskList.length/10) + 1;
 		}else{
 			taskList = data;
@@ -551,11 +550,11 @@
     	let taskCount;
     	if(count==""){
     		taskCount = "${taskCount}";
+    		
     	}else{
     		taskCount = count;
     	}
     	let pageCount = taskCount%10==0 ? taskCount/10 : parseInt(taskCount/10)+1;
-    	
     	let wrapPrevBtn = document.createElement('li');
     	wrapPrevBtn.className ="paginate_button page-item previous";
     	let prevBtn = document.createElement('a');
