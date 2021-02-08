@@ -435,7 +435,7 @@
                                             		대기
                                             	</c:when>
                                             	<c:when test="${name eq 'ST01'}">
-                                            		진행
+                                            		진행중
                                             	</c:when>
                                             	<c:when test="${name eq 'ST02'}">
                                             		완료
@@ -443,6 +443,11 @@
                                             </c:choose>
                                             </div>
                                         </div>
+                                    </div>
+                                    
+                                    <div class="pb-4 d-flex justify-content-end ">
+                                    	<button class="btn btn-sm btn-dark pr-3 pl-3 mr-2 mypageitem">수정</button>
+                                    	<button class="btn btn-sm btn-dark pr-2 pl-2">HELP</button>
                                     </div>
                                 </div>
 

@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
+import com.wwe.common.code.AddAlarmCode;
+import com.wwe.member.model.service.MemberService;
 import com.wwe.member.model.vo.Member;
 import com.wwe.project.model.vo.Project;
 import com.wwe.task.feedback.Feedback;
@@ -119,10 +121,10 @@ public class TaskController extends HttpServlet {
 	//이름불러오기
 	protected void selectName(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		Project project = (Project) request.getSession().getAttribute("project");
+		//Project project = (Project) request.getSession().getAttribute("project");
 		
-		String projectId = project.getProjectId();
-		//String projectId = "프로젝트 1";
+		//String projectId = project.getProjectId();
+		String projectId = "프로젝트 1";
 		
 		ArrayList<String> memberList = taskService.selectName(projectId);
 
@@ -141,10 +143,10 @@ public class TaskController extends HttpServlet {
 	//업무리스트불러오기
 	protected void selectAllTaskList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		Project project = (Project) request.getSession().getAttribute("project");
+		//Project project = (Project) request.getSession().getAttribute("project");
 		
-		String projectId = project.getProjectId();
-		//String projectId = "프로젝트 1";
+		//String projectId = project.getProjectId();
+		String projectId = "프로젝트 1";
 		
 		
 		ArrayList<Task> taskList = taskService.selectAllTaskList(projectId);
@@ -200,11 +202,11 @@ public class TaskController extends HttpServlet {
 		//멤버 별 업무리스트
 		//memberList로 맞춰서 업무리스트 가져오기
 		//프로젝트 세션에서 불러오기
-		Project project = (Project) request.getSession().getAttribute("project");
-		String projectId = project.getProjectId();
+		//Project project = (Project) request.getSession().getAttribute("project");
+		//String projectId = project.getProjectId();
 		
 		//session에서 leaderId userId 받아오기
-		//String projectId = "프로젝트 1";
+		String projectId = "프로젝트 1";
 		Member user = (Member) request.getSession().getAttribute("user");
 		String userId = user.getUserID();
 		//String userId = "yeongwoo";
@@ -266,11 +268,11 @@ public class TaskController extends HttpServlet {
 		  String taskContent = request.getParameter("taskContent");
 		  Member user = (Member)request.getSession().getAttribute("user");
 		  
-		  Project project = (Project) request.getSession().getAttribute("project");
-		  String projectId = project.getProjectId();
+		  //Project project = (Project) request.getSession().getAttribute("project");
+		  //String projectId = project.getProjectId();
 		  String userId = user.getUserID();
 		  //String userId = "yeongwoo";
-		  //String projectId = "프로젝트 1";
+		  String projectId = "프로젝트 1";
 		  
 		  if(taskName == null || taskContent == null || deadLine == null) {
 			  request.setAttribute("alertMsg", "내용을 모두 입력해주세요.");
@@ -293,17 +295,8 @@ public class TaskController extends HttpServlet {
 			  request.setAttribute("alertMsg", "업무 추가에 성공하였습니다.");
 			  request.setAttribute("url", "/task/my");
 			  
-			  //추가 성공 시 이슈에 알림 주기 메소드
-			  //String typeAlarm = "업무추가";
-			  //int result = taskService.insertTaskIssue(userId, projectId, typeAlarm);
-			  
-			  //if(result > 1) {
-				  
-				 // System.out.println("알림성공");
-				  
-			 // }else {
-				  //System.out.println("알림실패");
-			  //}
+			  String typeAlarm = "업무추가";
+			  new MemberService().addAlarm(userId, projectId, "업무");
 			  
 			  request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
 			  
@@ -334,8 +327,10 @@ public class TaskController extends HttpServlet {
 		//세션으로 아이디값 받아와서 하기
 		Member user = (Member) request.getSession().getAttribute("user");
 		String userId = user.getUserID();
-		Project project = (Project) request.getSession().getAttribute("project");
-		String projectId = project.getProjectId();
+		//Project project = (Project) request.getSession().getAttribute("project");
+		//String projectId = project.getProjectId();
+		String projectId = "프로젝트 1";
+		
 		
 		ArrayList<Task> myList = taskService.selectMyList(userId,projectId);
 		
