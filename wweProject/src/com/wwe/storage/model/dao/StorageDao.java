@@ -78,6 +78,8 @@ public class StorageDao {
 			pstm.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			jdt.close(pstm);
 		}
 	}
 	
@@ -91,6 +93,8 @@ public class StorageDao {
 			pstm.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			jdt.close(pstm);
 		}
 	}
 	
@@ -126,6 +130,8 @@ public class StorageDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			jdt.close(rset,pstm);
 		}
 
 		return res;
@@ -162,6 +168,8 @@ public class StorageDao {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			jdt.close(rset,pstm);
 		}
 
 		return res;
