@@ -123,16 +123,18 @@ public class LeaderController extends HttpServlet {
 	private void selectTaskList(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException{
 		String projectId = request.getParameter("projectId");
 		System.out.println(projectId);
-		ArrayList<Task> taskList =  leaderService.selectTaskList(projectId);
+		ArrayList<Task> taskList = leaderService.selectTaskList(projectId);
 		if(taskList.size()>0) {
 			System.out.println("업무리스트 불러오기 성공");
 			request.setAttribute("taskList", taskList);
 			request.setAttribute("taskCount", taskList.size());
 			request.getRequestDispatcher("/WEB-INF/view/leader/total_task.jsp").forward(request, response);
 		}else {
-			System.out.println("업무리스트 불러오기 실패");
-			response.getWriter().print("failed");
+			request.setAttribute("alertMsg", "해당 프로젝트에 업무가 없습니다.");
+			request.setAttribute("url", "/task/main");
+			request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
 		}
+		
 	}
 	
 	private void updateAuthority(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException{

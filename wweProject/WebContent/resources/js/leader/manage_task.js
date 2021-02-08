@@ -69,8 +69,6 @@ let nextBtnClick =(totalPageCount)=>{
 	}else if(pageIdx==lastPage){
 		
 		console.log("다음페이지로 이동!");
-		let t = pageIdx + 3;
-		console.log("결과 : "+ t);	
 		pageCycle = pageIdx +  3 <= totalPageCount ? pageIdx +  3 : totalPageCount;
 		pageIdx++;
 		document.querySelector('#paging_ui').innerHTML = "";
@@ -159,7 +157,7 @@ let prevBtnClick = (totalPageCount)=>{
 //업무목록을 검색
 let searchtask = ()=>{
 	//페이지 사이클 초기화
-	pageCycle = 3;
+	//pageCycle = 3;
 	let word = document.querySelector('#inp_word').value;
 	let url;
 	console.log(menu)
@@ -189,7 +187,7 @@ let searchtask = ()=>{
 				document.querySelector('tbody').innerHTML="";
 				document.querySelector('#paging_ui').innerHTML = "";
 				pageIdx = 1;
-				pageCycle = jsonData.length/10 >=3 ? 3 : jsonData.length/10 ==0 ?jsonData.length/10 :parseInt(jsonData.length/10) + 1;
+				pageCycle = jsonData.length/10 >=3 ? 3 : jsonData.length%10 ==0 ?jsonData.length/10 :parseInt(jsonData.length/10) + 1;
 				selectTaskList(jsonData);
 				doPaging(jsonData.length);
 			}else{
@@ -208,7 +206,6 @@ let selectMenu = (data)=>{
 	menu = data.innerHTML;
 	document.querySelector('#dropdown_menu').innerHTML=menu;
 }
-
 
 
 //페이지를 새로고침하는 함수
