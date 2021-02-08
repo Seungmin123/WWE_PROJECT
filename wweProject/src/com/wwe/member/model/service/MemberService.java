@@ -30,10 +30,17 @@ public class MemberService {
 	public Member memberAuthenticate(String userID, String userPW) {
 		
 		Connection conn = jdt.getConnection();
+		Member res = null;
 		
-		Member res = memberDao.memberAuthenticate(conn, userID, userPW);
+		try {
+			res = memberDao.memberAuthenticate(conn, userID, userPW);
+		}catch(Exception e) {
+			e.printStackTrace();
+			jdt.rollback(conn);
+		}finally {
+			jdt.close(conn);
+		}
 		
-		jdt.close(conn);
 		
 		return res;
 	}
@@ -41,10 +48,16 @@ public class MemberService {
 	public Member memberAuthenticateWithEmail(String userEmail) {
 		
 		Connection conn = jdt.getConnection();
+		Member res = null;
 		
-		Member res = memberDao.memberAuthenticateWithEmail(conn, userEmail);
-		
-		jdt.close(conn);
+		try {
+			res = memberDao.memberAuthenticateWithEmail(conn, userEmail);
+		}catch(Exception e) {
+			e.printStackTrace();
+			jdt.rollback(conn);
+		}finally {
+			jdt.close(conn);
+		}
 		
 		return res;
 	}
@@ -52,10 +65,16 @@ public class MemberService {
 	public Member getMemberProject(String userID) {
 		
 		Connection conn = jdt.getConnection();
+		Member res = null;
 		
-		Member res = memberDao.getMemberProject(conn, userID);
-		
-		jdt.close(conn);
+		try{
+			res = memberDao.getMemberProject(conn, userID);
+		}catch (Exception e) {
+			e.printStackTrace();
+			jdt.rollback(conn);
+		}finally {
+			jdt.close(conn);
+		}
 		
 		return res;
 	}
@@ -66,11 +85,14 @@ public class MemberService {
 		int res = 0;
 		
 		try {
-			
 			res = memberDao.insertMember(conn,member);
 			jdt.commit(conn);
 			
-		} finally {
+		}catch(Exception e) {
+			e.printStackTrace();
+			jdt.rollback(conn);
+		}
+		finally {
 			jdt.close(conn);
 		}
 		
@@ -83,9 +105,16 @@ public class MemberService {
 	public Member findMemberID(String userEmail) {
 		
 		Connection conn = jdt.getConnection();
-		Member res = memberDao.findMemberID(conn, userEmail);
+		Member res = null;
 		
-		jdt.close(conn);
+		try {
+			res = memberDao.findMemberID(conn, userEmail);
+		}catch(Exception e) {
+			e.printStackTrace();
+			jdt.rollback(conn);
+		}finally {
+			jdt.close(conn);
+		}
 		
 		return res;
 	}
@@ -93,10 +122,16 @@ public class MemberService {
 	public Member findMemberPW(String userID, String userEmail) {
 		
 		Connection conn = jdt.getConnection();
+		Member res = null;
 		
-		Member res = memberDao.findMemberPW(conn, userID, userEmail);
-		
-		jdt.close(conn);
+		try {
+			res = memberDao.findMemberPW(conn, userID, userEmail);
+		}catch(Exception e) {
+			e.printStackTrace();
+			jdt.rollback(conn);
+		}finally {
+			jdt.close(conn);
+		}
 		
 		return res;
 	}
@@ -124,13 +159,14 @@ public class MemberService {
 			res = memberDao.modifyMember(conn,member);
 			jdt.commit(conn);
 			
-		} finally {
+		}catch(Exception e) {
+			e.printStackTrace();
+			jdt.rollback(conn);
+		}finally {
 			jdt.close(conn);
 		}
 		
 		return res;
-		
-		
 		
 	}	
 	
@@ -186,7 +222,9 @@ public class MemberService {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } 
+        }
+        
+        
         
         return access_Token;
 	}
@@ -208,6 +246,7 @@ public class MemberService {
 	        System.out.println("responseCode : " + responseCode);
 	        
 	        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+	        
 	        
 	        String line = "";
 	        String result = "";
@@ -271,16 +310,44 @@ public class MemberService {
 		
 		try {
 			alarmList = memberDao.selectAlarm(conn, userID, projectID);
-		
+			System.out.println("service ㅎㅎ");
 			commandMap.put("alarmList", alarmList);
+			
 		}catch(Exception e) {
 			System.out.println("Service Error");
+			e.printStackTrace();
+			jdt.rollback(conn);
 		}finally {
 			jdt.close(conn);
 		}
 		
 		return commandMap;
 		
+	}
+	
+	public void addAlarm(String userID, String projectID, String typeOfAlarm){
+		int res = 0;
+		Connection conn = jdt.getConnection();
+		
+		try {
+			
+			res = memberDao.addAlarm(conn, userID, "프로젝트 1", typeOfAlarm);
+			
+			if(res == 0) {
+				System.out.println("등록오류");
+			}else {
+				jdt.commit(conn);
+				System.out.println("등록완료");
+			}
+			
+		}catch(Exception e) {
+			System.out.println("Service Error");
+			e.printStackTrace();
+			jdt.rollback(conn);
+		}finally {
+			jdt.close(conn);
+		}
+
 	}
 
 }

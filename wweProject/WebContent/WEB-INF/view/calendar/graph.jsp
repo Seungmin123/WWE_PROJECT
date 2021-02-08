@@ -326,7 +326,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="chart-bar">
-                                        <canvas id="myChart" class="col-xl-10 col-lg-10"></canvas>
+                                        <canvas id="myChart" class="col-lg-10"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -427,32 +427,14 @@
     <script src="/resources/vendor/chart.js/Chart.js"></script>
     
     <script>
-        var ctx = document.getElementById('myChart').getContext('2d');
+        
+        let drawGraph = (dataSet) =>{
+            var ctx = document.getElementById('myChart').getContext('2d');
             var myChart = new Chart(ctx, {
                 type: 'horizontalBar',
                 data: {
-                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                    datasets: [{
-                        label: '# of Votes',
-                        data: [12, 19, 3, 5, 2, 3],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
+                    labels: getUserList(),
+                    datasets: [dataSet]
                 },
                 options: {
                     scales: {
@@ -464,6 +446,44 @@
                     }
                 }
             });
+        }
+
+        let getUserList = () => {
+            let list = document.querySelectorAll('input[name="proUsers"]');
+                let userList = [];
+
+                list.forEach((data,index)=>{
+                    userList[index] = data.value; 
+                });
+            return userList;
+        }
+        
+        let inputData = () => {
+            const url = '/views/graphimpl';
+                let headerObj = new Headers();
+                let paramObj = new Object();
+
+                headerObj.append("content-type","application/x-www-form-urlencoded");
+                paramObj.name = getUserList();
+                console.dir(JSON.stringify(paramObj));
+
+                fetch(url,{
+                    method : 'POST',
+                    headers : headerObj,
+                    body : 'data='+JSON.stringify(paramObj)
+                }).then(response => {
+                    return response.json();
+                }).then(text => {
+                    console.dir(JSON.stringify(text));
+                    drawGraph(text);
+                });
+          }
+
+    </script>
+
+    <script>
+          
+          document.addEventListener('DOMContentLoaded',inputData());
     </script>
 </body>
 </html>

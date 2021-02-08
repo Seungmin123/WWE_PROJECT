@@ -318,14 +318,67 @@ public class MemberDao {
 				alarmMember.setAddDate(rset.getDate("add_date"));
 				alarmMember.setWriter(rset.getString("writer"));
 				alarmList.add(alarmMember);
-				
 			}
 			
 		}catch(SQLException e) {
 			e.printStackTrace();
+		}finally {
+			jdt.close(rset);
+			jdt.close(pstm);
 		}
 		
 		return alarmList;
+	}
+	
+	public int addAlarm(Connection conn, String userID, String projectID, String typeOfAlarm){
+		PreparedStatement pstm = null;
+		ResultSet rset = null;
+		String query = null;
+		List<Member> memberList = null;
+		//String query = "select type_alarm, add_date, writer from tb_user_issue where user_id = ? and project_id = ? and is_checked = '0'";
+		int res = 0;
+		
+		try {
+			
+			memberList = new ArrayList<Member>();
+			
+			query = "select user_id from tb_project_user where user_id != ?";
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, userID);
+			rset = pstm.executeQuery();
+			
+			while(rset.next()) {
+				Member member = new Member();
+				member.setUserID(rset.getString("user_id"));
+				System.out.println("memberDao addAlarm 불러오기 userID : " + member.getUserID());
+				memberList.add(member);
+			}
+			
+			System.out.println("memberList 의 사이즈" + memberList.size());
+			
+			for(int i = 0; i < memberList.size(); i++) {
+				query = "insert into tb_user_issue(user_id, project_id, type_alarm, writer) values(?,?,?,?)";
+				pstm = conn.prepareStatement(query);
+				pstm.setString(1, memberList.get(i).getUserID());
+				pstm.setString(2, projectID);
+				pstm.setString(3, typeOfAlarm);
+				pstm.setString(4, userID);
+				
+				System.out.println(memberList.get(i).getUserID());
+				
+				res += pstm.executeUpdate();
+			}
+			System.out.println(projectID);
+			System.out.println(typeOfAlarm);
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			jdt.close(rset);
+			jdt.close(pstm);
+		}
+		
+		return res;
 	}
 	
 	

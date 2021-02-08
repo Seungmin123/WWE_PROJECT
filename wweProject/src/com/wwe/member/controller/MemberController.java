@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.wwe.member.mail.MailSender;
 import com.wwe.member.model.service.MemberService;
 import com.wwe.member.model.vo.Member;
+import com.wwe.project.model.vo.Project;
 
 /**
  * Servlet implementation class MemberController
@@ -118,10 +119,20 @@ public class MemberController extends HttpServlet {
 			request.getSession().setAttribute("user", user);
 			request.getSession().setAttribute("project", userProject);
 			response.getWriter().print("success");
+			
+			Map<String, Object> commandMap = memberService.selectAlarm(user.getUserID(), "프로젝트 1");
+			List<Object> alarmList = (List<Object>) commandMap.get("alarmList");
+			
+			request.getSession().setAttribute("alarmList", alarmList);
+			
 		}else {
 			response.getWriter().print("fail");
 			
 		}
+		request
+		.getRequestDispatcher("/WEB-INF/view/member/MyPage.jsp")
+		.forward(request, response);
+		
 	}
 	
 	private void signUpImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -323,7 +334,7 @@ public class MemberController extends HttpServlet {
 	}
 	
 	// 알람기능을 위한 처리부분
-	private void alarmModule(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void alarmModule(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		
 		HttpSession session = request.getSession();
@@ -332,15 +343,9 @@ public class MemberController extends HttpServlet {
 		Map<String, Object> commandMap = memberService.selectAlarm(member.getUserID(), "프로젝트 1");
 		List<Object> alarmList = (List<Object>) commandMap.get("alarmList");
 		
-		System.out.println(member.getUserID());
-		
-		System.out.println(alarmList.toString());
-		
-		request.setAttribute("alarmList", commandMap);
-		request.getRequestDispatcher("/WEB-INF/view/member/MyPage.jsp").forward(request, response);
+		request.setAttribute("alarmList", alarmList);
 		
 	}
 	
-
 	
 }

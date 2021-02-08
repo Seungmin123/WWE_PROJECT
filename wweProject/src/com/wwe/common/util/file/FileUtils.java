@@ -39,6 +39,7 @@ public class FileUtils {
 				}else if(part.isFile()) {
 					FilePart userFile = (FilePart) part;
 					if(userFile.getFileName() != null) {
+						System.out.println(new File(userFile.getFilePath()+"/"+userFile.getFileName()).length());
 						FileVo fileData = getFileData(userFile,(String)request.getAttribute("filterPath"));
 						fileDataList.add(fileData);
 						saveFile(userFile,fileData);
@@ -64,6 +65,7 @@ public class FileUtils {
 		String path = "C:\\CODE\\wweStorage/" + fileData.getFilePath();
 		new File(path).mkdirs();
 		File file = new File(path + fileData.getFileRename());
+		System.out.println(file.length());
 		userFile.writeTo(file);
 	}
 	

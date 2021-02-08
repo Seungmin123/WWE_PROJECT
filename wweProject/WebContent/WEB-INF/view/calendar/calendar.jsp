@@ -438,7 +438,7 @@
           }
           
           let inputData = () => {
-            const url = '/views/test';
+            const url = '/views/calendarimpl';
                 let headerObj = new Headers();
                 let paramObj = new Object();
                 let list = document.querySelectorAll('input[name="proUsers"]');
