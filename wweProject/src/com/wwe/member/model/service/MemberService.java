@@ -330,7 +330,7 @@ public class MemberService {
 		
 		try {
 			
-			res = memberDao.addAlarm(conn, userID, projectID, typeOfAlarm);
+			res = memberDao.addAlarm(conn, userID, "프로젝트 1", typeOfAlarm);
 			
 			if(res == 0) {
 				System.out.println("등록오류");

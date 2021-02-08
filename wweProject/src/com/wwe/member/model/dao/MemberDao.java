@@ -350,17 +350,26 @@ public class MemberDao {
 			while(rset.next()) {
 				Member member = new Member();
 				member.setUserID(rset.getString("user_id"));
+				System.out.println("memberDao addAlarm 불러오기 userID : " + member.getUserID());
 				memberList.add(member);
 			}
 			
+			System.out.println("memberList 의 사이즈" + memberList.size());
+			
 			for(int i = 0; i < memberList.size(); i++) {
-				query = "insert into tb_user_issue(user_id, project_id, type_alarm) values(?,?,?)";
+				query = "insert into tb_user_issue(user_id, project_id, type_alarm, writer) values(?,?,?,?)";
 				pstm = conn.prepareStatement(query);
 				pstm.setString(1, memberList.get(i).getUserID());
 				pstm.setString(2, projectID);
 				pstm.setString(3, typeOfAlarm);
+				pstm.setString(4, userID);
+				
+				System.out.println(memberList.get(i).getUserID());
+				
 				res += pstm.executeUpdate();
 			}
+			System.out.println(projectID);
+			System.out.println(typeOfAlarm);
 			
 		}catch(SQLException e) {
 			e.printStackTrace();
