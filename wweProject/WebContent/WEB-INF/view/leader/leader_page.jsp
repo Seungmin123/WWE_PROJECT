@@ -310,11 +310,11 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid" id="test11">
+                <div class="container-fluid">
                
                     <div class="container mt-5 col">
                      	
-                        <div class="container card bg-light">
+                        <div class="container card bg-white">
                         	<div class="container mt-4">
                 				<h5 class="text-Dark">권한 관리</h5>
                 			</div>
@@ -324,17 +324,17 @@
                 			
                 			 <!-- 유저 초대 팝업을 열기 위한 버튼 -->
                             <div class="container mb-3">
-                             <button type="button" class="btn btn-outline-primary btn-sm px-5" id="btn_open_invite_modal">초대</button>
+                             <button type="button" class="btn btn-outline-dark btn-sm px-5" id="btn_open_invite_modal">초대</button>
                             </div>
                              <!-- /유저 초대 팝업을 열기 위한 버튼 -->
 
                             <!-- 유저 정보 테이블 -->
                             <div class="container">
                                 <table class="table table-hover table-bordered">
-                                        <tr class="table-primary">
-                                            <th style="width:50%">계정</th>
-                                            <th style="width:35.66%">권한</th>
-                                            <th style="width:14.33%" class="text-center">관리</th>
+                                        <tr class="bg-dark">
+                                            <th style="width:30%" class="text-white">계정</th>
+                                            <th style="width:20.66%" class="text-white">권한</th>
+                                            <th style="width:14.33%" class="text-center text-white">관리</th>
                                         </tr>
                                         <tbody>
                                        <!-- DB불러와서 동적으로 tr요소 생성할 곳 -->
@@ -343,6 +343,13 @@
                                 </table>
                             </div>
                             <!-- /유저 정보 테이블 -->
+                            <div class="container">
+                            <ul>
+                            	<li class="text-dark">팀장 : 업무수정, 업무 할당, 팀원 초대, 프로젝트 삭제</li>
+                            	<li class="text-dark">읽기 : 업무 생성 불가, 읽기만 가능</li>
+                            	<li class="text-dark">읽기/쓰기 : 업무 생성, 수정, 삭제</li>
+                            </ul>
+                            </div>
                         </div>
                     </div>
             
@@ -369,17 +376,17 @@
                                     <div class="modal-body">
                                         <label class="col-form-label">권한</label>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="authority" id="read"  value="read" checked >
+                                            <input class="form-check-input" type="radio" name="authority" id="read"  value="읽기" checked >
                                             <label class="form-check-label" for="read">
-                                              READ ONLY
+                                              읽기
                                             </label>
                                           </div>
                                           <hr>
                                           <div class="col-form-label">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="authority" id="read_write" value="readAndWrite">
+                                                <input class="form-check-input" type="radio" name="authority" id="read_write" value="읽기/쓰기">
                                                 <label class="form-check-label" for="read_write">
-                                                  READ & WRITE
+                                                 읽기/쓰기
                                                 </label>
                                               </div>
                                           </div>
@@ -408,21 +415,21 @@
                                     <div class="modal-body">
                                         <label class="col-form-label">권한</label>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="mod_authority" id="mod_read"  value="read" checked >
+                                            <input class="form-check-input" type="radio" name="mod_authority" id="mod_read"  value="읽기" checked >
                                             <label class="form-check-label" for="mod_read">
-                                              READ ONLY
+                                              읽기
                                             </label>
                                           </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="mod_authority" id="mod_read_write" value="read_write">
+                                                <input class="form-check-input" type="radio" name="mod_authority" id="mod_read_write" value="읽기/쓰기">
                                                 <label class="form-check-label" for="mod_read_write">
-                                                  READ & WRITE
+                                                 읽기/쓰기
                                                 </label>
                                               </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="mod_authority" id="mod_leader" value="leader">
+                                                <input class="form-check-input" type="radio" name="mod_authority" id="mod_leader" value="팀장">
                                                 <label class="form-check-label" for="mod_leader">
-                                                  LEADER
+                                                  팀장
                                                 </label>
                                             </div>
                                     </div>
@@ -490,7 +497,8 @@
         let selectUserListByPid=()=>{
         	let trElement;
         	let tdElement;
-        	let buttonElement;
+        	let mButtonElement;
+        	let dButtonElement;
         	<c:forEach var="user" items = "${userList}" varStatus="status">
         		trElement = document.createElement('tr');
         		trElement.setAttribute("seq","${status.index}");
@@ -506,12 +514,20 @@
         			</c:if>
         			<c:if test="${i==2}">
         				tdElement.align="center";
-        				buttonElement = document.createElement('button');
-        				buttonElement.type="button";
-        				buttonElement.className="btn btn-warning btn-sm";
-        				buttonElement.id = "btn_open_modify_modal";
-        				buttonElement.innerHTML ="수정";
-        				tdElement.appendChild(buttonElement);
+        				mButtonElement = document.createElement('button');
+        				mButtonElement.type="button";
+        				mButtonElement.className="btn btn-dark btn-sm mr-3";
+        				mButtonElement.id = "btn_open_modify_modal";
+        				mButtonElement.innerHTML ="수정";
+        				
+        				dButtonElement = document.createElement('button');
+        				dButtonElement.type="button";
+        				dButtonElement.className="btn btn-danger btn-sm";
+        				dButtonElement.id = "btn_delete_member";
+        				dButtonElement.setAttribute("deleteId","${user.userId}");
+        				dButtonElement.innerHTML ="삭제";
+        				tdElement.appendChild(mButtonElement);
+        				tdElement.appendChild(dButtonElement);
         			</c:if>
         				trElement.appendChild(tdElement);
         			</c:forEach>
