@@ -89,7 +89,7 @@ public class ViewsController extends HttpServlet {
 	private void viewcalendar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<UserByTaskVo> taskList = new ArrayList<>(); //calendar.js 에 넣을 event리스트
 		Gson gson = new Gson();
-		String[] colorList = {"#FF46C5","#5EC75E","#ACF3FF","#FF5675","yellow"};
+		String[] colorList = {"green","skyblue","pink","red","yellow"};
 		int colorIdx = 0;
 		
 		String filterData = request.getParameter("data");
@@ -102,7 +102,11 @@ public class ViewsController extends HttpServlet {
 		for (ProjUser users : userList) { // 각 인원별
 			if(!filterList.contains(users.getUserId())){
 				for (Task task : taskService.selectMyList(users.getUserId(),users.getProjectId())) { // 업무리스트 순환
-					taskList.add(new UserByTaskVo(task.getTaskId(),task.getStartDate(),task.getDeadLine(),colorList[colorIdx])); // 파싱파싱
+					taskList.add(new UserByTaskVo(task.getTaskId()
+							,task.getStartDate()
+							,task.getDeadLine()
+							,colorList[colorIdx]
+							)); // 파싱파싱
 				}
 			}
 			colorIdx++;
