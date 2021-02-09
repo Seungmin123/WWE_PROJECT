@@ -4,7 +4,8 @@ public enum AddAlarmCode {
 	
 	IT01("업무"), //insert Task
 	IU01("인원"),	 //insert user
-	IU02("초대");
+	IU02("초대"),	//invite user
+	IF01("파일"); // insert file
 	
 	//result.jsp를 사용해 띄울 안내문구
 	private String alarmCode;

@@ -331,7 +331,7 @@ public class MemberController extends HttpServlet {
 		List<Object> alarmList = (List<Object>) commandMap.get("alarmList");
 		
 		request.setAttribute("alarmList", alarmList);
-		
+		request.setAttribute("alarmListSize", alarmList.size());
 	}
 	
 	

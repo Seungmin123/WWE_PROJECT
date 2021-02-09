@@ -97,13 +97,14 @@
                                 <a onclick = "signup()" class="btn btn-primary btn-user btn-block">
                                     Register Account
                                 </a>
-                                <hr>
-                                <a href="index.html" class="btn btn-google btn-user btn-block">
-                                    <i class="fab fa-google fa-fw"></i> Register with Google
-                                </a>
-                                <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                    <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
-                                </a>
+                                <!-- <hr>
+                                <a href="https://kauth.kakao.com/oauth/authorize?
+										client_id=aede6a7de778e3191a75f6f270b8e947&
+										redirect_uri=http://localhost:9393/member/kakao&
+										response_type=code" 
+										class="btn btn-kakao btn-user btn-block">
+                                            <i class="fab fa-kickstarter-k fa-fw"></i> SignUp with Kakao
+                                </a> -->
                             </form>
                             <hr>
                             <div class="text-center">
