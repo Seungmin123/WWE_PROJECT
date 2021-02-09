@@ -326,7 +326,17 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="chart-bar">
-                                        <canvas id="myChart" class="col-lg-10"></canvas>
+                                        <div class="chartjs-size-monitor">
+                                            <div class="chartjs-size-monitor-expand">
+                                                <div class="">
+                                                </div>
+                                            </div>
+                                            <div class="chartjs-size-monitor-shrink">
+                                                <div class="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <canvas id="myChart"></canvas>
                                     </div>
                                 </div>
                             </div>
