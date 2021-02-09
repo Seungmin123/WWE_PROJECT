@@ -318,11 +318,7 @@
                         <div class="card shadow mb-4 col-xl-9 col-lg-8">
                             <div class="card-header py-3 d-flex justify-content-between">
                                 <div>
-                                    <a href="${context}/storage/personal?page=1"><h6 class="m-0 font-weight-bold text-primary">Storage</h6></a>
-                                </div>
-                                <div id="dataTable_filter" class="dataTables_filter">
-                                    <input type="search" class="form-control form-control-sm" placeholder="search" aria-controls="dataTable" id="searchValue" onkeypress="searchMyFile()"/>
-                                    
+                                    <a href="#" onclick="reset(false)"><h6 class="m-0 font-weight-bold text-primary">Storage</h6></a>
                                 </div>
                             </div>
                                 <div class="card-body">
@@ -387,7 +383,7 @@
                                             </c:forEach>
     
                                             <li class="page-item">
-                                            <a class="page-link" href="${context}/storage/personal?page=0">
+                                            <a class="page-link" href="${context}/storage/personal?page=${maxPage}">
                                                 <span aria-hidden="true">&raquo;</span>
                                             </a>
                                             </li>

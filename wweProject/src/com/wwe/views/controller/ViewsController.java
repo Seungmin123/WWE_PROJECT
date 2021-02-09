@@ -89,7 +89,7 @@ public class ViewsController extends HttpServlet {
 	private void viewcalendar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<UserByTaskVo> taskList = new ArrayList<>(); //calendar.js 에 넣을 event리스트
 		Gson gson = new Gson();
-		String[] colorList = {"purple","red","blue","pink","yellow"};
+		String[] colorList = {"#FF46C5","#5EC75E","#ACF3FF","#FF5675","yellow"};
 		int colorIdx = 0;
 		
 		String filterData = request.getParameter("data");
@@ -118,18 +118,13 @@ public class ViewsController extends HttpServlet {
 		Gson gson = new Gson();
 		GraphDataSetVo dataSet = new GraphDataSetVo();
 		
-		/*
-		 * dataSet.SetDataSet(5, "rgba(255, 99, 132, 0.2)", "rgba(255, 99, 132, 1)");
-		 * dataSet.SetDataSet(6, "rgba(255, 99, 132, 0.2)", "rgba(255, 99, 132, 1)");
-		 * dataSet.SetDataSet(7, "rgba(255, 99, 132, 0.2)", "rgba(255, 99, 132, 1)");
-		 * dataSet.SetDataSet(10, "rgba(255, 99, 132, 0.2)", "rgba(255, 99, 132, 1)");
-		 */
 		List<ProjUser> userList = getProjectId(request, response);
 		
 		for (ProjUser users : userList) { // 각 인원별
 			int taskNum = 0;
 			for (Task task : taskService.selectMyList(users.getUserId(),users.getProjectId())) { // 업무리스트 순환
 				taskNum++;
+				// 완료업무/초업무
 			}
 			dataSet.SetDataSet(taskNum*0.1, "rgba(255, 99, 132, 0.2)", "purple");
 		}

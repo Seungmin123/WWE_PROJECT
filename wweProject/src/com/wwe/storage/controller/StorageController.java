@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.Session;
 
+import com.wwe.common.code.AddAlarmCode;
 import com.wwe.common.util.file.FileUtils;
 import com.wwe.common.util.file.FileVo;
 import com.wwe.common.util.page.PageUtils;
@@ -60,9 +62,6 @@ public class StorageController extends HttpServlet {
 		case "delete":
 			deleteFile(request,response);
 			break;	
-		case "search":
-			searchStorage(request, response);
-			break;	
 		default:
 			break;
 		}
@@ -87,9 +86,9 @@ public class StorageController extends HttpServlet {
 	
 	private void shareStorage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String idx = "프로젝트 1";
-
-		Map<String, Object> commandMap = storageService.selectStorage(idx,true);
+		String pId = "프로젝트 1";
+		
+		Map<String, Object> commandMap = storageService.selectStorage(pId,true);
 		makeTablePage(request, commandMap);
 		request.getRequestDispatcher("/WEB-INF/view/storage/share_storage.jsp").forward(request, response);
 	}
@@ -107,8 +106,7 @@ public class StorageController extends HttpServlet {
 		storageService.insertStroage(userId,projectId,isTeam, request);
 		
 		if(isTeam) {	
-			new MemberService().addAlarm(userId, projectId, "파일업로드 해부렀징");
-			System.out.println("여기서 실행이 안되네");
+			new MemberService().addAlarm(userId, projectId, AddAlarmCode.IF01.alarmCode());
 			response.sendRedirect("/storage/share");
 		}else {	
 			
@@ -143,24 +141,12 @@ public class StorageController extends HttpServlet {
 		response.sendRedirect("/storage/" + url);
 	}
 	
-	// 검색기능 해줄 친구
-	private void searchStorage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-		HttpSession session = request.getSession();
-		Member member = (Member) session.getAttribute("user");
-		
-		String keyWord = request.getParameter("keyWord");
-		
-		Map<String, Object> commandMap = storageService.selectStorageByTitle(member.getUserID(),keyWord,false);
-		makeTablePage(request, commandMap);
-		request.getRequestDispatcher("/WEB-INF/view/storage/personal_storage.jsp").forward(request, response);
-	}
-	
 	// request객체와 commanMap을 받아 적절히 처리후 페이징한다
 	private void makeTablePage(HttpServletRequest request, Map<String, Object> commandMap) throws ServletException, IOException{
 		List<Object> fileList = (List<Object>) commandMap.get("fileList");
+		PageUtils page = new PageUtils(request.getParameter("page"), fileList);	
 		
-		PageUtils page = new PageUtils(request.getParameter("page"), fileList.size());
-		request.setAttribute("dataList", page.getCommandList(fileList));
+		request.setAttribute("dataList", page.getCommandList());
 		request.setAttribute("viewList", page.getViewPages());
 		request.setAttribute("pageNum", page.getPageNum());
 		request.setAttribute("maxPage", page.getMaxPageNum());
