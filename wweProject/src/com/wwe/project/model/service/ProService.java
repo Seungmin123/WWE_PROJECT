@@ -1,7 +1,7 @@
 package com.wwe.project.model.service;
 
 import java.sql.Connection;
-import java.sql.Date;
+import java.util.ArrayList;
 
 import com.wwe.common.exception.DataAccessException;
 import com.wwe.common.exception.ToAlertException;
@@ -39,39 +39,45 @@ public class ProService {
 		Member member = null;
 		
 		try {
+			//dao에서 받은걸
 			member = proDao.selectMember(conn, userId, userName);
 		}finally {
 			jdt.close(conn);
 		}
-		
+		//반환
 		return member;
 	}
 	
+	
 	//최근 프로젝트
-	public Project selectRecentProject(Date workTime, String userId){	
+	public ArrayList<Project> selectRecentProject(String userId){	
 		Connection conn = jdt.getConnection();
-		Project project = null;
+		ArrayList<Project> projectList = null;
 		
 		try {
-			proDao.selectRecentProject(conn, workTime, userId);
+			//dao 호출해서 실행한 값을 되돌려받아 projectList에 저장
+			projectList = proDao.selectRecentProject(conn, userId);
+			
 		}finally {
 			jdt.close(conn);
 		}
 		
-		return project;
+		return projectList;
 	}
 	
+	
 	//초대된 프로젝트 
-	public Project selectInvitedProject(String userId, int isAllowed){	
+	public ArrayList<Project> selectInvitedProject(String userId, String isInvited){	
 		Connection conn = jdt.getConnection();
-		Project project = null;
+		ArrayList<Project> projectList = null;
 		
 		try {
-			proDao.selectInvitedProject(conn,userId, 0);
+			//dao에 conn과 유저아이디와 수락여부 넘기기
+			projectList = proDao.selectInvitedProject(conn,userId,isInvited);
 		}finally {
 			jdt.close(conn);
 		}
 		
-		return project;
+		return projectList;
 	}
 }
