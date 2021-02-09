@@ -369,6 +369,8 @@
 				});
 	}
 
+
+
 	let hideDiv = function(divID){
 		document.getElementById(divID).style.display = 'none';
 		document.getElementById(divID).style.visibility = 'hidden';

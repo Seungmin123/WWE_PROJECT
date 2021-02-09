@@ -309,7 +309,7 @@ public class MemberDao {
 		try {
 			
 			alarmList = new ArrayList<Alarm>();
-			query = "select type_alarm, add_date, writer from tb_user_issue where user_id = ? and project_id = ? and is_checked = '0'";
+			query = "select type_alarm, add_date, writer from tb_user_issue where user_id = ? and project_id = ? and is_checked = '0' order by add_date desc";
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, userID);
 			pstm.setString(2, projectID);
