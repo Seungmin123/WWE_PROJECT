@@ -27,6 +27,7 @@ public class MemberService {
 	JDBCTemplate jdt = JDBCTemplate.getInstance();
 	MemberDao memberDao = new MemberDao();
 	
+	//로그인을 위한 메소드
 	public Member memberAuthenticate(String userID, String userPW) {
 		
 		Connection conn = jdt.getConnection();
@@ -45,6 +46,7 @@ public class MemberService {
 		return res;
 	}
 	
+	//이메일 인증 메소드
 	public Member memberAuthenticateWithEmail(String userEmail) {
 		
 		Connection conn = jdt.getConnection();
@@ -62,6 +64,21 @@ public class MemberService {
 		return res;
 	}
 	
+	//이메일 전송 메소드
+	public void mailSender(String user, String title, String content) {
+
+		Connection conn = jdt.getConnection();
+
+		MemberDao memberDao = new MemberDao();
+		try {
+			memberDao.mailSender(conn, user, title, content);
+			jdt.commit(conn);
+		}finally {
+			jdt.close(conn);
+		}
+	}
+	
+	//userId가 참여중인 프로젝트를 받기 위한 메소드
 	public Member getMemberProject(String userID) {
 		
 		Connection conn = jdt.getConnection();
@@ -79,6 +96,7 @@ public class MemberService {
 		return res;
 	}
 	
+	//회원가입을 위한 메소드
 	public int insertMember(Member member) {
 		
 		Connection conn = jdt.getConnection();
@@ -102,6 +120,7 @@ public class MemberService {
 		
 	}
 	
+	//ID찾기 메소드
 	public Member findMemberID(String userEmail) {
 		
 		Connection conn = jdt.getConnection();
@@ -119,6 +138,7 @@ public class MemberService {
 		return res;
 	}
 	
+	//PW찾기 메소드
 	public Member findMemberPW(String userID, String userEmail) {
 		
 		Connection conn = jdt.getConnection();
@@ -136,19 +156,8 @@ public class MemberService {
 		return res;
 	}
 	
-	public void mailSender(String user, String title, String content) {
-		
-		Connection conn = jdt.getConnection();
-		
-		MemberDao memberDao = new MemberDao();
-		try {
-			memberDao.mailSender(conn, user, title, content);
-			jdt.commit(conn);
-		}finally {
-			jdt.close(conn);
-		}
-	}
 	
+	//회원정보 수정 메소드
 	public int modifyMember(Member member) {
 		
 		Connection conn = jdt.getConnection();
@@ -170,6 +179,7 @@ public class MemberService {
 		
 	}	
 	
+	//카카오 로그인 토큰 획득 메소드
 	public String getAccessToken(String authorize_code) {
 		String access_Token = "";
         String refresh_Token = "";
@@ -230,6 +240,7 @@ public class MemberService {
 	}
 	
 	
+	//카카오로그인을 위한 메소드
 	public Member kakaoUserInfo(String access_Token){
 		
 		Member userInfo = new Member();
@@ -242,8 +253,7 @@ public class MemberService {
 	        //    요청에 필요한 Header에 포함될 내용
 	        conn.setRequestProperty("Authorization", "Bearer " + access_Token);
 	        
-	        int responseCode = conn.getResponseCode();
-	        System.out.println("responseCode : " + responseCode);
+	        //int responseCode = conn.getResponseCode();
 	        
 	        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 	        
@@ -253,7 +263,6 @@ public class MemberService {
 	        while ((line = br.readLine()) != null) {
 	            result += line;
 	        }
-	        System.out.println("response body : " + result);
 	        
 	        JsonParser parser = new JsonParser();
 	        JsonElement element = parser.parse(result);
@@ -276,6 +285,7 @@ public class MemberService {
 	    return userInfo;
 	}
 	
+	//카카오 토큰삭제 메소드
 	public void kakaoLogout(String access_Token) {
 	    String reqURL = "https://kapi.kakao.com/v1/user/logout";
 	    try {
@@ -283,9 +293,6 @@ public class MemberService {
 	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 	        conn.setRequestMethod("POST");
 	        conn.setRequestProperty("Authorization", "Bearer " + access_Token);
-	        
-	        int responseCode = conn.getResponseCode();
-	        System.out.println("responseCode : " + responseCode);
 	        
 	        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 	        
@@ -295,13 +302,13 @@ public class MemberService {
 	        while ((line = br.readLine()) != null) {
 	            result += line;
 	        }
-	        System.out.println(result);
 	    } catch (IOException e) {
 	        // TODO Auto-generated catch block
 	        e.printStackTrace();
 	    }
 	}
 	
+	//유저별 출력되는 알럼 history를 위한 메소드
 	public Map<String, Object> selectAlarm(String userID, String projectID){
 		Map<String, Object> commandMap = new HashMap<String, Object>();
 		List<Alarm> alarmList = null;
@@ -309,7 +316,6 @@ public class MemberService {
 		
 		try {
 			alarmList = memberDao.selectAlarm(conn, userID, projectID);
-			System.out.println("service ㅎㅎ");
 			commandMap.put("alarmList", alarmList);
 			
 		}catch(Exception e) {
@@ -324,17 +330,20 @@ public class MemberService {
 		
 	}
 	
-	public void addAlarm(String userID, String projectID, String typeOfAlarm){
+	//업무추가, 팀장업무, 파일클라우드를 위한 tb_user_issue 등록 메소드
+	public void addAlarm(String userID, String projectID, String type_alarm){
 		int res = 0;
 		Connection conn = jdt.getConnection();
 		
 		try {
-			
-			res = memberDao.addAlarm(conn, userID, projectID, typeOfAlarm);
+			//*********************************받아온 프로젝트로 수정 요망******************************************
+			//res = memberDao.addAlarm(conn, userID, projectID, type_alarm);
+			res = memberDao.addAlarm(conn, userID, "프로젝트 1", type_alarm);
 			
 			if(res == 0) {
 				System.out.println("등록오류");
 			}else {
+				jdt.commit(conn);
 				System.out.println("등록완료");
 			}
 			
@@ -345,9 +354,7 @@ public class MemberService {
 		}finally {
 			jdt.close(conn);
 		}
-		
-		
-		
+
 	}
 
 }

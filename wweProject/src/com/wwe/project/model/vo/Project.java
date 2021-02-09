@@ -11,9 +11,9 @@ public class Project {
 	private String userId;
 	private Date workTime;
 	private String authority;
-	private int isAllowed;
+	private String isInvited; //초대여부
 	private String title;
-	private String addMember;
+	private String deadline;
 	private Date startDate;
 	private Date endDate;
 	
@@ -24,7 +24,7 @@ public class Project {
 
 
 	public Project(String projectId, Date dueDate, int progress, String leaderId, String userId, Date workTime,
-			String authority, int isAllowed, String title, String addMember, Date startDate, Date endDate) {
+			String authority, String isInvited, String title, String deadline, Date startDate, Date endDate) {
 		super();
 		this.projectId = projectId;
 		this.dueDate = dueDate;
@@ -33,9 +33,9 @@ public class Project {
 		this.userId = userId;
 		this.workTime = workTime;
 		this.authority = authority;
-		this.isAllowed = isAllowed;
+		this.isInvited = isInvited;
 		this.title = title;
-		this.addMember = addMember;
+		this.deadline = deadline;
 		this.startDate = startDate;
 		this.endDate = endDate;
 	}
@@ -111,13 +111,13 @@ public class Project {
 	}
 
 
-	public int getIsAllowed() {
-		return isAllowed;
+	public String getIsInvited() {
+		return isInvited;
 	}
 
 
-	public void setIsAllowed(int isAllowed) {
-		this.isAllowed = isAllowed;
+	public void setIsInvited(String isInvited) {
+		this.isInvited = isInvited;
 	}
 
 
@@ -131,13 +131,13 @@ public class Project {
 	}
 
 
-	public String getAddMember() {
-		return addMember;
+	public String getDeadline() {
+		return deadline;
 	}
 
 
-	public void setAddMember(String addMember) {
-		this.addMember = addMember;
+	public void setDeadLine(String deadline) {
+		this.deadline = deadline;
 	}
 
 
@@ -165,7 +165,7 @@ public class Project {
 	public String toString() {
 		return "Project [projectId=" + projectId + ", dueDate=" + dueDate + ", progress=" + progress + ", leaderId="
 				+ leaderId + ", userId=" + userId + ", workTime=" + workTime + ", authority=" + authority
-				+ ", isAllowed=" + isAllowed + ", title=" + title + ", addMember=" + addMember + ", startDate="
+				+ ", isInvited=" + isInvited + ", title=" + title + ", deadline=" + deadline + ", startDate="
 				+ startDate + ", endDate=" + endDate + "]";
 	}
 	

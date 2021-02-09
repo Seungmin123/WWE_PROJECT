@@ -145,6 +145,8 @@ public class LeaderService {
 		}catch(DataAccessException e) {
 			jdt.rollback(conn);
 			throw new ToAlertException(e.error);
+		}finally {
+			jdt.close(conn);
 		}
 		return res;
 	}

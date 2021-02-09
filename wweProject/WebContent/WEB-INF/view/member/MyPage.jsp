@@ -41,7 +41,7 @@
 
                         <!-- Nav Item - Pages Collapse Menu -->
                         <li class="nav-item ">
-                            <a class="nav-link" href="project/newpro" data-target="#collapseTwo" aria-expanded="true"
+                            <a class="nav-link" href="/project/newpro" data-target="#collapseTwo" aria-expanded="true"
                                 aria-controls="collapseTwo">
                                 <i class="fas fa-home"></i>
                                 <span>Main Page</span>
@@ -183,65 +183,7 @@
 						<!--*************************************************** 알림기능 추가 필요 **************************************************** -->
 						
 						
-                        <!-- Nav Item - Alerts -->
-                       
                         
-                        
-                        
-                        <!-- <script>
-                        	$('#alarmList').on('click', function() {
-                        		$('#alarmList').load(window.location.href + '#alarmList');
-                        	});
-                        	
-                        </script> -->
-                        
-                       <%--  <a class="dropdown-item" href="${context}/member/alarm" id="alertsDropdown"
-                                data-toggle="modal" data-target="#alarmModal">
-                                <i class="fas fa-bell fa-fw"></i>
-                                <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter">3+</span>
-                        </a>
-								
-								<!-- alarmModal -->
-								<div class="modal fade" id="alarmModal" tabindex="-1"
-									role="dialog" aria-labelledby="exampleModalLabel"
-									aria-hidden="true">
-									<div class="modal-dialog" role="document">
-										<div class="modal-content">
-											<div class="modal-header">
-											<!-- 제목 -->
-												<h5 class="modal-title" id="exampleModalLabel">alarm</h5>
-												<button class="close" type="button" data-dismiss="modal"
-													aria-label="Close">
-													<span aria-hidden="true">×</span>
-												</button>
-											</div>
-											<!-- 본문 -->
-											<!-- <div class="modal-body">로그아웃???????????????????</div>
-											<div class="modal-footer">
-												<a class="btn btn-primary" href="/member/logout">Logout</a>
-												<button class="btn btn-secondary" type="button"
-													data-dismiss="modal">Cancel</button>
-											</div> -->
-											<div class = "modal-body">
-											<c:forEach var="alarmData" items="${alarmList}">
-												<a class="dropdown-item d-flex align-items-center" href="#">
-													<div class="mr-3">
-														<div class="icon-circle bg-primary">
-															<i class="fas fa-file-alt text-white"></i>
-														</div>
-													</div>
-													<div>
-														<div class="small text-gray-500">${alarmData.addDate}</div>
-														<span class="font-weight-bold">${alarmData.writer}
-															님이 ${alarmData.typeOfAlarm}를 추가 하셨습니다.</span>
-													</div>
-												</a>
-											</c:forEach>
-											</div>
-										</div>
-									</div>
-								</div> --%>
 
 								<li class="nav-item dropdown no-arrow mx-1" id ="alarmList">
                             <a class="nav-link dropdown-toggle" id="alertsDropdown" role="button"

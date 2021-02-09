@@ -234,15 +234,16 @@ public class LeaderDao {
 		int res=0;
 		PreparedStatement pstm = null;
 		
-		String query = "UPDATE TB_TASK SET TASK_ID =?, DEAD_LINE = ?, TASK_CONTENT = ? "
+		String query = "UPDATE TB_TASK SET USER_ID = ?, TASK_ID =?, DEAD_LINE = ?, TASK_CONTENT = ? "
 				+"WHERE T_IDX = ?";
 		
 		try {
 			pstm = conn.prepareStatement(query);
-			pstm.setString(1, task.getTaskId());
-			pstm.setString(2, task.getDeadLine());
-			pstm.setString(3, task.getTaskContent());
-			pstm.setInt(4, task.gettIdx());
+			pstm.setString(1, task.getUserId());
+			pstm.setString(2, task.getTaskId());
+			pstm.setString(3, task.getDeadLine());
+			pstm.setString(4, task.getTaskContent());
+			pstm.setInt(5, task.gettIdx());
 			res = pstm.executeUpdate();
 		}catch (SQLException e) {
 			throw new DataAccessException(ErrorCode.UT01, e);
@@ -281,19 +282,6 @@ public class LeaderDao {
 		}
 		return res;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

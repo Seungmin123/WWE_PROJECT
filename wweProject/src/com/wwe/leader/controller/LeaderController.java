@@ -216,12 +216,13 @@ public class LeaderController extends HttpServlet {
 		
 		Map parsedData = gson.fromJson(data, Map.class);
 		
+		String taskUser = parsedData.get("modTaskUser").toString();
 		String taskId = parsedData.get("taskId").toString();
 		String deadLine = parsedData.get("deadLine").toString();
 		String modifiedContent = parsedData.get("modifiedContent").toString();
 		int tIdx = Integer.parseInt(parsedData.get("tIdx").toString());
-
 		Task task = new Task();
+		task.setUserId(taskUser);
 		task.setTaskId(taskId);
 		task.setDeadLine(deadLine);
 		task.setTaskContent(modifiedContent);

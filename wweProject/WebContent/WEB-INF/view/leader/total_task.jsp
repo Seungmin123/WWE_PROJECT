@@ -426,7 +426,14 @@
                 </div>
                 <form>
                 	<div class="modal-body">
-                    	<div class="modal-body">
+                    		<div class="form-group row">
+                            	<div class="col-sm-3 mb-3 mb-sm-0 d-flex align-items-center">
+                                	<h6 class="font-weight-bold">담당자</h6>
+                                </div>
+                                <div class="col-sm-9">
+                                	<input class="form-control rounded"id="task_owner"></input>
+                                </div>
+                            </div>                	
                     		<div class="form-group row">
                             	<div class="col-sm-3 mb-3 mb-sm-0 d-flex align-items-center">
                                 	<h6 class="font-weight-bold">업무 이름</h6>
@@ -446,10 +453,9 @@
                             <h6 class="font-weight-bold">수정할 업무 내용</h6>
                     	 	 <textarea class="form-control"  id="modified_content" style="height: 300px; resize: none;" wrap="hard"  cols="20"></textarea>
                     	 	 <div class="text-xs text-right">*2000자 이내로 입력하세요.</div>
-                   		</div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" onclick="modify();" id="btn_invite">수정</button>
+                        <button type="button" class="btn btn-primary" onclick="chkInvalidUser();">수정</button>
                    </div>
                 </form>
             </div>
@@ -524,6 +530,7 @@
                			let aElement = document.createElement('a');
                			aElement.href="#";
                			aElement.setAttribute("tIdx",sliceTaskList[i][j].tIdx);
+               			aElement.setAttribute("taskOwner",sliceTaskList[i][j].userId);
                			aElement.setAttribute("taskContent",sliceTaskList[i][j].taskContent);
                			aElement.setAttribute("startDate",sliceTaskList[i][j].startDate);
                			aElement.setAttribute("deadLine",sliceTaskList[i][j].deadLine);
