@@ -58,7 +58,7 @@ public class ProController extends HttpServlet {
 		ArrayList<Project> projectList = proService.selectRecentProject(userId.getUserID());
 		
 		request.setAttribute("projectList", projectList);
-		
+		System.out.println(projectList);
 		request.getRequestDispatcher("/WEB-INF/view/project/newProject2.jsp")
 		.forward(request, response);
 		
