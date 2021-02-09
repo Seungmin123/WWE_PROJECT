@@ -213,7 +213,11 @@
 	                                            		<i class="fas fa-user-friends text-white"></i>
 	                                            	</div>
 	                                            </c:if>
-	                                        
+	                                            <c:if test="${alarmData.typeOfAlarm eq '파일'}">
+	                                        		<div class="icon-circle bg-secondary">
+	                                            		<i class="fas fa-user-friends text-white"></i>
+	                                            	</div>
+	                                            </c:if>
 	                                    </div>
 	                                    <div>
 	                                        <div class="small text-gray-500">${alarmData.addDate}</div>
