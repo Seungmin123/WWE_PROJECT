@@ -8,6 +8,7 @@ import java.util.Map;
 import com.wwe.common.exception.DataAccessException;
 import com.wwe.common.exception.ToAlertException;
 import com.wwe.common.jdbc.JDBCTemplate;
+import com.wwe.leader.model.vo.ProjUser;
 import com.wwe.task.feedback.Feedback;
 import com.wwe.task.model.dao.TaskDao;
 import com.wwe.task.model.vo.Task;
@@ -111,10 +112,10 @@ public class TaskService {
 	}
 	
 	//프로젝트 별 이름 불러오기
-	public ArrayList<String> selectName(String projectId){
+	public ArrayList<ProjUser> selectName(String projectId){
 		
 		Connection conn = jdt.getConnection();
-		ArrayList<String> memberList = null;
+		ArrayList<ProjUser> memberList = null;
 		
 		try {
 			
@@ -197,6 +198,40 @@ public class TaskService {
 		}
 		return res;	
 	}
+	
+	//업무상태 변경해주는 메서드
+	public int updateTask(Task task, String bTaskId) {
+			
+		Connection conn = jdt.getConnection();
+		int res = 0;
+		try {
+			res = taskDao.updateTask(conn, task, bTaskId);
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		} finally {
+			jdt.close(conn);
+		}
+			return res;	
+	}
+	
+	public ArrayList<Feedback> selectFeedback(String taskId, String userId){
+		
+		Connection conn = jdt.getConnection();
+		ArrayList<Feedback> feedList = null;
+		
+		try {
+			
+			feedList = taskDao.selectFeedback(conn, taskId, userId);
+			
+		} finally {
+			jdt.close(conn);
+		}
+		
+		return feedList;
+	}
+	
 	
 
 }
