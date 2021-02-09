@@ -22,14 +22,10 @@ function searchMyFile(isTeam) {
         let keyWord = document.querySelector('#searchValue').value;
 
         if(!keyWord){
-            location.href = '${context}' + '/storage/personal?page=1';
+            document.cookie = 'searchKeyword=' + keyWord;
         }else{
-            location.href = '${context}' + '/storage/search?keyWord=' + keyWord;
+            document.cookie = 'searchKeyword=' + keyWord;
         }
-        
-
-
-
 
     }
 }

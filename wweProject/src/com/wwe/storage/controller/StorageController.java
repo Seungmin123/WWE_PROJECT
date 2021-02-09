@@ -18,6 +18,7 @@ import org.apache.catalina.Session;
 import com.wwe.common.util.file.FileUtils;
 import com.wwe.common.util.file.FileVo;
 import com.wwe.common.util.page.PageUtils;
+import com.wwe.member.model.service.MemberService;
 import com.wwe.member.model.vo.Member;
 import com.wwe.storage.model.service.StorageService;
 
@@ -86,7 +87,7 @@ public class StorageController extends HttpServlet {
 	
 	private void shareStorage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String idx = "project1";
+		String idx = "프로젝트 1";
 
 		Map<String, Object> commandMap = storageService.selectStorage(idx,true);
 		makeTablePage(request, commandMap);
@@ -99,15 +100,18 @@ public class StorageController extends HttpServlet {
 		Member member = (Member) session.getAttribute("user");
 		
 		String userId = member.getUserID();
-		String projectId = "project1"; // 프로젝트 입장 기능 추가후에 사용가능
+		String projectId = "프로젝트 1"; // 프로젝트 입장 기능 추가후에 사용가능
 		
 		// 로그인한 세션정보로 파일을 업로드
 		request.setAttribute("filterPath", userId);
 		storageService.insertStroage(userId,projectId,isTeam, request);
 		
 		if(isTeam) {	
+			new MemberService().addAlarm(userId, projectId, "파일업로드 해부렀징");
+			System.out.println("여기서 실행이 안되네");
 			response.sendRedirect("/storage/share");
 		}else {	
+			
 			response.sendRedirect("/storage/personal");
 		}
 	}

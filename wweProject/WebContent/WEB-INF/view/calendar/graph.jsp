@@ -336,7 +336,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <canvas id="myChart"></canvas>
+                                        <canvas id="myChart" width="673" height="200" class="chartjs-render-monitor" style="display: block; height: 160px; width: 539px;"></canvas>
                                     </div>
                                 </div>
                             </div>
