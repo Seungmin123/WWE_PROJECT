@@ -159,55 +159,101 @@
                         </li>
 
                         <!-- Nav Item - Alerts -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-fw"></i>
-                                <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter">3+</span>
-                            </a>
-                            <!-- Dropdown - Alerts -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="alertsDropdown">
-                                <h6 class="dropdown-header">
-                                    Alerts Center
-                                </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
+                       <li class="nav-item dropdown no-arrow mx-1" id="alarmList">
+                           <a class="nav-link dropdown-toggle" id="alertsDropdown"
+                           role="button" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false"> <i class="fas fa-bell fa-fw"></i> <!-- Counter - Alerts -->
+                              <span class="badge badge-danger badge-counter">+</span>
+                        </a> <!-- Dropdown - Alerts -->
+                           <div
+                              class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                              aria-labelledby="alertsDropdown" id="alarmBody">
+                              <h6 class="dropdown-header">Alerts History Center</h6>
+
+
+                              <c:forEach var="alarmData" items="${alarmList}" begin="0"
+                                 end="4">
+                                 <a class="dropdown-item d-flex align-items-center"
+                                    id="alarmATag">
                                     <div class="mr-3">
-                                        <div class="icon-circle bg-primary">
-                                            <i class="fas fa-file-alt text-white"></i>
-                                        </div>
+
+                                       <c:if test="${alarmData.typeOfAlarm eq '업무'}">
+                                          <div class="icon-circle bg-primary">
+                                             <i class="fas fa-file-alt text-white"></i>
+                                          </div>
+                                       </c:if>
+                                       <c:if test="${alarmData.typeOfAlarm eq '인원'}">
+                                          <div class="icon-circle bg-success">
+                                             <i class="fas fa-user-friends text-white"></i>
+                                          </div>
+                                       </c:if>
+                                       <c:if test="${alarmData.typeOfAlarm eq '파일'}">
+                                          <div class="icon-circle bg-secondary">
+                                             <i class="fas fa-user-friends text-white"></i>
+                                          </div>
+                                       </c:if>
                                     </div>
                                     <div>
-                                        <div class="small text-gray-500">December 12, 2019</div>
-                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                                       <div class="small text-gray-500">${alarmData.addDate}</div>
+                                       <span class="font-weight-bold">${alarmData.writer}
+                                          님이 ${alarmData.typeOfAlarm}을(를) 추가 하셨습니다.</span>
                                     </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-success">
-                                            <i class="fas fa-donate text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 7, 2019</div>
-                                        $290.29 has been deposited into your account!
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-warning">
-                                            <i class="fas fa-exclamation-triangle text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 2, 2019</div>
-                                        Spending Alert: We've noticed unusually high spending for your account.
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-                            </div>
+                                 </a>
+                              </c:forEach>
+
+                              <a class="dropdown-item text-center small text-gray-500"
+                                 data-toggle="modal" data-target="#alarmModal">Show All
+                                 Alerts</a>
+
+                           </div>
                         </li>
+
+                        <div class="modal fade" id="alarmModal" tabindex="-1"
+                           role="dialog" aria-labelledby="exampleModalLabel"
+                           aria-hidden="true">
+                           <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                 <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Alarm
+                                       History</h5>
+                                    <button class="close" type="button" data-dismiss="modal"
+                                       aria-label="Close">
+                                       <span aria-hidden="true">×</span>
+                                    </button>
+                                 </div>
+                                 <div class="modal-body">
+                                    <c:forEach var="alarmData" items="${alarmList}">
+                                       <a class="dropdown-item d-flex align-items-center"
+                                          id="alarmATag">
+                                          <div class="mr-3">
+
+                                             <c:if test="${alarmData.typeOfAlarm eq '업무'}">
+                                                <div class="icon-circle bg-primary">
+                                                   <i class="fas fa-file-alt text-white"></i>
+                                                </div>
+                                             </c:if>
+                                             <c:if test="${alarmData.typeOfAlarm eq '인원'}">
+                                                <div class="icon-circle bg-success">
+                                                   <i class="fas fa-user-friends text-white"></i>
+                                                </div>
+                                             </c:if>
+                                             <c:if test="${alarmData.typeOfAlarm eq '파일'}">
+                                                <div class="icon-circle bg-secondary">
+                                                   <i class="fas fa-user-friends text-white"></i>
+                                                </div>
+                                             </c:if>
+                                          </div>
+                                          <div>
+                                             <div class="small text-gray-500">${alarmData.addDate}</div>
+                                             <span class="font-weight-bold">${alarmData.writer}
+                                                님이 ${alarmData.typeOfAlarm}을(를) 추가 하셨습니다.</span>
+                                          </div>
+                                       </a>
+                                    </c:forEach>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
 
                         <!-- Nav Item - Messages -->
                         <li class="nav-item dropdown no-arrow mx-1">
@@ -311,25 +357,32 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-               
-                    <div class="container mt-5 col">
-                     	
-                        <div class="container card bg-white">
-                        	<div class="container mt-4">
+                	<div class="row">
+               			<ul class="col-2 mt-5 list-group">
+               				<li class=" list-group-item bg-dark text-white">업무 할당</li>
+               				<c:forEach var="user" items="${userList}" varStatus="status">
+               					<a href="#" class="list-group-item list-group-item-action" onclick="openAllocModal(this)">${user.userId}
+               					<i class="fas fa-plus-circle float-right text-success"></i>
+               					</a>
+               				</c:forEach>
+               			</ul>
+                    <div class="mt-5 col">
+                        <div class="card bg-white px-4">
+                        	<div class=" mt-4">
                 				<h5 class="text-Dark">권한 관리</h5>
                 			</div>
-                			<div class="container">
+                			<div class="">
                 				<hr>
                 			</div>
                 			
                 			 <!-- 유저 초대 팝업을 열기 위한 버튼 -->
-                            <div class="container mb-3">
+                            <div class="mb-3">
                              <button type="button" class="btn btn-outline-dark btn-sm px-5" id="btn_open_invite_modal">초대</button>
                             </div>
                              <!-- /유저 초대 팝업을 열기 위한 버튼 -->
 
                             <!-- 유저 정보 테이블 -->
-                            <div class="container">
+                            <div class="">
                                 <table class="table table-hover table-bordered">
                                         <tr class="bg-dark">
                                             <th style="width:30%" class="text-white">계정</th>
@@ -343,7 +396,7 @@
                                 </table>
                             </div>
                             <!-- /유저 정보 테이블 -->
-                            <div class="container">
+                            <div class="">
                             <ul>
                             	<li class="text-dark">팀장 : 업무수정, 업무 할당, 팀원 초대, 프로젝트 삭제</li>
                             	<li class="text-dark">읽기 : 업무 생성 불가, 읽기만 가능</li>
@@ -351,8 +404,8 @@
                             </ul>
                             </div>
                         </div>
-                    </div>
-            
+           			 </div>
+           			 </div>
                     	  <!-- 팀원 초대 팝업 모달 -->
                     <div class="modal" id="invite_modal">
                         <div class="modal-dialog" role="document">
@@ -442,6 +495,45 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <!--업무 할당 모달  -->
+                     <div class="modal bg-lg" id="alloc_task_modal">
+ 		<div class="modal-dialog" role="document">
+        	<div class="modal-content">
+            	<div class="modal-header bg-primary">
+                	<h5 class="modal-title text-light" >업무 할당</h5>
+                    <button type="button" id="btn_allow_modal_close" class="close">
+                    <span aria-hidden="true">&times;</span></button>
+                </div>
+                <form>
+                	<div class="modal-body">
+                    		<div class="form-group row">
+                            	<div class="col-sm-3 mb-3 mb-sm-0 d-flex align-items-center">
+                                	<h6 class="font-weight-bold">업무 이름</h6>
+                                </div>
+                            	<div class="col-sm-9">
+                                	<input class="form-control rounded"id="task_id"></input>
+                                </div>
+                            </div>
+                    		<div class="form-group row">
+                            	<div class="col-sm-3 mb-3 mb-sm-0 d-flex align-items-center">
+                                	<h6 class="font-weight-bold">마감 기한</h6>
+                                </div>
+                                <div class="col-sm-9">
+                                	<input type="date" id="deadLine"class="form-control form-control-user h6 rounded"></input>
+                                </div>
+                            </div>
+                            <h6 class="font-weight-bold">업무 내용</h6>
+                    	 	 <textarea class="form-control"  id="task_content" style="height: 300px; resize: none;" wrap="hard"  cols="20"></textarea>
+                    	 	 <div class="text-xs text-right">*2000자 이내로 입력하세요.</div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="allocTask();">확인</button>
+                   </div>
+                </form>
+            </div>
+        </div>
+     </div>
                 </div>
                 <!-- /.container-fluid -->
             </div>
@@ -513,6 +605,8 @@
         				tdElement.innerHTML ="${user.authority}";
         			</c:if>
         			<c:if test="${i==2}">
+        			
+        				<c:if test="${user.authority!='팀장'}">
         				tdElement.align="center";
         				mButtonElement = document.createElement('button');
         				mButtonElement.type="button";
@@ -528,14 +622,23 @@
         				dButtonElement.innerHTML ="삭제";
         				tdElement.appendChild(mButtonElement);
         				tdElement.appendChild(dButtonElement);
+        				</c:if>
         			</c:if>
         				trElement.appendChild(tdElement);
         			</c:forEach>
         	</c:forEach>
+        	
+        	
+        	document.querySelectorAll(저 태그 아이디).forEact((e,i)=>{
+				if(e.innerHTML)
+        	})
+        	
         }
     </script>
 	<!--팝업 화면에서 할 수 있는 작업들을 모아놓은 js 파일  -->
     <script src="/resources/js/leader/popup_task.js"></script>
+    <<!--팀장화면 전용 js 파일  -->
+    <script src="/resources/js/leader/leader_page.js"></script>
     <!-- Bootstrap core JavaScript-->
     <script src="/resources/vendor/jquery/jquery.min.js"></script>
     <script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

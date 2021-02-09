@@ -116,9 +116,11 @@
 		let paramObj = new Object();
 		let projectId = "프로젝트 1" //임의로 정한 프로젝트ID값, 추후에 세션값으로 처리해야할 듯
 		let authority = authorityChk("mod_authority");
+		let curUserId = "${sessionScope.user.userID}";
 		paramObj.projectId = projectId;
 		paramObj.userId = userId;
 		paramObj.authority = authority;
+		paramObj.curUserId = curUserId;
 		
 		let headerObj = new Headers();
 		headerObj.append('content-type', 'application/x-www-form-urlencoded');
@@ -135,11 +137,16 @@
             }).then(msg=>{
                 if(msg=='success'){
 					alert("유저의 권한을 변경했습니다.")
-					
-                }else{
-                    alert('유저를 권한을 변경하지 못했습니다.');
-                }
-				reloadPage();				 
+					reloadPage();		
+                }else if('authChange'){
+					alert("팀장이 아니므로 이 페이지에서 나갑니다.")
+					location.href="/task/main";
+                }else if('authChangeFailed'){
+					alert("팀장을 변경하지 못했습니다.")
+				}else{
+					alert("유저의 권한을 변경하지 못했습니다..")
+				}
+						 
             }).catch(error=>{
                 error.alertMessage();
             });
@@ -149,13 +156,36 @@
 		let projectId = '프로젝트 1';
 		let deleteMember =  e.target.getAttribute('deleteId');
 		
-		let url = "leader/deletemember";
+		let url = "/leader/deletemember";
 		let paramObj = new Object();
 		let headerObj = new Headers();
 		paramObj.projectId = projectId;
 		paramObj.deleteMember = deleteMember;
 		headerObj.append('content-type','application/x-www-form-urlencoded');
 		
+		fetch(url,{
+			method : "POST",
+			headers : headerObj,
+			body : "data="+JSON.stringify(paramObj)
+		}).then(response=>{
+			if(response.ok){
+				return response.text();
+			}else{
+				throw new AsyncPageError(response.text());
+			}
+		}).then(msg=>{
+			if(msg=='success'){
+				alert('선택한 팀원이 삭제되었습니다.');
+				 document.querySelector('#idChk').innerHTML ="";
+			}else{
+				alert('팀원 삭제가 실패했습니다.');
+			}
+			$('#userId').val(" ");
+			$('#invite_modal').hide();
+			reloadPage();
+		}).catch(errer=>{
+			error.ealertMessage();
+		})
 	});
 	
 	//페이지를 새로고침하는 함수

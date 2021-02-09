@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.apache.tomcat.dbcp.dbcp2.SQLExceptionList;
+
 import com.wwe.common.code.ErrorCode;
 import com.wwe.common.exception.DataAccessException;
 import com.wwe.common.jdbc.JDBCTemplate;
@@ -155,6 +157,29 @@ public class LeaderDao {
 			return res;
 	}
 	
+	//팀장 권한을 넘겨주는 메소드
+	public int changeLeader(Connection conn, ProjUser user) {
+		int res = 0;
+		PreparedStatement pstm = null;
+		
+		String query =  "UPDATE TB_PROJECT_USER "
+				+"SET AUTHORITY =? WHERE PROJECT_ID =? AND USER_ID =?";
+		
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1,user.getAuthority());
+			pstm.setString(2,user.getProjectId());
+			pstm.setString(3,user.getUserId());
+			res = pstm.executeUpdate();
+			
+		}catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.UU01, e);
+		}finally {
+			jdt.close(pstm);
+		}
+		return res;
+	}
+	
 	//업무명으로 업무 검색하는 메소드
 	public ArrayList<Task> selectTaskByTask(Connection conn,Task task){
 		ArrayList<Task> taskList = new ArrayList<Task>();
@@ -283,7 +308,54 @@ public class LeaderDao {
 		return res;
 	}
 	
+	//프로젝트에서 팀원을 삭제하는 메소드
+	public int deleteMember(Connection conn, ProjUser user) {
+		int res =0;
+		PreparedStatement pstm = null;
+		
+		String query = "DELETE FROM TB_PROJECT_USER "
+				+"WHERE PROJECT_ID = ? AND USER_ID = ?";
+		
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, user.getProjectId());
+			pstm.setString(2, user.getUserId());
+			res = pstm.executeUpdate();
+		}catch(SQLException e) {
+			throw new DataAccessException(ErrorCode.DU01, e);
+		}finally {
+			jdt.close(pstm);
+		}
+		return res;
+	}
 	
+	//유저의 권한을 체크하는 메소드
+	public ProjUser chkAuthority(Connection conn, ProjUser user) {
+		ProjUser pUser = null;
+		PreparedStatement pstm =null;
+		ResultSet rset = null;
+		
+		String query = "SELECT * FROM TB_PROJECT_USER "
+				+"WHERE PROJECT_ID =? AND USER_ID =?";
+		
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, user.getProjectId());
+			pstm.setString(2, user.getUserId());
+			rset = pstm.executeQuery();
+			while(rset.next()) {
+				pUser = new ProjUser();
+				pUser.setProjectId(rset.getString("PROJECT_ID"));
+				pUser.setUserId(rset.getString("USER_ID"));
+				pUser.setAuthority(rset.getString("AUTHORITY"));
+			}
+		}catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.UA01, e);
+		}finally{
+			jdt.close(rset,pstm);
+		}
+		return pUser;
+	}
 	
 	
 	
