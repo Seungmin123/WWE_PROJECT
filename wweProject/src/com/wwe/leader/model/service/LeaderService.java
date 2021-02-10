@@ -20,13 +20,13 @@ public class LeaderService {
 	LeaderDao leaderDao = new LeaderDao();
 	
 	// 유저에게 권한을 추가하는 메소드
-	public int inviteUser(String userId, String authorty) {
+	public int inviteUser(String userId, String authorty, String projectId) {
 		
 		int res = 0;
 		Connection conn  = jdt.getConnection();
 		
 		try {
-			res = leaderDao.inviteUser(conn, userId,authorty);
+			res = leaderDao.inviteUser(conn, userId,authorty,projectId);
 			jdt.commit(conn);
 		}catch (DataAccessException  e) {
 			//커스텀 예외처리를  해주어야 할 부분
