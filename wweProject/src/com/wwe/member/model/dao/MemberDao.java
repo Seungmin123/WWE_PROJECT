@@ -519,8 +519,10 @@ public class MemberDao {
 
 			JsonObject obj = new JsonObject();
 			obj.addProperty("object_type", "text");
-			// content
-			obj.addProperty("text", "텍스트 입니당");
+			
+			//obj.addProperty("text", "텍스트 입니당");
+			obj.addProperty("text", content);
+			
 			obj.addProperty("button_title", "버튼 입니당");
 			obj.add("link", linkOBJ);
 

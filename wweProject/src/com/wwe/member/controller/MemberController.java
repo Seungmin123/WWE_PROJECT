@@ -237,7 +237,7 @@ public class MemberController extends HttpServlet {
 		System.out.println(code);
 		String access_Token = memberService.getAccessToken(code);
 		Member userInfo = memberService.kakaoUserInfo(access_Token);
-		memberService.kakaoSendMessage(access_Token, "테스트");
+		
 		
 		if(userInfo.getUserEmail() != null) {
 			
@@ -248,6 +248,8 @@ public class MemberController extends HttpServlet {
 			.forward(request, response);
 			
 		}
+		
+		memberService.kakaoSendMessage(access_Token, userInfo.getUserName() + " 님이 카카오 로그인했슴둥");
 		
 	}
 	
