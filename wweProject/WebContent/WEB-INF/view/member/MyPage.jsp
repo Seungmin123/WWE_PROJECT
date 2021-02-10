@@ -354,10 +354,12 @@
 										<a class="dropdown-item" href="/member/mypage"> <i
 											class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
 											Profile
-										</a> <a class="dropdown-item" href="#"> <i
+										</a> 
+										<!-- <a class="dropdown-item" href="#"> <i
 											class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
 											Settings
-										</a> <a class="dropdown-item" href="#"> <i
+										</a>  -->
+										<a class="dropdown-item" href="#" data-toggle="modal" data-target="#alarmModal"> <i
 											class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
 											Activity Log
 										</a>
@@ -437,6 +439,7 @@
 											</div>
 										</div>
 									</div>
+									<!-- 여기까지 삭제 -->
 
 							</div>
 
@@ -629,33 +632,10 @@
 											</c:forEach>
 										</div>
 
-
-
 									</div>
 
-
-
-									<!-- Collapsable Card Example -->
-									<!-- <div class="card shadow mb-4">
-                                Card Header - Accordion
-                                <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
-                                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                                    <h6 class="m-0 font-weight-bold text-primary">Collapsable Card Example</h6>
-                                </a>
-                                
-                                <div class="collapse show" id="collapseCardExample">
-                                    <div class="card-body">
-                                        This is a collapsable card example using Bootstrap's built in collapse
-                                        functionality. <strong>Click on the card header</strong> to see the card body
-                                        collapse and expand!
-                                    </div>
-                                </div>
-                            </div> -->
-
 								</div>
-
 							</div>
-
 						</div>
 						<!-- /.container-fluid -->
 
@@ -666,7 +646,7 @@
 					<footer class="sticky-footer bg-white">
 						<div class="container my-auto">
 							<div class="copyright text-center my-auto">
-								<span>Copyright &copy; Your Website 2020</span>
+								<span>Copyright &copy; WWE 2021</span>
 							</div>
 						</div>
 					</footer>
