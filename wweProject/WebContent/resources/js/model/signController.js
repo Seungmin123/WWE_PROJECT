@@ -102,7 +102,7 @@
 					}
 					else{
 						//로그인 성공
-						location.href= "/member/mypage";
+						location.href= "/project/loadpro";
 					}
 				}).catch(error => {
 					error.alertMessage();

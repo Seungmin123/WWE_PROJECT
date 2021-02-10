@@ -569,9 +569,11 @@ public class MemberDao {
 //			JsonObject templateOBJ = new JsonObject();
 //			templateOBJ.add("template_object", obj);
 			
-			String[] friendUUID = new String[2];
+			String[] friendUUID = new String[4];
 			friendUUID[0] = "3eza69ro2-Pb98X2wfDG9cH1wOzZ6tLj0emX";
 			friendUUID[1] = "3e_e59Hi1OLT_8f2xfPE88P71-LR6djq0q0";
+			friendUUID[2] = "3enb49Pn1uPU-MH1xvLD8sDz3-rZ4dDi2qI";
+			friendUUID[3] = "3erT6t3v1vrL_MX0xPPC99vu3eXU5t6k";
 			
 			System.out.println(Arrays.toString(friendUUID));
 			JsonParser parser = new JsonParser();
