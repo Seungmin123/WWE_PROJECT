@@ -2,6 +2,7 @@ package com.wwe.project.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -16,7 +17,7 @@ import com.wwe.common.code.ErrorCode;
 import com.wwe.common.exception.ToAlertException;
 import com.wwe.leader.model.service.LeaderService;
 import com.wwe.leader.model.vo.ProjUser;
-import com.wwe.member.model.vo.Alarm;
+import com.wwe.member.model.service.MemberService;
 import com.wwe.member.model.vo.Member;
 import com.wwe.project.model.service.ProService;
 import com.wwe.project.model.vo.Project;
@@ -63,6 +64,8 @@ public class ProController extends HttpServlet {
 		ArrayList<ProjectMaster> recentproList = proService.selectRecentProject(userId.getUserID());
 		ArrayList<ProjUser> invitedProList = proService.selectInvitedProject(userId.getUserID()); 
 		
+		request.getSession().setAttribute("recentList", recentproList);
+		
 		request.setAttribute("recentproList", recentproList);
 		request.setAttribute("invitedProList", invitedProList);		
 		request.getRequestDispatcher("/WEB-INF/view/project/newProject2.jsp")
@@ -94,13 +97,17 @@ public class ProController extends HttpServlet {
 		 project.setLeaderId(leaderId.getUserID());
 		 project.setDueDate(deadline);
 		 project.setProjectId(title);
-		 		  
+		 
+		 ProjUser projUser = new ProjUser();
+		 projUser.setLeaderId(leaderId.getUserID());
+		 projUser.setProjectId(title);
+		 
 		 //service에 넣고 (dao를 거쳐) 되돌아온 값을 res에 넣는다. 
 		 int res = proService.createProject(project);
 		  
 		 //성공 시 (1 반환) if(res > 0) { 
 		 //현재 세션에 project 키값으로 project 객체 담기
-		 request.getSession().setAttribute("project", project);
+		 request.getSession().setAttribute("selectProject", projUser);
 		 
 		 if(res > 0) {
 			 System.out.println(res);
@@ -153,6 +160,10 @@ public class ProController extends HttpServlet {
 		ProjUser pUser = new ProjUser();
 		pUser.setUserId(member.getUserID());  //세션에 있는 유저의 아이디를 유저객체에 저장
 		pUser.setProjectId(projectId);  // 선택한 프로젝트의 프로젝트 아이디를 유저객체에 저장
+		
+		Map<String, Object> commandMap = new MemberService().selectAlarm(member.getUserID(), projectId);
+        List<Object> alarmList = (List<Object>) commandMap.get("alarmList");
+        request.getSession().setAttribute("alarmList", alarmList);
 		
 		ProjUser user = leaderService.chkAuthority(pUser); //유저의 권한을 포함한 유저정보를 얻는 코드				
 		request.getSession().setAttribute("projUserInfo",user); //얻은 유저정보를 세션에 저장

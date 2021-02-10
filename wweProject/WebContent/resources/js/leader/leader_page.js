@@ -13,7 +13,6 @@ let allocTask = ()=>{
 	let taskId = document.querySelector('#task_id').value;
 	let deadLine = document.querySelector('#deadLine').value;
 	let content = document.querySelector('#task_content').value;
-	let projectId = '프로젝트 1';
 		
 	if(taskId!="" && deadLine!="" && content !=""){
 		let today = new Date();
@@ -30,13 +29,12 @@ let allocTask = ()=>{
 		if (betweenDay < 0) {
 			alert("변경할 수 없는 날짜입니다.");
 		}else{
-					url = "/leader/alloctask";
+			url = "/leader/alloctask";
 		let paramObj = new Object();
 		let headerObj = new Headers();
 		paramObj.taskId = taskId;
 		paramObj.deadLine = deadLine;
 		paramObj.content = content;
-		paramObj.projectId = projectId;
 		paramObj.userId = selectUser;
 		
 		headerObj.append('content-type','application/x-www-form-urlencoded');

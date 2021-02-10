@@ -64,8 +64,7 @@
 		let inviteUser = ()=>{
             let url = "/leader/inviteimpl";
             let paramObj = new Object();
-            paramObj.userId = $('#userId').val();
-			
+            paramObj.userId = $('#userId').val();			
             paramObj.authority = authorityChk("authority");
 			
             let headerObj = new Headers();
@@ -114,13 +113,9 @@
 		
 		let url = "/leader/updateauthority"
 		let paramObj = new Object();
-		let projectId = "프로젝트 1" //임의로 정한 프로젝트ID값, 추후에 세션값으로 처리해야할 듯
 		let authority = authorityChk("mod_authority");
-		let curUserId = "${sessionScope.user.userID}";
-		paramObj.projectId = projectId;
 		paramObj.userId = userId;
 		paramObj.authority = authority;
-		paramObj.curUserId = curUserId;
 		
 		let headerObj = new Headers();
 		headerObj.append('content-type', 'application/x-www-form-urlencoded');
@@ -153,13 +148,11 @@
 	}
 	
 	$(document).on('click','#btn_delete_member',function(e){
-		let projectId = '프로젝트 1';
 		let deleteMember =  e.target.getAttribute('deleteId');
 		
 		let url = "/leader/deletemember";
 		let paramObj = new Object();
 		let headerObj = new Headers();
-		paramObj.projectId = projectId;
 		paramObj.deleteMember = deleteMember;
 		headerObj.append('content-type','application/x-www-form-urlencoded');
 		
