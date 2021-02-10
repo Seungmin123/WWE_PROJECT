@@ -521,7 +521,7 @@
             document.addEventListener('DOMContentLoaded',inputData());
         	function checkValue(id) {
         		inputData();
-			}
+            }
         </script>
 
 </body>
