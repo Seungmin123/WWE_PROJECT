@@ -216,14 +216,14 @@ public class TaskService {
 			return res;	
 	}
 	
-	public ArrayList<Feedback> selectFeedback(String taskId, String userId){
+	public ArrayList<Feedback> selectFeedback(int tIdx){
 		
 		Connection conn = jdt.getConnection();
 		ArrayList<Feedback> feedList = null;
 		
 		try {
 			
-			feedList = taskDao.selectFeedback(conn, taskId, userId);
+			feedList = taskDao.selectFeedback(conn, tIdx);
 			
 		} finally {
 			jdt.close(conn);

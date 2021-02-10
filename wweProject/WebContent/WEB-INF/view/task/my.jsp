@@ -629,8 +629,9 @@
     			 });
     			
     			let addButton = ()=>{
-					let button = document.querySelectorAll('#addButton');
-					button.setAttribute('class','d-none');
+    			
+					let button = document.getElementById('addButton');
+					button.setAttribute('style','display:none; visibility:hidden;');
 					
     			}
   		  </script>

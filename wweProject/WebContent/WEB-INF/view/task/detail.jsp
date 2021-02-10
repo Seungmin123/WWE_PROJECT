@@ -395,7 +395,20 @@
 
                             <div class="container border bg-gray-300 shadow-sm col-sm-6 pt-4 mb-4 pb-4">
                                 <div class="container border bg-gray-100 rounded pt-4">
+                                	
+                        
 
+									 <div class="form-group row">
+                                        <div class="col-sm-3 mb-3 mb-sm-0 d-flex align-items-center">
+                                            <h6 class="font-weight-bold" >업무번호</h6>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <div class="form-control form-control-user rounded" id="tIdx">${detailList[0].tIdx}</div>
+                                        </div>
+                                    </div>
+
+                                    <hr class="hr">
+                                    
                                     <div class="form-group row">
                                         <div class="col-sm-3 mb-3 mb-sm-0 d-flex align-items-center">
                                             <h6 class="font-weight-bold" >담당자</h6>
@@ -491,7 +504,7 @@
                                     
                                     <div class="pb-4 d-flex justify-content-end">
 									
-											<button type="button" class="btn btn-sm btn-dark pr-3 pl-3 mr-2 mypageitem modify" onclick="modifyTask();">수정</button>
+										<button type="button" class="btn btn-sm btn-dark pr-3 pl-3 mr-2" id="modify" onclick="modifyTask();">수정</button>
                                   
                                     	<button class="btn btn-sm btn-dark pr-2 pl-2">HELP</button>
                                     </div>
@@ -523,21 +536,19 @@
                                     	<div class="d-flex justify-content-between align-items-center">
                                     		<div type="text" class="form-control form-control-user col-sm-2 mr-2 rounded" id="userId">${user.userID}</div>
                                     		<input type="text" class="form-control form-control-user rounded" id="feedbackComment" name="feedbackComment">
-                                    		<i class="fas fa-unlock ml-2"></i>
+                                    		<!-- <i class="fas fa-unlock ml-2"></i> -->
                                     		<button type="button" onclick="feedBack();" class="btn bg-gray-300 ml-2 pl-3 pr-3">
                                         	send
                                    			</button>
                                    		 </div>
                                    	</form>	 
                                    		 <hr class="hr">
+                                   		 <c:forEach var="feed" items="${feedList}" varStatus="status">
                                    		 <div class="commentListrg d-flex justify-content-between">
-                                   		 	<c:forEach var="feed" items="${feedList}" varStatus="status">
-                                   		 	${feed.userId},${feed.feedbackComment}
-                                   		 	</c:forEach>
-                                   		 	<div class="form-control form-control-user col-sm-2 mr-2 rounded" id="userId"></div>
-                                   		 	<div class="form-control form-control-user rounded" id="feedbackComment" name="feedbackComment"></div>
-                                   		 	
+                                   		 	<div class="form-control form-control-user bg-light col-sm-2 mr-2  border-0" id="userId">${feed.userId}</div>
+                                   		 	<div class="form-control form-control-user bg-light border-0" id="feedbackComment" >${feed.feedbackComment}</div>
                                    		 </div>
+                                   		 </c:forEach>
                                 </div>
 
                             </div>
@@ -656,13 +667,15 @@
             
             <script type="text/javascript">
             
-            $(function(){
+        	$(function(){
 				modifyButton();
 			 });
+			
 			let modifyButton = ()=>{
-
+				let button = document.getElementById('modify');
+				button.setAttribute('style','display:none; visibility:hidden;');
+				
 			}
-            
             </script>
 
         </body>

@@ -435,8 +435,18 @@
                                                ${task.taskId}
                                             </div>
                                             <div class="progress progress-sm">
+                                            	<c:if test= "${task.taskState == 'ST00'}">
                                                 <div class="progress-bar bg-info" Id="progressbar" style="width: 0"
                                                     aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </c:if>
+                                                <c:if test= "${task.taskState == 'ST01'}">
+                                                <div class="progress-bar bg-info" Id="progressbar" style="width: 50%"
+                                                    aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </c:if>
+                                                <c:if test= "${task.taskState == 'ST02'}">
+                                                <div class="progress-bar bg-info" Id="progressbar" style="width: 100%"
+                                                    aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </c:if>
                                             </div>
                                         </a>
                                         <span class="btn btn-sm ml-1 mr-1">
@@ -547,7 +557,15 @@
        					innerprogress.setAttribute('aria-valuenow','50');
        					innerprogress.setAttribute('aria-valuemin','aria-valuemin');
        					innerprogress.setAttribute('aria-valuemax','100');
+       					<c:if test= "${task.taskState == 'ST00'}">
        					innerprogress.setAttribute('style','width: 0');
+       					</c:if>
+       					<c:if test= "${task.taskState == 'ST01'}">
+       					innerprogress.setAttribute('style','width: 50%');
+       					</c:if>
+       					<c:if test= "${task.taskState == 'ST02'}">
+       					innerprogress.setAttribute('style','width: 100%');
+       					</c:if>
        					issue.setAttribute('class','btn btn-sm ml-1 mr-1');
 
        					divElement.innerHTML += '${task.taskId}';
@@ -579,7 +597,15 @@
        					innerprogress.setAttribute('aria-valuenow','50');
        					innerprogress.setAttribute('aria-valuemin','aria-valuemin');
        					innerprogress.setAttribute('aria-valuemax','100');
+       					<c:if test= "${task.taskState == 'ST00'}">
        					innerprogress.setAttribute('style','width: 0');
+       					</c:if>
+       					<c:if test= "${task.taskState == 'ST01'}">
+       					innerprogress.setAttribute('style','width: 50%');
+       					</c:if>
+       					<c:if test= "${task.taskState == 'ST02'}">
+       					innerprogress.setAttribute('style','width: 100%');
+       					</c:if>
        					issue.setAttribute('class','btn btn-sm ml-1 mr-1');
 
        					divElement.innerHTML += '${task.taskId}';
@@ -600,10 +626,9 @@
     			
 				//작업률 퍼센티지
     			$(function(){
-					progress();
+					percentage();
 				 });
-				let progress = ()=>{
-					
+				let percentage = ()=>{
 					
 					<c:forEach var="task" items="${taskList}" varStatus="status">
 						<c:if test="${task.taskState == 'ST01'}">
