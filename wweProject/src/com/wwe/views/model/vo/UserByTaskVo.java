@@ -9,7 +9,7 @@ public class UserByTaskVo {
 	private String start;
 	private String end;
 	private String color;
-	
+
 	public UserByTaskVo(String title, String start, String end,String color) {
 		super();
 		this.title = title;

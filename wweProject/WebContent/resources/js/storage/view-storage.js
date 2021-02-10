@@ -20,16 +20,21 @@ function deleteFile(idx,rfname,savePath,isTeam) {
 function searchMyFile(isTeam) {
     if(window.event.keyCode == 13){
         let keyWord = document.querySelector('#searchValue').value;
-
-        if(!keyWord){
-            location.href = '${context}' + '/storage/personal?page=1';
+        document.cookie = 'searchKeyword=' + keyWord;
+        if(isTeam === 'true'){
+            location.href = '${context}' + "/storage/share";
         }else{
-            location.href = '${context}' + '/storage/search?keyWord=' + keyWord;
+            location.href = '${context}' + "/storage/personal";
         }
-        
 
+    }
+}
 
-
-
+function reset(isTeam) {
+    document.cookie = 'searchKeyword=;'
+    if(isTeam === 'true'){
+        location.href = '${context}' + "/storage/share";
+    }else{
+        location.href = '${context}' + "/storage/personal";
     }
 }

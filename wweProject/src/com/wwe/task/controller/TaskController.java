@@ -1,8 +1,12 @@
 package com.wwe.task.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +21,7 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.wwe.common.code.AddAlarmCode;
+import com.wwe.leader.model.vo.ProjUser;
 import com.wwe.member.model.service.MemberService;
 import com.wwe.member.model.vo.Member;
 import com.wwe.project.model.vo.Project;
@@ -64,6 +69,8 @@ public class TaskController extends HttpServlet {
 			case "insertfeedback": insertFeedback(request,response);
 				break;
 			case "updatestate": updateState(request,response);
+				break;
+			case "updatetask": updateTask(request,response);
 				break;
 			default:
 				break;
@@ -118,7 +125,7 @@ public class TaskController extends HttpServlet {
 		
 	}
 	
-	//이름불러오기
+	//권한,이름불러오기
 	protected void selectName(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		//Project project = (Project) request.getSession().getAttribute("project");
@@ -126,7 +133,7 @@ public class TaskController extends HttpServlet {
 		//String projectId = project.getProjectId();
 		String projectId = "프로젝트 1";
 		
-		ArrayList<String> memberList = taskService.selectName(projectId);
+		ArrayList<ProjUser> memberList = taskService.selectName(projectId);
 
 		if(memberList != null) {
 			
@@ -191,7 +198,6 @@ public class TaskController extends HttpServlet {
 			}
 		}
 
-		
 		request.setAttribute("memTaskList", memTaskList);
 		request.getRequestDispatcher("/WEB-INF/view/task/member.jsp").forward(request, response);
 	}
@@ -214,10 +220,6 @@ public class TaskController extends HttpServlet {
 		String leaderId = "wwe123";
 		
 		ArrayList<Task> taskByMember = taskService.selectTaskbyMem(projectId,leaderId,userId);
-		
-		for (Task task : taskByMember) {
-			System.out.println(task);
-		}
 
 		
 		if(taskByMember != null) {
@@ -242,8 +244,23 @@ public class TaskController extends HttpServlet {
 		
 		ArrayList<Task> detailList = taskService.detailTask(taskId);
 		
+		Calendar calendar = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		for(int i = 0 ; i < detailList.size();i ++) {
+			String deadLine = detailList.get(i).getDeadLine();
+			try {
+				Date d = sdf.parse(deadLine);
+				deadLine = sdf.format(d);
+				detailList.get(i).setDeadLine(deadLine);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		if(detailList != null) {
 			request.setAttribute("detailList", detailList);
+			request.getAttribute("memberList");
+			selectFeedback(request,response);
 			
 			request.getRequestDispatcher("/WEB-INF/view/task/detail.jsp").forward(request, response);
 		}else {
@@ -295,8 +312,7 @@ public class TaskController extends HttpServlet {
 			  request.setAttribute("alertMsg", "업무 추가에 성공하였습니다.");
 			  request.setAttribute("url", "/task/my");
 			  
-			  String typeAlarm = "업무추가";
-			  new MemberService().addAlarm(userId, projectId, "업무");
+			  new MemberService().addAlarm(userId, projectId, AddAlarmCode.IT01.alarmCode());
 			  
 			  request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
 			  
@@ -317,6 +333,7 @@ public class TaskController extends HttpServlet {
 		selectMyList(request,response);
 		
 		request.getAttribute("myList");
+		selectName(request,response);
 		
 		request.getRequestDispatcher("/WEB-INF/view/task/my.jsp").forward(request, response);
 	}
@@ -353,31 +370,64 @@ public class TaskController extends HttpServlet {
 	protected void insertFeedback(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		//id세션에서 받아오기
-		String data = request.getParameter("feedback");
+		String data = request.getParameter("data");
 		Gson gson = new Gson();
 		Map parsedData = gson.fromJson(data, Map.class);
 		
-		Feedback feedback = null;
+		Feedback feedback = new Feedback();
 		
+		
+		Member user = (Member) request.getSession().getAttribute("user");
+		String userId = user.getUserID();
 		String feedbackComment = (String) parsedData.get("feedbackComment");
-		//Task task = (Task) request.getAttribute("detailList");
-		//String taskId = task.getTaskId();
-		String taskId = "업무삭제하기";
+		String taskId = (String) parsedData.get("taskId");
+		
+		System.out.println(feedbackComment);
+		System.out.println(taskId);
+		
 		int privateComment = 0;
 		
 		feedback.setFeedbackComment(feedbackComment);
 		feedback.setTaskId(taskId);
 		feedback.setPrivateComment(privateComment);
+		feedback.setUserId(userId);
 		
 		int res = taskService.insertFeedback(feedback);
 		
 		if(res > 0) { 
-			  System.out.println("피드백추가성공");
+			response.getWriter().print("success");
 			  
 		 } else { 
-			 System.out.println("피드백추가실패");
+			 response.getWriter().print("failed");
 			  
 		 }
+	}
+	
+	protected void selectFeedback(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		detailTask(request,response);
+		
+		ArrayList<Task> detailList = (ArrayList<Task>) request.getAttribute("detailList");
+		Member user = (Member) request.getSession().getAttribute("user");
+		String userId = user.getUserID();
+		String taskId = "";
+		
+		for (Task task : detailList) {
+			taskId = task.getTaskId();
+		}
+		
+		System.out.println(taskId);
+		
+		ArrayList<Feedback> feedList = taskService.selectFeedback(taskId, userId);
+		
+		if(feedList.size() > 0) {
+
+			request.setAttribute("feedList", feedList);
+			System.out.println("피드백성공");
+			
+		}else {
+			System.out.println("피드백실패");
+		}
 	}
 	
 	//업무상태값변경하기
@@ -395,22 +445,44 @@ public class TaskController extends HttpServlet {
 		int res = taskService.updateState(taskState,taskId,userId);
 		
 		if(res > 0) {
-			System.out.println("수정완료");
+			response.getWriter().print("success");
 		}else {
-			System.out.println("수정실패");
+			response.getWriter().print("failed");
 		}
 		
 	}
 	
-	//권한 땡겨오는 메서드 만들기
-	
-	public void selectAuthority(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-	}
 	
 	//업무 수정 메서드
 	public void updateTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		String data = request.getParameter("data");
+		Gson gson = new Gson();
+		
+		Map parsedData = gson.fromJson(data, Map.class);
+		
+		String taskUser = parsedData.get("modTaskUser").toString();
+		String taskId = parsedData.get("taskId").toString();
+		String deadLine = parsedData.get("deadLine").toString();
+		String modifiedContent = parsedData.get("modifiedContent").toString();
+		String bTaskId = parsedData.get("btaskId").toString();
+
+		
+		Task task = new Task();
+		task.setUserId(taskUser);
+		task.setTaskId(taskId);
+		task.setDeadLine(deadLine);
+		task.setTaskContent(modifiedContent);
+
+		
+		int res = taskService.updateTask(task,bTaskId);
+		
+		if(res>0) {
+			
+			//new MemberService().addAlarm(userId, projectId, AddAlarmCode.IT01.alarmCode());
+			response.getWriter().print("success");
+		}else {
+			response.getWriter().print("failed");
+		}
 	}
-	
 }

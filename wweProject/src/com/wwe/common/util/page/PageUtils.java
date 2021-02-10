@@ -3,28 +3,35 @@ package com.wwe.common.util.page;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wwe.common.jdbc.JDBCTemplate;
+import com.wwe.common.util.file.FileVo;
+
 public class PageUtils {
+	private static PageUtils instance;
 	private int pageNum = 1;
 	private int maxPageNum = 0;
 	private int viewPage = 5; // 하단 목록 리스트가 몇개씩 보이게 할지 정하는 변수
 	private int viewRows = 5; // 해당테이블의 row의 수를 정하는 변수
 	private List<Integer> viewPages = null; // 하단 목록리스트 값을 저장하는 배열
+	private List<Object> dataList = null; // 페이징에 넣을 값 배열
 
 	// 기본생성자로 request.getParam...()으로 넘어온 해당 페이지 값과 테이블에 보여야할 리스트의 사이즈를 받아온다
-	public PageUtils(String paramPage, int listSize) {
+	public PageUtils(String paramPage, List<Object> dataList) {
+		
+		// 페이징 처리할 data를 받아온다
+		this.dataList = dataList;
+		
 		// 받아온 페이지 값이 null일 경우 1, 아닐경우 해당값
 		if(paramPage != null) {
 			this.pageNum = Integer.parseInt(paramPage);
 		}
+		
 		// 받아온 리스트의 사이즈를 계산하여 마지막 게시판의 번호를 만든다
-		this.maxPageNum = listSize%viewRows == 0 ? listSize/viewRows : listSize/viewRows + 1;
-		this.viewPages = new ArrayList<Integer>();
-		// 만약 페이지값이 0이라면 맨마지막 페이지값을 넘긴다
-		if(pageNum == 0) {
-			pageNum = maxPageNum;
-		}
+		this.maxPageNum = setMaxPage();
+		
+		this.viewPages = new ArrayList<Integer>(); //보여질페이지 저장하는 배열 초기화
+		
 	}
-	
 	// 하단 목록에 사용할 배열을 추출
 	public List<Integer> getViewPages(){
 		// 페이지번호가 보여질 페이지보다 작을경우
@@ -48,7 +55,7 @@ public class PageUtils {
 	}
 	
 	// 해당 페이지에 들어갈 값들을 불러준다
-	public List<Object> getCommandList(List<Object> dataList){
+	public List<Object> getCommandList(){
 		List<Object> commandList = new ArrayList<Object>();
 		int maxNum = pageNum * viewRows;
 		for(int i=maxNum-viewRows; i<maxNum; i++) {
@@ -60,6 +67,20 @@ public class PageUtils {
 		return commandList;
 	}
 	
+	public void SortBykeyWord(String keyWord) {
+		List<Object> temp = new ArrayList<Object>();
+		for (Object data : dataList) {
+			FileVo file = (FileVo)data;
+			if(file.getFileName().contains(keyWord)) {
+				temp.add(file);
+			}
+		}
+		this.dataList = temp;
+		// 받아온 리스트의 사이즈를 계산하여 마지막 게시판의 번호를 만든다
+		this.maxPageNum = setMaxPage();
+	}
+	
+	
 	// 맨 마지막 페이지 번호 반환
 	public int getMaxPageNum() {
 		return maxPageNum;
@@ -68,6 +89,11 @@ public class PageUtils {
 	// 해당 페이지의 번호를 반환
 	public int getPageNum() {
 		return this.pageNum;
+	}
+	
+	private int setMaxPage() {
+		int listSize = this.dataList.size();
+		return listSize%viewRows == 0 ? listSize/viewRows : listSize/viewRows + 1;
 	}
 	
 	

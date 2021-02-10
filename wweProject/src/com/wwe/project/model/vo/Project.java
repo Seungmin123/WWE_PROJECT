@@ -9,7 +9,7 @@ public class Project {
 	private int progress;
 	private String leaderId;
 	private String userId;
-	private Date workTime;
+	private String workTime;
 	private String authority;
 	private String isInvited; //초대여부
 	private String title;
@@ -17,29 +17,6 @@ public class Project {
 	private Date startDate;
 	private Date endDate;
 	
-	
-	public Project() {
-		// TODO Auto-generated constructor stub
-	}
-
-
-	public Project(String projectId, Date dueDate, int progress, String leaderId, String userId, Date workTime,
-			String authority, String isInvited, String title, String deadline, Date startDate, Date endDate) {
-		super();
-		this.projectId = projectId;
-		this.dueDate = dueDate;
-		this.progress = progress;
-		this.leaderId = leaderId;
-		this.userId = userId;
-		this.workTime = workTime;
-		this.authority = authority;
-		this.isInvited = isInvited;
-		this.title = title;
-		this.deadline = deadline;
-		this.startDate = startDate;
-		this.endDate = endDate;
-	}
-
 
 	public String getProjectId() {
 		return projectId;
@@ -91,12 +68,12 @@ public class Project {
 	}
 
 
-	public Date getWorkTime() {
+	public String getWorkTime() {
 		return workTime;
 	}
 
 
-	public void setWorkTime(Date workTime) {
+	public void setWorkTime(String workTime) {
 		this.workTime = workTime;
 	}
 

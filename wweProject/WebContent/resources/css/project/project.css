@@ -1,11 +1,12 @@
 	
 /* 프로젝트 목록 */
 		
-	/* 새 프로젝트 추가 modal창*/
-	        * {
+	/* 새 프로젝트 추가 modal창 */
+	    * {
             font-family: 'Jua', sans-serif;
             box-sizing: border-box;
         }
+
 
         .due {
             border-color: lightgrey;

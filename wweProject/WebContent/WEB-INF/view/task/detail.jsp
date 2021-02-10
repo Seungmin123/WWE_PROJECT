@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <%@ include file="/WEB-INF/view/include/header.jsp" %>
+<%@ include file="/WEB-INF/view/include/header.jsp" %>
         <!DOCTYPE html>
         <html lang="en">
 
@@ -178,57 +178,101 @@
                                 </li>
 
                                 <!-- Nav Item - Alerts -->
-                                <li class="nav-item dropdown no-arrow mx-1">
-                                    <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-bell fa-fw"></i>
-                                        <!-- Counter - Alerts -->
-                                        <span class="badge badge-danger badge-counter">3+</span>
-                                    </a>
-                                    <!-- Dropdown - Alerts -->
-                                    <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                        aria-labelledby="alertsDropdown">
-                                        <h6 class="dropdown-header">
-                                            Alerts Center
-                                        </h6>
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            <div class="mr-3">
-                                                <div class="icon-circle bg-primary">
-                                                    <i class="fas fa-file-alt text-white"></i>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="small text-gray-500">December 12, 2019</div>
-                                                <span class="font-weight-bold">A new monthly report is ready to
-                                                    download!</span>
-                                            </div>
-                                        </a>
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            <div class="mr-3">
-                                                <div class="icon-circle bg-success">
-                                                    <i class="fas fa-donate text-white"></i>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="small text-gray-500">December 7, 2019</div>
-                                                $290.29 has been deposited into your account!
-                                            </div>
-                                        </a>
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            <div class="mr-3">
-                                                <div class="icon-circle bg-warning">
-                                                    <i class="fas fa-exclamation-triangle text-white"></i>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="small text-gray-500">December 2, 2019</div>
-                                                Spending Alert: We've noticed unusually high spending for your account.
-                                            </div>
-                                        </a>
-                                        <a class="dropdown-item text-center small text-gray-500" href="#">Show All
-                                            Alerts</a>
+                                <li class="nav-item dropdown no-arrow mx-1" id="alarmList">
+                           <a class="nav-link dropdown-toggle" id="alertsDropdown"
+                           role="button" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false"> <i class="fas fa-bell fa-fw"></i> <!-- Counter - Alerts -->
+                              <span class="badge badge-danger badge-counter">+</span>
+                        </a> <!-- Dropdown - Alerts -->
+                           <div
+                              class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                              aria-labelledby="alertsDropdown" id="alarmBody">
+                              <h6 class="dropdown-header">Alerts History Center</h6>
+
+
+                              <c:forEach var="alarmData" items="${alarmList}" begin="0"
+                                 end="4">
+                                 <a class="dropdown-item d-flex align-items-center"
+                                    id="alarmATag">
+                                    <div class="mr-3">
+
+                                       <c:if test="${alarmData.typeOfAlarm eq '업무'}">
+                                          <div class="icon-circle bg-primary">
+                                             <i class="fas fa-file-alt text-white"></i>
+                                          </div>
+                                       </c:if>
+                                       <c:if test="${alarmData.typeOfAlarm eq '인원'}">
+                                          <div class="icon-circle bg-success">
+                                             <i class="fas fa-user-friends text-white"></i>
+                                          </div>
+                                       </c:if>
+                                       <c:if test="${alarmData.typeOfAlarm eq '파일'}">
+                                          <div class="icon-circle bg-secondary">
+                                             <i class="fas fa-user-friends text-white"></i>
+                                          </div>
+                                       </c:if>
                                     </div>
-                                </li>
+                                    <div>
+                                       <div class="small text-gray-500">${alarmData.addDate}</div>
+                                       <span class="font-weight-bold">${alarmData.writer}
+                                          님이 ${alarmData.typeOfAlarm}을(를) 추가 하셨습니다.</span>
+                                    </div>
+                                 </a>
+                              </c:forEach>
+
+                              <a class="dropdown-item text-center small text-gray-500"
+                                 data-toggle="modal" data-target="#alarmModal">Show All
+                                 Alerts</a>
+
+                           </div>
+                        </li>
+
+                        <div class="modal fade" id="alarmModal" tabindex="-1"
+                           role="dialog" aria-labelledby="exampleModalLabel"
+                           aria-hidden="true">
+                           <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                 <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Alarm
+                                       History</h5>
+                                    <button class="close" type="button" data-dismiss="modal"
+                                       aria-label="Close">
+                                       <span aria-hidden="true">×</span>
+                                    </button>
+                                 </div>
+                                 <div class="modal-body">
+                                    <c:forEach var="alarmData" items="${alarmList}">
+                                       <a class="dropdown-item d-flex align-items-center"
+                                          id="alarmATag">
+                                          <div class="mr-3">
+
+                                             <c:if test="${alarmData.typeOfAlarm eq '업무'}">
+                                                <div class="icon-circle bg-primary">
+                                                   <i class="fas fa-file-alt text-white"></i>
+                                                </div>
+                                             </c:if>
+                                             <c:if test="${alarmData.typeOfAlarm eq '인원'}">
+                                                <div class="icon-circle bg-success">
+                                                   <i class="fas fa-user-friends text-white"></i>
+                                                </div>
+                                             </c:if>
+                                             <c:if test="${alarmData.typeOfAlarm eq '파일'}">
+                                                <div class="icon-circle bg-secondary">
+                                                   <i class="fas fa-user-friends text-white"></i>
+                                                </div>
+                                             </c:if>
+                                          </div>
+                                          <div>
+                                             <div class="small text-gray-500">${alarmData.addDate}</div>
+                                             <span class="font-weight-bold">${alarmData.writer}
+                                                님이 ${alarmData.typeOfAlarm}을(를) 추가 하셨습니다.</span>
+                                          </div>
+                                       </a>
+                                    </c:forEach>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
 
                                 <!-- Nav Item - Messages -->
                                 <li class="nav-item dropdown no-arrow mx-1">
@@ -344,7 +388,7 @@
                             <div class="d-flex justify-content-center">
                                 <div class="btn border pl-3 pr-3 shadow-sm bg-light">
                                     <i class="fas fa-laugh-wink h1 text-dark mr-3 mt-2"></i>
-                                    <span class="text-primay font-weight-bold h1 mr-4">${detailList[0].taskId}</span>
+                                    <span class="text-primay font-weight-bold h1 mr-4" id="taskId">${detailList[0].taskId}</span>
                                 </div>
                             </div>
                             <hr class="hr">
@@ -354,10 +398,10 @@
 
                                     <div class="form-group row">
                                         <div class="col-sm-3 mb-3 mb-sm-0 d-flex align-items-center">
-                                            <h6 class="font-weight-bold">담당자</h6>
+                                            <h6 class="font-weight-bold" >담당자</h6>
                                         </div>
                                         <div class="col-sm-9">
-                                            <div class="form-control form-control-user rounded">${detailList[0].userId}</div>
+                                            <div class="form-control form-control-user rounded" id="taskOwner">${detailList[0].userId}</div>
                                         </div>
                                     </div>
 
@@ -368,7 +412,7 @@
                                             <h6 class="font-weight-bold">업무 상세</h6>
                                         </div>
                                         <div class="col-sm-9">
-                                            <div class="form-control form-control-user rounded">${detailList[0].taskContent}</div>
+                                            <div class="form-control form-control-user rounded" id="taskContent">${detailList[0].taskContent}</div>
                                         </div>
                                     </div>
 
@@ -390,7 +434,7 @@
                                             <h6 class="font-weight-bold">마감기한</h6>
                                         </div>
                                         <div class="col-sm-9">
-                                            <div class="form-control form-control-user rounded">${detailList[0].deadLine}</div>
+                                            <div class="form-control form-control-user rounded" id="deadLine">${detailList[0].deadLine}</div>
                                         </div>
                                     </div>
 
@@ -413,7 +457,7 @@
                                             		긴급
                                             	</c:when>
                                             	<c:when test="${name eq 'PR02'}">
-                                            		일반
+                                            		보류
                                             	</c:when>
                                             </c:choose></div>
                                         </div>
@@ -445,8 +489,10 @@
                                         </div>
                                     </div>
                                     
-                                    <div class="pb-4 d-flex justify-content-end ">
-                                    	<button class="btn btn-sm btn-dark pr-3 pl-3 mr-2 mypageitem">수정</button>
+                                    <div class="pb-4 d-flex justify-content-end">
+									
+											<button type="button" class="btn btn-sm btn-dark pr-3 pl-3 mr-2 mypageitem modify" onclick="modifyTask();">수정</button>
+                                  
                                     	<button class="btn btn-sm btn-dark pr-2 pl-2">HELP</button>
                                     </div>
                                 </div>
@@ -475,16 +521,23 @@
 									
 									<form>
                                     	<div class="d-flex justify-content-between align-items-center">
-                                    		<input type="text" class="form-control form-control-user col-sm-2 mr-2 rounded" placeholder="닉네임" id="nick" name="nick">
-                                    		<input type="text" class="form-control form-control-user rounded" id="feedbackComment" name="feedbackComment"> 
+                                    		<div type="text" class="form-control form-control-user col-sm-2 mr-2 rounded" id="userId">${user.userID}</div>
+                                    		<input type="text" class="form-control form-control-user rounded" id="feedbackComment" name="feedbackComment">
                                     		<i class="fas fa-unlock ml-2"></i>
-                                    		<button type="button" onclick="feedBack();" class="btn bg-dark btn-icon-split ml-2 pb-2 pt-2 pl-3 pr-3">
-                                        	<span class="text-white small">send</span>
+                                    		<button type="button" onclick="feedBack();" class="btn bg-gray-300 ml-2 pl-3 pr-3">
+                                        	send
                                    			</button>
                                    		 </div>
                                    	</form>	 
                                    		 <hr class="hr">
-                                   		 <div class="test"></div>
+                                   		 <div class="commentListrg d-flex justify-content-between">
+                                   		 	<c:forEach var="feed" items="${feedList}" varStatus="status">
+                                   		 	${feed.userId},${feed.feedbackComment}
+                                   		 	</c:forEach>
+                                   		 	<div class="form-control form-control-user col-sm-2 mr-2 rounded" id="userId"></div>
+                                   		 	<div class="form-control form-control-user rounded" id="feedbackComment" name="feedbackComment"></div>
+                                   		 	
+                                   		 </div>
                                 </div>
 
                             </div>
@@ -536,6 +589,54 @@
                     </div>
                 </div>
             </div>
+            
+              <!-- 업무 수정 모달 -->
+    <div class="modal bg-lg" id="task_content_modal">
+ 		<div class="modal-dialog" role="document">
+        	<div class="modal-content">
+            	<div class="modal-header bg-primary">
+                	<h5 class="modal-title text-light" >업무 수정</h5>
+                    <button type="button" id="btn_modify_close" class="close">
+                    <span aria-hidden="true">&times;</span></button>
+                </div>
+                <form>
+                	<div class="modal-body">
+                    		<div class="form-group row">
+                            	<div class="col-sm-3 mb-3 mb-sm-0 d-flex align-items-center">
+                                	<h6 class="font-weight-bold">담당자</h6>
+                                </div>
+                                <div class="col-sm-9">
+                                	<input class="form-control rounded"id="task_owner"></input>
+                                </div>
+                            </div>                	
+                    		<div class="form-group row">
+                            	<div class="col-sm-3 mb-3 mb-sm-0 d-flex align-items-center">
+                                	<h6 class="font-weight-bold">업무 이름</h6>
+                                </div>
+                            	<div class="col-sm-9">
+                                	<input class="form-control rounded"id="task_id"></input>
+                                </div>
+                            </div>
+                    		<div class="form-group row">
+                            	<div class="col-sm-3 mb-3 mb-sm-0 d-flex align-items-center">
+                                	<h6 class="font-weight-bold">마감 기한</h6>
+                                </div>
+                                <div class="col-sm-9">
+                                	<input type="date" id="dead_Line"class="form-control form-control-user h6 rounded"></input>
+                                </div>
+                            </div>
+                            <h6 class="font-weight-bold">수정할 업무 내용</h6>
+                    	 	 <textarea class="form-control"  id="modified_content" style="height: 300px; resize: none;" wrap="hard"  cols="20"></textarea>
+                    	 	 <div class="text-xs text-right">*2000자 이내로 입력하세요.</div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="chkInvalidUser();">수정</button>
+                   </div>
+                </form>
+            </div>
+        </div>
+     </div>
+ 
 
             <!-- Bootstrap core JavaScript-->
             <script src="/resources/vendor/jquery/jquery.min.js"></script>
@@ -549,6 +650,20 @@
             
             <!-- feedback비동기 -->
             <script src="/resources/js/task/task.js"></script>
+            
+            <!-- 업무수정 -->
+            <script src="/resources/js/task/task_modify.js"></script>
+            
+            <script type="text/javascript">
+            
+            $(function(){
+				modifyButton();
+			 });
+			let modifyButton = ()=>{
+
+			}
+            
+            </script>
 
         </body>
 

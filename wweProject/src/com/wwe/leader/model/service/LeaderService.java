@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wwe.common.code.ErrorCode;
 import com.wwe.common.exception.DataAccessException;
 import com.wwe.common.exception.ToAlertException;
 import com.wwe.common.jdbc.JDBCTemplate;
@@ -94,6 +95,22 @@ public class LeaderService {
 		return res;
 	}
 	
+	//팀장 권한을 넘겨주는 메소드
+		public int changeLeader(ProjUser user) {
+			int res = 0;
+			Connection conn = jdt.getConnection();
+			try {
+				res = leaderDao.changeLeader(conn, user);
+				jdt.commit(conn);
+			}catch (DataAccessException e) {
+				jdt.rollback(conn);
+				throw new ToAlertException(e.error);
+			}finally {
+				jdt.close(conn);
+			}
+			return res;
+		}
+	
 	//업무명으로 업무 검색하는 메소드
 	public ArrayList<Task> selectTaskByTask(Task task){
 		Connection conn = jdt.getConnection();
@@ -151,8 +168,35 @@ public class LeaderService {
 		return res;
 	}
 	
+	//프로젝트에서 팀원을 삭제하는 메소드
+	public int deleteMember(ProjUser user) {
+		int res =0;
+		Connection conn = jdt.getConnection();	
+		
+		try {
+			res = leaderDao.deleteMember(conn, user);
+		}catch(DataAccessException e) {
+			throw new ToAlertException(e.error);
+		}finally {
+			jdt.close(conn);
+		}
+		return res;
+	}
 	
-	
+	//유저의 권한을 체크하는 메소드
+	public ProjUser chkAuthority(ProjUser user) {
+		
+		Connection conn = jdt.getConnection();
+		ProjUser pUser = null;
+		try {
+			
+			pUser = leaderDao.chkAuthority(conn, user);
+		}finally {
+			jdt.close(conn);
+		}
+		
+		return pUser;
+	}
 	
 	
 	

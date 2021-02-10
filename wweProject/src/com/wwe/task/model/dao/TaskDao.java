@@ -12,6 +12,7 @@ import java.util.Map;
 import com.wwe.common.code.ErrorCode;
 import com.wwe.common.exception.DataAccessException;
 import com.wwe.common.jdbc.JDBCTemplate;
+import com.wwe.leader.model.vo.ProjUser;
 import com.wwe.task.feedback.Feedback;
 import com.wwe.task.model.vo.Task;
 
@@ -129,12 +130,13 @@ public class TaskDao {
 		PreparedStatement pstm = null;
 		
 		try {
-			String query = "insert into tb_feedback(TASK_ID,FEEDBACK_COMMENT,PRIVATE_COMMENT) "
-					+ "values(?,?,?)";
+			String query = "insert into tb_feedback(TASK_ID,FEEDBACK_COMMENT,PRIVATE_COMMENT,USER_ID) "
+					+ "values(?,?,?,?)";
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, feedback.getTaskId());
 			pstm.setString(2, feedback.getFeedbackComment());
 			pstm.setInt(3, feedback.getPrivateComment());
+			pstm.setString(4, feedback.getUserId());
 			
 			res = pstm.executeUpdate();
 			
@@ -188,14 +190,14 @@ public class TaskDao {
 	}
 	
 	//프로젝트 멤버이름 불러오기
-	public ArrayList<String> selectName(Connection conn, String projectId){
+	public ArrayList<ProjUser> selectName(Connection conn, String projectId){
 		
-		ArrayList<String> memberList = new ArrayList<>();
+		ArrayList<ProjUser> memberList = new ArrayList<>();
 		PreparedStatement pstm = null;
 		ResultSet rset = null;
 		
 		try{
-			String query = "SELECT USER_ID FROM TB_PROJECT_USER WHERE PROJECT_ID = ?";
+			String query = "SELECT * FROM TB_PROJECT_USER WHERE PROJECT_ID = ?";
 
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, projectId);
@@ -203,10 +205,12 @@ public class TaskDao {
 			rset = pstm.executeQuery();
 			
 			while(rset.next()) {
-				Task task = new Task();
-				task.setUserId(rset.getString("user_id"));
+				ProjUser projUser = new ProjUser();
+				projUser.setUserId(rset.getString("user_id"));
+				projUser.setAuthority(rset.getString("authority"));
 				
-				memberList.add(task.getUserId());
+				
+				memberList.add(projUser);
 			}
 
 		} catch (SQLException e) {;
@@ -331,5 +335,63 @@ public class TaskDao {
 		return res;
 	}
 	
+	public int updateTask(Connection conn, Task task, String bTaskId) {
+		
+		int res=0;
+		PreparedStatement pstm = null;
+		
+		String query = "UPDATE TB_TASK SET USER_ID = ?, TASK_ID =?, DEAD_LINE = ?, TASK_CONTENT = ? "
+				+"WHERE TASK_ID = ?";
+		
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, task.getUserId());
+			pstm.setString(2, task.getTaskId());
+			pstm.setString(3, task.getDeadLine());
+			pstm.setString(4, task.getTaskContent());
+			pstm.setString(5, bTaskId);
+			res = pstm.executeUpdate();
+		}catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.UT01, e);
+		}finally {
+			jdt.close(pstm);
+		}
+		return res;
+	}
+	
+	//feedback 불러오기
+	public ArrayList<Feedback> selectFeedback(Connection conn, String taskId, String userId){
+		
+		ArrayList<Feedback> feedList = new ArrayList<>();
+		PreparedStatement pstm = null;
+		ResultSet rset = null;
+		
+		try{
+			String query = "SELECT * FROM TB_FEEDBACK WHERE USER_ID = ? AND TASK_ID = ?";
+
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, userId);
+			pstm.setString(2, taskId);
+			
+			rset = pstm.executeQuery();
+			
+			while(rset.next()) {
+				Feedback feedback = new Feedback();
+				feedback.setUserId(rset.getString("user_id"));
+				feedback.setTaskId(rset.getString("task_id"));
+				feedback.setFeedbackComment(rset.getString("feedback_comment"));
+				feedback.setPrivateComment(rset.getInt("private_comment"));
+				
+				feedList.add(feedback);
+			}
+
+		} catch (SQLException e) {;
+			throw new DataAccessException(ErrorCode.TK01,e);
+		}finally {
+			jdt.close(rset,pstm);
+		}
+		
+		return feedList;
+	}
 	
 }

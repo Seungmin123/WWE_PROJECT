@@ -2,6 +2,7 @@ package com.wwe.project.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,8 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
 import com.wwe.common.code.ErrorCode;
 import com.wwe.common.exception.ToAlertException;
+import com.wwe.leader.model.service.LeaderService;
+import com.wwe.leader.model.vo.ProjUser;
 import com.wwe.member.model.vo.Member;
 import com.wwe.project.model.service.ProService;
 import com.wwe.project.model.vo.Project;
@@ -20,6 +24,7 @@ import com.wwe.project.model.vo.Project;
 public class ProController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ProService proService = new ProService();
+	private LeaderService leaderService = new LeaderService();
        
     public ProController() {
         super();
@@ -30,11 +35,13 @@ public class ProController extends HttpServlet {
 		String[] uriArr = uri.split("/");
 
 		switch(uriArr[uriArr.length - 1]) {
-			case "newpro": writeNewPro(request, response);
+			case "loadpro": loadProject(request, response);
 					break;
 			case "newproimpl": newProImpl(request, response);
 					break;
 			case "recentpro": recentPro(request, response);
+					break;
+			case "selectpro": selectPro(request, response);
 					break;
 			case "invitedpro": invitedPro(request, response);
 					break;
@@ -46,48 +53,97 @@ public class ProController extends HttpServlet {
 		doGet(request, response);
 	}
 	
-
-	
-	//새 프로젝트 생성
-	private void writeNewPro(HttpServletRequest request, HttpServletResponse response) 
+	private void loadProject(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		
+		Member userId = (Member) request.getSession().getAttribute("user"); //세션에 있는 유저아이디 가져오기
+		
+		ArrayList<Project> projectList = proService.selectRecentProject(userId.getUserID());
+		
+		request.setAttribute("projectList", projectList);
 		request.getRequestDispatcher("/WEB-INF/view/project/newProject2.jsp")
 		.forward(request, response);
+		
+		/*
+		 * service에 넣고 (dao를 거쳐) 되돌아온 값을 res에 넣는다. int res =
+		 * proService.createProject(project);
+		 * 
+		 * //성공 시 (1 반환) if(res > 0) { //현재 세션에 project 키값으로 project 객체 담기
+		 * request.getSession().setAttribute("project", project);
+		 * 
+		 * //메인화면으로 request를 보내고 돌아온 값을 재지정 //getRequestDispatcher() 이후 코드는 실행되지 않고
+		 * 무시된다.
+		 * 
+		 * response.getWriter().print("success"); }else {
+		 * response.getWriter().print("fail"); }
+		 * request.getRequestDispatcher("/WEB-INF/view/project/newProject2.jsp")
+		 * .forward(request, response);
+		 */
 	}
 	
 	//새 프로젝트 생성 수행 메서드
 	private void newProImpl(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		Member leaderId = (Member) request.getSession().getAttribute("user"); //세션에 있는 유저아이디 가져오기
-		//페이지에 입력된 제목과 마감기한값 파라미터로 받아오기
-		String title = request.getParameter("title"); 
-		String deadline = request.getParameter("deadline"); 
-
-		Project project = new Project();
-		project.setLeaderId(leaderId.getUserID()); //프로젝트를 만드는 사람 = leader
-		project.setTitle(title);
-		project.setDeadLine(deadline);
-
-		//service에 넣고 (dao를 거쳐) 되돌아온 값을 res에 넣는다.
-		int res = proService.createProject(project);
+		/*
+		 * Member leaderId = (Member) request.getSession().getAttribute("user"); //세션에
+		 * 있는 유저아이디 가져오기 //페이지에 입력된 제목과 마감기한값 파라미터로 받아오기 String title =
+		 * request.getParameter("title"); String deadline =
+		 * request.getParameter("deadline");
+		 * 
+		 * Project project = new Project(); project.setLeaderId(leaderId.getUserID());
+		 * //프로젝트를 만드는 사람 = leader project.setTitle(title);
+		 * project.setDeadLine(deadline);
+		 * 
+		 * //service에 넣고 (dao를 거쳐) 되돌아온 값을 res에 넣는다. int res =
+		 * proService.createProject(project);
+		 * 
+		 * //성공 시 (1 반환) if(res > 0) { //현재 세션에 project 키값으로 project 객체 담기
+		 * request.getSession().setAttribute("project", project);
+		 * 
+		 * //메인화면으로 request를 보내고 돌아온 값을 재지정 //getRequestDispatcher() 이후 코드는 실행되지 않고
+		 * 무시된다.
+		 * 
+		 * response.getWriter().print("success"); }else {
+		 * response.getWriter().print("fail"); }
+		 */
+	}
 	
-		//성공 시 (1 반환)
-		if(res > 0) {
-			//현재 세션에 project 키값으로 project 객체 담기
-			request.getSession().setAttribute("project", project);
-			
-			//메인화면으로 request를 보내고 돌아온 값을 재지정
-			//getRequestDispatcher() 이후 코드는 실행되지 않고 무시된다.
-			request.getRequestDispatcher("/WEB-INF/view/task/main.jsp")
-			.forward(request, response);
-			
-			response.getWriter().print("success"); 
+	private void selectPro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		//getParameter: fetch 값 받아오기
+		String projectId = request.getParameter("data");
+		
+		//GSON: JSON을 다른 클래스로 변환해주는 라이브러리
+		Gson gson = new Gson();   //자바스크립트의 객체 = JSON
+		Map data = gson.fromJson(projectId, Map.class); //getparameter로 받은 값(fetch에서 json형태로 보내준거) - json을 Map클래스로 바꿔준다 
+		
+		String parsedData = (String) data.get("projectId");
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("user");
+		
+		ProjUser pUser = new ProjUser();
+		pUser.setUserId(member.getUserID());  //세션에 있는 유저의 아이디를 유저객체에 저장
+		pUser.setProjectId(parsedData);  // 선택한 프로젝트의 프로젝트 아이디를 유저객체에 저장
+		
+		ProjUser user = leaderService.chkAuthority(pUser); //유저의 권한을 포함한 유저정보를 얻는 코드				
+		request.getSession().setAttribute("projUserInfo",user); //얻은 유저정보를 세션에 저장
+		
+		if(parsedData != null) {
+			request.getSession().setAttribute("projectId", parsedData);
+			response.getWriter().print("success");
 		}else {
 			response.getWriter().print("fail");
 		}
+
+		//getRequestDispatcher 뒤에는 확장자필요
+		/*
+		 * request.getRequestDispatcher("/WEB-INF/view/task/main.jsp").forward(request,
+		 * response);
+		 */
 	}
+	
 	
 	//새 프로젝트 참여자 추가
 	private void addMember(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -105,9 +161,10 @@ public class ProController extends HttpServlet {
 		.forward(request, response);
 	}
 	
-	//최근 프로젝트
+	//최근 프로젝트 (선택한 프로젝트만 불러오는 메서드)
 	private void recentPro(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
+		
 		//세션에서
 		HttpSession session = request.getSession();
 		//session의 user객체의 모든 속성을 다 받아온다.
@@ -117,11 +174,15 @@ public class ProController extends HttpServlet {
 		//service에서 ArrayList로 날아오는 것을 받음
 		ArrayList<Project> projectList = proService.selectRecentProject(member.getUserID());
 		
-		//service로 받은 projectList를 키값쌍으로 session에 저장
-		request.getSession().setAttribute("projectList", projectList);
-		
-		request.getRequestDispatcher("/WEB-INF/view/task/main.jsp")
-		.forward(request, response);
+		if(projectList != null) { //값이 제대로 들어왔는지 확인
+			//request 영역에 저장
+			request.setAttribute("projectList", projectList);
+			request.getRequestDispatcher("/WEB-INF/view/task/main.jsp")
+			.forward(request, response);
+			
+		}else {
+			System.out.println("프로젝트를 불러오지 못했습니다.");
+		}
 	}
 	
 	

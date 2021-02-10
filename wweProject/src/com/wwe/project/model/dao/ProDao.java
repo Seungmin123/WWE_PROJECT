@@ -81,8 +81,8 @@ public class ProDao {
 		
 		try{
 			String query = "select user_id, project_id, work_time "
-							+ "from tb_project_master"
-							+ "where user_id = ?"
+							+ "from tb_project_master "
+							+ "where user_id = ? "
 							+ "order by work_time desc";
 	
 			//= sql에 쿼리 입력
@@ -97,7 +97,7 @@ public class ProDao {
 				Project project = new Project();
 				project.setUserId(rset.getString("user_id"));
 				project.setProjectId(rset.getString("project_id"));
-				project.setWorkTime(rset.getDate("work_time"));
+				project.setWorkTime(rset.getString("work_time"));
 				
 				//얻어진 project 객체를 list에 붙임
 				recentProject.add(project);

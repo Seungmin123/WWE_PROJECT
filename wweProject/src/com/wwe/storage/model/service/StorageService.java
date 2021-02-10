@@ -82,24 +82,4 @@ public class StorageService {
 		return commendMap;
 	}
 	
-	public Map<String, Object> selectStorageByTitle(String idx,String keyWord, boolean isTeam){
-		Map<String, Object> commendMap = new HashMap<String, Object>();
-		List<FileVo> fileList = null;
-		Connection conn = jdt.getConnection();
-		
-		try {
-			if(isTeam) {
-				fileList = storageDao.selectShareStorageByTitle(conn, idx, keyWord);
-			}else {
-				fileList = storageDao.selectPersonalStorageByTitle(conn, idx, keyWord);
-			}
-			commendMap.put("fileList", fileList);
-		}catch (Exception e) {
-			System.out.println("Service Error");
-		} finally {
-			jdt.close(conn);
-		}
-		
-		return commendMap;
-	}
 }

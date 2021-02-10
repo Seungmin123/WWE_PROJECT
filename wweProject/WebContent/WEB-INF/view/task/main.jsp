@@ -170,57 +170,101 @@
                                 </li>
 
                                 <!-- Nav Item - Alerts -->
-                                <li class="nav-item dropdown no-arrow mx-1">
-                                    <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-bell fa-fw"></i>
-                                        <!-- Counter - Alerts -->
-                                        <span class="badge badge-danger badge-counter">3+</span>
-                                    </a>
-                                    <!-- Dropdown - Alerts -->
-                                    <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                        aria-labelledby="alertsDropdown">
-                                        <h6 class="dropdown-header">
-                                            Alerts Center
-                                        </h6>
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            <div class="mr-3">
-                                                <div class="icon-circle bg-primary">
-                                                    <i class="fas fa-file-alt text-white"></i>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="small text-gray-500">December 12, 2019</div>
-                                                <span class="font-weight-bold">A new monthly report is ready to
-                                                    download!</span>
-                                            </div>
-                                        </a>
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            <div class="mr-3">
-                                                <div class="icon-circle bg-success">
-                                                    <i class="fas fa-donate text-white"></i>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="small text-gray-500">December 7, 2019</div>
-                                                $290.29 has been deposited into your account!
-                                            </div>
-                                        </a>
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            <div class="mr-3">
-                                                <div class="icon-circle bg-warning">
-                                                    <i class="fas fa-exclamation-triangle text-white"></i>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="small text-gray-500">December 2, 2019</div>
-                                                Spending Alert: We've noticed unusually high spending for your account.
-                                            </div>
-                                        </a>
-                                        <a class="dropdown-item text-center small text-gray-500" href="#">Show All
-                                            Alerts</a>
+                               <li class="nav-item dropdown no-arrow mx-1" id="alarmList">
+                           <a class="nav-link dropdown-toggle" id="alertsDropdown"
+                           role="button" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false"> <i class="fas fa-bell fa-fw"></i> <!-- Counter - Alerts -->
+                              <span class="badge badge-danger badge-counter">+</span>
+                        </a> <!-- Dropdown - Alerts -->
+                           <div
+                              class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                              aria-labelledby="alertsDropdown" id="alarmBody">
+                              <h6 class="dropdown-header">Alerts History Center</h6>
+
+
+                              <c:forEach var="alarmData" items="${alarmList}" begin="0"
+                                 end="4">
+                                 <a class="dropdown-item d-flex align-items-center"
+                                    id="alarmATag">
+                                    <div class="mr-3">
+
+                                       <c:if test="${alarmData.typeOfAlarm eq '업무'}">
+                                          <div class="icon-circle bg-primary">
+                                             <i class="fas fa-file-alt text-white"></i>
+                                          </div>
+                                       </c:if>
+                                       <c:if test="${alarmData.typeOfAlarm eq '인원'}">
+                                          <div class="icon-circle bg-success">
+                                             <i class="fas fa-user-friends text-white"></i>
+                                          </div>
+                                       </c:if>
+                                       <c:if test="${alarmData.typeOfAlarm eq '파일'}">
+                                          <div class="icon-circle bg-secondary">
+                                             <i class="fas fa-user-friends text-white"></i>
+                                          </div>
+                                       </c:if>
                                     </div>
-                                </li>
+                                    <div>
+                                       <div class="small text-gray-500">${alarmData.addDate}</div>
+                                       <span class="font-weight-bold">${alarmData.writer}
+                                          님이 ${alarmData.typeOfAlarm}을(를) 추가 하셨습니다.</span>
+                                    </div>
+                                 </a>
+                              </c:forEach>
+
+                              <a class="dropdown-item text-center small text-gray-500"
+                                 data-toggle="modal" data-target="#alarmModal">Show All
+                                 Alerts</a>
+
+                           </div>
+                        </li>
+
+                        <div class="modal fade" id="alarmModal" tabindex="-1"
+                           role="dialog" aria-labelledby="exampleModalLabel"
+                           aria-hidden="true">
+                           <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                 <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Alarm
+                                       History</h5>
+                                    <button class="close" type="button" data-dismiss="modal"
+                                       aria-label="Close">
+                                       <span aria-hidden="true">×</span>
+                                    </button>
+                                 </div>
+                                 <div class="modal-body">
+                                    <c:forEach var="alarmData" items="${alarmList}">
+                                       <a class="dropdown-item d-flex align-items-center"
+                                          id="alarmATag">
+                                          <div class="mr-3">
+
+                                             <c:if test="${alarmData.typeOfAlarm eq '업무'}">
+                                                <div class="icon-circle bg-primary">
+                                                   <i class="fas fa-file-alt text-white"></i>
+                                                </div>
+                                             </c:if>
+                                             <c:if test="${alarmData.typeOfAlarm eq '인원'}">
+                                                <div class="icon-circle bg-success">
+                                                   <i class="fas fa-user-friends text-white"></i>
+                                                </div>
+                                             </c:if>
+                                             <c:if test="${alarmData.typeOfAlarm eq '파일'}">
+                                                <div class="icon-circle bg-secondary">
+                                                   <i class="fas fa-user-friends text-white"></i>
+                                                </div>
+                                             </c:if>
+                                          </div>
+                                          <div>
+                                             <div class="small text-gray-500">${alarmData.addDate}</div>
+                                             <span class="font-weight-bold">${alarmData.writer}
+                                                님이 ${alarmData.typeOfAlarm}을(를) 추가 하셨습니다.</span>
+                                          </div>
+                                       </a>
+                                    </c:forEach>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
 
                                 <!-- Nav Item - Messages -->
                                 <li class="nav-item dropdown no-arrow mx-1">
@@ -333,7 +377,7 @@
                         <div class="d-flex justify-content-center">
                         <div class="btn pl-3 pr-3">
                             <i class="fas fa-laugh-wink h1 text-dark mr-3 mt-2"></i>
-                            <span class="text-primay font-weight-bold h1 mr-4" id="projectId">${taskList[0].projectId}</span>
+                            <span class="text-primay font-weight-bold h1 mr-4" id="projectId">${projectId}</span>
                         </div>
                         </div>
                         <hr class="hr">
@@ -347,7 +391,7 @@
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
                                     <a class="m-0 font-weight-bold text-primary" id="leaderName" href="${context}/task/member?name=${leaderId}">${leaderId}</a>
-                                    <div class="btn btn-primary btn-icon-split ml-3">
+                                    <div class="btn btn-primary btn-icon-split ml-3" id="authority">
                                         <span class="text">Leader</span>
                                     </div>
                                 </div>
@@ -361,7 +405,7 @@
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
                                     <a class="m-0 font-weight-bold text-primary" href="${context}/task/my">My List</a>
-                                    <span class="btn btn-info btn-icon-split ml-3">
+                                    <span class="btn btn-info btn-icon-split ml-3 " id="myauthority">
                                         <span class="text">팀원</span>
                                     </span>
                                 </div>
@@ -370,13 +414,13 @@
                             </div>
 
 							<c:forEach var="member" items="${memberList}" varStatus="status">
-							<c:if test="${member != leaderId && member!= user.userID}">
+							<c:if test="${member.userId != leaderId && member.userId != user.userID}">
 							
                             <!-- Basic Card Example -->
                             <div class="card shadow mb-4 ">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                    <a class="m-0 font-weight-bold text-primary" id="mName" href="${context}/task/member?name=${member}">
-                                    ${member}
+                                    <a class="m-0 font-weight-bold text-primary" id="mName" href="${context}/task/member?name=${member.userId}">
+                                    ${member.userId}
                                     </a>
                                     <span class="btn btn-info btn-icon-split ml-3" >
                                         <span class="text" id="mName">팀원</span>
@@ -384,14 +428,14 @@
                                 </div>
                                 <div class="card-body memberlist">
                                 <c:forEach var="task" items = "${taskList}" varStatus="status">
-								<c:if test="${task.userId == member}">
+								<c:if test="${task.userId == member.userId}">
                                   <div class="mb-4 py-3 bg-gray-100 pl-4 d-flex justify-content-center rounded shadow-sm" >
                                         <a href="${context}/task/detail?name=${task.taskId}" class="text-gray-600 border-0" draggable="true">
                                             <div>
                                                ${task.taskId}
                                             </div>
                                             <div class="progress progress-sm">
-                                                <div class="progress-bar bg-info" role="progressbar" style="width: 0"
+                                                <div class="progress-bar bg-info" Id="progressbar" style="width: 0"
                                                     aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
                                         </a>
@@ -484,6 +528,7 @@
         			 let issue;
         			 let memberName;
        			<c:forEach var="task" items="${taskList}" varStatus="status">
+					
        					<c:if test="${task.userId == leaderId}">
        					tasklist = document.createElement('div');
        					divElement = document.createElement('div');
@@ -550,9 +595,25 @@
        					</c:if>
 
         		</c:forEach>
+        		
    				}
-
-    </script>
+    			
+				//작업률 퍼센티지
+    			$(function(){
+					progress();
+				 });
+				let progress = ()=>{
+					
+					
+					<c:forEach var="task" items="${taskList}" varStatus="status">
+						<c:if test="${task.taskState == 'ST01'}">
+							
+						</c:if>
+					
+					</c:forEach>
+					
+				}
+   				 </script>
         </body>
 
         </html>

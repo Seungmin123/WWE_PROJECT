@@ -39,6 +39,19 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
     
+ <style>
+ 	div > #open {
+		border-radius: 5px;
+		background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+		width: 100px;
+		height: 80px;
+		
+ 	}
+ 
+ 
+ </style>
+ 
+ 
  
 </head>
 
@@ -379,7 +392,7 @@
 
 
 <!-- 새 프로젝트 버튼 -->
-<button class="new-project" id="open">프로젝트 추가 +</button>
+<div class="new-project" id="open">프로젝트 추가 +</div>
 
 
 <!-- 새 프로젝트 modal창 -->
@@ -400,11 +413,11 @@
             </div>
 
 
-            <!-- Make sure the form has the autocomplete function switched off: -->
+<!--             Make sure the form has the autocomplete function switched off:
             <div class="autocomplete" style="width:300px;">
                 <input type="text" name="addMember" id="myInput" placeholder="팀원을 추가하세요!">
             </div>
-            <button type="button" onclick="">추가</button>
+            <button type="button" onclick="">추가</button> -->
 
 
             <div class="input-group mb-3">
@@ -587,34 +600,7 @@
     
     
     
-    /* 프로젝트 생성 함수 */
-    	let createProject = ()=>{
-            let url = "/project/newproimpl";
-            let paramObj = new Object();
-            paramObj.title = $('#title').val();
-            paramObj.deadline = $('#deadline').val();
-			
-            paramObj.authority = authorityChk("authority");
-
-            let headerObj = new Headers();
-            headerObj.append('content-type', 'application/x-www-form-urlencoded');
-            fetch(url,{
-                method : "POST",
-                headers : headerObj,
-                body : "data=" + JSON.stringify(paramObj)
-            }).then(response=>{
-                //http상태코드가 200~299사이라면 true를 반환
-                if(response.ok){
-                    return response.text();
-                }
-                throw new AsyncPageError(response.text());
-            }).then(msg=>{
-                if(msg=='success'){
-		    		location.href(/task/main);
-            }).catch(error=>{
-                error.alertMessage();
-            });
-        }
+   
     
 
             /* 프로젝트 생성 modal창 열고 닫기*/
