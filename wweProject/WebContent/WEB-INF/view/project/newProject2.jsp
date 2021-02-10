@@ -447,7 +447,7 @@
 		<div class="recent-project">
 			<c:forEach var="project" items="${recentproList}">
 					
-				<button type="button" class="mytitle2" onclick="recentProject(
+				<button type="button" id="add" class="mytitle2" onclick="recentProject(
 					'${project.projectId}',
 					'${project.userId}',	
 					'${project.workTime}'	
@@ -560,6 +560,7 @@
             </div>
         </div>
     </div>
+
 
 
 	<script src="/resources/js/project/project.js"></script>
