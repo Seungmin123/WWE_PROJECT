@@ -140,13 +140,13 @@ public class ProController extends HttpServlet {
 				break;
 			}
 		}
-		ProjectMaster proMaster = new ProjectMaster();
-		proMaster.setProjectId(projectId);
-		proMaster.setUserId(userId);
-		proMaster.setWorkTime(workTime);
-		proMaster.setLeaderId(leaderId);
+		ProjUser projUser = new ProjUser();
+		projUser.setProjectId(projectId);
+		projUser.setLeaderId(leaderId);
 		
-		request.getSession().setAttribute("selectProject", proMaster);
+		
+		System.out.println(leaderId);
+		request.getSession().setAttribute("selectProject", projUser);
 		
 		
 		
