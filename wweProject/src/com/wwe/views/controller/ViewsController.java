@@ -12,11 +12,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.wwe.leader.model.service.LeaderService;
 import com.wwe.leader.model.vo.ProjUser;
+import com.wwe.member.model.vo.Member;
 import com.wwe.task.model.service.TaskService;
 import com.wwe.task.model.vo.Task;
 import com.wwe.views.model.vo.GraphDataSetVo;
@@ -141,7 +143,9 @@ public class ViewsController extends HttpServlet {
 	// 프로젝트 아이디를 받아와 해당프로젝트의 구성원 리스트를 반환
 	private List<ProjUser> getProjectId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		// 해당 프로젝트의 이름을 받아온다...
-		String pId = "프로젝트 1"; // 향후 세션값으로 교체 
+		HttpSession session = request.getSession();
+		ProjUser project = (ProjUser) session.getAttribute("selectProject");
+		String pId = project.getProjectId(); // 향후 세션값으로 교체 
 						
 		//해당 프로젝트의 구성원 정보를 받기
 		List<ProjUser> userList = leaderService.selectUserListByPid(pId);
