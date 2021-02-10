@@ -98,21 +98,9 @@
 	            			return; //3번째부터는 append 안되고 return 시키기
 	            	maxAppend++;
             	});
-            	
-	            
-	            	
-	            	
-	            	
-	            	
-	            	
-	            	
-            	
+            		
             }) 
-            
-            
-            
-            
-            
+  
             
             /* 초대된 프로젝트를 클릭했을 시 task메인 페이지로 이동*/
             let invitedProject = (projectId,leaderId) => {

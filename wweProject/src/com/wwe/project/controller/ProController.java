@@ -64,6 +64,8 @@ public class ProController extends HttpServlet {
 		ArrayList<ProjectMaster> recentproList = proService.selectRecentProject(userId.getUserID());
 		ArrayList<ProjUser> invitedProList = proService.selectInvitedProject(userId.getUserID()); 
 		
+		request.getSession().setAttribute("recentList", recentproList);
+		
 		request.setAttribute("recentproList", recentproList);
 		request.setAttribute("invitedProList", invitedProList);		
 		request.getRequestDispatcher("/WEB-INF/view/project/newProject2.jsp")
@@ -95,13 +97,17 @@ public class ProController extends HttpServlet {
 		 project.setLeaderId(leaderId.getUserID());
 		 project.setDueDate(deadline);
 		 project.setProjectId(title);
-		 		  
+		 
+		 ProjUser projUser = new ProjUser();
+		 projUser.setLeaderId(leaderId.getUserID());
+		 projUser.setProjectId(title);
+		 
 		 //service에 넣고 (dao를 거쳐) 되돌아온 값을 res에 넣는다. 
 		 int res = proService.createProject(project);
 		  
 		 //성공 시 (1 반환) if(res > 0) { 
 		 //현재 세션에 project 키값으로 project 객체 담기
-		 request.getSession().setAttribute("project", project);
+		 request.getSession().setAttribute("selectProject", projUser);
 		 
 		 if(res > 0) {
 			 System.out.println(res);
