@@ -136,7 +136,6 @@ public class MemberController extends HttpServlet {
 			//session scope로 user 전달
 			request.getSession().setAttribute("user", user);
 			request.getSession().setAttribute("project", userProject);
-			response.getWriter().print("success");
 			
 			//*******************************현재 선택한 프로젝트로 변경 요망**************************************
 			//Map<String, Object> commandMap = memberService.selectAlarm(user.getUserID(), project.getProjectId());
@@ -238,14 +237,28 @@ public class MemberController extends HttpServlet {
 		String access_Token = memberService.getAccessToken(code);
 		Member userInfo = memberService.kakaoUserInfo(access_Token);
 		
-		
 		if(userInfo.getUserEmail() != null) {
 			
 			userInfo = memberService.memberAuthenticateWithEmail(userInfo.getUserEmail());
+			
+			Member userProject = memberService.getMemberProject(userInfo.getUserID());
+			
+			//*******************************현재 선택한 프로젝트로 변경 요망**************************************
+			//Map<String, Object> commandMap = memberService.selectAlarm(user.getUserID(), project.getProjectId());
+			Map<String, Object> commandMap = memberService.selectAlarm(userInfo.getUserID(), "프로젝트 1");
+			List<Object> alarmList = (List<Object>) commandMap.get("alarmList");
+			
 			request.getSession().setAttribute("user", userInfo);
+			request.getSession().setAttribute("project", userProject);
 			request.getSession().setAttribute("access_Token", access_Token);
+			request.getSession().setAttribute("alarmList", alarmList);
+			
 			request.getRequestDispatcher("/WEB-INF/view/member/MyPage.jsp")
 			.forward(request, response);
+			
+			
+			
+			
 			
 		}
 		

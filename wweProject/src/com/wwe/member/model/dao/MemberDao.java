@@ -83,8 +83,6 @@ public class MemberDao {
 
 		try {
 
-			conn = jdt.getConnection();
-
 			query = "select * from tb_user where user_email = ?";
 			pstm = conn.prepareStatement(query);
 
@@ -108,6 +106,7 @@ public class MemberDao {
 					member.setUserProfile(rset.getString("user_profile"));
 				}
 			}
+			
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
