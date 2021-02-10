@@ -249,6 +249,8 @@ public class MemberController extends HttpServlet {
 			
 		}
 		
+		String access_Token2 = (String)request.getSession().getAttribute("access_Token");
+		
 	}
 	
 	private void sendMail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -312,7 +314,9 @@ public class MemberController extends HttpServlet {
 	
 	private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		memberService.kakaoLogout((String)request.getAttribute("access_Token"));
+		if(request.getAttribute("access_Token") != null) {
+			memberService.kakaoLogout((String)request.getAttribute("access_Token"));
+		}
 		request.getSession().removeAttribute("project");
 		request.getSession().removeAttribute("user");
 		request.getSession().removeAttribute("access_Token");
