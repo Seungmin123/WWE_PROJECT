@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.wwe.common.exception.DataAccessException;
 import com.wwe.common.exception.ToAlertException;
 import com.wwe.common.jdbc.JDBCTemplate;
+import com.wwe.leader.model.vo.ProjUser;
 import com.wwe.member.model.vo.Alarm;
 import com.wwe.member.model.vo.Member;
 import com.wwe.project.model.dao.ProDao;
@@ -69,13 +70,13 @@ public class ProService {
 	
 	
 	//초대된 프로젝트 
-	public ArrayList<Alarm> selectInvitedProject(String userId, String isInvited){	
+	public ArrayList<ProjUser> selectInvitedProject(String userId){	
 		Connection conn = jdt.getConnection();
-		ArrayList<Alarm> projectList = null;
+		ArrayList<ProjUser> projectList = null;
 		
 		try {
 			//dao에 conn과 유저아이디와 수락여부 넘기기
-			projectList = proDao.selectInvitedProject(conn,userId,isInvited);
+			projectList = proDao.selectInvitedProject(conn, userId);
 		}finally {
 			jdt.close(conn);
 		}

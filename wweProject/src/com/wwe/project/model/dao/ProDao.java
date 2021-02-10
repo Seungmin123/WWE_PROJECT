@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import com.wwe.common.code.ErrorCode;
 import com.wwe.common.exception.DataAccessException;
 import com.wwe.common.jdbc.JDBCTemplate;
+import com.wwe.leader.model.vo.ProjUser;
 import com.wwe.member.model.vo.Alarm;
 import com.wwe.member.model.vo.Member;
 import com.wwe.project.model.vo.Project;
@@ -117,28 +118,29 @@ public class ProDao {
 	
 	
 	//초대된 프로젝트 받아오기
-	public ArrayList<Alarm> selectInvitedProject(Connection conn, String userId, String isInvited) {
-		ArrayList<Alarm> projectList = new ArrayList<>();
+	public ArrayList<ProjUser> selectInvitedProject(Connection conn, String userId) {
+		ArrayList<ProjUser> projectList = new ArrayList<>();
 		PreparedStatement pstm = null;
 		ResultSet rset = null;
 		
 		try {
-			String query = "select * from tb_user_issue "
-						 + "where user_id = ? and is_invited = ?";
+			String query = "select * from tb_project_user pu "
+							+ "join tb_project p "
+							+ "using(project_id) "
+							+ "where pu.user_id = ?";
 			
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, userId);
-			pstm.setString(2, isInvited);
 			
 			rset = pstm.executeQuery();
 			
 			while(rset.next()) {
-				Alarm alarm = new Alarm();
-				alarm.setUserID(rset.getString("user_id"));
-				alarm.setProjectID(rset.getString("project_id"));
-				alarm.setIsInvited(rset.getString("is_invited"));
+				ProjUser proj = new ProjUser();
+				proj.setProjectId(rset.getString("user_id"));
+				proj.setUserId(rset.getString("project_id"));
+				proj.setLeaderId(rset.getString("leader_id"));
 				
-				projectList.add(alarm);
+				projectList.add(proj);
 			}
 			
 		} catch (SQLException e) {

@@ -102,7 +102,7 @@ public class ProController extends HttpServlet {
 		 
 		 if(res > 0) {
 			 System.out.println(res);
-				/* res = leaderService.inviteUser(leaderId.getUserID(), "팀장", title); */
+				res = leaderService.inviteUser(leaderId.getUserID(), "팀장", title); 
 			 if(res > 0) {
 				 response.getWriter().print("success");
 			 }else {
@@ -224,7 +224,7 @@ public class ProController extends HttpServlet {
 		Alarm alarm = (Alarm)session.getAttribute("alarm");
 		
 		//service단에 유저의 아이디와 초대수락여부 넘기기
-		proService.selectInvitedProject(member.getUserID(), alarm.getIsInvited());
+		proService.selectInvitedProject(member.getUserID());
 		
 		//초대프로젝트 페이지로 이동
 		request.getRequestDispatcher("/WEB-INF/view/task/main.jsp")
