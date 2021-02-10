@@ -13,8 +13,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -106,7 +108,7 @@ public class MemberDao {
 					member.setUserProfile(rset.getString("user_profile"));
 				}
 			}
-			
+
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -499,9 +501,48 @@ public class MemberDao {
 	}
 
 	//카카오 메시지 보내기
+	public void kakaoFriendList(String access_Token) {
+
+		//나에게 보내기
+		String reqURL = "https://kapi.kakao.com/v1/api/talk/friends";
+		//친구에게 보내기
+		//String reqURL = "https://kapi.kakao.com//v1/api/talk/friends/message/default/send";
+
+		try {
+			URL url = new URL(reqURL);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+			conn.setDoOutput(true);
+			//    요청에 필요한 Header에 포함될 내용
+			conn.setRequestProperty("Authorization", "Bearer " + access_Token);
+
+
+			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+			String line = "";
+			String result = "";
+
+			while ((line = br.readLine()) != null) {
+				result += line;
+			}
+
+			System.out.println(result);
+		}catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+
+	//카카오 메시지 보내기
 	public void kakaoSendMessage(String access_Token, String content) {
 
-		String reqURL = "https://kapi.kakao.com/v2/api/talk/memo/default/send";
+		//나에게 보내기
+		//String reqURL = "https://kapi.kakao.com/v2/api/talk/memo/default/send";
+		//친구에게 보내기
+		String reqURL = "https://kapi.kakao.com/v1/api/talk/friends/message/default/send";
+
 		try {
 			URL url = new URL(reqURL);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -518,36 +559,50 @@ public class MemberDao {
 
 			JsonObject obj = new JsonObject();
 			obj.addProperty("object_type", "text");
-			
+
 			//obj.addProperty("text", "텍스트 입니당");
 			obj.addProperty("text", content);
-			
+
 			obj.addProperty("button_title", "버튼 입니당");
 			obj.add("link", linkOBJ);
 
-//			JsonObject resultOBJ = new JsonObject();
-//			resultOBJ.add("template_object", obj);
+//			JsonObject templateOBJ = new JsonObject();
+//			templateOBJ.add("template_object", obj);
+			
+			String[] friendUUID = new String[2];
+			friendUUID[0] = "3eza69ro2-Pb98X2wfDG9cH1wOzZ6tLj0emX";
+			friendUUID[1] = "3e_e59Hi1OLT_8f2xfPE88P71-LR6djq0q0";
+			
+			System.out.println(Arrays.toString(friendUUID));
+			JsonParser parser = new JsonParser();
+			JsonArray jsonArray = (JsonArray) parser.parse(Arrays.toString(friendUUID));
 
+			
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
 			StringBuilder sb = new StringBuilder();
+
+			//sb.append("receiver_uuids=" + friendUUID);
+			
+			sb.append("receiver_uuids=" + jsonArray + "&");
 			sb.append("template_object=" + obj);
+			System.out.println(sb.toString());
 			bw.write(sb.toString());
 			bw.flush();
 
 
-//		    결과 코드가 200이라면 성공
+			//		    결과 코드가 200이라면 성공
 			int responseCode = conn.getResponseCode();
 			System.out.println("responseCode : " + responseCode);
 
-//    요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
-			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			String line = "";
-			String result = "";
-
-			while ((line = br.readLine()) != null) {
-				result += line;
-			}
-			System.out.println("response body : " + result);
+			//    요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
+			/*
+			 * BufferedReader br = new BufferedReader(new
+			 * InputStreamReader(conn.getInputStream())); String line = ""; String result =
+			 * "";
+			 * 
+			 * while ((line = br.readLine()) != null) { result += line; }
+			 * System.out.println("response body : " + result);
+			 */
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
