@@ -14,6 +14,8 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.wwe.common.code.ErrorCode;
 import com.wwe.common.exception.ToAlertException;
+import com.wwe.leader.model.service.LeaderService;
+import com.wwe.leader.model.vo.ProjUser;
 import com.wwe.member.model.vo.Member;
 import com.wwe.project.model.service.ProService;
 import com.wwe.project.model.vo.Project;
@@ -22,6 +24,7 @@ import com.wwe.project.model.vo.Project;
 public class ProController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ProService proService = new ProService();
+	private LeaderService leaderService = new LeaderService();
        
     public ProController() {
         super();
@@ -58,7 +61,6 @@ public class ProController extends HttpServlet {
 		ArrayList<Project> projectList = proService.selectRecentProject(userId.getUserID());
 		
 		request.setAttribute("projectList", projectList);
-		System.out.println(projectList);
 		request.getRequestDispatcher("/WEB-INF/view/project/newProject2.jsp")
 		.forward(request, response);
 		
@@ -117,7 +119,16 @@ public class ProController extends HttpServlet {
 		Map data = gson.fromJson(projectId, Map.class); //getparameter로 받은 값(fetch에서 json형태로 보내준거) - json을 Map클래스로 바꿔준다 
 		
 		String parsedData = (String) data.get("projectId");
-		System.out.println(parsedData);
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("user");
+		
+		ProjUser pUser = new ProjUser();
+		pUser.setUserId(member.getUserID());  //세션에 있는 유저의 아이디를 유저객체에 저장
+		pUser.setProjectId(parsedData);  // 선택한 프로젝트의 프로젝트 아이디를 유저객체에 저장
+		
+		ProjUser user = leaderService.chkAuthority(pUser); //유저의 권한을 포함한 유저정보를 얻는 코드				
+		request.getSession().setAttribute("projUserInfo",user); //얻은 유저정보를 세션에 저장
 		
 		if(parsedData != null) {
 			request.getSession().setAttribute("projectId", parsedData);
@@ -125,14 +136,12 @@ public class ProController extends HttpServlet {
 		}else {
 			response.getWriter().print("fail");
 		}
-		
 
 		//getRequestDispatcher 뒤에는 확장자필요
 		/*
 		 * request.getRequestDispatcher("/WEB-INF/view/task/main.jsp").forward(request,
 		 * response);
 		 */
-	
 	}
 	
 	
@@ -164,7 +173,6 @@ public class ProController extends HttpServlet {
 		//그 중에 userId 사용
 		//service에서 ArrayList로 날아오는 것을 받음
 		ArrayList<Project> projectList = proService.selectRecentProject(member.getUserID());
-		System.out.println(projectList);
 		
 		if(projectList != null) { //값이 제대로 들어왔는지 확인
 			//request 영역에 저장

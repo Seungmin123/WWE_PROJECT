@@ -1,6 +1,6 @@
 
 /* 프로젝트 생성 modal창 */
-            const openButton = document.getElementById('open');
+            const openButton = document.getElementById('createNewpro');
             const modal = document.querySelector(".modal2");
             const overlay = modal.querySelector(".modal__overlay");
             const closedBtn = modal.querySelector(".cancel-btn");
@@ -49,7 +49,7 @@
             }
             
             
-            /* 최근프로젝트를 메인화면으로 보내기 */
+            /* 최근프로젝트를 main화면에 그리기 */
             let recentProject = (data) => {
             	/*console.log(data.innerHTML);*/
             	
@@ -84,6 +84,40 @@
             		error.alertMessage();
             	})
 
+            }
+            
+            
+            /* 초대 프로젝트를 main화면에 그리기 */
+            let invitedProject = (data) => {
+            	/*console.log(data.innerHTML);*/
+            	
+            	let url = '/project/selectpro'; //정보를 요청할 경로
+            	let paramObj = new Object();
+            	paramObj.projectId = data.innerHTML;
+            	
+            	let headerObj = new Headers();
+            	headerObj.append('content-type', 'application/x-www-form-urlencoded');
+            	
+            	fetch(url, {
+            		method : "post",
+            		headers : headerObj,
+            		body : "data="+ JSON.stringify(paramObj) //data: 키값
+            		
+            	}).then(response => {
+            		if(response.ok) {
+            			return response.text();
+            		}else {
+            			throw new AsyncPageError(response.text());
+            		}
+            	}).then((text) => {
+            		if(text == 'success') {
+            			location.href = '/task/main';
+            		}else {
+            			alert("프로젝트를 불러오지 못했습니다.")
+            		}
+            	}).catch((error) => {
+            		error.alertMessage();
+            	})
             }
             
             

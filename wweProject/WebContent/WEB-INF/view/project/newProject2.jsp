@@ -41,15 +41,10 @@
 
 <style>
 
-
-
-	.new-project {
-		width: 1600px;
-		height: 300px;
+	.new-pro {
 		display: flex;
 		justify-content: center;
-		flex-wrap: wrap;
-		
+		margin: 100px auto;
 	}
 
 	.recent-project {
@@ -60,8 +55,8 @@
 
 	.mytitle1 {
 	
-	    width: 300px;
-	    height: 200px;
+	    width: 250px;
+	    height: 150px;
 	
 	    color: white;
 	
@@ -75,12 +70,14 @@
 	    border: none;
 	
 	    padding-top: 20px;
+	    
+	    cursor: pointer;
 	}
 	
 	.mytitle2 {
 	
-	    width: 300px;
-	    height: 200px;
+	    width: 250px;
+	    height: 150px;
 	
 	    color: white;
 	
@@ -95,12 +92,27 @@
 	
 	    padding-top: 20px;
 	}
-
+	
+	.mytitle3 {
+	
+	    width: 250px;
+	    height: 150px;
+	
+	    color: white;
+	
+	    text-align: center;
+	
+	    background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+	    background-size: cover;
+	    background-position: center;
+	
+	    border-radius: 10px;
+	    border: none;
+	
+	    padding-top: 20px;
+	}
 
 </style>
-
-
-
 
 
 </head>
@@ -421,31 +433,33 @@
   <!-- Begin Page Content -->
   <div class="container-fluid">
 
-	<div class="project-btn">
+	<!-- 프로젝트 목록 시작 -->
+	<div class="project-list">
+	
 		<!-- 새 프로젝트 버튼 -->
-		<div class="new-project" id="open">
-	        <div class="mytitle1" >
-	        
-	            <h1>프로젝트 추가 +</h1>
-	        </div>
+		<div class="new-pro">
+	        <button type="button" class="mytitle1" id="createNewpro">
+	            <h2>프로젝트 추가 +</h2>
+	        </button>
+		</div>
+		
+		<!-- 최근 프로젝트 버튼 -->
+		<div class="recent-project">
+			<c:forEach var="project" items="${projectList}" varStatus="status">
+					<button type="button" class="mytitle2" onclick="recentProject(this)">
+							<h2>${project.projectId}</h2>
+							<h5>${project.workTime}</h5>
+					</button>
+			</c:forEach>
 		</div>		
 		
-		
-		
+		<!-- 초대 프로젝트 버튼 -->
 		<div class="recent-project">
-			<!-- 최근 프로젝트 버튼 -->
-			<p>${projectList}</p>
-
-		<c:forEach var="project" items="${projectList}" varStatus="status">
-				
-				<button type="button" class="btn btn-primary" onclick="recentProject(this)">${project.projectId}</button>
-				
-		
-		</c:forEach>
-			
-		
-	
-	        
+			<c:forEach var="project" items="${projectList}" varStatus="status">
+					<button type="button" class="mytitle3" onclick="invitedProject(this)">
+							<h2>${project.projectId}</h2>
+					</button>
+			</c:forEach>
 		</div>		
 		
 	</div>	
@@ -494,24 +508,21 @@
 			</div>
 		</div>
 
+    </div>
+    <!-- /.container-fluid -->
 
+    </div>
+    <!-- End of Main Content -->
 
-
-                </div>
-                <!-- /.container-fluid -->
-
-            </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
+           <!-- Footer -->
+           <footer class="sticky-footer bg-white">
+               <div class="container my-auto">
+                   <div class="copyright text-center my-auto">
+                       <span>Copyright &copy; Your Website 2020</span>
+                   </div>
+               </div>
+           </footer>
+           <!-- End of Footer -->
 
         </div>
         <!-- End of Content Wrapper -->
