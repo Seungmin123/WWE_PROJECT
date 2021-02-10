@@ -498,62 +498,55 @@ public class MemberDao {
 		return userInfo;
 
 	}
-	
+
 	//카카오 메시지 보내기
 	public void kakaoSendMessage(String access_Token, String content) {
-		
+
 		String reqURL = "https://kapi.kakao.com/v2/api/talk/memo/default/send";
 		try {
 			URL url = new URL(reqURL);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("POST");
-
+			conn.setDoOutput(true);
 			//    요청에 필요한 Header에 포함될 내용
 			conn.setRequestProperty("Authorization", "Bearer " + access_Token);
-			
-			
+
+
 			JsonObject linkOBJ = new JsonObject();
-			
+
 			linkOBJ.addProperty("web_url", "https://developers.kakao.com");
 			linkOBJ.addProperty("mobile_web_url", "https://developers.kakao.com");
-			
+
 			JsonObject obj = new JsonObject();
 			obj.addProperty("object_type", "text");
 			// content
 			obj.addProperty("text", "텍스트 입니당");
 			obj.addProperty("button_title", "버튼 입니당");
 			obj.add("link", linkOBJ);
-			
+
 //			JsonObject resultOBJ = new JsonObject();
 //			resultOBJ.add("template_object", obj);
-			
-			
-			DataOutputStream output = new DataOutputStream(conn.getOutputStream());
-			output.writeUTF("template_object=" + obj.toString());
-			output.flush();
-			output.close();
-			
-			//int responseCode = conn.getResponseCode();
 
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+			StringBuilder sb = new StringBuilder();
+			sb.append("template_object=" + obj);
+			bw.write(sb.toString());
+			bw.flush();
+
+
+//		    결과 코드가 200이라면 성공
+			int responseCode = conn.getResponseCode();
+			System.out.println("responseCode : " + responseCode);
+
+//    요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
 			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
 			String line = "";
 			String result = "";
 
 			while ((line = br.readLine()) != null) {
 				result += line;
 			}
-
-			JsonParser parser = new JsonParser();
-			JsonElement element = parser.parse(result);
-			
-			int resultCode = element.getAsJsonObject().get("result_code").getAsInt();
-			
-			if(resultCode == 0) {
-				System.out.println("카톡 전송 완료!");
-			}else {
-				System.out.println("카톡 전송 실패!");
-			}
+			System.out.println("response body : " + result);
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -587,6 +580,6 @@ public class MemberDao {
 	}
 
 
-	
+
 
 }
