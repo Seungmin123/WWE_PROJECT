@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import com.wwe.common.exception.DataAccessException;
 import com.wwe.common.exception.ToAlertException;
 import com.wwe.common.jdbc.JDBCTemplate;
+import com.wwe.member.model.vo.Alarm;
 import com.wwe.member.model.vo.Member;
 import com.wwe.project.model.dao.ProDao;
 import com.wwe.project.model.vo.Project;
+import com.wwe.project.model.vo.ProjectMaster;
 
 public class ProService {
 	ProDao proDao = new ProDao();
@@ -50,9 +52,9 @@ public class ProService {
 	
 	
 	//최근 프로젝트
-	public ArrayList<Project> selectRecentProject(String userId){	
+	public ArrayList<ProjectMaster> selectRecentProject(String userId){	
 		Connection conn = jdt.getConnection();
-		ArrayList<Project> projectList = null;
+		ArrayList<ProjectMaster> projectList = null;
 		
 		try {
 			//dao 호출해서 실행한 값을 되돌려받아 projectList에 저장
@@ -67,9 +69,9 @@ public class ProService {
 	
 	
 	//초대된 프로젝트 
-	public ArrayList<Project> selectInvitedProject(String userId, String isInvited){	
+	public ArrayList<Alarm> selectInvitedProject(String userId, String isInvited){	
 		Connection conn = jdt.getConnection();
-		ArrayList<Project> projectList = null;
+		ArrayList<Alarm> projectList = null;
 		
 		try {
 			//dao에 conn과 유저아이디와 수락여부 넘기기

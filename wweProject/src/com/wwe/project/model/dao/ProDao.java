@@ -1,19 +1,18 @@
 package com.wwe.project.model.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 
 import com.wwe.common.code.ErrorCode;
 import com.wwe.common.exception.DataAccessException;
 import com.wwe.common.jdbc.JDBCTemplate;
+import com.wwe.member.model.vo.Alarm;
 import com.wwe.member.model.vo.Member;
 import com.wwe.project.model.vo.Project;
+import com.wwe.project.model.vo.ProjectMaster;
 
 public class ProDao {
 	
@@ -31,7 +30,7 @@ public class ProDao {
     	  
 	         pstm = conn.prepareStatement(sql);
 	         pstm.setString(1, project.getProjectId());
-	         pstm.setDate(2, project.getDueDate());
+	         pstm.setString(2, project.getDueDate());
 	         pstm.setString(3, project.getLeaderId());
 	         res = pstm.executeUpdate();
 	         
@@ -74,16 +73,18 @@ public class ProDao {
 	}
 
 	//최근 프로젝트 받아오기 (최근 작업시간 순으로)
-	public ArrayList<Project> selectRecentProject(Connection conn, String userId){
-		ArrayList<Project> recentProject = new ArrayList<>();
+	public ArrayList<ProjectMaster> selectRecentProject(Connection conn, String userId){
+		ArrayList<ProjectMaster> recentProject = new ArrayList<>();
 		PreparedStatement pstm = null;
 		ResultSet rset = null;
 		
 		try{
-			String query = "select user_id, project_id, work_time "
-							+ "from tb_project_master "
-							+ "where user_id = ? "
-							+ "order by work_time desc";
+			String query = "select user_id, project_id, work_time, p.leader_id "
+							+ "from tb_project_master pm "
+								+ "join tb_project p "
+								+ "using(project_id) "
+								+ "where user_id = ? "
+								+ "order by work_time desc";
 	
 			//= sql에 쿼리 입력
 			pstm = conn.prepareStatement(query);
@@ -94,13 +95,14 @@ public class ProDao {
 			
 			//쿼리를 실행해서 얻은 데이터가 다음값이 없을 때까지(= false) 반복
 			while(rset.next()) {
-				Project project = new Project();
-				project.setUserId(rset.getString("user_id"));
-				project.setProjectId(rset.getString("project_id"));
-				project.setWorkTime(rset.getString("work_time"));
+				ProjectMaster promaster = new ProjectMaster();
+				promaster.setUserId(rset.getString("user_id"));
+				promaster.setProjectId(rset.getString("project_id"));
+				promaster.setWorkTime(rset.getString("work_time"));
+				promaster.setLeaderId(rset.getString("leader_id"));
 				
 				//얻어진 project 객체를 list에 붙임
-				recentProject.add(project);
+				recentProject.add(promaster);
 			}
 			
 		} catch (SQLException e) {
@@ -115,8 +117,8 @@ public class ProDao {
 	
 	
 	//초대된 프로젝트 받아오기
-	public ArrayList<Project> selectInvitedProject(Connection conn, String userId, String isInvited) {
-		ArrayList<Project> projectList = new ArrayList<>();
+	public ArrayList<Alarm> selectInvitedProject(Connection conn, String userId, String isInvited) {
+		ArrayList<Alarm> projectList = new ArrayList<>();
 		PreparedStatement pstm = null;
 		ResultSet rset = null;
 		
@@ -131,12 +133,12 @@ public class ProDao {
 			rset = pstm.executeQuery();
 			
 			while(rset.next()) {
-				Project project = new Project();
-				project.setUserId(rset.getString("user_id"));
-				project.setProjectId(rset.getString("project_id"));
-				project.setIsInvited(rset.getString("is_invited"));
+				Alarm alarm = new Alarm();
+				alarm.setUserID(rset.getString("user_id"));
+				alarm.setProjectID(rset.getString("project_id"));
+				alarm.setIsInvited(rset.getString("is_invited"));
 				
-				projectList.add(project);
+				projectList.add(alarm);
 			}
 			
 		} catch (SQLException e) {

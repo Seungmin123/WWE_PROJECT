@@ -1,6 +1,6 @@
 
 /* 프로젝트 생성 modal창 */
-            const openButton = document.getElementById('createNewpro');
+            const openButton = document.getElementById('open');
             const modal = document.querySelector(".modal2");
             const overlay = modal.querySelector(".modal__overlay");
             const closedBtn = modal.querySelector(".cancel-btn");
@@ -18,55 +18,57 @@
             let addProject = () => {
                 const url = '/project/newproimpl';
                 let paramObj = new Object();
+                
                 paramObj.title = $('#title').val();
                 paramObj.deadline = $('#deadline').val();
+                
+                console.log($('#title').val());
+                console.log($('#deadline').val());
+                
                 let headerObj = new Headers();
                 headerObj.append("content-type", "application/x-www-form-urlencoded");
+               
                 fetch(url, {
                     method: "post",
                     headers: headerObj,
                     body: "data=" + JSON.stringify(paramObj)
+                    
                 }).then(response => {
-                    //response.ok : 상태코드 200~290번 사이라면 ok(= true)
                     if (response.ok) {
                         return response.text();
                     }
-                    //200번대 코드가 아니라면 에러를 발생시켜서 catch 블록으로 이동
-                    throw new AsyncPageErr(response.text());
+                    
                 }).then((text) => {
                         if (text == 'success') {
                         	location.href = '/task/main';
-                            
-                        }else {
-                        	document.querySelector('.valid_info')
-                            .innerHTML = '프로젝트 생성에 필요한 정보를 모두 입력해 주세요';
-                        	
                         }
                     }
-                ).catch(error => {
-                    error.alertMessage();
-                })
+                )
             }
+
+            
+            
             
             
             /* 최근프로젝트를 main화면에 그리기 */
-            let recentProject = (data) => {
+            let recentProject = (projectId,userId,workTime) => {
             	/*console.log(data.innerHTML);*/
             	
             	let url = '/project/selectpro'; //정보를 요청할 경로
             	let paramObj = new Object();
-            	paramObj.projectId = data.innerHTML;
+            	paramObj.projectId = projectId;
+            	paramObj.userId = userId; 
+            	paramObj.workTime = workTime;
+            	
+            	console.log(paramObj);
             	
             	let headerObj = new Headers();
             	headerObj.append('content-type', 'application/x-www-form-urlencoded');
             	
-            	
             	fetch(url, {
-            	
             		method : "post",
             		headers : headerObj,
             		body : "data="+ JSON.stringify(paramObj) //data: 키값
-            		
             		
             	}).then(response => {
             		if(response.ok) {
@@ -74,12 +76,14 @@
             		}else {
             			throw new AsyncPageError(response.text());
             		}
+            		
             	}).then((text) => {
             		if(text == 'success') {
             			location.href = '/task/main';
             		}else {
             			alert("프로젝트를 불러오지 못했습니다.")
             		}
+            		
             	}).catch((error) => {
             		error.alertMessage();
             	})

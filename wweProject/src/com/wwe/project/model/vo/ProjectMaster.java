@@ -1,29 +1,29 @@
 package com.wwe.project.model.vo;
 
-public class Project {
+public class ProjectMaster {
+	private String userId;
 	private String projectId;
-	private String dueDate;
-	private int progress;
+	private String workTime;
 	private String leaderId;
 	
 	
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 	public String getProjectId() {
 		return projectId;
 	}
 	public void setProjectId(String projectId) {
 		this.projectId = projectId;
 	}
-	public String getDueDate() {
-		return dueDate;
+	public String getWorkTime() {
+		return workTime;
 	}
-	public void setDueDate(String dueDate) {
-		this.dueDate = dueDate;
-	}
-	public int getProgress() {
-		return progress;
-	}
-	public void setProgress(int progress) {
-		this.progress = progress;
+	public void setWorkTime(String workTime) {
+		this.workTime = workTime;
 	}
 	public String getLeaderId() {
 		return leaderId;
