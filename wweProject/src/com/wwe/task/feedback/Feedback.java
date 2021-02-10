@@ -6,6 +6,7 @@ public class Feedback {
 	private int privateComment;
 	private String feedbackComment;
 	private String userId;
+	private int tIdx;
 	
 	public String getTaskId() {
 		return taskId;
@@ -39,4 +40,11 @@ public class Feedback {
 		this.userId = userId;
 	}
 	
+	public int gettIdx() {
+		return tIdx;
+	}
+	
+	public void settIdx(int tIdx) {
+		this.tIdx = tIdx;
+	}
 }

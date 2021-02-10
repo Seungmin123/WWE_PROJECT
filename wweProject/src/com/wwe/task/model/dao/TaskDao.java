@@ -111,6 +111,7 @@ public class TaskDao {
 				task.setTaskPriority(rset.getString("task_priority"));
 				task.setTaskState(rset.getString("task_state"));
 				task.setUserId(rset.getString("user_id"));
+				task.settIdx(rset.getInt("t_idx"));
 				
 				detailList.add(task);
 			}
@@ -130,13 +131,14 @@ public class TaskDao {
 		PreparedStatement pstm = null;
 		
 		try {
-			String query = "insert into tb_feedback(TASK_ID,FEEDBACK_COMMENT,PRIVATE_COMMENT,USER_ID) "
-					+ "values(?,?,?,?)";
+			String query = "insert into tb_feedback(TASK_ID,FEEDBACK_COMMENT,PRIVATE_COMMENT,USER_ID,T_IDX) "
+					+ "values(?,?,?,?,?)";
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, feedback.getTaskId());
 			pstm.setString(2, feedback.getFeedbackComment());
 			pstm.setInt(3, feedback.getPrivateComment());
 			pstm.setString(4, feedback.getUserId());
+			pstm.setInt(5, feedback.gettIdx());
 			
 			res = pstm.executeUpdate();
 			
@@ -360,18 +362,18 @@ public class TaskDao {
 	}
 	
 	//feedback 불러오기
-	public ArrayList<Feedback> selectFeedback(Connection conn, String taskId, String userId){
+	public ArrayList<Feedback> selectFeedback(Connection conn, int tIdx){
 		
 		ArrayList<Feedback> feedList = new ArrayList<>();
 		PreparedStatement pstm = null;
 		ResultSet rset = null;
 		
 		try{
-			String query = "SELECT * FROM TB_FEEDBACK WHERE USER_ID = ? AND TASK_ID = ?";
+			String query = "SELECT * FROM TB_FEEDBACK WHERE T_IDX = ?";
 
 			pstm = conn.prepareStatement(query);
-			pstm.setString(1, userId);
-			pstm.setString(2, taskId);
+			pstm.setInt(1, tIdx);
+
 			
 			rset = pstm.executeQuery();
 			

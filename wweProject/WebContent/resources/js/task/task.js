@@ -2,14 +2,10 @@ let feedBack = ()=>{
 	
 	const url = "/task/insertfeedback"
 	let paramObj = new Object();
-	paramObj.userId = document.querySelector('#userId').innerHTML;
-	paramObj.feedbackComment = feedbackComment.value;
 	paramObj.taskId = document.querySelector('#taskId').innerHTML;
+	paramObj.tIdx = document.querySelector('#tIdx').innerHTML;
+	paramObj.feedbackComment = document.getElementById('feedbackComment').value;
 
-	alert(document.querySelector('#taskId').innerHTML);
-	alert(document.querySelector('#userId').innerHTML);
-	alert(feedbackComment.value);
-	
 	let headerObj = new Headers();
 	headerObj.append('content-type','application/x-www-form-urlencoded');
 	
@@ -26,13 +22,11 @@ let feedBack = ()=>{
 	}).then(msg =>{
 		if(msg=='success'){
 			console.dir('완료');
-			document.querySelector('#feedbackComment') = '';
+			
 		}else{
 			console.dir('실패');
 		}
-	}).catch(error=>{
-		error.alertMessage();
-	});
+	})
 }
 	
 let calendar = () => {

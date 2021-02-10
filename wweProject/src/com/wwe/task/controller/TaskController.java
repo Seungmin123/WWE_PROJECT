@@ -95,8 +95,7 @@ public class TaskController extends HttpServlet {
 		
 		//deleteTask(request,response);
 		
-		request.getAttribute("leaderId");
-		//request.setAttribute("userId","yeongwoo");
+		//request.getAttribute("leaderId");
 		Member user = (Member) request.getSession().getAttribute("user");
 		String userId = user.getUserID();
 		request.getAttribute("taskByMember");
@@ -238,11 +237,16 @@ public class TaskController extends HttpServlet {
 	//업무상세내역
 	protected void detailTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String taskId = request.getParameter("name") ; //세션 값으로 받아와야 할까?
+		String taskId = request.getParameter("name") ; 
+		int tIdx = 0;
 		//String leaderId = request.getSession.getAttribute("project");
 		request.setAttribute("leaderId", "임희원"); // 세션 값으로 받아오기
 		
 		ArrayList<Task> detailList = taskService.detailTask(taskId);
+		
+		for (Task task : detailList) {
+			tIdx = task.gettIdx();
+		}
 		
 		Calendar calendar = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -257,10 +261,12 @@ public class TaskController extends HttpServlet {
 			}
 		}
 		
+		ArrayList<Feedback> feedList = taskService.selectFeedback(tIdx);
+		
 		if(detailList != null) {
 			request.setAttribute("detailList", detailList);
+			request.setAttribute("feedList", feedList);
 			request.getAttribute("memberList");
-			selectFeedback(request,response);
 			
 			request.getRequestDispatcher("/WEB-INF/view/task/detail.jsp").forward(request, response);
 		}else {
@@ -291,7 +297,7 @@ public class TaskController extends HttpServlet {
 		  //String userId = "yeongwoo";
 		  String projectId = "프로젝트 1";
 		  
-		  if(taskName == null || taskContent == null || deadLine == null) {
+		  if(taskName == null && taskContent == null && deadLine == null) {
 			  request.setAttribute("alertMsg", "내용을 모두 입력해주세요.");
 			  request.setAttribute("url", "/task/add");
 		  }
@@ -334,6 +340,8 @@ public class TaskController extends HttpServlet {
 		
 		request.getAttribute("myList");
 		selectName(request,response);
+		
+		
 		
 		request.getRequestDispatcher("/WEB-INF/view/task/my.jsp").forward(request, response);
 	}
@@ -381,9 +389,9 @@ public class TaskController extends HttpServlet {
 		String userId = user.getUserID();
 		String feedbackComment = (String) parsedData.get("feedbackComment");
 		String taskId = (String) parsedData.get("taskId");
+		String fTidx = (String) parsedData.get("tIdx");
 		
-		System.out.println(feedbackComment);
-		System.out.println(taskId);
+		int tIdx = Integer.parseInt(fTidx);
 		
 		int privateComment = 0;
 		
@@ -391,43 +399,16 @@ public class TaskController extends HttpServlet {
 		feedback.setTaskId(taskId);
 		feedback.setPrivateComment(privateComment);
 		feedback.setUserId(userId);
+		feedback.settIdx(tIdx);
 		
 		int res = taskService.insertFeedback(feedback);
 		
 		if(res > 0) { 
 			response.getWriter().print("success");
-			  
 		 } else { 
 			 response.getWriter().print("failed");
 			  
 		 }
-	}
-	
-	protected void selectFeedback(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		detailTask(request,response);
-		
-		ArrayList<Task> detailList = (ArrayList<Task>) request.getAttribute("detailList");
-		Member user = (Member) request.getSession().getAttribute("user");
-		String userId = user.getUserID();
-		String taskId = "";
-		
-		for (Task task : detailList) {
-			taskId = task.getTaskId();
-		}
-		
-		System.out.println(taskId);
-		
-		ArrayList<Feedback> feedList = taskService.selectFeedback(taskId, userId);
-		
-		if(feedList.size() > 0) {
-
-			request.setAttribute("feedList", feedList);
-			System.out.println("피드백성공");
-			
-		}else {
-			System.out.println("피드백실패");
-		}
 	}
 	
 	//업무상태값변경하기
