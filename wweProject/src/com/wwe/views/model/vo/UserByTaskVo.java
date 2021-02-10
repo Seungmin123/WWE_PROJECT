@@ -1,14 +1,12 @@
 package com.wwe.views.model.vo;
 
+// calendar.jsp 에 전달할 json 객체
 public class UserByTaskVo {
-	/*
-	 * private String userId; private String taskId; private String deadLine;
-	 * private String startDate;
-	 */
-	private String title;
-	private String start;
-	private String end;
-	private String color;
+
+	private String title; // 업무이름
+	private String start; // 시작일자
+	private String end; // 마감일자
+	private String color; // 색상
 
 	public UserByTaskVo(String title, String start, String end,String color) {
 		super();

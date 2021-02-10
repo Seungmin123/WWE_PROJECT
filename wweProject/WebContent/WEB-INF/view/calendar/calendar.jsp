@@ -477,6 +477,7 @@
               initialView: 'dayGridMonth',
               eventColor : 'pink',
               dayMaxEvents: 5,
+              eventTextColor : 'black',
               events : text
             });
             calendar.render();

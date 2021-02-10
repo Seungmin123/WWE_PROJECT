@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wwe.common.code.ErrorCode;
+import com.wwe.common.exception.DataAccessException;
 import com.wwe.common.jdbc.JDBCTemplate;
 import com.wwe.common.util.file.FileVo;
 
@@ -33,7 +35,7 @@ public class StorageDao {
 			res = pstm.executeUpdate();
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DataAccessException(ErrorCode.FILE01,e);
 		} finally {
 			jdt.close(pstm);
 		}
@@ -61,7 +63,7 @@ public class StorageDao {
 			res = pstm.executeUpdate();
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DataAccessException(ErrorCode.FILE01,e);
 		} finally {
 			jdt.close(pstm);
 		}
@@ -77,7 +79,7 @@ public class StorageDao {
 			pstm.setString(1, idx);
 			pstm.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DataAccessException(ErrorCode.FILE01,e);
 		} finally {
 			jdt.close(pstm);
 		}
@@ -92,7 +94,7 @@ public class StorageDao {
 			pstm.setString(1, idx);
 			pstm.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DataAccessException(ErrorCode.FILE01,e);
 		} finally {
 			jdt.close(pstm);
 		}
@@ -129,7 +131,7 @@ public class StorageDao {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DataAccessException(ErrorCode.FILE01,e);
 		} finally {
 			jdt.close(rset,pstm);
 		}
@@ -167,7 +169,7 @@ public class StorageDao {
 			}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DataAccessException(ErrorCode.FILE01,e);
 		} finally {
 			jdt.close(rset,pstm);
 		}
