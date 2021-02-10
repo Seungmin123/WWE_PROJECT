@@ -14,7 +14,9 @@ function onDragOver(event){
 function onDrop(event){
 	const id = event.dataTransfer.getData('text');
 	const draggableElement = document.getElementById(id);
-	const dropzone = event.target;
+	const dropzone = event.target;   
+	
+	const state = dropzone.parentNode.childNodes[5].id;
     
 	//console.dir(event);
 	dropzone.appendChild(draggableElement);
@@ -24,7 +26,7 @@ function onDrop(event){
 			
 	});*/
 	
-    updateState();
+    updateState(state);
     //드롭 완료 후 이벤트 버블링을 막기 위해 호출           
     event.stopPropagation();
  		
@@ -32,8 +34,8 @@ function onDrop(event){
 }
 
 //state값을 보내서 상태값 변경
-let updateState = ()=>{
-	let state = "ST01";
+let updateState = (state)=>{
+	
 	
 	const url = "/task/updatestate"
 	let paramObj = new Object();

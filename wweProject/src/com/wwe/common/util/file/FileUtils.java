@@ -19,7 +19,7 @@ import com.oreilly.servlet.multipart.ParamPart;
 import com.oreilly.servlet.multipart.Part;
 
 public class FileUtils {
-	private final int maxSize = 1024 * 1024 * 10;
+	private final int maxSize = 1024 * 1024 * 50; // 업로드 가능 최대 용량
 	Map<String , List> multiParamMap = new HashMap<String, List>();
 	
 	public Map<String, List> fileUpload(HttpServletRequest request){
@@ -39,7 +39,6 @@ public class FileUtils {
 				}else if(part.isFile()) {
 					FilePart userFile = (FilePart) part;
 					if(userFile.getFileName() != null) {
-						System.out.println(new File(userFile.getFilePath()+"/"+userFile.getFileName()).length());
 						FileVo fileData = getFileData(userFile,(String)request.getAttribute("filterPath"));
 						fileDataList.add(fileData);
 						saveFile(userFile,fileData);

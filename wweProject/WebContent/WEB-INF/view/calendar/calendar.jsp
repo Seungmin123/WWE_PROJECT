@@ -477,6 +477,7 @@
               initialView: 'dayGridMonth',
               eventColor : 'pink',
               dayMaxEvents: 5,
+              eventTextColor : 'black',
               events : text
             });
             calendar.render();
@@ -520,7 +521,7 @@
             document.addEventListener('DOMContentLoaded',inputData());
         	function checkValue(id) {
         		inputData();
-			}
+            }
         </script>
 
 </body>

@@ -445,26 +445,33 @@
 		
 		<!-- 최근 프로젝트 버튼 -->
 		<div class="recent-project">
-			<c:forEach var="project" items="${recentproList}">
-					
-				<button type="button" class="mytitle2" onclick="recentProject(
-					'${project.projectId}',
-					'${project.userId}',	
-					'${project.workTime}'	
-				)">
+			<c:forEach var="project" items="${recentproList}" varStatus="status">
+				<c:if test="${status.index < 3}">
+					<button type="button" id="add" class="mytitle2" onclick="recentProject(
+						'${project.projectId}',
+						'${project.userId}',	
+						'${project.workTime}'	
+						)">
 						<h2>${project.projectId}</h2>
 						<h5>${project.workTime}</h5>
-				</button>
+					</button>
+				</c:if>	
+				
 					
 			</c:forEach>
 		</div>		
 		
 		<!-- 초대 프로젝트 버튼 -->
 		<div class="recent-project">
-			<c:forEach var="project" items="${invitedProList}">
-					<button type="button" class="mytitle3" onclick="invitedProject('${project.projectId}','${project.leaderId}')">
-							<h2>${project.projectId}</h2>
+			<c:set var="invitedProListSize" value="${invitedProList.length}"></c:set>
+			<c:forEach var="project" items="${invitedProList}" varStatus="status">
+			<button type="button" class="mytitle3" onclick="invitedProject('${project.projectId}','${project.leaderId}')">
+						<h2>${project.projectId}</h2>
 					</button>
+				<c:if test= "${invitedProListSize mod 3 == 0}">
+					<br>
+					
+				</c:if>
 			</c:forEach>
 		</div>		
 		
@@ -560,6 +567,7 @@
             </div>
         </div>
     </div>
+
 
 
 	<script src="/resources/js/project/project.js"></script>

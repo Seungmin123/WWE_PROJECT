@@ -137,16 +137,18 @@ public class MemberController extends HttpServlet {
 			request.getSession().setAttribute("user", user);
 			request.getSession().setAttribute("project", userProject);
 			
-			//*******************************현재 선택한 프로젝트로 변경 요망**************************************
 			//Map<String, Object> commandMap = memberService.selectAlarm(user.getUserID(), project.getProjectId());
-			Map<String, Object> commandMap = memberService.selectAlarm(user.getUserID(), "프로젝트 1");
-			List<Object> alarmList = (List<Object>) commandMap.get("alarmList");
-			
-			request.getSession().setAttribute("alarmList", alarmList);
+			/*
+			 * Map<String, Object> commandMap = memberService.selectAlarm(user.getUserID(),
+			 * "프로젝트 1"); List<Object> alarmList = (List<Object>)
+			 * commandMap.get("alarmList");
+			 * 
+			 * request.getSession().setAttribute("alarmList", alarmList);
+			 */
 		}
 		
 		request
-		.getRequestDispatcher("/WEB-INF/view/member/MyPage.jsp")
+		.getRequestDispatcher("/WEB-INF/view/project/newProject2.jsp")
 		.forward(request, response);
 		
 	}
@@ -154,8 +156,6 @@ public class MemberController extends HttpServlet {
 	private void signUpImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String data = request.getParameter("data");
-		System.out.println(data);
-		
 		Gson gson = new Gson();
 		Map parsedData = gson.fromJson(data, Map.class);
 		
@@ -183,7 +183,7 @@ public class MemberController extends HttpServlet {
 		if(res != 0) {	
 			System.out.println("회원가입 성공");
 			request
-			.getRequestDispatcher("/WEB-INF/view/member/MyPage.jsp")
+			.getRequestDispatcher("/WEB-INF/view/project/newProject2.jsp")
 			.forward(request, response);
 		}else {
 			System.out.println("회원가입 실패");
@@ -236,6 +236,7 @@ public class MemberController extends HttpServlet {
 		System.out.println(code);
 		String access_Token = memberService.getAccessToken(code);
 		Member userInfo = memberService.kakaoUserInfo(access_Token);
+		//memberService.kakaoFriendList(access_Token);
 		
 		if(userInfo.getUserEmail() != null) {
 			
@@ -243,26 +244,24 @@ public class MemberController extends HttpServlet {
 			
 			Member userProject = memberService.getMemberProject(userInfo.getUserID());
 			
-			//*******************************현재 선택한 프로젝트로 변경 요망**************************************
-			//Map<String, Object> commandMap = memberService.selectAlarm(user.getUserID(), project.getProjectId());
-			Map<String, Object> commandMap = memberService.selectAlarm(userInfo.getUserID(), "프로젝트 1");
-			List<Object> alarmList = (List<Object>) commandMap.get("alarmList");
+			/*
+			 * Map<String, Object> commandMap =
+			 * memberService.selectAlarm(userInfo.getUserID(), "프로젝트 1"); List<Object>
+			 * alarmList = (List<Object>) commandMap.get("alarmList");
+			 * request.getSession().setAttribute("alarmList", alarmList);
+			 */
 			
 			request.getSession().setAttribute("user", userInfo);
 			request.getSession().setAttribute("project", userProject);
 			request.getSession().setAttribute("access_Token", access_Token);
-			request.getSession().setAttribute("alarmList", alarmList);
 			
-			request.getRequestDispatcher("/WEB-INF/view/member/MyPage.jsp")
+			
+			request.getRequestDispatcher("/WEB-INF/view/project/newProject2.jsp")
 			.forward(request, response);
-			
-			
-			
-			
 			
 		}
 		
-		memberService.kakaoSendMessage(access_Token, userInfo.getUserName() + " 님이 카카오 로그인했슴둥");
+		//memberService.kakaoSendMessage("rkZVd00R_wEE82fu2ustpOknZNHZXVv0IpSx0AopdSkAAAF3i7FSxA", userInfo.getUserName() + " 님이 카카오 로그인했슴둥");
 		
 	}
 	
@@ -298,8 +297,6 @@ public class MemberController extends HttpServlet {
 		String userTell = (String) parsedData.get("userTell");
 		String userBirth = (String) parsedData.get("userBirth");
 	
-		
-		
 		Member member = new Member();
 		member.setUserID(userID);
 		member.setUserPW(userPW);
@@ -315,7 +312,7 @@ public class MemberController extends HttpServlet {
 		if(res == 1) {	
 			System.out.println("회원가입 성공");
 			request
-			.getRequestDispatcher("/WEB-INF/view/member/MyPage.jsp")
+			.getRequestDispatcher("/WEB-INF/view/project/newProject2.jsp")
 			.forward(request, response);
 		}else {
 			System.out.println("회원가입 실패");

@@ -20,6 +20,7 @@ import com.wwe.common.code.AddAlarmCode;
 import com.wwe.common.util.file.FileUtils;
 import com.wwe.common.util.file.FileVo;
 import com.wwe.common.util.page.PageUtils;
+import com.wwe.leader.model.vo.ProjUser;
 import com.wwe.member.model.service.MemberService;
 import com.wwe.member.model.vo.Member;
 import com.wwe.storage.model.service.StorageService;
@@ -86,7 +87,9 @@ public class StorageController extends HttpServlet {
 	
 	private void shareStorage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String pId = "프로젝트 1";
+		HttpSession session = request.getSession();
+		ProjUser project = (ProjUser) session.getAttribute("selectProject");
+		String pId = project.getProjectId();
 		
 		Map<String, Object> commandMap = storageService.selectStorage(pId,true);
 		makeTablePage(request, commandMap);
@@ -96,10 +99,10 @@ public class StorageController extends HttpServlet {
 	private void uploadFile(HttpServletRequest request, HttpServletResponse response,boolean isTeam) throws ServletException, IOException {
 		// 파일 업로드
 		HttpSession session = request.getSession();
-		Member member = (Member) session.getAttribute("user");
-		
+		Member member = (Member) session.getAttribute("user");	
 		String userId = member.getUserID();
-		String projectId = "프로젝트 1"; // 프로젝트 입장 기능 추가후에 사용가능
+		ProjUser project = (ProjUser) session.getAttribute("selectProject");
+		String projectId = project.getProjectId(); // 프로젝트 입장 기능 추가후에 사용가능
 		
 		// 로그인한 세션정보로 파일을 업로드
 		request.setAttribute("filterPath", userId);

@@ -93,12 +93,14 @@ public class TaskController extends HttpServlet {
 			
 		selectTaskbyMem(request,response);
 		
-		//deleteTask(request,response);
-		
-		//request.getAttribute("leaderId");
+		ProjUser project = (ProjUser) request.getSession().getAttribute("selectProject");
+		String projectId = project.getProjectId();
 		Member user = (Member) request.getSession().getAttribute("user");
 		String userId = user.getUserID();
-		request.getAttribute("taskByMember");
+		
+		String taskState = "ST04";
+		
+		int res = taskService.updateTaskState(projectId,taskState);
 		
 
 		request.getRequestDispatcher("/WEB-INF/view/task/main.jsp").forward(request, response);
@@ -106,23 +108,22 @@ public class TaskController extends HttpServlet {
 	}
 	
 	//마감기한 지난 업무 삭제하기
-	protected void deleteTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
-		Project project = (Project) request.getSession().getAttribute("project");
-		
-		String projectId = project.getProjectId();
-		//String projectId = "프로젝트 1";
-		
-		int res = taskService.deleteTask(projectId);
-		
-		if(res > 0) {
-			System.out.println("업무삭제 완료");
-		}else {
-			System.out.println("업무삭제 실패");
-		}
-		
-	}
+	/*
+	 * protected void deleteTask(HttpServletRequest request, HttpServletResponse
+	 * response) throws ServletException, IOException {
+	 * 
+	 * 
+	 * Project project = (Project) request.getSession().getAttribute("project");
+	 * 
+	 * String projectId = project.getProjectId(); //String projectId = "프로젝트 1";
+	 * 
+	 * int res = taskService.deleteTask(projectId);
+	 * 
+	 * if(res > 0) { System.out.println("업무삭제 완료"); }else {
+	 * System.out.println("업무삭제 실패"); }
+	 * 
+	 * }
+	 */
 	
 	//권한,이름불러오기
 	protected void selectName(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -149,22 +150,11 @@ public class TaskController extends HttpServlet {
 	//업무리스트불러오기
 	protected void selectAllTaskList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//Project project = (Project) request.getSession().getAttribute("project");
-		
-		//String projectId = project.getProjectId();
-		String projectId = "프로젝트 1";
+		ProjUser project = (ProjUser) request.getSession().getAttribute("selectProject");
+		String projectId = project.getProjectId();
 		
 		
 		ArrayList<Task> taskList = taskService.selectAllTaskList(projectId);
-		
-		//leaderList로 넘기기 위한 id
-		request.setAttribute("leaderId", "wwe123");//프로젝트 session으로 받아오기
-		String leaderId = "wwe123";
-		//myList로 넘겨 질 업무 식별 하기위한 id
-		Member user = (Member) request.getSession().getAttribute("user");
-		String userId = user.getUserID();
-		//String userId = "test";
-		
 		
 
 		if(taskList != null) {
@@ -340,9 +330,7 @@ public class TaskController extends HttpServlet {
 		
 		request.getAttribute("myList");
 		selectName(request,response);
-		
-		
-		
+
 		request.getRequestDispatcher("/WEB-INF/view/task/my.jsp").forward(request, response);
 	}
 	
@@ -352,10 +340,8 @@ public class TaskController extends HttpServlet {
 		//세션으로 아이디값 받아와서 하기
 		Member user = (Member) request.getSession().getAttribute("user");
 		String userId = user.getUserID();
-		//Project project = (Project) request.getSession().getAttribute("project");
-		//String projectId = project.getProjectId();
-		String projectId = "프로젝트 1";
-		
+		ProjUser project = (ProjUser) request.getSession().getAttribute("selectProject");
+		String projectId = project.getProjectId();
 		
 		ArrayList<Task> myList = taskService.selectMyList(userId,projectId);
 		
@@ -403,8 +389,13 @@ public class TaskController extends HttpServlet {
 		
 		int res = taskService.insertFeedback(feedback);
 		
+		String feed = gson.toJson("data");	
+		
 		if(res > 0) { 
-			response.getWriter().print("success");
+			
+			response.setContentType("application/json");
+			response.getWriter().print("feed");
+			
 		 } else { 
 			 response.getWriter().print("failed");
 			  
@@ -424,6 +415,7 @@ public class TaskController extends HttpServlet {
 		String userId = user.getUserID();
 		
 		int res = taskService.updateState(taskState,taskId,userId);
+	
 		
 		if(res > 0) {
 			response.getWriter().print("success");

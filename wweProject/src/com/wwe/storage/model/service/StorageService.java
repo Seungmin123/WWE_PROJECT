@@ -7,6 +7,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.wwe.common.code.ErrorCode;
+import com.wwe.common.exception.DataAccessException;
+import com.wwe.common.exception.ToAlertException;
 import com.wwe.common.jdbc.JDBCTemplate;
 import com.wwe.common.util.file.FileUtils;
 import com.wwe.common.util.file.FileVo;
@@ -38,7 +41,7 @@ public class StorageService {
 			jdt.commit(conn);
 		} catch (Exception e) {
 			jdt.rollback(conn);
-			System.out.println("Service Error");
+			throw new ToAlertException(ErrorCode.IF01,e);
 		} finally {
 			jdt.close(conn);
 		}	
@@ -54,7 +57,7 @@ public class StorageService {
 				storageDao.deletePersonalStorage(conn, idx);
 			}
 		} catch (Exception e) {
-			System.out.println("Service Error");
+			throw new ToAlertException(ErrorCode.IF01,e);
 		} finally {
 			jdt.close(conn);
 		}
@@ -74,7 +77,7 @@ public class StorageService {
 			}
 			commendMap.put("fileList", fileList);
 		}catch (Exception e) {
-			System.out.println("Service Error");
+			throw new ToAlertException(ErrorCode.IF01,e);
 		} finally {
 			jdt.close(conn);
 		}

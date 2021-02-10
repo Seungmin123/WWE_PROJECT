@@ -265,43 +265,18 @@ public class TaskDao {
 			return taskByMember;
 	}
 
-	//알람기능 넣는 메서드
-	public int insertTaskIssue(Connection conn, String userId,String projectId,String typeAlarm) {
-		
-		int res = 0;
-		PreparedStatement pstm = null;
-		
-		try {
-			String query = "INSERT INTO TB_USER_ISSUE(USER_ID, PROJECT_ID, TYPE_ALARM, WRITER) VALUES((SELECT USER_ID FROM TB_USER WHERE USER_ID != ?), ?, ?, ?)";
-
-			pstm = conn.prepareStatement(query);
-			pstm.setString(1, userId);
-			pstm.setString(2, projectId);
-			pstm.setString(3, typeAlarm);
-			pstm.setString(4, userId);
-			
-			res = pstm.executeUpdate();
-			
-		} catch (SQLException e) {
-			throw new DataAccessException(ErrorCode.TK02, e);
-		}finally {
-			jdt.close(pstm);
-		}
-
-		return res;
-		
-	}
 	
-	public int deleteTask(Connection conn,String projectId) {
+	public int updateTaskState(Connection conn,String projectId,String taskState) {
 		
 		int res = 0;
 		PreparedStatement pstm = null;
 		
 		try {
-			String query = "DELETE FROM TB_TASK WHERE PROJECT_ID = ? AND DEAD_LINE < SYSDATE ";
+			String query = "UPDATE TB_TASK SET TASK_STATE = ? WHERE PROJECT_ID = ? AND DEAD_LINE + 1 < SYSDATE";
 			
 			pstm = conn.prepareStatement(query);
-			pstm.setString(1, projectId);
+			pstm.setString(1, taskState);
+			pstm.setString(2, projectId);
 			res = pstm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DataAccessException(ErrorCode.DT01,e);
