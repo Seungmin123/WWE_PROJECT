@@ -145,33 +145,12 @@ public class TaskService {
 		return taskByMember;
 	}
 
-	//알람 추가하기
-	public int insertTaskIssue(String userId,String projectId,String typeAlarm) {
-		
-		Connection conn = jdt.getConnection();
-		int res = 0;
-		
-		try {
-			
-			res = taskDao.insertTaskIssue(conn,userId,projectId,typeAlarm);
-			jdt.commit(conn);
-			
-		} catch (DataAccessException e) {
-			jdt.rollback(conn);
-			throw new ToAlertException(e.error);
-		} finally {
-			jdt.close(conn);
-		}
-		
-		return res;
-	}
-
-	public int deleteTask(String projectId) {
+	public int updateTaskState(String projectId, String taskState) {
 		
 		Connection conn = jdt.getConnection();
 		int res = 0;
 		try {
-			res = taskDao.deleteTask(conn, projectId);
+			res = taskDao.updateTaskState(conn, projectId, taskState);
 			jdt.commit(conn);
 		} catch (DataAccessException e) {
 			jdt.rollback(conn);

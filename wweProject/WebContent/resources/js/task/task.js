@@ -20,13 +20,18 @@ let feedBack = ()=>{
 			throw new AsyncPageError(response.text());
 		}
 	}).then(msg =>{
-		if(msg=='success'){
+		if(msg){
 			console.dir('완료');
-			
+			selectFeedback();
 		}else{
 			console.dir('실패');
 		}
 	})
+}
+
+let selectFeedback = () =>{
+	
+	
 }
 	
 let calendar = () => {

@@ -377,7 +377,7 @@
                         <div class="d-flex justify-content-center">
                         <div class="btn pl-3 pr-3">
                             <i class="fas fa-laugh-wink h1 text-dark mr-3 mt-2"></i>
-                            <span class="text-primay font-weight-bold h1 mr-4" id="projectId">${projectId}</span>
+                            <span class="text-primay font-weight-bold h1 mr-4" id="projectId">${selectProject.projectId}</span>
                         </div>
                         </div>
                         <hr class="hr">
@@ -390,7 +390,7 @@
 
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                    <a class="m-0 font-weight-bold text-primary" id="leaderName" href="${context}/task/member?name=${leaderId}">${leaderId}</a>
+                                    <a class="m-0 font-weight-bold text-primary" id="leaderName" href="${context}/task/member?name=${selectProject.leaderId}">${selectProject.leaderId}</a>
                                     <div class="btn btn-primary btn-icon-split ml-3" id="authority">
                                         <span class="text">Leader</span>
                                     </div>
@@ -403,9 +403,9 @@
 
                             <!-- Basic Card Example -->
                             <div class="card shadow mb-4">
-                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                <div class="card-header py-3 d-flex justif y-content-between align-items-center">
                                     <a class="m-0 font-weight-bold text-primary" href="${context}/task/my">My List</a>
-                                    <span class="btn btn-info btn-icon-split ml-3 " id="myauthority">
+                                    <span class="btn btn-info btn-icon-split ml-3 ">
                                         <span class="text">팀원</span>
                                     </span>
                                 </div>
@@ -414,7 +414,7 @@
                             </div>
 
 							<c:forEach var="member" items="${memberList}" varStatus="status">
-							<c:if test="${member.userId != leaderId && member.userId != user.userID}">
+							<c:if test="${member.userId != selectProject.leaderId && member.userId != user.userID}">
 							
                             <!-- Basic Card Example -->
                             <div class="card shadow mb-4 ">
@@ -428,7 +428,7 @@
                                 </div>
                                 <div class="card-body memberlist">
                                 <c:forEach var="task" items = "${taskList}" varStatus="status">
-								<c:if test="${task.userId == member.userId}">
+								<c:if test="${task.userId == member.userId && task.taskState != 'ST04'}">
                                   <div class="mb-4 py-3 bg-gray-100 pl-4 d-flex justify-content-center rounded shadow-sm" >
                                         <a href="${context}/task/detail?name=${task.taskId}" class="text-gray-600 border-0" draggable="true">
                                             <div>
@@ -518,11 +518,6 @@
                 <!-- Custom scripts for all pages-->
                 <script src="/resources/js/sb-admin-2.min.js"></script>
                 
-
-				<!-- 팀원 별 표시 -->
-				<script>
-				
-				</script>
 				<!-- 업무리스트 출력 -->
              	<script>
 				
@@ -539,7 +534,7 @@
         			 let memberName;
        			<c:forEach var="task" items="${taskList}" varStatus="status">
 					
-       					<c:if test="${task.userId == leaderId}">
+       					<c:if test="${task.userId == selectProject.leaderId && task.taskState != 'ST04'}">
        					tasklist = document.createElement('div');
        					divElement = document.createElement('div');
        					taskname = document.createElement('a');
@@ -580,7 +575,7 @@
        					
        					</c:if>
        					
-       					<c:if test="${task.userId == user.userID}">
+       					<c:if test="${task.userId == user.userID && task.taskState != 'ST04'}">
        					tasklist = document.createElement('div');
        					divElement = document.createElement('div');
        					taskname = document.createElement('a');
@@ -623,22 +618,8 @@
         		</c:forEach>
         		
    				}
-    			
-				//작업률 퍼센티지
-    			$(function(){
-					percentage();
-				 });
-				let percentage = ()=>{
-					
-					<c:forEach var="task" items="${taskList}" varStatus="status">
-						<c:if test="${task.taskState == 'ST01'}">
-							
-						</c:if>
-					
-					</c:forEach>
-					
-				}
-   				 </script>
+    			</script>
+
         </body>
 
         </html>

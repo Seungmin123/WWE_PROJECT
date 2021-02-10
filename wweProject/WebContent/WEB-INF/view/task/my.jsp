@@ -394,7 +394,7 @@
                                         </span>
                                     </div>
                                     <!-- todoList 추가영역 -->
-                                    <div class="card-body todolist">
+                                    <div class="card-body todolist"ondragover="onDragOver(event);" ondrop="onDrop(event);" id="ST00">
 									
                                     <div id="addButton">
                                         <div class=" d-flex justify-content-between mb-3 ">
@@ -422,7 +422,7 @@
                                         </div>
                                     </div>
                                     <!-- doingList추가영역 -->
-                                    <div class="card-body doingzone" ondragover="onDragOver(event);" ondrop="onDrop(event);">
+                                    <div class="card-body doingzone" id="ST01" ondragover="onDragOver(event);" ondrop="onDrop(event);">
                                     </div>
                                 </div>
 
@@ -434,7 +434,7 @@
                                         </div>
                                     </div>
                                     <!-- doneList추가영역 -->
-                                    <div class="card-body donezone" ondrop="onDrop(event);" ondragover="onDragOver(event);">
+                                    <div class="card-body donezone" id="ST02" ondrop="onDrop(event);" ondragover="onDragOver(event);">
                           					
                                     </div>
                                 </div>
@@ -545,7 +545,7 @@
        					todobutton.setAttribute('class', 'mb-4 py-3 bg-gray-100 pl-4 d-flex justify-content-center rounded shadow-sm border-0');
        					todobutton.setAttribute('ondragstart','onDragStart(this,event);');
        					todobutton.setAttribute('draggable','true');
-       					todobutton.setAttribute('id','todozone');
+       					todobutton.setAttribute('id','ST00${status.index}');
        					taskName.setAttribute('class','text-gray-600');
        					taskName.setAttribute('href','${context}/task/detail?name=${my.taskId}');
        					issue.setAttribute('class','btn btn-sm ml-1');
@@ -575,7 +575,7 @@
    						todobutton.setAttribute('class', 'mb-4 py-3 bg-gray-100 pl-4 d-flex justify-content-center rounded shadow-sm border-0');
    						todobutton.setAttribute('ondragstart','onDragStart(this,event);');
    						todobutton.setAttribute('draggable','true');
-   						todobutton.setAttribute('id','todozone');
+   						todobutton.setAttribute('id','ST01${status.index}');
    						taskName.setAttribute('class','text-gray-600');
    						taskName.setAttribute('href','${context}/task/detail?name=${my.taskId}');
    						issue.setAttribute('class','btn btn-sm ml-1');
@@ -605,7 +605,7 @@
 						todobutton.setAttribute('class', 'mb-4 py-3 bg-gray-100 pl-4 d-flex justify-content-center rounded shadow-sm border-0');
 						todobutton.setAttribute('ondragstart','onDragStart(this,event);');
 						todobutton.setAttribute('draggable','true');
-						todobutton.setAttribute('id','todozone');
+						todobutton.setAttribute('id','ST02${status.index}');
 						taskName.setAttribute('class','text-gray-600');
 						taskName.setAttribute('href','${context}/task/detail?name=${my.taskId}');
 						issue.setAttribute('class','btn btn-sm ml-1');
