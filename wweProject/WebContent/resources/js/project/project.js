@@ -50,9 +50,8 @@
             
             
             
-            /* 최근프로젝트를 main화면에 그리기 */
+            /* 최근 프로젝트를 클릭했을 시 task메인 페이지로 이동 */
             let recentProject = (projectId,userId,workTime) => {
-            	/*console.log(data.innerHTML);*/
             	
             	let url = '/project/selectpro'; //정보를 요청할 경로
             	let paramObj = new Object();
@@ -91,13 +90,13 @@
             }
             
             
-            /* 초대 프로젝트를 main화면에 그리기 */
-            let invitedProject = (data) => {
-            	/*console.log(data.innerHTML);*/
+            /* 초대된 프로젝트를 클릭했을 시 task메인 페이지로 이동*/
+            let invitedProject = (projectId,leaderId) => {
             	
-            	let url = '/project/selectpro'; //정보를 요청할 경로
+            	let url = '/project/invitedpro'; //정보를 요청할 경로
             	let paramObj = new Object();
-            	paramObj.projectId = data.innerHTML;
+            	paramObj.projectId = projectId;
+            	paramObj.leaderId = leaderId;
             	
             	let headerObj = new Headers();
             	headerObj.append('content-type', 'application/x-www-form-urlencoded');

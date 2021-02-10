@@ -136,8 +136,8 @@ public class ProDao {
 			
 			while(rset.next()) {
 				ProjUser proj = new ProjUser();
-				proj.setProjectId(rset.getString("user_id"));
-				proj.setUserId(rset.getString("project_id"));
+				proj.setProjectId(rset.getString("project_id"));
+				proj.setUserId(rset.getString("user_id"));
 				proj.setLeaderId(rset.getString("leader_id"));
 				
 				projectList.add(proj);

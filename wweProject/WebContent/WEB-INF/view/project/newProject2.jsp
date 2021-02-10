@@ -445,7 +445,7 @@
 		
 		<!-- 최근 프로젝트 버튼 -->
 		<div class="recent-project">
-			<c:forEach var="project" items="${projectList}">
+			<c:forEach var="project" items="${recentproList}">
 					
 				<button type="button" class="mytitle2" onclick="recentProject(
 					'${project.projectId}',
@@ -461,8 +461,8 @@
 		
 		<!-- 초대 프로젝트 버튼 -->
 		<div class="recent-project">
-			<c:forEach var="project" items="${projectList}">
-					<button type="button" class="mytitle3" onclick="invitedProject(this)">
+			<c:forEach var="project" items="${invitedProList}">
+					<button type="button" class="mytitle3" onclick="invitedProject('${project.projectId}','${project.leaderId}')">
 							<h2>${project.projectId}</h2>
 					</button>
 			</c:forEach>
