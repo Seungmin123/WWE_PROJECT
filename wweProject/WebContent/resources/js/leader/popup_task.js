@@ -67,7 +67,7 @@
             paramObj.userId = $('#userId').val();
 			
             paramObj.authority = authorityChk("authority");
-
+			
             let headerObj = new Headers();
             headerObj.append('content-type', 'application/x-www-form-urlencoded');
             fetch(url,{

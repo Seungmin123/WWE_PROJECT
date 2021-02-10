@@ -154,8 +154,6 @@ public class MemberController extends HttpServlet {
 	private void signUpImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String data = request.getParameter("data");
-		System.out.println(data);
-		
 		Gson gson = new Gson();
 		Map parsedData = gson.fromJson(data, Map.class);
 		
@@ -236,6 +234,7 @@ public class MemberController extends HttpServlet {
 		System.out.println(code);
 		String access_Token = memberService.getAccessToken(code);
 		Member userInfo = memberService.kakaoUserInfo(access_Token);
+		//memberService.kakaoFriendList(access_Token);
 		
 		if(userInfo.getUserEmail() != null) {
 			
@@ -255,10 +254,6 @@ public class MemberController extends HttpServlet {
 			
 			request.getRequestDispatcher("/WEB-INF/view/member/MyPage.jsp")
 			.forward(request, response);
-			
-			
-			
-			
 			
 		}
 		
@@ -298,8 +293,6 @@ public class MemberController extends HttpServlet {
 		String userTell = (String) parsedData.get("userTell");
 		String userBirth = (String) parsedData.get("userBirth");
 	
-		
-		
 		Member member = new Member();
 		member.setUserID(userID);
 		member.setUserPW(userPW);

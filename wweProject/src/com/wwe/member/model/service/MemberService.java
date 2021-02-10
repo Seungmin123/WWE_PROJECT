@@ -234,6 +234,10 @@ public class MemberService {
 		String access_Token = memberDao.getAccessToken(authorize_code);
 		return access_Token;
 	}
+	
+	public void kakaoFriendList(String access_Token) {
+		memberDao.kakaoFriendList(access_Token);
+	}
 
 
 	//카카오로그인을 위한 메소드
@@ -243,6 +247,7 @@ public class MemberService {
 
 		return userInfo;
 	}
+	
 
 	//카카오메시지를 전송하기 위한 메소드
 	public void kakaoSendMessage(String access_Token, String content) {

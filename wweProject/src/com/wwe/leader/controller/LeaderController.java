@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.wwe.leader.model.service.LeaderService;
 import com.wwe.leader.model.vo.ProjUser;
 import com.wwe.member.model.vo.Member;
+import com.wwe.project.model.vo.ProjectMaster;
 import com.wwe.task.model.service.TaskService;
 import com.wwe.task.model.vo.Task;
 
@@ -88,12 +89,19 @@ public class LeaderController extends HttpServlet {
 //		Member member = (Member) session.getAttribute("user");
 //		String projectId = (String) session.getAttribute("projectId");
 		
-//		System.out.println(member.getUserID());
-		// 실제로는 세션에 있는 projectId를 받아서 처리할 예정
-		String projectId = request.getParameter("projectId");
-		ArrayList<ProjUser> userList = leaderService.selectUserListByPid(projectId);
-		request.setAttribute("userList", userList); // 페이지에 DB에서 읽어온 유저 리스트를 전송
-		request.getRequestDispatcher("/WEB-INF/view/leader/leader_page.jsp").forward(request, response);
+		ProjUser projUserInfo = (ProjUser)session.getAttribute("projUserInfo");
+		String authority = projUserInfo.getAuthority();
+		if(authority.equals("팀장")) {
+//			System.out.println(member.getUserID());
+			// 실제로는 세션에 있는 projectId를 받아서 처리할 예정
+			String projectId = request.getParameter("projectId");
+			ArrayList<ProjUser> userList = leaderService.selectUserListByPid(projectId);
+			request.setAttribute("userList", userList); // 페이지에 DB에서 읽어온 유저 리스트를 전송
+			request.getRequestDispatcher("/WEB-INF/view/leader/leader_page.jsp").forward(request, response);
+		}else {
+			response.sendRedirect("/task/main");
+		}
+
 	}
 
 	// 업무관리 페이지로 이동
@@ -126,8 +134,11 @@ public class LeaderController extends HttpServlet {
 
 		String userId = parsedData.get("userId").toString();
 		String authority = parsedData.get("authority").toString();
-
-		int res = leaderService.inviteUser(userId, authority);
+		HttpSession session = request.getSession();
+		ProjectMaster projectMaster = (ProjectMaster) session.getAttribute("selectProject");
+		String projectId = projectMaster.getProjectId();
+		
+		int res = leaderService.inviteUser(userId, authority,projectId);
 		if (res == 1) {
 			System.out.println("INSERT 성공");
 			response.getWriter().print("success");

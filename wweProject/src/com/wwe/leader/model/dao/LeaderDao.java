@@ -19,7 +19,7 @@ public class LeaderDao {
 	JDBCTemplate jdt = JDBCTemplate.getInstance();
 	
 	// 유저에게 권한을 추가하는 메소드
-	public int inviteUser(Connection conn, String userId, String authority) {
+	public int inviteUser(Connection conn, String userId, String authority, String projectId) {
 		
 		int res =0;
 		PreparedStatement pstm = null;
@@ -32,7 +32,7 @@ public class LeaderDao {
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, userId);
 			pstm.setString(2, authority);
-			pstm.setString(3, "프로젝트 1");
+			pstm.setString(3, projectId);
 			res = pstm.executeUpdate();
 			
 		}catch(SQLException e) {

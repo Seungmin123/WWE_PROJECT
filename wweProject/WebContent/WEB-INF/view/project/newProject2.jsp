@@ -438,25 +438,31 @@
 	
 		<!-- 새 프로젝트 버튼 -->
 		<div class="new-pro">
-	        <button type="button" class="mytitle1" id="createNewpro">
+	        <button type="button" class="mytitle1" id="open">
 	            <h2>프로젝트 추가 +</h2>
 	        </button>
 		</div>
 		
 		<!-- 최근 프로젝트 버튼 -->
 		<div class="recent-project">
-			<c:forEach var="project" items="${projectList}" varStatus="status">
-					<button type="button" class="mytitle2" onclick="recentProject(this)">
-							<h2>${project.projectId}</h2>
-							<h5>${project.workTime}</h5>
-					</button>
+			<c:forEach var="project" items="${recentproList}">
+					
+				<button type="button" class="mytitle2" onclick="recentProject(
+					'${project.projectId}',
+					'${project.userId}',	
+					'${project.workTime}'	
+				)">
+						<h2>${project.projectId}</h2>
+						<h5>${project.workTime}</h5>
+				</button>
+					
 			</c:forEach>
 		</div>		
 		
 		<!-- 초대 프로젝트 버튼 -->
 		<div class="recent-project">
-			<c:forEach var="project" items="${projectList}" varStatus="status">
-					<button type="button" class="mytitle3" onclick="invitedProject(this)">
+			<c:forEach var="project" items="${invitedProList}">
+					<button type="button" class="mytitle3" onclick="invitedProject('${project.projectId}','${project.leaderId}')">
 							<h2>${project.projectId}</h2>
 					</button>
 			</c:forEach>
@@ -496,7 +502,7 @@
 		                <span class="input-group-text">마감기한</span>
 		                <!-- 미니 달력 -->
 		                <div class="col-sm-9">
-		                   <input type="date" id="deadLine"class="form-control form-control-user h6 rounded"></input>
+		                   <input type="date" id="deadline"class="form-control form-control-user h6 rounded"></input>
 		                </div>
 		            </div>
 		
