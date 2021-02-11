@@ -77,12 +77,12 @@ public class LeaderDao {
 		ResultSet rset = null;
 		
 		String query = "SELECT *FROM TB_TASK "
-				+"WHERE PROJECT_ID = ? "
+				+"WHERE PROJECT_ID = ? AND TASK_STATE != ? "
 				+"ORDER BY T_IDX ASC";
 		try {
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1,projectId);
-			
+			pstm.setString(2, "ST03");
 			rset = pstm.executeQuery();
 			
 			while(rset.next()) {
@@ -180,6 +180,30 @@ public class LeaderDao {
 		return res;
 	}
 	
+	//TB_PROJECT의 프로젝트의 팀장을 변경하는 메소드
+	public int changeProLeader(Connection conn, ProjUser user) {
+		int res = 0;
+		PreparedStatement pstm = null;
+		
+		String query = "UPDATE TB_PROJECT "
+				+"SET LEADER_ID = ? WHERE PROJECT_ID = ?";
+		
+		System.out.println("다오에서 받은 프로젝트아이디 : "+ user.getProjectId());
+		System.out.println("다오에서 받은 리더아이디 : "+ user.getUserId());
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, user.getUserId());
+			pstm.setString(2, user.getProjectId());
+			res = pstm.executeUpdate();
+		}catch(SQLException e) {
+			throw new DataAccessException(ErrorCode.UU01, e);
+		}finally {
+			jdt.close(pstm);
+		}
+		
+		return res;
+	}
+	
 	//업무명으로 업무 검색하는 메소드
 	public ArrayList<Task> selectTaskByTask(Connection conn,Task task){
 		ArrayList<Task> taskList = new ArrayList<Task>();
@@ -189,12 +213,13 @@ public class LeaderDao {
 		System.out.println(task.getProjectId());
 		System.out.println(task.getTaskId());
 		String query = "SELECT*FROM TB_TASK "
-				+"WHERE PROJECT_ID = ? AND TASK_ID LIKE '%'||?||'%'";
+				+"WHERE PROJECT_ID = ? AND TASK_ID LIKE '%'||?||'%' AND TASK_STATE != ?";
 		
 		try {
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, task.getProjectId());
 			pstm.setString(2, task.getTaskId());
+			pstm.setString(3, "ST03");
 			rset = pstm.executeQuery();
 			
 			while(rset.next()) {
@@ -226,12 +251,13 @@ public class LeaderDao {
 		System.out.println(task.getProjectId());
 		System.out.println(task.getTaskId());
 		String query = "SELECT * FROM TB_TASK "
-				+"WHERE PROJECT_ID = ? AND USER_ID LIKE '%'||?||'%'";
+				+"WHERE PROJECT_ID = ? AND USER_ID LIKE '%'||?||'%' AND TASK_STATE != ?";
 		
 		try {
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, task.getProjectId());
 			pstm.setString(2, task.getUserId());
+			pstm.setString(3, "ST03");
 			rset = pstm.executeQuery();
 			
 			while(rset.next()) {
@@ -282,7 +308,9 @@ public class LeaderDao {
 	public int deleteTask(Connection conn, ArrayList<Integer> tIdx) {
 		int res = 0;
 		PreparedStatement pstm = null;
-		String query = "DELETE FROM TB_TASK WHERE T_IDX IN ( ";
+		
+		String query = "UPDATE TB_TASK SET TASK_STATE = ? "
+				+"WHERE T_IDX IN ( ";
 		
 		for(int i = 0; i<tIdx.size(); i++) {
 			if(i==tIdx.size()-1) {
@@ -293,11 +321,12 @@ public class LeaderDao {
 			}
 			
 		}
-		
 		try {
 			pstm = conn.prepareStatement(query);
+			pstm.setString(1, "ST03");
 			for(int i = 0; i< tIdx.size(); i++) {
-				pstm.setInt(i+1,Integer.parseInt(String.valueOf(tIdx.get(i))));
+				System.out.println("삭제할 업무 : "+String.valueOf(tIdx.get(i)));
+				pstm.setInt(i+2,Integer.parseInt(String.valueOf(tIdx.get(i))));
 			}
 			res = pstm.executeUpdate();
 		}catch (SQLException e) {

@@ -36,7 +36,7 @@
             <!-- Nav Item - Dashboard -->
                <!-- Nav Item - Dashboard -->
     <li class="nav-item">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="${context}/member/mypage">
             <i class="fas fa-user-alt"></i>
             <span>My Page</span></a>
     </li>
@@ -44,7 +44,7 @@
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item ">
-        <a class="nav-link" href="#" data-target="#collapseTwo"
+        <a class="nav-link" href="${context}/project/loadpro" data-target="#collapseTwo"
             aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-home"></i>
             <span>Main Page</span>
@@ -63,8 +63,8 @@
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Manage</h6>
-                <a class="collapse-item" href="${context}/leader/manage?projectId=프로젝트 1">팀관리</a>
-                <a class="collapse-item" href="${context}/leader/gettaskimpl?projectId=프로젝트 1">업무관리</a>
+                <a class="collapse-item" href="${context}/leader/manage">팀관리</a>
+                <a class="collapse-item" href="${context}/leader/totaltask">업무관리</a>
             </div>
         </div>
     </li>

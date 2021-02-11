@@ -43,8 +43,6 @@ public class LeaderController extends HttpServlet {
 			break;
 		case "chkuser":
 			chkInvalidUser(request, response); // 초대팝업에서 초대 버튼 클릭했을 시
-			
-			
 			break;
 		case "inviteimpl":
 			inviteImpl(request, response); // 팀원 초대 기능을 수행
@@ -88,23 +86,15 @@ public class LeaderController extends HttpServlet {
 	private void manage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		HttpSession session = request.getSession();
-//		Member member = (Member) session.getAttribute("user");
+
 		ProjUser projUser=  (ProjUser)session.getAttribute("selectProject");
 		ProjUser projUserInfo = (ProjUser)session.getAttribute("projUserInfo");
-		String authority = projUserInfo.getAuthority();
 		
-		if(authority.equals("팀장")) {
-//			System.out.println(member.getUserID());
-			// 실제로는 세션에 있는 projectId를 받아서 처리할 예정
+		ArrayList<ProjUser> userList = leaderService.selectUserListByPid(projUser.getProjectId());
+		System.out.println("유저 리스트 : "+userList);
+		request.setAttribute("userList", userList); // 페이지에 DB에서 읽어온 유저 리스트를 전송
+		request.getRequestDispatcher("/WEB-INF/view/leader/leader_page.jsp").forward(request, response);
 		
-//			String projectId = request.getParameter("projectId");
-			ArrayList<ProjUser> userList = leaderService.selectUserListByPid(projUser.getProjectId());
-			System.out.println("유저 리스트 : "+userList);
-			request.setAttribute("userList", userList); // 페이지에 DB에서 읽어온 유저 리스트를 전송
-			request.getRequestDispatcher("/WEB-INF/view/leader/leader_page.jsp").forward(request, response);
-		}else {
-			response.sendRedirect("/task/main");
-		}
 
 	}
 
@@ -116,7 +106,6 @@ public class LeaderController extends HttpServlet {
 		ProjUser project = (ProjUser) session.getAttribute("selectProject");
 		String projectId = project.getProjectId();
 	    
-		System.out.println(projectId);
 		
 		ArrayList<Task> taskList = leaderService.selectTaskList(projectId);
 		if (taskList.size() > 0) {
@@ -210,12 +199,17 @@ public class LeaderController extends HttpServlet {
 		projUser.setUserId(userId);
 		projUser.setAuthority(authority);
 
+		
+		System.out.println("바꿀 플젝 아이디 : "+projUser.getProjectId());
+		System.out.println("바꿀 리더아이디  : "+projUser.getUserId());
 		int res = leaderService.updateAuthority(projUser);
 		if (res > 0) {
 			if (authority.equals("팀장")) {
+				leaderService.changeProLeader(projUser); //TB_PROJECT의 LEADER_ID를 수정하는 코드
 				projUser.setUserId(curUser.getUserID());
 				projUser.setAuthority("읽기/쓰기");
 				res = leaderService.changeLeader(projUser); //기존에 팀장이었던 사람의 정보를 넘겨야함.
+				
 				if (res > 0) {
 					response.getWriter().print("authChange");
 				} else {
