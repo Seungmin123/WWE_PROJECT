@@ -55,7 +55,7 @@
 
 	.mytitle1 {
 	
-	    width: 250px;
+	    width: 200px;
 	    height: 150px;
 	
 	    color: white;
@@ -76,7 +76,7 @@
 	
 	.mytitle2 {
 	
-	    width: 250px;
+	    width: 200px;
 	    height: 150px;
 	
 	    color: white;
@@ -95,7 +95,7 @@
 	
 	.mytitle3 {
 	
-	    width: 250px;
+	    width: 200px;
 	    height: 150px;
 	
 	    color: white;
@@ -113,8 +113,11 @@
 	}
 	
 	.frame {
-		width: 350px;
-		max-height: 100vh;
+		width: 330px;
+		height: 480px;
+		position: fixed;
+		right: 50px;
+		bottom: 50px;
 	}
 	
 
@@ -151,7 +154,7 @@
 
                         <!-- Nav Item - Pages Collapse Menu -->
                         <li class="nav-item ">
-                            <a class="nav-link" href="project/newpro" data-target="#collapseTwo" aria-expanded="true"
+                            <a class="nav-link" href="${context}/project/loadpro" data-target="#collapseTwo" aria-expanded="true"
                                 aria-controls="collapseTwo">
                                 <i class="fas fa-home"></i>
                                 <span>Main Page</span>
@@ -159,76 +162,6 @@
                         </li>
 
 
-                        <!-- Nav Item - Utilities Collapse Menu -->
-                        <li class="nav-item">
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse"
-                                data-target="#collapseUtilities" aria-expanded="true"
-                                aria-controls="collapseUtilities">
-                                <i class="fas fa-crown"></i>
-                                <span>Admin Page</span>
-                            </a>
-                            <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                                data-parent="#accordionSidebar">
-                                <div class="bg-white py-2 collapse-inner rounded">
-                                    <h6 class="collapse-header">Manage</h6>
-                                    <a class="collapse-item" href="${context}/leader/manage">팀관리</a>
-                                    <a class="collapse-item" href="${context}/leader/totaltask">업무관리</a>
-                                </div>
-                            </div>
-                        </li>
-
-                        <hr class="sidebar-divider my-0">
-
-                        <!-- Heading -->
-                        <div class="sidebar-heading">
-                            views
-                        </div>
-
-                        <!-- Nav Item - Pages Collapse Menu -->
-                        <li class="nav-item">
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse"
-                                data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-                                <i class="fas fa-fw fa-folder"></i>
-                                <span>views</span>
-                            </a>
-                            <div id="collapsePages" class="collapse" aria-labelledby="headingPages"
-                                data-parent="#accordionSidebar">
-                                <div class="bg-white py-2 collapse-inner rounded">
-                                    <h6 class="collapse-header">view Screens:</h6>
-                                    <a class="collapse-item" href="/views/calendar">Calendar</a>
-                                    <a class="collapse-item" href="/views/graph">Graph</a>
-                                </div>
-                            </div>
-                        </li>
-
-                        <!-- Nav Item - Charts -->
-
-
-                        <li class="nav-item">
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse"
-                                data-target="#collapsePages1" aria-expanded="true" aria-controls="collapsePages">
-                                <i class="fas fa-fw fa-folder"></i>
-                                <span>Storage</span>
-                            </a>
-                            <div id="collapsePages1" class="collapse" aria-labelledby="headingPages"
-                                data-parent="#accordionSidebar">
-                                <div class="bg-white py-2 collapse-inner rounded">
-                                    <h6 class="collapse-header">Storage</h6>
-                                    <a class="collapse-item" href="/storage/personal">Personal</a>
-                                    <a class="collapse-item" href="/storage/share">Share</a>
-                                </div>
-                            </div>
-                        </li>
-
-
-
-                        <!-- Divider -->
-                        <hr class="sidebar-divider d-none d-md-block">
-
-                        <!-- Sidebar Toggler (Sidebar) -->
-                        <div class="text-center d-none d-md-inline">
-                            <button class="rounded-circle border-0" id="sidebarToggle"></button>
-                        </div>
 
                     </ul>
                 <!-- End of Sidebar -->
@@ -445,7 +378,7 @@
 		<!-- 새 프로젝트 버튼 -->
 		<div class="new-pro">
 	        <button type="button" class="mytitle1" id="open">
-	            <h2>프로젝트 추가 +</h2>
+	            <h3>프로젝트 추가 +</h3>
 	        </button>
 		</div>
 		
@@ -458,8 +391,8 @@
 						'${project.userId}',	
 						'${project.workTime}'	
 						)">
-						<h2>${project.projectId}</h2>
-						<h5>${project.workTime}</h5>
+						<h3>${project.projectId}</h3>
+						<h6>${project.workTime}</h6>
 					</button>
 				</c:if>	
 				
@@ -468,19 +401,18 @@
 		</div>		
 		
 		<!-- 초대 프로젝트 버튼 -->
-		
 			<c:forEach var="sortArr" items="${sortList}"> <!-- 넘겨받은 sortList의 값을 1개씩 뽑는다 (총 프로젝트 3개 들어있음) -->
 			<div class="recent-project">
 				<c:forEach var="project" items="${sortArr}"> <!-- sortArr에서 프로젝트를 1개씩 뽑는다 -->
 					<button type="button" class="mytitle3" onclick="invitedProject('${project.projectId}','${project.leaderId}')">
-						<h2>${project.projectId}</h2>
+						<h3>${project.projectId}</h3>
 					</button>
 				</c:forEach>
 			</div>
 			</c:forEach>
 		
 	
-	<iframe src="localhost:3200/?" class="frame"></iframe>
+	<iframe src="http://localhost:3100/?" class="frame"></iframe>
 	
 		
 		
