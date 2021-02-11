@@ -26,12 +26,12 @@
 					<!-- Sidebar - Brand -->
 					<a
 						class="sidebar-brand d-flex align-items-center justify-content-center"
-						href="index.html">
+						href="/task/main">
 						<div class="sidebar-brand-icon rotate-n-15">
 							<i class="fas fa-chess-knight"></i>
 						</div>
-						<div class="sidebar-brand-text mx-3">${sessionScope.user.userID}
-							하이</div>
+						<div class="sidebar-brand-text mx-3">WeWorkEasy
+							</div>
 					</a>
 
 					<!-- Divider -->
