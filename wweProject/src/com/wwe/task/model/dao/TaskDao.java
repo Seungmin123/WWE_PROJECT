@@ -272,7 +272,7 @@ public class TaskDao {
 		PreparedStatement pstm = null;
 		
 		try {
-			String query = "UPDATE TB_TASK SET TASK_STATE = ? WHERE PROJECT_ID = ? AND DEAD_LINE + 1 < SYSDATE";
+			String query = "UPDATE TB_TASK SET TASK_STATE = ? WHERE PROJECT_ID = ? AND TASK_STATE != 'ST03' AND DEAD_LINE + 1 < SYSDATE";
 			
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, taskState);

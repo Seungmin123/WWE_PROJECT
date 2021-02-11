@@ -35,8 +35,8 @@ let feedBack = ()=>{
 			nameDiv.innerHTML += jsonData.userId;
 			commentDiv.innerHTML += jsonData.feedbackComment;
 			
-			document.querySelector('.commentList').appendChild(nameDiv);
-			document.querySelector('.commentList').appendChild(commentDiv);
+			document.querySelector('.commentList').append(nameDiv);
+			document.querySelector('.commentList').append(commentDiv);
 			
 			
 		}else{
