@@ -89,7 +89,7 @@
 
             }
             
-            // 최근프로젝트 개수 제한
+/*            // 최근프로젝트 개수 제한
             $(function() {
             	var maxAppend = 1; //버튼 누른 횟수 저장
             	
@@ -98,9 +98,7 @@
 	            			return; //3번째부터는 append 안되고 return 시키기
 	            	maxAppend++;
             	});
-            		
-            }) 
-  
+            })*/ 
             
             /* 초대된 프로젝트를 클릭했을 시 task메인 페이지로 이동*/
             let invitedProject = (projectId,leaderId) => {
@@ -242,15 +240,15 @@
             autocomplete(document.getElementById("myInput"), countries);
             
             
- /*         이전날짜 실행 막기 
-            let today = new Date();
-            let year = today.getFullYear();
-            let month = ("0" + (1 + today.getMonth())).slice(-2);
-            let day = ("0" + today.getDate()).slice(-2);
-            today = new Date(year, month - 1, day);
-            let tempArr = modDeadLine.split('-');
-            let modDate = new Date(tempArr[0], tempArr[1] - 1, tempArr[2]);
-            let betweenDay = (modDate.getTime() - today.getTime()) / 1000 / 60 / 60 / 24;
-            if (betweenDay < 0) {
-                alert("변경할 수 없는 날짜입니다.");
-            } */
+//            //이전날짜 실행 막기 
+//            let today = new Date();
+//            let year = today.getFullYear();
+//            let month = ("0" + (1 + today.getMonth())).slice(-2);
+//            let day = ("0" + today.getDate()).slice(-2);
+//            today = new Date(year, month - 1, day);
+//            let tempArr = modDeadLine.split('-');
+//            let modDate = new Date(tempArr[0], tempArr[1] - 1, tempArr[2]);
+//            let betweenDay = (modDate.getTime() - today.getTime()) / 1000 / 60 / 60 / 24;
+//            if (betweenDay < 0) {
+//                alert("변경할 수 없는 날짜입니다.");
+//            } 
