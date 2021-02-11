@@ -53,68 +53,36 @@
 		justify-content: space-around;
 	}
 
-	.mytitle1 {
-	
+	.mytitle {
 	    width: 200px;
 	    height: 150px;
-	
 	    color: white;
-	
 	    text-align: center;
-	
-	    background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);
 	    background-size: cover;
 	    background-position: center;
-	
 	    border-radius: 10px;
 	    border: none;
-	
 	    padding-top: 20px;
-	    
 	    cursor: pointer;
 	}
 	
-	.mytitle2 {
 	
-	    width: 200px;
-	    height: 150px;
-	
-	    color: white;
-	
-	    text-align: center;
-	
-	    background-image: linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%);
-	    background-size: cover;
-	    background-position: center;
-	
-	    border-radius: 10px;
-	    border: none;
-	
-	    padding-top: 20px;
+	#open {
+		background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);
 	}
 	
-	.mytitle3 {
-	
-	    width: 200px;
-	    height: 150px;
-	
-	    color: white;
-	
-	    text-align: center;
-	
-	    background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
-	    background-size: cover;
-	    background-position: center;
-	
-	    border-radius: 10px;
-	    border: none;
-	
-	    padding-top: 20px;
+	#add {
+		 background-image: linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%);
 	}
+
+	#invited {
+		background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+	}
+	
 	
 	.frame {
-		width: 330px;
-		height: 480px;
+		width: 300px;
+		height: 400px;
 		position: fixed;
 		right: 50px;
 		bottom: 50px;
@@ -377,7 +345,7 @@
 	
 		<!-- 새 프로젝트 버튼 -->
 		<div class="new-pro">
-	        <button type="button" class="mytitle1" id="open">
+	        <button type="button" class="mytitle" id="open">
 	            <h3>프로젝트 추가 +</h3>
 	        </button>
 		</div>
@@ -386,7 +354,7 @@
 		<div class="recent-project">
 			<c:forEach var="project" items="${recentproList}" varStatus="status">
 				<c:if test="${status.index < 3}">
-					<button type="button" id="add" class="mytitle2" onclick="recentProject(
+					<button type="button" id="add" class="mytitle" onclick="recentProject(
 						'${project.projectId}',
 						'${project.userId}',	
 						'${project.workTime}'	
@@ -404,15 +372,18 @@
 			<c:forEach var="sortArr" items="${sortList}"> <!-- 넘겨받은 sortList의 값을 1개씩 뽑는다 (총 프로젝트 3개 들어있음) -->
 			<div class="recent-project">
 				<c:forEach var="project" items="${sortArr}"> <!-- sortArr에서 프로젝트를 1개씩 뽑는다 -->
-					<button type="button" class="mytitle3" onclick="invitedProject('${project.projectId}','${project.leaderId}')">
+					<button type="button" id="invited" class="mytitle" onclick="invitedProject('${project.projectId}','${project.leaderId}')">
 						<h3>${project.projectId}</h3>
 					</button>
 				</c:forEach>
 			</div>
 			</c:forEach>
 		
+		
+		
 	
-	<iframe src="http://localhost:3100/?" class="frame"></iframe>
+	<!-- 채팅창 iframe -->
+	<iframe src="http://localhost:3100/" class="frame"></iframe>
 	
 		
 		
