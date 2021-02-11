@@ -64,10 +64,23 @@ public class ProController extends HttpServlet {
 		ArrayList<ProjectMaster> recentproList = proService.selectRecentProject(userId.getUserID());
 		ArrayList<ProjUser> invitedProList = proService.selectInvitedProject(userId.getUserID()); 
 		
-		request.getSession().setAttribute("recentList", recentproList);
+		//프로젝트 3개씩 잘라서 띄워주기
+		List<Object> sortList = new ArrayList<Object>(); // 최종 jsp로 넘길 리스트
+		List<ProjUser> initList = new ArrayList<ProjUser>(); // 3개씩 잘라서 저장할 리스트 (3개씩 들어가는 리스트)
+		int i=0; // 1씩 증가하며 initList에 저장할지 sortList에 저장할지 확인용
+		for ( ProjUser pro : invitedProList) { // invitedProList에 저장된 객체를 1개씩 뽑는다
+			initList.add(pro); // initList에 추가하고
+			i++; // i 는 1씩 증가한다
+			if(i%3 == 0 || i >= invitedProList.size()) { // 만약 i가 3의 배수거나 invitedProList의 길이보다 크거나 같을경우
+				sortList.add(initList); // initList에 저장된 데이터를 sortList에 추가
+				initList = new ArrayList<ProjUser>(); // 그후 initList를 다시 초기화 한다
+			}
+		}
 		
+		request.getSession().setAttribute("recentList", recentproList);
 		request.setAttribute("recentproList", recentproList);
-		request.setAttribute("invitedProList", invitedProList);		
+		request.setAttribute("invitedProList", invitedProList);
+		request.setAttribute("sortList", sortList); //3개씩 자른 프로젝트 jsp로 보내주기!
 		request.getRequestDispatcher("/WEB-INF/view/project/newProject2.jsp")
 		.forward(request, response);
 		

@@ -111,6 +111,12 @@
 	
 	    padding-top: 20px;
 	}
+	
+	.frame {
+		width: 350px;
+		max-height: 100vh;
+	}
+	
 
 </style>
 
@@ -462,20 +468,21 @@
 		</div>		
 		
 		<!-- 초대 프로젝트 버튼 -->
-		<div class="recent-project">
-			<c:set var="invitedProListSize" value="${invitedProList.length}"></c:set>
-			<c:forEach var="project" items="${invitedProList}" varStatus="status">
-			<button type="button" class="mytitle3" onclick="invitedProject('${project.projectId}','${project.leaderId}')">
+		
+			<c:forEach var="sortArr" items="${sortList}"> <!-- 넘겨받은 sortList의 값을 1개씩 뽑는다 (총 프로젝트 3개 들어있음) -->
+			<div class="recent-project">
+				<c:forEach var="project" items="${sortArr}"> <!-- sortArr에서 프로젝트를 1개씩 뽑는다 -->
+					<button type="button" class="mytitle3" onclick="invitedProject('${project.projectId}','${project.leaderId}')">
 						<h2>${project.projectId}</h2>
 					</button>
-				<c:if test= "${invitedProListSize mod 3 == 0}">
-					<br>
-					
-				</c:if>
+				</c:forEach>
+			</div>
 			</c:forEach>
-		</div>		
 		
-	</div>	
+	
+	<iframe src="localhost:3200/?" class="frame"></iframe>
+	
+		
 		
 		
 		<!-- 새 프로젝트 modal창 -->
@@ -494,15 +501,16 @@
 		                <input type="text" id="title" class="form-control" aria-label="Sizing example input"
 		                       aria-describedby="inputGroup-sizing-default">
 		            </div>
-		
-		
-		            <!-- Make sure the form has the autocomplete function switched off: -->
-		            <div class="autocomplete" style="width:300px;">
-		                <input type="text" name="addMember" id="myInput" placeholder="팀원을 추가하세요!">
-		            </div>
+				           
 		            
 		            <!-- 팀원추가 넣을부분!! -->
-		            <button type="button" onclick="">추가</button>
+		            <div class="input-group mb-3">
+		                 <div class="addMember" >
+			            	<span class="input-group-text" style="width:60px">작성자</span>
+			                <input type="text" name="addMember" id="myInput" class="form-control" placeholder="팀원을 추가하세요!">
+			                <button onclick="autocomplete()">추가</button>
+		           		 </div>
+					</div>
 		
 		
 		            <div class="input-group mb-3">
