@@ -22,18 +22,29 @@ let feedBack = ()=>{
 	}).then(msg =>{
 		if(msg){
 			console.dir('완료');
-			selectFeedback();
+			document.getElementById('feedbackComment').value=" ";
+			console.dir(msg);
+			let jsonData = JSON.parse(msg);
+			
+			let nameDiv = document.createElement('div');
+			let commentDiv = document.createElement('div');
+			
+			nameDiv.setAttribute('class','form-control form-control-user bg-light col-sm-2 mr-2 border-0');
+			commentDiv.setAttribute('class','form-control form-control-user bg-light border-0');
+			
+			nameDiv.innerHTML += jsonData.userId;
+			commentDiv.innerHTML += jsonData.feedbackComment;
+			
+			document.querySelector('.commentList').appendChild(nameDiv);
+			document.querySelector('.commentList').appendChild(commentDiv);
+			
+			
 		}else{
 			console.dir('실패');
 		}
 	})
 }
 
-let selectFeedback = () =>{
-	
-	
-}
-	
 let calendar = () => {
 	
    let today = new Date();
@@ -49,6 +60,11 @@ let calendar = () => {
    if(betweenDay<0){
       alert("변경할 수 없는 날짜입니다.");
    }
+}
+
+let help = () => {
+	
+	
 }
 	
 	
