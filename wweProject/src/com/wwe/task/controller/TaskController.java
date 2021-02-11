@@ -107,24 +107,6 @@ public class TaskController extends HttpServlet {
 	
 	}
 	
-	//마감기한 지난 업무 삭제하기
-	/*
-	 * protected void deleteTask(HttpServletRequest request, HttpServletResponse
-	 * response) throws ServletException, IOException {
-	 * 
-	 * 
-	 * Project project = (Project) request.getSession().getAttribute("project");
-	 * 
-	 * String projectId = project.getProjectId(); //String projectId = "프로젝트 1";
-	 * 
-	 * int res = taskService.deleteTask(projectId);
-	 * 
-	 * if(res > 0) { System.out.println("업무삭제 완료"); }else {
-	 * System.out.println("업무삭제 실패"); }
-	 * 
-	 * }
-	 */
-	
 	//권한,이름불러오기
 	protected void selectName(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -197,16 +179,14 @@ public class TaskController extends HttpServlet {
 		//멤버 별 업무리스트
 		//memberList로 맞춰서 업무리스트 가져오기
 		//프로젝트 세션에서 불러오기
-		//Project project = (Project) request.getSession().getAttribute("project");
-		//String projectId = project.getProjectId();
+		ProjUser project = (ProjUser) request.getSession().getAttribute("selectProject");
+		String projectId = project.getProjectId();
+		String leaderId = project.getLeaderId();
 		
 		//session에서 leaderId userId 받아오기
-		String projectId = "프로젝트 1";
 		Member user = (Member) request.getSession().getAttribute("user");
 		String userId = user.getUserID();
-		//String userId = "yeongwoo";
 		
-		String leaderId = "wwe123";
 		
 		ArrayList<Task> taskByMember = taskService.selectTaskbyMem(projectId,leaderId,userId);
 
@@ -229,8 +209,6 @@ public class TaskController extends HttpServlet {
 		
 		String taskId = request.getParameter("name") ; 
 		int tIdx = 0;
-		//String leaderId = request.getSession.getAttribute("project");
-		request.setAttribute("leaderId", "임희원"); // 세션 값으로 받아오기
 		
 		ArrayList<Task> detailList = taskService.detailTask(taskId);
 		
@@ -281,11 +259,9 @@ public class TaskController extends HttpServlet {
 		  String taskContent = request.getParameter("taskContent");
 		  Member user = (Member)request.getSession().getAttribute("user");
 		  
-		  //Project project = (Project) request.getSession().getAttribute("project");
-		  //String projectId = project.getProjectId();
+		  ProjUser project = (ProjUser) request.getSession().getAttribute("selectProject");
+		  String projectId = project.getProjectId();
 		  String userId = user.getUserID();
-		  //String userId = "yeongwoo";
-		  String projectId = "프로젝트 1";
 		  
 		  if(taskName == null && taskContent == null && deadLine == null) {
 			  request.setAttribute("alertMsg", "내용을 모두 입력해주세요.");
@@ -309,6 +285,7 @@ public class TaskController extends HttpServlet {
 			  request.setAttribute("url", "/task/my");
 			  
 			  new MemberService().addAlarm(userId, projectId, AddAlarmCode.IT01.alarmCode());
+			  //new MemberService().kakaoSendMessage("rkZVd00R_wEE82fu2ustpOknZNHZXVv0IpSx0AopdSkAAAF3i7FSxA", user.getUserName() + " 님이 업무를 추가했습니다.");
 			  
 			  request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
 			  
@@ -388,13 +365,11 @@ public class TaskController extends HttpServlet {
 		feedback.settIdx(tIdx);
 		
 		int res = taskService.insertFeedback(feedback);
-		
-		String feed = gson.toJson("data");	
-		
+	
 		if(res > 0) { 
-			
+			String feed = gson.toJson(feedback);	
 			response.setContentType("application/json");
-			response.getWriter().print("feed");
+			response.getWriter().print(feed);
 			
 		 } else { 
 			 response.getWriter().print("failed");
