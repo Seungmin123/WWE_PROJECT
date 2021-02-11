@@ -21,7 +21,7 @@
       <%-- url 출력 --%>
       <c:if test="${url != null}">
          //location.href: 현재 페이지의 url 출력
-         location.href = context + '${url}'; 
+         location.href = '${url}'; 
       </c:if>
    </script>
 </body>
