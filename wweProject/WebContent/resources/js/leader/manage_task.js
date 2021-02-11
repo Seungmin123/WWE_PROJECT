@@ -167,7 +167,6 @@ let searchtask = ()=>{
 		url = "/leader/searchbyid";
 	}
 	let paramObj = new Object();
-	paramObj.projectId = "프로젝트 1";
 	paramObj.word = word;
 	let headerObj = new Headers();
 	headerObj.append('content-type','application/x-www-form-urlencoded');

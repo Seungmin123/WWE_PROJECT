@@ -43,6 +43,8 @@ public class LeaderController extends HttpServlet {
 			break;
 		case "chkuser":
 			chkInvalidUser(request, response); // 초대팝업에서 초대 버튼 클릭했을 시
+			
+			
 			break;
 		case "inviteimpl":
 			inviteImpl(request, response); // 팀원 초대 기능을 수행
@@ -87,15 +89,17 @@ public class LeaderController extends HttpServlet {
 
 		HttpSession session = request.getSession();
 //		Member member = (Member) session.getAttribute("user");
-//		String projectId = (String) session.getAttribute("projectId");
-		
+		ProjUser projUser=  (ProjUser)session.getAttribute("selectProject");
 		ProjUser projUserInfo = (ProjUser)session.getAttribute("projUserInfo");
 		String authority = projUserInfo.getAuthority();
+		
 		if(authority.equals("팀장")) {
 //			System.out.println(member.getUserID());
 			// 실제로는 세션에 있는 projectId를 받아서 처리할 예정
-			String projectId = request.getParameter("projectId");
-			ArrayList<ProjUser> userList = leaderService.selectUserListByPid(projectId);
+		
+//			String projectId = request.getParameter("projectId");
+			ArrayList<ProjUser> userList = leaderService.selectUserListByPid(projUser.getProjectId());
+			System.out.println("유저 리스트 : "+userList);
 			request.setAttribute("userList", userList); // 페이지에 DB에서 읽어온 유저 리스트를 전송
 			request.getRequestDispatcher("/WEB-INF/view/leader/leader_page.jsp").forward(request, response);
 		}else {
@@ -107,8 +111,27 @@ public class LeaderController extends HttpServlet {
 	// 업무관리 페이지로 이동
 	private void totalTask(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		HttpSession session = request.getSession();
+		ProjUser project = (ProjUser) session.getAttribute("selectProject");
+		String projectId = project.getProjectId();
+	    
+		System.out.println(projectId);
+		
+		ArrayList<Task> taskList = leaderService.selectTaskList(projectId);
+		if (taskList.size() > 0) {
+			System.out.println("업무리스트 불러오기 성공");
+			request.setAttribute("taskList", taskList);
+			request.setAttribute("taskCount", taskList.size());
+			request.getRequestDispatcher("/WEB-INF/view/leader/total_task.jsp").forward(request, response);
+		} else {
+			request.setAttribute("alertMsg", "해당 프로젝트에 업무가 없습니다.");
+			request.setAttribute("url", "/task/main");
+			request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
+		}
+		
 
-		request.getRequestDispatcher("/WEB-INF/view/leader/total_task.jsp").forward(request, response);
+		
 	}
 
 	// 팀원을 초대하기 위해 입력한 아이디가 유효한지 확인
@@ -135,8 +158,8 @@ public class LeaderController extends HttpServlet {
 		String userId = parsedData.get("userId").toString();
 		String authority = parsedData.get("authority").toString();
 		HttpSession session = request.getSession();
-		ProjectMaster projectMaster = (ProjectMaster) session.getAttribute("selectProject");
-		String projectId = projectMaster.getProjectId();
+		ProjUser project = (ProjUser) session.getAttribute("selectProject");
+		String projectId = project.getProjectId();
 		
 		int res = leaderService.inviteUser(userId, authority,projectId);
 		if (res == 1) {
@@ -174,12 +197,13 @@ public class LeaderController extends HttpServlet {
 		Gson gson = new Gson();
 		Map parsedData = gson.fromJson(data, Map.class);
 
-		String projectId = parsedData.get("projectId").toString();
+		HttpSession session = request.getSession();
+		ProjUser project = (ProjUser) session.getAttribute("selectProject");
+		String projectId = project.getProjectId();
 		String userId = parsedData.get("userId").toString();
 		String authority = parsedData.get("authority").toString();
 		Member curUser = (Member)request.getSession().getAttribute("user");
 
-		System.out.println(curUser.getUserID());
 		
 		ProjUser projUser = new ProjUser();
 		projUser.setProjectId(projectId);
@@ -213,7 +237,9 @@ public class LeaderController extends HttpServlet {
 
 		Map parsedData = gson.fromJson(data, Map.class);
 
-		String projectId = parsedData.get("projectId").toString();
+		HttpSession session = request.getSession();
+		ProjUser project = (ProjUser) session.getAttribute("selectProject");
+		String projectId = project.getProjectId();
 		String word = parsedData.get("word").toString();
 
 		Task task = new Task();
@@ -236,8 +262,9 @@ public class LeaderController extends HttpServlet {
 		Gson gson = new Gson();
 
 		Map parsedData = gson.fromJson(data, Map.class);
-
-		String projectId = parsedData.get("projectId").toString();
+		HttpSession session = request.getSession();
+		ProjUser project = (ProjUser) session.getAttribute("selectProject");
+		String projectId = project.getProjectId();
 		String word = parsedData.get("word").toString();
 
 		Task task = new Task();
@@ -309,7 +336,9 @@ public class LeaderController extends HttpServlet {
 
 		Map parsedData = gson.fromJson(data, Map.class);
 
-		String projectId = parsedData.get("projectId").toString();
+		HttpSession session = request.getSession();
+		ProjUser project = (ProjUser) session.getAttribute("selectProject");
+		String projectId = project.getProjectId();
 		String deleteMember = parsedData.get("deleteMember").toString();
 
 		ProjUser user = new ProjUser();
@@ -328,9 +357,12 @@ public class LeaderController extends HttpServlet {
 	public void allocTask(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
 		String data = request.getParameter("data");
 		Gson gson = new Gson();
-
+		
+		HttpSession session = request.getSession();
+	    ProjUser project = (ProjUser) session.getAttribute("selectProject");
+	    String projectId = project.getProjectId();
+	    
 		Map parsedData = gson.fromJson(data, Map.class);
-		String projectId = parsedData.get("projectId").toString();
 		String userId = parsedData.get("userId").toString();
 		String taskId = parsedData.get("taskId").toString();
 		String deadLine = parsedData.get("deadLine").toString();
