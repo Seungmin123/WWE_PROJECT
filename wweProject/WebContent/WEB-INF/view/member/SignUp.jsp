@@ -50,8 +50,7 @@
                                     </div>
                                     
                                 </div>
-                                <span class="form-control-user" id = "checkPW"></span>
-                                <br>
+                                <span class="mypageitem" id = "checkPW"></span>
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-user" 
                                     id="userEmail" name = "userEmail" placeholder="Email Address">
@@ -88,12 +87,14 @@
                                 </div>
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-user" 
-                                    id="userTell" name = "userTell" placeholder="Tell">
+                                    id="userTell" name = "userTell" placeholder="Tell  ex)01012341234" onchange = "check_tell()">
                                 </div>
+                                <span class="mypageitem" id = "checkTell"></span>
                                 <div class="form-group">
-                                    <input type="date" class="form-control form-control-user" 
-                                    id="userBirth" name = "userBirth" placeholder="Birth">
+                                    <input type="text" class="form-control form-control-user" 
+                                    id="userBirth" name = "userBirth" placeholder="생년월일  ex)19950802" onchange = "check_birth()">
                                 </div>
+                                <span class="mypageitem" id = "checkBirth"></span>
                                 <a onclick = "signup()" class="btn btn-primary btn-user btn-block">
                                     Register Account
                                 </a>

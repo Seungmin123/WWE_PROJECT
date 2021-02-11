@@ -56,10 +56,14 @@
                     <a href = "/member/signup"><button class="btn btn-secondary btn-xl" id="sendMessageButton" type="submit">Sign Up</button></a>
                 </div>
                 <div class="form-group">
-                    <button onclick = "loginWithKakao()" class="btn btn-secondary btn-xl" id="sendMessageButton" type="submit">
+                    <a href="https://kauth.kakao.com/oauth/authorize?
+										client_id=aede6a7de778e3191a75f6f270b8e947&
+										redirect_uri=http://localhost:9393/member/kakao&
+										response_type=code"  
+						class="btn btn-secondary btn-xl" id="sendMessageButton" type="submit">
                         <i class="fab fa-fw fa-kickstarter-k" style = "padding-right : 10px;"></i>
                         Kakao Social-login
-                    </button> 
+                    </a> 
                 </div>
             </div>
         </header>
