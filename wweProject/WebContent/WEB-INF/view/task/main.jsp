@@ -46,7 +46,7 @@
 
                         <!-- Nav Item - Pages Collapse Menu -->
                         <li class="nav-item ">
-                            <a class="nav-link" href="project/loadpro" data-target="#collapseTwo" aria-expanded="true"
+                            <a class="nav-link" href="${context}/project/loadpro" data-target="#collapseTwo" aria-expanded="true"
                                 aria-controls="collapseTwo">
                                 <i class="fas fa-home"></i>
                                 <span>Main Page</span>
@@ -387,8 +387,23 @@
                         <!-- Basic Card Example -->
                       
                         <div class="row justify-content-around d-flex">
+                        
+                        	<c:if test="${selectProject.leaderId == user.userID}">
+                        	<div class="card shadow mb-4">
+                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                    <a class="m-0 font-weight-bold text-primary" id="leaderName" href="${context}/task/my">My List</a>
+                                    <div class="btn btn-primary btn-icon-split ml-3" id="authority">
+                                        <span class="text">Leader</span>
+                                    </div>
+                                </div>
+                                <div class="card-body leaderList">
+                                
+                                </div>
+                            </div>
+                        	
+                        	</c:if>
                           
-
+							<c:if test="${selectProject.leaderId != user.userID}">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
                                     <a class="m-0 font-weight-bold text-primary" id="leaderName" href="${context}/task/member?name=${selectProject.leaderId}">${selectProject.leaderId}</a>
@@ -413,7 +428,8 @@
                                 <div class="card-body mylist">
                                 </div>
                             </div>
-
+							</c:if>
+							
 							<c:forEach var="member" items="${memberList}" varStatus="status">
 							<c:if test="${member.userId != selectProject.leaderId && member.userId != user.userID}">
 							
@@ -534,8 +550,51 @@
         			 let issue;
         			 let memberName;
        			<c:forEach var="task" items="${taskList}" varStatus="status">
+       			
+       			<c:choose>
+       			<c:when test="${task.userId == user.userID && user.userID == selectProject.leaderId && task.taskState != 'ST04' && task.taskState != 'ST03'}">
+       				
+					tasklist = document.createElement('div');
+					divElement = document.createElement('div');
+					taskname = document.createElement('a');
+					progressbar = document.createElement('div');
+					innerprogress = document.createElement('div');
+					issue = document.createElement('span');
+					memberName = document.querySelector('#mName');
 					
-       					<c:if test="${task.userId == selectProject.leaderId && task.taskState != 'ST04' && task.taskState != 'ST03'}">
+					tasklist.setAttribute('class','mb-4 py-3 bg-gray-100 pl-4 d-flex justify-content-center rounded shadow-sm');
+					taskname.setAttribute('class','text-gray-600 border-0');
+					taskname.setAttribute('href','${context}/task/detail?name=${task.taskId}');
+					progressbar.setAttribute('class','progress progress-sm');
+					innerprogress.setAttribute('class','progress-bar bg-info');
+					innerprogress.setAttribute('role','progressbar');
+					innerprogress.setAttribute('aria-valuenow','50');
+					innerprogress.setAttribute('aria-valuemin','aria-valuemin');
+					innerprogress.setAttribute('aria-valuemax','100');
+					<c:if test= "${task.taskState == 'ST00'}">
+					innerprogress.setAttribute('style','width: 0');
+					</c:if>
+					<c:if test= "${task.taskState == 'ST01'}">
+					innerprogress.setAttribute('style','width: 50%');
+					</c:if>
+					<c:if test= "${task.taskState == 'ST02'}">
+					innerprogress.setAttribute('style','width: 100%');
+					</c:if>
+					issue.setAttribute('class','btn btn-sm ml-1 mr-1');
+
+					divElement.innerHTML += '${task.taskId}';
+		
+					taskname.appendChild(divElement);
+					progressbar.appendChild(innerprogress);
+					taskname.appendChild(progressbar);
+					tasklist.appendChild(taskname);
+					tasklist.appendChild(issue);
+
+					document.querySelector('.leaderList').appendChild(tasklist);
+					
+					</c:when>
+					
+       					<c:when test="${task.userId == selectProject.leaderId && task.taskState != 'ST04' && task.taskState != 'ST03'}">
        					tasklist = document.createElement('div');
        					divElement = document.createElement('div');
        					taskname = document.createElement('a');
@@ -574,9 +633,9 @@
 
        					document.querySelector('.leaderList').appendChild(tasklist);
        					
-       					</c:if>
+       					</c:when>
        					
-       					<c:if test="${task.userId == user.userID && task.taskState != 'ST04' && task.taskState != 'ST03'}">
+       					<c:when test="${task.userId == user.userID && task.taskState != 'ST04' && task.taskState != 'ST03'}">
        					tasklist = document.createElement('div');
        					divElement = document.createElement('div');
        					taskname = document.createElement('a');
@@ -613,9 +672,9 @@
        					tasklist.appendChild(issue);
 
        					document.querySelector('.myList').appendChild(tasklist);
+       					</c:when>
        					
-       					</c:if>
-
+       					</c:choose>
         		</c:forEach>
         		
    				}

@@ -28,15 +28,19 @@ let feedBack = ()=>{
 			
 			let nameDiv = document.createElement('div');
 			let commentDiv = document.createElement('div');
+			let totalDiv = document.createElement('div');
 			
-			nameDiv.setAttribute('class','form-control form-control-user bg-light col-sm-2 mr-2 border-0');
+			nameDiv.setAttribute('class','form-control form-control-user nameDiv bg-light col-sm-2 mr-2 border-0');
 			commentDiv.setAttribute('class','form-control form-control-user bg-light border-0');
+			totalDiv.setAttribute('class','d-flex justify-content-between');
 			
 			nameDiv.innerHTML += jsonData.userId;
 			commentDiv.innerHTML += jsonData.feedbackComment;
-			
-			document.querySelector('.commentList').append(nameDiv);
-			document.querySelector('.commentList').append(commentDiv);
+
+			totalDiv.appendChild(nameDiv);
+			totalDiv.appendChild(commentDiv);
+			document.querySelector('.commentList').after(totalDiv);
+
 			
 			
 		}else{

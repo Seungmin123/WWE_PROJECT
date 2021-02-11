@@ -110,10 +110,8 @@ public class TaskController extends HttpServlet {
 	//권한,이름불러오기
 	protected void selectName(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//Project project = (Project) request.getSession().getAttribute("project");
-		
-		//String projectId = project.getProjectId();
-		String projectId = "프로젝트 1";
+		ProjUser project = (ProjUser) request.getSession().getAttribute("selectProject");
+		String projectId = project.getProjectId();
 		
 		ArrayList<ProjUser> memberList = taskService.selectName(projectId);
 
@@ -234,7 +232,7 @@ public class TaskController extends HttpServlet {
 		if(detailList != null) {
 			request.setAttribute("detailList", detailList);
 			request.setAttribute("feedList", feedList);
-			request.getAttribute("memberList");
+			selectName(request,response);
 			
 			request.getRequestDispatcher("/WEB-INF/view/task/detail.jsp").forward(request, response);
 		}else {

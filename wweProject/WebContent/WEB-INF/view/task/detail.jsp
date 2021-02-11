@@ -54,7 +54,7 @@
 
                         <!-- Nav Item - Pages Collapse Menu -->
                         <li class="nav-item ">
-                            <a class="nav-link" href="project/loadpro" data-target="#collapseTwo" aria-expanded="true"
+                            <a class="nav-link" href="${context}/project/loadpro" data-target="#collapseTwo" aria-expanded="true"
                                 aria-controls="collapseTwo">
                                 <i class="fas fa-home"></i>
                                 <span>Main Page</span>
@@ -530,11 +530,13 @@
                                    			</button>
                                    		 </div>
                                    	</form>	 
-                                   		 <hr class="hr">
+                                   		 <hr class="hr commentList">
                                    		 <c:forEach var="feed" items="${feedList}" varStatus="status">
                                    		 <div class="commentList d-flex justify-content-between">
+                                   		 	
                                    		 	<div class="form-control form-control-user bg-light col-sm-2 mr-2  border-0">${feed.userId}</div>
                                    		 	<div class="form-control form-control-user bg-light border-0" >${feed.feedbackComment}</div>
+                                   		 	
                                    		 </div>
                                    		 </c:forEach>
                                 </div>
@@ -660,9 +662,19 @@
 			 });
 			
 			let modifyButton = ()=>{
+				
 				let button = document.getElementById('modify');
 				button.setAttribute('style','display:none; visibility:hidden;');
 				
+				<c:forEach var="member" items="${memberList}" varStatus="status">
+				
+				<c:if test="${member.userId == user.userID && member.userId == detailList[0].userId}">
+					<c:if test="${member.authority == '팀장' || member.authority == '읽기/쓰기'}">
+						let button = document.getElementById('modify');
+						button.setAttribute('style','display:block; visibility:visible;');
+					</c:if>
+				</c:if>
+				</c:forEach>
 			}
             </script>
 

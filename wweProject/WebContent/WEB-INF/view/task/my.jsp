@@ -46,7 +46,7 @@
 
                         <!-- Nav Item - Pages Collapse Menu -->
                         <li class="nav-item ">
-                            <a class="nav-link" href="project/loadpro" data-target="#collapseTwo" aria-expanded="true"
+                            <a class="nav-link" href="${context}/project/loadpro" data-target="#collapseTwo" aria-expanded="true"
                                 aria-controls="collapseTwo">
                                 <i class="fas fa-home"></i>
                                 <span>Main Page</span>
@@ -403,7 +403,6 @@
                                                 <span class="m-1 text-white">업무추가</span>
                                             </span>
                                             <span>
-                                            
                                                 <a class="icon btn text-white mr-2 bg-gray-300 shadow-sm"
                                                     href="${context}/task/add">
                                                     <i class="fas fa-plus"></i>
@@ -530,7 +529,8 @@
         			 let issue;
        			<c:forEach var="my" items="${myList}" varStatus="status">
        			<c:choose>
-					<c:when test="${my.taskState == 'ST00'}">       					
+					<c:when test="${my.taskState == 'ST00'}"> 
+						
        					todotask = document.createElement('div');
        					checkBox = document.createElement('div');
        					inputElement = document.createElement('input');
@@ -631,9 +631,15 @@
     			
     			let addButton = ()=>{
     			
-					//let button = document.getElementById('addButton');
-					//button.setAttribute('style','display:none; visibility:hidden;');
+    				<c:forEach var="my" items="${memberList}" varStatus="status">
+    				
+    				<c:if test="${my.userId == user.userID && my.authority == '읽기'}">
+
+					let button = document.getElementById('addButton');
+					button.setAttribute('style','display:none; visibility:hidden;');
+					</c:if>
 					
+					</c:forEach>
     			}
   		  </script>
 
