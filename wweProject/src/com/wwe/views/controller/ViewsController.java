@@ -105,6 +105,7 @@ public class ViewsController extends HttpServlet {
 			if(!filterList.contains(users.getUserId())){
 				for (Task task : taskService.selectMyList(users.getUserId(),users.getProjectId())) { // 업무리스트 순환
 					if(!task.getTaskState().equals("ST03")) {
+						System.out.println(task.getDeadLine());
 						taskList.add(new UserByTaskVo(task.getTaskId()
 								,task.getStartDate()
 								,task.getDeadLine()

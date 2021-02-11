@@ -12,7 +12,7 @@ public class UserByTaskVo {
 		super();
 		this.title = title;
 		this.start = "20"+start.replace("/", "-");
-		this.end = end;
+		this.end = end.substring(0, 10);
 		this.color = color;
 	}
 

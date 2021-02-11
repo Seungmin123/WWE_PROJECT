@@ -380,7 +380,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <canvas id="myChart" width="673" height="200" class="chartjs-render-monitor" style="display: block; height: 160px; width: 539px;"></canvas>
+                                        <canvas id="myChart" width="673" height="200" class="chartjs-render-monitor" style="display: block; height: 100%; width: 100%;"></canvas>
                                     </div>
                                 </div>
                             </div>
