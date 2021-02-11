@@ -104,11 +104,13 @@ public class ViewsController extends HttpServlet {
 		for (ProjUser users : userList) { // 각 인원별
 			if(!filterList.contains(users.getUserId())){
 				for (Task task : taskService.selectMyList(users.getUserId(),users.getProjectId())) { // 업무리스트 순환
-					taskList.add(new UserByTaskVo(task.getTaskId()
-							,task.getStartDate()
-							,task.getDeadLine()
-							,colorList[colorIdx]
-							)); // 파싱파싱
+					if(!task.getTaskState().equals("ST03")) {
+						taskList.add(new UserByTaskVo(task.getTaskId()
+								,task.getStartDate()
+								,task.getDeadLine()
+								,colorList[colorIdx]
+								)); // 파싱파싱
+					}
 				}
 			}
 			colorIdx++;

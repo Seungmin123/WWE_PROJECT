@@ -38,7 +38,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="/task/main">
+                <a class="nav-link" href="/project/loadpro">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Main Page</span></a>
             </li>
