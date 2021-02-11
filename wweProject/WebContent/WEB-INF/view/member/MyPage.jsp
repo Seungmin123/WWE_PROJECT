@@ -26,12 +26,12 @@
 					<!-- Sidebar - Brand -->
 					<a
 						class="sidebar-brand d-flex align-items-center justify-content-center"
-						href="index.html">
+						href="/task/main">
 						<div class="sidebar-brand-icon rotate-n-15">
 							<i class="fas fa-chess-knight"></i>
 						</div>
-						<div class="sidebar-brand-text mx-3">${sessionScope.user.userID}
-							하이</div>
+						<div class="sidebar-brand-text mx-3">WeWorkEasy
+							</div>
 					</a>
 
 					<!-- Divider -->
@@ -45,7 +45,7 @@
 
 					<!-- Nav Item - Pages Collapse Menu -->
 					<li class="nav-item "><a class="nav-link"
-						href="/project/newpro" data-target="#collapseTwo"
+						href="/project/loadpro" data-target="#collapseTwo"
 						aria-expanded="true" aria-controls="collapseTwo"> <i
 							class="fas fa-home"></i> <span>Main Page</span>
 					</a></li>
@@ -393,7 +393,7 @@
 							<div class="row">
 								<c:set var="color">primary, success, info, warning</c:set>
 								<c:set var="count" value="0"/>
-								<c:forEach var="project" items="${recentproList}" begin="0" end="4">
+								<c:forEach var="project" items="${recentList}" begin="0" end="4">
 
 									<div class="col-xl-3 col-md-6 mb-4">
 										<div class="card border-left-${colorList[count]} shadow h-100 py-2">
@@ -401,11 +401,11 @@
 												<div class="row no-gutters align-items-center">
 													<div class="col mr-2">
 														<div
-															class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+															class="text-xs font-weight-bold text-${colorList[count]} text-uppercase mb-1">
 															Project</div>
 														<div class="h5 mb-0 font-weight-bold text-gray-800">♣
-															<%-- ${project.projectId} --%>
-															${colorList[count]}
+															${project.projectId}
+															
 															</div>
 													</div>
 													<div class="col-auto">
@@ -415,31 +415,9 @@
 											</div>
 										</div>
 									</div>
-									<c:set var="count2" value="${count+1}"/>
+									<c:set var="count" value="${count=count+1}"/>
 								</c:forEach>
 								
-								<!-- projectList session으로 바뀌면 삭제 -->
-								<div class="col-xl-3 col-md-6 mb-4">
-										<div class="card border-left-${colorList[count]} shadow h-100 py-2">
-											<div class="card-body">
-												<div class="row no-gutters align-items-center">
-													<div class="col mr-2">
-														<div
-															class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-															Project</div>
-														<div class="h5 mb-0 font-weight-bold text-gray-800">♣
-															<%-- ${project.projectId} --%>
-															${colorList[count]}
-															</div>
-													</div>
-													<div class="col-auto">
-														<i class="fas fa-calendar fa-2x text-gray-300"></i>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<!-- 여기까지 삭제 -->
 
 							</div>
 
@@ -604,15 +582,15 @@
 										<div
 											class="card-header d-flex flex-row align-items-center justify-content-between">
 											<h6 class="m-0 font-weight-bold text-primary">프로젝트 관리</h6>
-											<a onclick="showModifyProject()"
+											<!-- <a onclick="showModifyProject()"
 												class="btn btn-primary btn-icon-split btn-sm"> <span
 												class="icon text-white-50"> <i class="fas fa-flag"></i>
 											</span> <span class="text">수정하기</span>
-											</a>
+											</a> -->
 										</div>
 										<!-- Card Body -->
 										<div class="card-body text-center" id="showProject">
-											<c:forEach var="project" items="${recentproList}">
+											<c:forEach var="project" items="${recentList}">
 
 												<h6 class="m-0 font-weight-bold text-cyan">♣
 													${project.projectId}</h6>
@@ -621,7 +599,7 @@
 										</div>
 										<div class="card-body text-center mypageitem"
 											id="modifyProject">
-											<c:forEach var="project" items="${recentproList}">
+											<c:forEach var="project" items="${recentList}">
 												<h6 class="m-0 font-weight-bold text-cyan">
 													♣ ${project.projectId}<a href="#"
 														class="btn btn-danger btn-icon-split btn-sm"> <span

@@ -2,23 +2,61 @@
 	 * 
 	 */
 
-	let submitPWCheck = false; 
-	let submitAuthCheck = false; 
+	let submitCheck = false; 
 
 	let check_pw = () => {
         let pw = document.getElementById('userPW').value;
         let pw2 = document.getElementById('userPW2').value;
-                                        	
-        if(pw == pw2){
-        	document.getElementById('checkPW').innerHTML = '비밀번호가 일치합니다.';
-			document.getElementById('checkPW').style.color= 'blue';
-			submitPWCheck = true;
-        }else{
-            document.getElementById('checkPW').innerHTML = '비밀번호가 일치하지 않습니다.';
+					 
+		if(!/^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/.test(pw)){
+			showDiv('checkPW');
+			document.getElementById('checkPW').innerHTML = '비밀번호는 8-15글자, 숫자/영문/특수기호를 사용하여야 합니다.';
 			document.getElementById('checkPW').style.color= 'red';
-			submitPWCheck = false;
-        }
+		}else{
+			if(pw == pw2){
+				hideDiv('checkPW');
+				submitCheck = true;
+			}else{
+				document.getElementById('checkPW').innerHTML = '비밀번호가 일치하지 않습니다.';
+				document.getElementById('checkPW').style.color= 'red';
+				submitCheck = false;
+			}
+		}
+
+        
                                         	
+	}
+
+	let check_birth = () => {
+        let birth = document.getElementById('userBirth').value;
+					 
+		if(!/^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/.test(birth)){
+			showDiv('checkBirth');
+			document.getElementById('checkBirth').innerHTML = '생년월일을 올바르게 입력해 주십시오.';
+			document.getElementById('checkBirth').style.color= 'red';
+			submitCheck = false;
+		}else{
+			hideDiv('checkBirth');
+			submitCheck = true;
+		}
+
+	}
+
+	let check_tell = () => {
+		let tell = document.getElementById('userTell').value;
+		var checkTell = /^01(?:0|1|[6-9])(?:\d{3}|\d{4})\d{4}$/;
+
+					 
+		if(!checkTell.test(tell)){
+			showDiv('checkTell');
+			document.getElementById('checkTell').innerHTML = '핸드폰 번호를 올바르게 입력해 주십시오.';
+			document.getElementById('checkTell').style.color= 'red';
+			submitCheck = false;
+		}else{
+			hideDiv('checkTell');
+			submitCheck = true;
+		}
+
 	}
 
 	function confirmSave(){
@@ -124,7 +162,8 @@
 				//headerObj.append('content-type', 'application/json');
 				headerObj.append('content-type', 'application/x-www-form-urlencoded');
 				
-				if((submitPWCheck = false) || (submitAuthCheck = false)){
+				if(submitCheck = false){
+					window.alert("회원가입 항목이 정상적으로 작성되지 않았습니다.");
 					return;
 				}
 
@@ -300,7 +339,7 @@
         if(authMailCode == checkAuthCode){
 			document.getElementById('checkEmail').innerHTML = '인증번호가 일치합니다.';
 			document.getElementById('checkEmail').style.color= 'blue';
-			submitAuthCheck = true;
+			submitCheck = true;
 
 			if(document.getElementById('findBtnForID') != null){
 				showDiv('findBtnForID');
@@ -311,7 +350,7 @@
         }else{
             document.getElementById('checkEmail').innerHTML = '인증번호가 일치하지 않습니다.';
 			document.getElementById('checkEmail').style.color= 'red';
-			submitAuthCheck = false;
+			submitCheck = false;
 
 			if(document.getElementById('findBtnForID') != null){
 				hideDiv('findBtnForID');
@@ -338,7 +377,8 @@
 				//headerObj.append('content-type', 'application/json');
 				headerObj.append('content-type', 'application/x-www-form-urlencoded');
 				
-				if((submitPWCheck = false) || (submitAuthCheck = false)){
+				if(submitCheck = false){
+					window.alert("회원가입 항목이 정상적으로 작성되지 않았습니다.");
 					return;
 				}
 

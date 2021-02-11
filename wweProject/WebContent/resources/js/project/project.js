@@ -14,6 +14,8 @@
             closedBtn.addEventListener("click", closeModal);
             openButton.addEventListener('click', openModal);
             
+            
+            
             /* 생성 버튼 클릭 시 실행 */
             let addProject = () => {
                 const url = '/project/newproimpl';
@@ -89,6 +91,8 @@
 
             }
             
+            
+            
 /*            // 최근프로젝트 개수 제한
             $(function() {
             	var maxAppend = 1; //버튼 누른 횟수 저장
@@ -99,6 +103,8 @@
 	            	maxAppend++;
             	});
             })*/ 
+            
+            
             
             /* 초대된 프로젝트를 클릭했을 시 task메인 페이지로 이동*/
             let invitedProject = (projectId,leaderId) => {
