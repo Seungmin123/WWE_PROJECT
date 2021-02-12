@@ -135,7 +135,7 @@
 					reloadPage();		
                 }else if('authChange'){
 					alert("팀장이 아니므로 이 페이지에서 나갑니다.")
-					location.href="/task/main";
+					location.href="/project/loadpro";
                 }else if('authChangeFailed'){
 					alert("팀장을 변경하지 못했습니다.")
 				}else{

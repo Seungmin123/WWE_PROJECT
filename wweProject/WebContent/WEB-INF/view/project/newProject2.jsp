@@ -44,7 +44,7 @@
 	.new-pro {
 		display: flex;
 		justify-content: center;
-		margin: 100px auto;
+		margin: 100px auto 140px auto;
 	}
 
 	.recent-project {
@@ -53,68 +53,57 @@
 		justify-content: space-around;
 	}
 
-	.mytitle1 {
+
+
+	.divider-custom {
+	  margin: 1.25rem 0 1.5rem;
+	  width: 100%;
+	  display: flex;
+	  justify-content: center;
+	  align-items: space-around;
+	}
 	
+	.divider-custom .divider-custom-line {
+	  width: 100%;
+	  max-width: 7rem;
+	  height: 0.25rem;
+	  background-color: lightgrey;
+	  border-radius: 1rem;
+	  border-color: #2c3e50 !important;
+	}
+
+
+
+
+	#open {
+		background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);
+	}
+	
+	#add {
+		 background-image: linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%);
+	}
+
+	#invited {
+		background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+	}
+	
+	.mytitle {
 	    width: 200px;
 	    height: 150px;
-	
 	    color: white;
-	
 	    text-align: center;
-	
-	    background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);
 	    background-size: cover;
 	    background-position: center;
-	
 	    border-radius: 10px;
 	    border: none;
-	
 	    padding-top: 20px;
-	    
 	    cursor: pointer;
 	}
 	
-	.mytitle2 {
-	
-	    width: 200px;
-	    height: 150px;
-	
-	    color: white;
-	
-	    text-align: center;
-	
-	    background-image: linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%);
-	    background-size: cover;
-	    background-position: center;
-	
-	    border-radius: 10px;
-	    border: none;
-	
-	    padding-top: 20px;
-	}
-	
-	.mytitle3 {
-	
-	    width: 200px;
-	    height: 150px;
-	
-	    color: white;
-	
-	    text-align: center;
-	
-	    background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
-	    background-size: cover;
-	    background-position: center;
-	
-	    border-radius: 10px;
-	    border: none;
-	
-	    padding-top: 20px;
-	}
 	
 	.frame {
-		width: 330px;
-		height: 480px;
+		width: 300px;
+		height: 400px;
 		position: fixed;
 		right: 50px;
 		bottom: 50px;
@@ -375,89 +364,161 @@
 	<!-- 프로젝트 목록 시작 -->
 	<div class="project-list">
 	
+		<!-- Contact Section Heading-->
+        <h1 class="page-section-heading text-center text-uppercase text-secondary mb-0">새 프로젝트</h1>
+             <!-- Icon Divider-->
+             <div class="divider-custom">
+              	 <div class="divider-custom-line"></div>
+              	 <div class="divider-custom-line"></div>
+              	 <div class="divider-custom-line"></div>
+              	 <div class="divider-custom-line"></div>
+             	 <div class="divider-custom-line"></div>
+                 <div class="divider-custom-line"></div>
+                 <div class="divider-custom-icon" style="color: grey"><i class="fas fa-star"></i></div>
+                 <div class="divider-custom-line"></div>
+                 <div class="divider-custom-line"></div>
+                 <div class="divider-custom-line"></div>
+                 <div class="divider-custom-line"></div>
+                 <div class="divider-custom-line"></div>
+                 <div class="divider-custom-line"></div>
+             </div>
+		
+		
 		<!-- 새 프로젝트 버튼 -->
 		<div class="new-pro">
-	        <button type="button" class="mytitle1" id="open">
-	            <h3>프로젝트 추가 +</h3>
+	        <button type="button" class="mytitle" id="open" onclick="openModal()">
+	            <h4>프로젝트 추가 +</h4>
 	        </button>
 		</div>
+		
+		
+		<!-- Contact Section Heading-->
+        <h1 class="page-section-heading text-center text-uppercase text-secondary mb-0">최근 프로젝트</h1>
+             <!-- Icon Divider-->
+             <div class="divider-custom">
+              	 <div class="divider-custom-line"></div>
+              	 <div class="divider-custom-line"></div>
+              	 <div class="divider-custom-line"></div>
+              	 <div class="divider-custom-line"></div>
+             	 <div class="divider-custom-line"></div>
+                 <div class="divider-custom-line"></div>
+                 <div class="divider-custom-icon" style="color: grey"><i class="fas fa-star"></i></div>
+                 <div class="divider-custom-line"></div>
+                 <div class="divider-custom-line"></div>
+                 <div class="divider-custom-line"></div>
+                 <div class="divider-custom-line"></div>
+                 <div class="divider-custom-line"></div>
+                 <div class="divider-custom-line"></div>
+             </div>
 		
 		<!-- 최근 프로젝트 버튼 -->
 		<div class="recent-project">
 			<c:forEach var="project" items="${recentproList}" varStatus="status">
 				<c:if test="${status.index < 3}">
-					<button type="button" id="add" class="mytitle2" onclick="recentProject(
+					<button type="button" id="add" class="mytitle" onclick="recentProject(
 						'${project.projectId}',
 						'${project.userId}',	
 						'${project.workTime}'	
 						)">
-						<h3>${project.projectId}</h3>
+						<h4>${project.projectId}</h4>
 						<h6>${project.workTime}</h6>
 					</button>
-				</c:if>	
-				
-					
+				</c:if>				
 			</c:forEach>
 		</div>		
+		
+		
+		
+		<!-- Contact Section Heading-->
+        <h1 class="page-section-heading text-center text-uppercase text-secondary mb-0">초대된 프로젝트</h1>
+             <!-- Icon Divider-->
+             <div class="divider-custom">
+              	 <div class="divider-custom-line"></div>
+              	 <div class="divider-custom-line"></div>
+              	 <div class="divider-custom-line"></div>
+              	 <div class="divider-custom-line"></div>
+             	 <div class="divider-custom-line"></div>
+                 <div class="divider-custom-line"></div>
+                 <div class="divider-custom-icon" style="color: grey"><i class="fas fa-star"></i></div>
+                 <div class="divider-custom-line"></div>
+                 <div class="divider-custom-line"></div>
+                 <div class="divider-custom-line"></div>
+                 <div class="divider-custom-line"></div>
+                 <div class="divider-custom-line"></div>
+                 <div class="divider-custom-line"></div>
+             </div>
+		
 		
 		<!-- 초대 프로젝트 버튼 -->
 			<c:forEach var="sortArr" items="${sortList}"> <!-- 넘겨받은 sortList의 값을 1개씩 뽑는다 (총 프로젝트 3개 들어있음) -->
 			<div class="recent-project">
 				<c:forEach var="project" items="${sortArr}"> <!-- sortArr에서 프로젝트를 1개씩 뽑는다 -->
-					<button type="button" class="mytitle3" onclick="invitedProject('${project.projectId}','${project.leaderId}')">
-						<h3>${project.projectId}</h3>
+					<button type="button" id="invited" class="mytitle" onclick="invitedProject('${project.projectId}','${project.leaderId}')">
+						<h4>${project.projectId}</h4>
 					</button>
 				</c:forEach>
 			</div>
 			</c:forEach>
 		
+		
+		
 	
-	<iframe src="http://localhost:3100/?" class="frame"></iframe>
+	<!-- 채팅창 iframe -->
+	<iframe src="http://localhost:3100/" class="frame"></iframe>
 	
 		
 		
 		
 		<!-- 새 프로젝트 modal창 -->
-		<div class="modal2 hidden">
-		    <div class="modal__overlay"></div>
-		    <div class="modal__content">
-		        <div class="header">
+		<div class="modal bg-lg" id="new-project-modal">
+		    <!-- <div class="modal__overlay"></div> -->
+		    <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		        <div class="modal-header">
 		            <h2 class="modal-title" id="main-title">New Project</h2>
-		        </div>
+		    	</div>
 		
-		        <hr>
-		
-		        <div class="body">
-		            <div class="input-group mb-3">
-		                <span class="input-group-text">제목</span>
-		                <input type="text" id="title" class="form-control" aria-label="Sizing example input"
-		                       aria-describedby="inputGroup-sizing-default">
-		            </div>
-				           
-		            
+		        <div class="modal-body">
+		        	<div class="row">
+                       <div class="col-sm-3 mb-3 mb-sm-0 d-flex align-items-center">
+                            <h6>제목</h6>
+                       </div>
+                       <div class="col-sm-9">
+                       		 <input type="text" id="title" class="form-control rounded">
+                       </div>
+                   </div>
+		            <br>
 		            <!-- 팀원추가 넣을부분!! -->
-		            <div class="input-group mb-3">
-		                 <div class="addMember" >
-			            	<span class="input-group-text" style="width:60px">작성자</span>
-			                <input type="text" name="addMember" id="myInput" class="form-control" placeholder="팀원을 추가하세요!">
-			                <button onclick="autocomplete()">추가</button>
-		           		 </div>
-					</div>
-		
-		
-		            <div class="input-group mb-3">
-		                <span class="input-group-text">마감기한</span>
-		                <!-- 미니 달력 -->
+		            <div class="row">
+                       <div class="col-sm-3 mb-3 mb-sm-0 d-flex align-items-center">
+                            <h6>작성자</h6>
+                       </div>
+                       <div class="col-sm-7">
+                       		 <input class="form-control rounded"type="text" name="addMember" id="myInput" placeholder="팀원을 추가하세요!">
+                       </div>
+                       <div class="col-sm-2">
+                       	<button class="btn btn-primary"type="button" onclick="addMember();">추가</button>
+                       </div>
+                   </div>
+		           	
+		           	<h6>추가된 유저</h6>
+                    <textarea class="form-control"  id="addedMember" style="height: 100px; resize: none;" wrap="hard"  cols="20" readonly></textarea>
+					<br>
+					<div class="row">
+						<div class="col-sm-3 mb-3 mb-sm-0 d-flex align-items-center">
+                            <h6>마감기한</h6>
+                       </div>
+                       <!-- 미니 달력 -->
 		                <div class="col-sm-9">
-		                   <input type="date" id="deadline"class="form-control form-control-user h6 rounded"></input>
+		                   <input type="date" id="deadline" class="form-control form-control-user h6 rounded"></input>
 		                </div>
-		            </div>
-		
+					</div>
 		            <div class="modal-footer">
 		                <button type="button" class="btn create-btn" onclick="addProject()">생성</button>
-		                <button type="button" class="btn cancel-btn">취소</button>
+		                <button type="button" class="btn cancel-btn" onclick="closeModal()">취소</button>
 		            </div>
 			   </div>
+			</div>
 			</div>
 		</div>
 
@@ -509,7 +570,7 @@
     </div>
 
 
-
+	
 	<script src="/resources/js/project/project.js"></script>
 
 	<!-- Bootstrap core JavaScript-->

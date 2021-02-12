@@ -48,21 +48,23 @@ public class ProDao {
 	   }
 	
 	//새 프로젝트의 참여자 - DB에서 아이디로 식별해 가져오고, 보여주는 건 이름
-	public Member selectMember(Connection conn, String userId, String userName) {
-		Member member = new Member();
+	public ArrayList<Member> selectMember(Connection conn) {
+		ArrayList<Member> memberList = new ArrayList<Member>();
 		PreparedStatement pstm = null;
 		ResultSet rset = null;
 		
 		try{
-			String query = "select * from tb_user "
-							+ "where user_id = ? and user_name = ?";
+			String query = "select * from tb_user";
 			
 			//주소창처럼 => 아이디로 입력을 받고, 이 아이디로 검색해서 추가
 			pstm = conn.prepareStatement(query);
-			pstm.setString(1, member.getUserID());
-			pstm.setString(2, member.getUserName());
-			
 			rset = pstm.executeQuery();
+			while(rset.next()) {
+				Member member = new Member();
+				member.setUserID(rset.getString("user_id"));
+				member.setUserName(rset.getString("user_name"));
+				memberList.add(member);
+			}
 			
 		} catch (SQLException e) {
 			throw new DataAccessException(ErrorCode.SM01, e);
@@ -70,7 +72,40 @@ public class ProDao {
 			jdt.close(rset,pstm);
 		}
 		
-		return member;
+		return memberList;
+	}
+	
+	//추가된 팀원을 DB에 넣기
+	public int insertMember(Connection conn,ArrayList<ProjUser> projUserList){
+		PreparedStatement pstm = null;
+		int res = 0;
+		try{
+			String query = "insert into tb_project_user(project_id,user_id,authority) ";
+						
+			for(int i =0; i< projUserList.size();i++) {
+				if(i==projUserList.size()-1) {
+					query += "select ?, ?, ? from dual";
+				}else {
+					query += "select ?, ?, ? from dual union all ";
+				}
+			}
+			
+			//주소창처럼 => 아이디로 입력을 받고, 이 아이디로 검색해서 추가
+			//projUserList.size()-1
+			pstm = conn.prepareStatement(query);
+			for(int i = 0; i < projUserList.size(); i++) {
+					pstm.setString(i +(i*2+1), projUserList.get(i).getProjectId());
+					pstm.setString(i +(i*2+2), projUserList.get(i).getUserId());
+					pstm.setString(i +(i*2+3), projUserList.get(i).getAuthority());
+			}
+			res = pstm.executeUpdate();
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.IN01, e);
+		}finally {
+			jdt.close(pstm);
+		}
+		
+		return res;
 	}
 
 	//최근 프로젝트 받아오기 (최근 작업시간 순으로)

@@ -12,7 +12,7 @@ let modifyTask = () => {
 	document.querySelector('#task_id').value = taskId;
 	document.querySelector('#modified_content').value = content;
 	document.querySelector('#dead_Line').value = curDeadLine;
-
+	//원래 디테일에 있던 값을 읽어온다.
 
 }
 
@@ -25,6 +25,7 @@ $('#btn_modify_close').click(function(e) {
 
 //업무를 수정하는 함수
 let modify = () => {
+	//업수 수정내용을 비동기로 자바에 넘겨주기
 	let modTask = document.querySelector('#modified_content').value;
 	modTask = modTask.replace(/(?:\r\n|\r|\n)/g, '<br>');
 
@@ -70,17 +71,11 @@ let modify = () => {
 			}).then(msg => {
 				if (msg == 'success') {
 					alert('업무를 수정했습니다.');
-					$('#modified_content').val(" ");
-					$('#dead_Line').val(" ");
 					$('#task_content_modal').hide();
-					reloadPage();
+					location.reload();
 
-				} else {
-					alert('업무를 수정하지 못했습니다.');
-				}
-			}).catch(error => {
-				error.alertMessage();
-			});
+				} 
+			})
 		}
 	}else{
 		alert("정보를 정확히 입력해주세요.");

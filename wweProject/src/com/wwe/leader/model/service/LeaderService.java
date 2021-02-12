@@ -96,20 +96,35 @@ public class LeaderService {
 	}
 	
 	//팀장 권한을 넘겨주는 메소드
-		public int changeLeader(ProjUser user) {
-			int res = 0;
-			Connection conn = jdt.getConnection();
-			try {
-				res = leaderDao.changeLeader(conn, user);
-				jdt.commit(conn);
-			}catch (DataAccessException e) {
-				jdt.rollback(conn);
-				throw new ToAlertException(e.error);
-			}finally {
-				jdt.close(conn);
-			}
-			return res;
+	public int changeLeader(ProjUser user) {
+		int res = 0;
+		Connection conn = jdt.getConnection();
+		try {
+			res = leaderDao.changeLeader(conn, user);
+			jdt.commit(conn);
+		}catch (DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		}finally {
+			jdt.close(conn);
 		}
+		return res;
+	}
+		
+	//TB_PROJECT의 프로젝트의 팀장을 변경하는 메소드
+	public int changeProLeader(ProjUser user) {
+		int res = 0;
+		Connection conn = jdt.getConnection();
+		try {
+			res = leaderDao.changeProLeader(conn, user);
+			jdt.commit(conn);
+		}catch (DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+			// TODO: handle exception
+		}
+		return res;
+	}
 	
 	//업무명으로 업무 검색하는 메소드
 	public ArrayList<Task> selectTaskByTask(Task task){
@@ -175,7 +190,9 @@ public class LeaderService {
 		
 		try {
 			res = leaderDao.deleteMember(conn, user);
+			jdt.commit(conn);
 		}catch(DataAccessException e) {
+			jdt.rollback(conn);
 			throw new ToAlertException(e.error);
 		}finally {
 			jdt.close(conn);

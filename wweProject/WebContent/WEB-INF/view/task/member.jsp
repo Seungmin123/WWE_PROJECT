@@ -46,7 +46,7 @@
 
                         <!-- Nav Item - Pages Collapse Menu -->
                         <li class="nav-item ">
-                            <a class="nav-link" href="project/loadpro" data-target="#collapseTwo" aria-expanded="true"
+                            <a class="nav-link" href="${context}/project/loadpro" data-target="#collapseTwo" aria-expanded="true"
                                 aria-controls="collapseTwo">
                                 <i class="fas fa-home"></i>
                                 <span>Main Page</span>
@@ -411,7 +411,7 @@
                                 <c:forEach var="task" items="${taskList}" varStatus="status">
                                
                                     <c:if test="${task.taskState == 'ST00' and task.userId == name}">
-                                    <a class="mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm d-flex align-items-center justify-content-center text-gray-600 border-0" href="${context}/task/detail">
+                                    <a class="mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm d-flex align-items-center justify-content-center text-gray-600 border-0" href="${context}/task/detail?name=${task.taskId}">
                                             <div>
                                                 ${task.taskId}
                                             </div>
@@ -434,7 +434,7 @@
                                 <div class="card-body">
                                 <c:forEach var="task" items="${taskList}" varStatus="status">
                                     <c:if test="${task.taskState == 'ST01' and task.userId == name}">
-                                    <a class="mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm d-flex align-items-center justify-content-center text-gray-600 border-0" href="${context}/task/detail">
+                                    <a class="mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm d-flex align-items-center justify-content-center text-gray-600 border-0" href="${context}/task/detail?name=${task.taskId}">
                                             <div>
                                                 ${task.taskId}
                                             </div>
@@ -457,7 +457,7 @@
                                 <div class="card-body">
                                 <c:forEach var="task" items="${taskList}" varStatus="status">
                                    <c:if test="${task.taskState == 'ST02' and task.userId == name}">
-                                    <a class="mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm d-flex align-items-center justify-content-center text-gray-600 border-0" href="${context}/task/detail">
+                                    <a class="mb-4 py-3 bg-gray-100 pl-4 d-flex rounded shadow-sm d-flex align-items-center justify-content-center text-gray-600 border-0" href="${context}/task/detail?name=${task.taskId}">
                                             <div>
                                                 ${task.taskId}
                                             </div>

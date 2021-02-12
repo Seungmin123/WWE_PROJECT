@@ -48,6 +48,8 @@ public class ProController extends HttpServlet {
 					break;
 			case "invitedpro": invitedPro(request, response);
 					break;
+			case "fetchmember" : fetchMemberList(request,response);
+					break;
 			default: throw new ToAlertException(ErrorCode.CD_404);
 		}
 	}
@@ -81,6 +83,7 @@ public class ProController extends HttpServlet {
 		request.setAttribute("recentproList", recentproList);
 		request.setAttribute("invitedProList", invitedProList);
 		request.setAttribute("sortList", sortList); //3개씩 자른 프로젝트 jsp로 보내주기!
+		
 		request.getRequestDispatcher("/WEB-INF/view/project/newProject2.jsp")
 		.forward(request, response);
 		
@@ -101,7 +104,17 @@ public class ProController extends HttpServlet {
 		 //페이지에 입력된 제목과 마감기한값 파라미터로 받아오기 
 		 String title = (String) parsedData.get("title");
 		 String deadline = (String) parsedData.get("deadline");
-		  
+		 ArrayList<String> addedMemberList = (ArrayList<String>) parsedData.get("addedMember");
+		 ArrayList<ProjUser> arrayList = new ArrayList<ProjUser>();
+		 for(int i =0; i< addedMemberList.size(); i++) {
+			 ProjUser projUser = new ProjUser();
+			 projUser.setProjectId(title);
+			 projUser.setUserId(addedMemberList.get(i));
+			 projUser.setAuthority("읽기/쓰기");
+			 arrayList.add(projUser);
+		 }
+		 
+		 
 		 System.out.println(title);
 		 System.out.println(deadline);
 		 
@@ -124,12 +137,13 @@ public class ProController extends HttpServlet {
 		 
 		 if(res > 0) {
 			 System.out.println(res);
-				res = leaderService.inviteUser(leaderId.getUserID(), "팀장", title); 
-			 if(res > 0) {
-				 response.getWriter().print("success");
-			 }else {
+				res = leaderService.inviteUser(leaderId.getUserID(), "팀장", title);
+				if(res > 0) {
+					proService.insertMember(arrayList);
+					response.getWriter().print("success");
+				}else {
 				 response.getWriter().print("failed");
-			 }
+				}
 		 }else {
 			 response.getWriter().print("failed");
 		 }
@@ -256,16 +270,21 @@ public class ProController extends HttpServlet {
 		ProjUser user = leaderService.chkAuthority(pUser); //유저의 권한을 포함한 유저정보를 얻는 코드				
 		request.getSession().setAttribute("projUserInfo",user); //얻은 유저정보를 세션에 저장
 			
-		System.out.println("넘긴 프로젝트 아이디 : "+projUser.getProjectId());
-		System.out.println("넘긴 프로젝트 아이디 : "+projUser.getLeaderId());
-		System.out.println("넘긴 프로젝트 아이디 : "+user.getAuthority());
-		
-		
 		if(projectId != null && leaderId != null) {
 			response.getWriter().print("success");
 		}else {
 			response.getWriter().print("fail");
 		}
 	
+	}
+	
+	//모달창을 클릭했을 때 유저 테이블에 있는 모든 유저를 불러오는 메소드
+	public void fetchMemberList(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+		
+		Gson gson = new Gson();
+		ArrayList<Member> memberList = proService.addMember();
+		String mList=  gson.toJson(memberList);
+		response.getWriter().print(mList);
+			
 	}
 }

@@ -52,7 +52,7 @@
 
                         <!-- Nav Item - Pages Collapse Menu -->
                         <li class="nav-item ">
-                            <a class="nav-link" href="project/loadpro" data-target="#collapseTwo" aria-expanded="true"
+                            <a class="nav-link" href="${context}/project/loadpro" data-target="#collapseTwo" aria-expanded="true"
                                 aria-controls="collapseTwo">
                                 <i class="fas fa-home"></i>
                                 <span>Main Page</span>
@@ -398,7 +398,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <div class="col-sm-3 mb-3 mb-sm-0 d-flex align-items-center">
+                                            <div class="col-sm-3 mb-3 mb-sm-0 d-flex align-items-center" onfocus="calendar();>
                                                 <h6 class="font-weight-bold">마감 기한</h6>
                                             </div>
                                             <div class="col-sm-9">
@@ -419,7 +419,7 @@
                                             <a href="${context}/task/my" class="btn btn-dark btn-icon-split mr-3">
                                                 <span class="text">취소</span>
                                             </a>
-                                            <button class="btn btn-dark btn-icon-split" onclick="calendar();">
+                                            <button class="btn btn-dark btn-icon-split"">
                                                 <span class="text">완료</span>
                                             </button>
                                         </div>

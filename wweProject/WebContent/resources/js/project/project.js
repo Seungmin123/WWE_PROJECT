@@ -1,54 +1,115 @@
 
+let memberList = Array();
+
+
 /* 프로젝트 생성 modal창 */
-            const openButton = document.getElementById('open');
-            const modal = document.querySelector(".modal2");
-            const overlay = modal.querySelector(".modal__overlay");
-            const closedBtn = modal.querySelector(".cancel-btn");
-            const openModal = () => {
-                modal.classList.remove("hidden");
-            }
-            const closeModal = () => {
-                modal.classList.add("hidden");
-            }
-            overlay.addEventListener("click", closeModal);
-            closedBtn.addEventListener("click", closeModal);
-            openButton.addEventListener('click', openModal);
-            
+		let openModal = () => {
+			let url = "/project/fetchmember";
+			let headerObj = new Headers();
+			headerObj.append('content-type','application/x-www-form-urlencoded');
+			
+			fetch(url,{
+				method : "GET",
+				headers : headerObj
+			}).then(response =>{
+				if(response.ok){
+					return response.text();
+				}else{
+					throw new AsyncPageError(response.text());
+				}
+			}).then(data =>{
+				let mList = JSON.parse(data);
+				console.dir(mList);
+				for(let i = 0; i < mList.length; i++){
+                    memberList.push(mList[i].userID);
+				}
+				autocomplete(document.getElementById("myInput"),memberList);
+				$('#new-project-modal').show();
+				
+			}).catch(error =>{
+				error.alertMessage();
+			});
+			
+		}
+
+		let closeModal = () => {
+			$('#title').val("");
+			$('#deadline').val("");
+			$('#myInput').val("");
+			$('#new-project-modal').hide();
+		}
+
+
+           
+//            const overlay = modal.querySelector(".modal__overlay");
+           
+//            overlay.addEventListener("click", closeModal);
+           
+           
             
             
             /* 생성 버튼 클릭 시 실행 */
             let addProject = () => {
-                const url = '/project/newproimpl';
-                let paramObj = new Object();
+            	let date = document.querySelector('#deadline').value;
+                //이전날짜 실행 막기 
+                let today = new Date();
+                let year = today.getFullYear();
+                let month = ("0" + (1 + today.getMonth())).slice(-2);
+                let day = ("0" + today.getDate()).slice(-2);
+                today = new Date(year, month - 1, day);
                 
-                paramObj.title = $('#title').val();
-                paramObj.deadline = $('#deadline').val();
-                
-                console.log($('#title').val());
-                console.log($('#deadline').val());
-                
-                let headerObj = new Headers();
-                headerObj.append("content-type", "application/x-www-form-urlencoded");
-               
-                fetch(url, {
-                    method: "post",
-                    headers: headerObj,
-                    body: "data=" + JSON.stringify(paramObj)
-                    
-                }).then(response => {
-                    if (response.ok) {
-                        return response.text();
-                    }
-                    
-                }).then((text) => {
-                        if (text == 'success') {
-                        	location.href = '/task/main';
-                        }
-                    }
-                )
+                let tempArr = date.split('-');
+                let modDate = new Date(tempArr[0], tempArr[1] - 1, tempArr[2]);
+                let betweenDay = (modDate.getTime() - today.getTime()) / 1000 / 60 / 60 / 24;
+                if (betweenDay < 0) {
+                    alert("변경할 수 없는 날짜입니다.");
+                }else {
+            	
+                	let title = document.querySelector('#title').value;
+                	let deadline = document.querySelector('#deadline').value;
+                	
+                	 let memberArray = new Array();
+ 	                 let tempList = $('#addedMember').val().split('\n');
+ 	                 
+ 	                 for(let i =0;i<tempList.length-1;i++){
+ 	                	memberArray.push(tempList[i]);
+ 	                 }
+                	
+                	if(title != "" || deadline != "") {
+                		const url = '/project/newproimpl';
+    	                let paramObj = new Object();
+    	                
+    	                paramObj.title = $('#title').val();
+    	                paramObj.addedMember = memberArray;
+    	                paramObj.deadline = $('#deadline').val();
+    	                
+    	                let headerObj = new Headers();
+    	                headerObj.append("content-type", "application/x-www-form-urlencoded");
+    	               
+    	                fetch(url, {
+    	                    method: "post",
+    	                    headers: headerObj,
+    	                    body: "data=" + JSON.stringify(paramObj)
+    	                    
+    	                }).then(response => {
+    	                    if (response.ok) {
+    	                        return response.text();
+    	                    }
+    	                    
+    	                }).then((text) => {
+    	                        if (text == 'success') {
+    	                        	location.href = '/task/main';
+    	                        }
+    	                    }
+    	                );
+                	}else {
+                		alert('모든 정보를 입력해주세요.')
+                	}
+            	
+	                
+                }
             }
 
-            
             
             
             
@@ -142,7 +203,7 @@
             
             
             /* 팀원 추가 (Autocomplete) */
-            function autocomplete(inp, arr) {
+            function autocomplete(inp,arr) {
                 /*the autocomplete function takes two arguments,
                 the text field element and an array of possible autocompleted values:*/
                 var currentFocus;
@@ -218,13 +279,16 @@
                     if (currentFocus < 0) currentFocus = (x.length - 1);
                     /*add class "autocomplete-active":*/
                     x[currentFocus].classList.add("autocomplete-active");
-                }
+                } //addActive 끝
+                
                 function removeActive(x) {
                     /*a function to remove the "active" class from all autocomplete items:*/
                     for (var i = 0; i < x.length; i++) {
                         x[i].classList.remove("autocomplete-active");
                     }
-                }
+                } //removeActive 끝
+                
+                
                 function closeAllLists(elmnt) {
                     /*close all autocomplete lists in the document,
                     except the one passed as an argument:*/
@@ -234,27 +298,28 @@
                             x[i].parentNode.removeChild(x[i]);
                         }
                     }
-                }
+                } //closeAllLists
+                
+                
                 /*execute a function when someone clicks in the document:*/
                 document.addEventListener("click", function (e) {
                     closeAllLists(e.target);
                 });
             }
             /*An array containing all the country names in the world:*/
-            var countries = ["Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Anguilla", "Antigua & Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia", "Bosnia & Herzegovina", "Botswana", "Brazil", "British Virgin Islands", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Cayman Islands", "Central Arfrican Republic", "Chad", "Chile", "China", "Colombia", "Congo", "Cook Islands", "Costa Rica", "Cote D Ivoire", "Croatia", "Cuba", "Curacao", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "Falkland Islands", "Faroe Islands", "Fiji", "Finland", "France", "French Polynesia", "French West Indies", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Gibraltar", "Greece", "Greenland", "Grenada", "Guam", "Guatemala", "Guernsey", "Guinea", "Guinea Bissau", "Guyana", "Haiti", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Isle of Man", "Israel", "Italy", "Jamaica", "Japan", "Jersey", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kosovo", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macau", "Macedonia", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Montserrat", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauro", "Nepal", "Netherlands", "Netherlands Antilles", "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "Norway", "Oman", "Pakistan", "Palau", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Puerto Rico", "Qatar", "Reunion", "Romania", "Russia", "Rwanda", "Saint Pierre & Miquelon", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "St Kitts & Nevis", "St Lucia", "St Vincent", "Sudan", "Suriname", "Swaziland", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor L'Este", "Togo", "Tonga", "Trinidad & Tobago", "Tunisia", "Turkey", "Turkmenistan", "Turks & Caicos", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City", "Venezuela", "Vietnam", "Virgin Islands (US)", "Yemen", "Zambia", "Zimbabwe"];
+            //console.log: 자기만 보여주고, console.dir: 자식요소까지 다 보여줌 (배열일때는 dir)
             /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
-            autocomplete(document.getElementById("myInput"), countries);
+            //autocomplete(document.getElementById("myInput"),memberList);
+           
             
+            let addMember = ()=>{
+            	let addedMember = document.querySelector('#myInput').value;
+            	if(addedMember!=""){            		
+            		document.querySelector('#addedMember').value += addedMember +"\n";
+            		document.querySelector('#myInput').value ="";
+                	document.querySelector('#myInput').focus();
+            	}
+            	
+            }
             
-//            //이전날짜 실행 막기 
-//            let today = new Date();
-//            let year = today.getFullYear();
-//            let month = ("0" + (1 + today.getMonth())).slice(-2);
-//            let day = ("0" + today.getDate()).slice(-2);
-//            today = new Date(year, month - 1, day);
-//            let tempArr = modDeadLine.split('-');
-//            let modDate = new Date(tempArr[0], tempArr[1] - 1, tempArr[2]);
-//            let betweenDay = (modDate.getTime() - today.getTime()) / 1000 / 60 / 60 / 24;
-//            if (betweenDay < 0) {
-//                alert("변경할 수 없는 날짜입니다.");
-//            } 
+          

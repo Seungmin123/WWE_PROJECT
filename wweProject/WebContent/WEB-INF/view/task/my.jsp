@@ -46,7 +46,7 @@
 
                         <!-- Nav Item - Pages Collapse Menu -->
                         <li class="nav-item ">
-                            <a class="nav-link" href="project/loadpro" data-target="#collapseTwo" aria-expanded="true"
+                            <a class="nav-link" href="${context}/project/loadpro" data-target="#collapseTwo" aria-expanded="true"
                                 aria-controls="collapseTwo">
                                 <i class="fas fa-home"></i>
                                 <span>Main Page</span>
@@ -403,9 +403,8 @@
                                                 <span class="m-1 text-white">업무추가</span>
                                             </span>
                                             <span>
-                                            
                                                 <a class="icon btn text-white mr-2 bg-gray-300 shadow-sm"
-                                                    href="${context}/task/add">
+                                                    onclick="addTask();">
                                                     <i class="fas fa-plus"></i>
                                                 </a>
                                             </span>
@@ -487,6 +486,46 @@
                     </div>
                 </div>
             </div>
+            
+           <!-- 업무추가 모달창 -->
+            
+             <div class="modal bg-lg" id="task_add_modal">
+ 		<div class="modal-dialog" role="document">
+        	<div class="modal-content">
+            	<div class="modal-header bg-primary">
+                	<h5 class="modal-title text-light" >업무 추가</h5>
+                    <button type="button" id="btn_add_close" class="close">
+                    <span aria-hidden="true">&times;</span></button>
+                </div>
+                <form>
+                	<div class="modal-body">        	
+                    		<div class="form-group row">
+                            	<div class="col-sm-3 mb-3 mb-sm-0 d-flex align-items-center">
+                                	<h6 class="font-weight-bold">업무 이름</h6>
+                                </div>
+                            	<div class="col-sm-9">
+                                	<input class="form-control rounded"id="task_id"></input>
+                                </div>
+                            </div>
+                    		<div class="form-group row">
+                            	<div class="col-sm-3 mb-3 mb-sm-0 d-flex align-items-center">
+                                	<h6 class="font-weight-bold">마감 기한</h6>
+                                </div>
+                                <div class="col-sm-9">
+                                	<input type="date" id="dead_Line"class="form-control form-control-user h6 rounded"></input>
+                                </div>
+                            </div>
+                            <h6 class="font-weight-bold">업무 내용</h6>
+                    	 	 <textarea class="form-control"  id="task_content" style="height: 300px; resize: none;" wrap="hard"  cols="20"></textarea>
+                    	 	 <div class="text-xs text-right">*2000자 이내로 입력하세요.</div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="add();">완료</button>
+                   </div>
+                </form>
+            </div>
+        </div>
+     </div>
 
             <!-- Bootstrap core JavaScript-->
             <script src="/resources/vendor/jquery/jquery.min.js"></script>
@@ -501,19 +540,9 @@
             <!-- drag&drop -->
             <script src="/resources/js/task/drag.js"></script>
              
-            <script src="/resources/js/task/task.js"></script>
+            <script src="/resources/js/task/add.js"></script>
              
-             <script type="text/javascript">
-             	$(function(){
-             		selectPriority();
-             	});
-             	
-             	let selectPriority = () =>{
-             		
-             		
-             	}
-             
-             </script>
+            
              
              <!-- 업무리스트 출력 -->
              	<script>
@@ -530,7 +559,8 @@
         			 let issue;
        			<c:forEach var="my" items="${myList}" varStatus="status">
        			<c:choose>
-					<c:when test="${my.taskState == 'ST00'}">       					
+					<c:when test="${my.taskState == 'ST00'}"> 
+						
        					todotask = document.createElement('div');
        					checkBox = document.createElement('div');
        					inputElement = document.createElement('input');
@@ -631,9 +661,15 @@
     			
     			let addButton = ()=>{
     			
-					//let button = document.getElementById('addButton');
-					//button.setAttribute('style','display:none; visibility:hidden;');
+    				<c:forEach var="my" items="${memberList}" varStatus="status">
+    				
+    				<c:if test="${my.userId == user.userID && my.authority == '읽기'}">
+
+					let button = document.getElementById('addButton');
+					button.setAttribute('style','display:none; visibility:hidden;');
+					</c:if>
 					
+					</c:forEach>
     			}
   		  </script>
 
@@ -642,4 +678,3 @@
 
         </html>
 
-        </html>
