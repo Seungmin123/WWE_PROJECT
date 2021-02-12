@@ -496,6 +496,11 @@
                             ticks: {
                                 beginAtZero: true
                             }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                max: 1
+                            }
                         }]
                     }
                 }
