@@ -131,12 +131,12 @@ public class TaskDao {
 		PreparedStatement pstm = null;
 		
 		try {
-			String query = "insert into tb_feedback(TASK_ID,FEEDBACK_COMMENT,PRIVATE_COMMENT,USER_ID,T_IDX) "
+			String query = "insert into tb_feedback(TASK_ID,FEEDBACK_COMMENT,ISDEL,USER_ID,T_IDX) "
 					+ "values(?,?,?,?,?)";
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, feedback.getTaskId());
 			pstm.setString(2, feedback.getFeedbackComment());
-			pstm.setInt(3, feedback.getPrivateComment());
+			pstm.setInt(3, feedback.getIsDel());
 			pstm.setString(4, feedback.getUserId());
 			pstm.setInt(5, feedback.gettIdx());
 			
@@ -357,7 +357,7 @@ public class TaskDao {
 				feedback.setUserId(rset.getString("user_id"));
 				feedback.setTaskId(rset.getString("task_id"));
 				feedback.setFeedbackComment(rset.getString("feedback_comment"));
-				feedback.setPrivateComment(rset.getInt("private_comment"));
+				feedback.setIsDel(rset.getInt("isdel"));
 				
 				feedList.add(feedback);
 			}
@@ -369,6 +369,28 @@ public class TaskDao {
 		}
 		
 		return feedList;
+	}
+	
+	public int updateFeedback(Connection conn, int isDel, int tIdx, String userId, String feedbackComment) {
+		
+		int res=0;
+		PreparedStatement pstm = null;
+		
+		String query = "UPDATE TB_FEEDBACK SET ISDEL = ? WHERE USER_ID = ? AND FEEDBACK_COMMENT = ? AND T_IDX = ?";
+
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setInt(1, isDel);
+			pstm.setString(2, userId);
+			pstm.setString(3, feedbackComment);
+			pstm.setInt(4, tIdx);
+			res = pstm.executeUpdate();
+		}catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.UT01, e);
+		}finally {
+			jdt.close(pstm);
+		}
+		return res;
 	}
 	
 }

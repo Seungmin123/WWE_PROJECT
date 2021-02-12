@@ -3,7 +3,7 @@ package com.wwe.task.feedback;
 public class Feedback {
 	
 	private String taskId;
-	private int privateComment;
+	private int isDel;
 	private String feedbackComment;
 	private String userId;
 	private int tIdx;
@@ -16,12 +16,12 @@ public class Feedback {
 		this.taskId = taskId;
 	}
 	
-	public int getPrivateComment() {
-		return privateComment;
+	public int getIsDel() {
+		return isDel;
 	}
 	
-	public void setPrivateComment(int privateComment) {
-		this.privateComment = privateComment;
+	public void setIsDel(int isDel) {
+		this.isDel = isDel;
 	}
 	
 	public String getFeedbackComment() {

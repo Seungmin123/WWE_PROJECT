@@ -530,12 +530,19 @@
                                    	</form>	 
                                    		 <hr class="hr commentList">
                                    		 <c:forEach var="feed" items="${feedList}" varStatus="status">
-                                   		 <div class="commentList d-flex justify-content-between">
+                                   		 <c:if test="${feed.isDel == 0}">
+                                   		 <div class="d-flex justify-content-between">
                                    		 	
-                                   		 	<div class="form-control form-control-user bg-light col-sm-2 mr-2  border-0">${feed.userId}</div>
-                                   		 	<div class="form-control form-control-user bg-light border-0" >${feed.feedbackComment}</div>
+                                   		 	<div class="form-control form-control-user bg-light col-sm-2 mr-2 border-0">${feed.userId}</div>
+                                   		 	<div class="form-control form-control-user bg-light border-0 comment" >${feed.feedbackComment}</div>
+                                   		 	
+                                   		 	<c:if test="${feed.userId == user.userID}">
+                                   		 	<a class="far fa-trash-alt pt-2 text-gray-500" onclick="deleteFeed(this);" href="#"></a>
+                                   		 	</c:if>
+                                   		 	
                                    		 	
                                    		 </div>
+                                   		 </c:if>
                                    		 </c:forEach>
                                 </div>
 

@@ -638,7 +638,7 @@
 						todobutton.setAttribute('draggable','true');
 						todobutton.setAttribute('id','ST02${status.index}');
 						taskName.setAttribute('class','text-gray-600');
-						taskName.setAttribute('href','${context}/task/detail?name='+encodeURI(${my.taskId}));
+						taskName.setAttribute('href','${context}/task/detail?name=${my.taskId}');
 						issue.setAttribute('class','btn btn-sm ml-1');
 
 						taskName.innerHTML += '${my.taskId}';

@@ -39,8 +39,6 @@ let add = () => {
 			paramObj.taskId = addTaskId;
 			paramObj.deadLine = addDeadLine;
 			paramObj.taskContent = addTask;
-			
-			alert(addTaskId);
 
 			let headerObj = new Headers();
 			headerObj.append("content-type", "application/x-www-form-urlencoded");

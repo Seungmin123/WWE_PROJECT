@@ -70,6 +70,7 @@ public class TaskController extends HttpServlet {
 				break;
 			case "updatetask": updateTask(request,response);
 				break;
+			case "updatefeedback" : updateFeedback(request,response);
 			default:
 				break;
 		}
@@ -355,11 +356,11 @@ public class TaskController extends HttpServlet {
 		
 		int tIdx = Integer.parseInt(fTidx);
 		
-		int privateComment = 0;
+		int isDel = 0;
 		
 		feedback.setFeedbackComment(feedbackComment);
 		feedback.setTaskId(taskId);
-		feedback.setPrivateComment(privateComment);
+		feedback.setIsDel(isDel);
 		feedback.setUserId(userId);
 		feedback.settIdx(tIdx);
 		
@@ -427,6 +428,30 @@ public class TaskController extends HttpServlet {
 		if(res>0) {
 			
 			//new MemberService().addAlarm(userId, projectId, AddAlarmCode.IT01.alarmCode());
+			response.getWriter().print("success");
+		}else {
+			response.getWriter().print("failed");
+		}
+	}
+	
+	public void updateFeedback(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String data = request.getParameter("data");
+		Gson gson = new Gson();
+		Map parsedData = gson.fromJson(data, Map.class);
+		
+
+		int isDel = Integer.parseInt((String) parsedData.get("isDel"));
+		int tIdx = Integer.parseInt((String)parsedData.get("tIdx"));
+		
+		String feedbackComment = (String) parsedData.get("feedbackComment");
+		Member user = (Member) request.getSession().getAttribute("user");
+		String userId = user.getUserID();
+		
+		int res = taskService.updateFeedback(isDel, tIdx, userId, feedbackComment);
+	
+		
+		if(res > 0) {
 			response.getWriter().print("success");
 		}else {
 			response.getWriter().print("failed");
