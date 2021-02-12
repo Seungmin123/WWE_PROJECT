@@ -16,8 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
+import com.wwe.common.code.AddAlarmCode;
 import com.wwe.leader.model.service.LeaderService;
 import com.wwe.leader.model.vo.ProjUser;
+import com.wwe.member.model.service.MemberService;
 import com.wwe.member.model.vo.Member;
 import com.wwe.project.model.vo.ProjectMaster;
 import com.wwe.task.model.service.TaskService;
@@ -70,6 +72,9 @@ public class LeaderController extends HttpServlet {
 			break;
 		case "alloctask" :
 			allocTask(request,response);
+			break;
+		case "deleteproject" :
+			deleteProject(request,response);
 			break;
 		default:
 			break;
@@ -204,6 +209,7 @@ public class LeaderController extends HttpServlet {
 		System.out.println("바꿀 리더아이디  : "+projUser.getUserId());
 		int res = leaderService.updateAuthority(projUser);
 		if (res > 0) {
+//			new MemberService().addAlarm(userId, projectId, AddAlarmCode.IT01.alarmCode());
 			if (authority.equals("팀장")) {
 				leaderService.changeProLeader(projUser); //TB_PROJECT의 LEADER_ID를 수정하는 코드
 				projUser.setUserId(curUser.getUserID());
@@ -378,7 +384,18 @@ public class LeaderController extends HttpServlet {
 	
 	}
 	
-	public void isLeader(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
+	public void deleteProject(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
+		String projectId = request.getParameter("projectId");
+		
+		System.out.println(projectId);
+		int res = leaderService.deleteProject(projectId);
+		
+		if(res>0) {
+			response.getWriter().print("success");
+		}else {
+			response.getWriter().print("failed");
+		}
+		
 	}
 
 }

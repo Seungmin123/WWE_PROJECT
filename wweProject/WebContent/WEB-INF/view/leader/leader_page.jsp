@@ -131,7 +131,7 @@
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-                    <h3 class="text-primary">프로젝트명</h3>
+                    <h3 class="text-primary">팀관리</h3>
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
@@ -364,6 +364,7 @@
                 <div class="container-fluid">
                 	<div class="row">
                			<ul class="col-2 mt-5 list-group">
+               			<button type="button" class="btn btn-danger" onclick="deleteProject('${sessionScope.selectProject.projectId}');">프로젝트 삭제</button><br>
                				<li class=" list-group-item bg-dark text-white">업무 할당</li>
                				<c:forEach var="user" items="${userList}" varStatus="status">
                					<a href="#" class="list-group-item list-group-item-action" onclick="openAllocModal(this)">${user.userId}
@@ -504,7 +505,7 @@
                     <!--업무 할당 모달  -->
                      <div class="modal bg-lg" id="alloc_task_modal">
  		<div class="modal-dialog" role="document">
-        	<div class="modal-content">
+        	<div class="modal-content"> 
             	<div class="modal-header bg-primary">
                 	<h5 class="modal-title text-light" >업무 할당</h5>
                     <button type="button" id="btn_allow_modal_close" class="close">

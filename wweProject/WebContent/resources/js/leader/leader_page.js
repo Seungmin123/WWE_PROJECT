@@ -68,4 +68,42 @@ let allocTask = ()=>{
 		alert('정보를 정확히 입력해주세요.');
 	}
 }	
+
+//프로젝트를 삭제하는 함수
+let deleteProject = (projectId)=>{
+	
+	console.log(projectId);
+	let isDelete = confirm("프로젝트를 삭제하시겠습니까?");
+	if(isDelete){
+		let url ="/leader/deleteproject?projectId="+projectId;
+		let headerObj = new Headers();
+		headerObj.append('content-type','application/x-www-form-urlencoded');
+	
+		fetch(url,{
+			method : "GET",
+			headers : headerObj
+		}).then(response =>{
+			if(response.ok){
+				return response.text(); 
+			}else{
+				throw new AsyncPageError(response.text());
+			}
+		}).then(msg =>{
+			if(msg=='success'){
+				alert('프로젝트가 삭제되었습니다.');
+				location.href = '/project/loadpro';
+			}else{
+				alert('프로젝트 삭제를 실패했습니다.');
+			}
+		}).catch(error=>{
+			error.alertMessage();
+		});
+	}
+	
+	
+}
+
+
+
+
 		
