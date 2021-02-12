@@ -37,19 +37,37 @@ public class ProService {
 	}
 	
 	//새 프로젝트 참여자 추가
-	public Member addMember(String userId, String userName){
+	public ArrayList<Member> addMember(){
 		Connection conn = jdt.getConnection();
-		Member member = null;
+		ArrayList<Member> memberList = null;
 		
 		try {
 			//dao에서 받은걸
-			member = proDao.selectMember(conn, userId, userName);
+			memberList = proDao.selectMember(conn);
 		}finally {
 			jdt.close(conn);
 		}
 		//반환
-		return member;
+		return memberList;
 	}
+	
+	//참여자를 db에 추가
+	public int insertMember(ArrayList<ProjUser> projUser){
+		Connection conn = jdt.getConnection();
+		int res = 0;
+		try {
+			//dao에서 받은걸
+			res = proDao.insertMember(conn,projUser);
+			jdt.commit(conn);
+		}catch(DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		}
+		//반환
+		return res;
+	}
+	
+	
 	
 	
 	//최근 프로젝트
