@@ -58,8 +58,6 @@ public class TaskController extends HttpServlet {
 				break;
 			case "detail": detailTask(request,response);
 				break;
-			case "add": addTask(request,response);
-				break;
 			case "addimpl": addImpl(request,response);
 				break;
 			case "my": myTask(request,response);
@@ -244,26 +242,32 @@ public class TaskController extends HttpServlet {
 	}
 	
 	//업무추가 페이지 이동
-	protected void addTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/view/task/add.jsp").forward(request, response);
-	}
-	
+	/*
+	 * protected void addTask(HttpServletRequest request, HttpServletResponse
+	 * response) throws ServletException, IOException {
+	 * request.getRequestDispatcher("/WEB-INF/view/task/add.jsp").forward(request,
+	 * response); }
+	 */
 	//업무 추가 실행
 	protected void addImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		
-		  String taskName = request.getParameter("taskName"); 
-		  String deadLine = request.getParameter("deadLine"); 
-		  String taskContent = request.getParameter("taskContent");
+		  String data = request.getParameter("data");
+		  Gson gson = new Gson();
+		
+		  Map parsedData = gson.fromJson(data, Map.class);
+		  
+		  String taskName = parsedData.get("taskId").toString();
+		  String deadLine = parsedData.get("deadLine").toString(); 
+		  String taskContent = parsedData.get("taskContent").toString();
 		  Member user = (Member)request.getSession().getAttribute("user");
 		  
 		  ProjUser project = (ProjUser) request.getSession().getAttribute("selectProject");
 		  String projectId = project.getProjectId();
 		  String userId = user.getUserID();
 		  
-		  if(taskName == null && taskContent == null && deadLine == null) {
+		  if(taskName == null || taskContent == null || deadLine == null) {
 			  request.setAttribute("alertMsg", "내용을 모두 입력해주세요.");
-			  request.setAttribute("url", "/task/add");
+			  request.setAttribute("url", "/task/my");
 		  }
 		  
 		  Task task = new Task(); 
@@ -277,10 +281,7 @@ public class TaskController extends HttpServlet {
 		  int res = taskService.insertTask(task);
 		  
 		  if(res > 0) { 
-			  System.out.println("업무추가성공");
-
-			  request.setAttribute("alertMsg", "업무 추가에 성공하였습니다.");
-			  request.setAttribute("url", "/task/my");
+			  response.getWriter().print("success");
 			  
 			  new MemberService().addAlarm(userId, projectId, AddAlarmCode.IT01.alarmCode());
 			  //new MemberService().kakaoSendMessage("rkZVd00R_wEE82fu2ustpOknZNHZXVv0IpSx0AopdSkAAAF3i7FSxA", user.getUserName() + " 님이 업무를 추가했습니다.");
@@ -291,7 +292,7 @@ public class TaskController extends HttpServlet {
 			  System.out.println("업무추가실패");
 			  
 			  request.setAttribute("alertMsg", "업무 추가에 실패하였습니다.");
-			  request.setAttribute("url", "/task/add");
+			  request.setAttribute("url", "/task/my");
 			  
 			  request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
 		  }

@@ -426,7 +426,7 @@
                                             <h6 class="font-weight-bold">업무 상세</h6>
                                         </div>
                                         <div class="col-sm-9">
-                                            <div class="form-control form-control-user rounded" id="taskContent">${detailList[0].taskContent}</div>
+                                            <div class="form-control form-control-user rounded " id="taskContent">${detailList[0].taskContent}</div>
                                         </div>
                                     </div>
 
@@ -470,9 +470,7 @@
                                             	<c:when test="${name eq 'PR01'}">
                                             		긴급
                                             	</c:when>
-                                            	<c:when test="${name eq 'PR02'}">
-                                            		보류
-                                            	</c:when>
+
                                             </c:choose></div>
                                         </div>
                                     </div>
@@ -505,9 +503,9 @@
                                     
                                     <div class="pb-4 d-flex justify-content-end">
 									
-										<button type="button" class="btn btn-sm btn-dark pr-3 pl-3 mr-2" id="modify" onclick="modifyTask();">수정</button>
+										<button type="button" class="btn btn-sm btn-dark pr-3 pl-3" id="modify" onclick="modifyTask();">수정</button>
                                   
-                                    	<button class="btn btn-sm btn-dark pr-2 pl-2" onclick="help();">HELP</button>
+                                    	<!-- <button class="btn btn-sm btn-dark pr-2 pl-2" onclick="help();">HELP</button> -->
                                     </div>
                                 </div>
 
@@ -676,6 +674,9 @@
 				</c:if>
 				</c:forEach>
 			}
+			
+			 
+        
             </script>
 
         </body>
