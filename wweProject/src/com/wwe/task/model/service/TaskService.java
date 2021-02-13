@@ -226,5 +226,21 @@ public class TaskService {
 		}
 		return res;	
 	}
+	
+	public int updatePriority(String taskPriority,String projectId) {
+		
+		Connection conn = jdt.getConnection();
+		int res = 0;
+		try {
+			res = taskDao.updatePriority(conn, taskPriority, projectId) ;
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		} finally {
+			jdt.close(conn);
+		}
+		return res;	
+	}
 
 }

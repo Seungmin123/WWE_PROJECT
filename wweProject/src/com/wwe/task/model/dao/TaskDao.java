@@ -393,4 +393,24 @@ public class TaskDao {
 		return res;
 	}
 	
+	public int updatePriority(Connection conn, String taskPriority, String projectId) {
+		
+		int res = 0;
+		PreparedStatement pstm = null;
+		
+		try {
+			String query = "UPDATE TB_TASK SET TASK_PRIORITY = ? WHERE PROJECT_ID = ? AND (DEAD_LINE - SYSDATE < 3) AND TASK_STATE != 'ST03' AND TASK_STATE != 'ST04'";
+			
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, taskPriority);
+			pstm.setString(2, projectId);
+			res = pstm.executeUpdate();
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.UT02,e);
+		}finally {
+			jdt.close(pstm);
+		}
+		return res;
+	}
+	
 }

@@ -339,7 +339,7 @@
                                 <div class="topbar-divider d-none d-sm-block"></div>
 
                                 <!-- Nav Item - User Information -->
-                               <li class="nav-item dropdown no-arrow"><a
+                              <li class="nav-item dropdown no-arrow"><a
                            class="nav-link dropdown-toggle" href="#" id="userDropdown"
                            role="button" data-toggle="dropdown" aria-haspopup="true"
                            aria-expanded="false"> <span
@@ -557,6 +557,7 @@
         			 let todobutton;
         			 let taskName;
         			 let issue;
+        			 let icon;
        			<c:forEach var="my" items="${myList}" varStatus="status">
        			<c:choose>
 					<c:when test="${my.taskState == 'ST00'}"> 
@@ -567,6 +568,7 @@
        					todobutton = document.createElement('div');
        					issue = document.createElement('span');
        					taskName = document.createElement('a');
+       					icon = document.createElement('i');
        					
        					//inputElement.setAttribute('type','checkbox');
        					/* inputElement.setAttribute('id','priority'); */
@@ -580,12 +582,17 @@
        					taskName.setAttribute('class','text-gray-600');
        					taskName.setAttribute('href','${context}/task/detail?name=${my.taskId}');
        					issue.setAttribute('class','btn btn-sm ml-1');
+       					icon.setAttribute('class','fas fa-exclamation-triangle text-danger');
+    					icon.setAttribute('onhover','priorityAlarm();');
 
        					taskName.innerHTML += '${my.taskId}';
        					//checkBox.appendChild(inputElement);
        					todobutton.appendChild(taskName);
        					todobutton.appendChild(issue);
        					//todotask.appendChild(checkBox);
+       					<c:if test= "${my.taskPriority == 'PR01'}">
+    					issue.appendChild(icon);
+    					</c:if>
        					todotask.appendChild(todobutton);
        				
        					document.querySelector('.todolist').appendChild(todotask);
@@ -597,6 +604,7 @@
    						todobutton = document.createElement('div');
    						issue = document.createElement('span');
    						taskName = document.createElement('a');
+   						icon = document.createElement('i');
    					
    						//inputElement.setAttribute('type','checkbox');
    						/* inputElement.setAttribute('id','priority'); */
@@ -610,12 +618,17 @@
    						taskName.setAttribute('class','text-gray-600');
    						taskName.setAttribute('href','${context}/task/detail?name=${my.taskId}');
    						issue.setAttribute('class','btn btn-sm ml-1');
+   						icon.setAttribute('class','fas fa-exclamation-triangle text-danger');
+    					icon.setAttribute('onhover','priorityAlarm();');
 
    						taskName.innerHTML += '${my.taskId}';
    						//checkBox.appendChild(inputElement);
    						todobutton.appendChild(taskName);
    						todobutton.appendChild(issue);
    						//todotask.appendChild(checkBox);
+   						<c:if test= "${my.taskPriority == 'PR01'}">
+    					issue.appendChild(icon);
+    					</c:if>
    						todotask.appendChild(todobutton);
    				
    						document.querySelector('.doingzone').appendChild(todotask);
@@ -627,6 +640,7 @@
 						todobutton = document.createElement('div');
 						issue = document.createElement('span');
 						taskName = document.createElement('a');
+						icon = document.createElement('i');
 					
 						//inputElement.setAttribute('type','checkbox');
 						/* inputElement.setAttribute('id','priority'); */
@@ -640,12 +654,17 @@
 						taskName.setAttribute('class','text-gray-600');
 						taskName.setAttribute('href','${context}/task/detail?name=${my.taskId}');
 						issue.setAttribute('class','btn btn-sm ml-1');
+						icon.setAttribute('class','fas fa-exclamation-triangle text-danger');
+    					icon.setAttribute('onhover','priorityAlarm();');
 
 						taskName.innerHTML += '${my.taskId}';
 						//checkBox.appendChild(inputElement);
 						todobutton.appendChild(taskName);
 						todobutton.appendChild(issue);
 						//todotask.appendChild(checkBox);
+						<c:if test= "${my.taskPriority == 'PR01'}">
+    					issue.appendChild(icon);
+    					</c:if>
 						todotask.appendChild(todobutton);
 				
 						document.querySelector('.donezone').appendChild(todotask);

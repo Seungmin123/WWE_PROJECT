@@ -467,6 +467,9 @@
                                             </div>
                                         </a>
                                         <span class="btn btn-sm ml-1 mr-1">
+                                        	<c:if test = "${task.taskPriority == 'PR01'}">
+                                        	<i class= "fas fa-exclamation-triangle text-danger" onhover="priorityAlarm();"></i>
+                                        	</c:if>
                                         </span>
                                     </div>
                                   </c:if>
@@ -535,6 +538,9 @@
                 <!-- Custom scripts for all pages-->
                 <script src="/resources/js/sb-admin-2.min.js"></script>
                 
+                <!-- 마우스오버 시 메시지 알림창 생성 -->
+                <script src="/resources/js/task/priority.js"></script>
+                
 				<!-- 업무리스트 출력 -->
              	<script>
 				
@@ -549,6 +555,7 @@
         			 let innerprogress;
         			 let issue;
         			 let memberName;
+        			 let icon;
        			<c:forEach var="task" items="${taskList}" varStatus="status">
        			
        			<c:choose>
@@ -561,6 +568,7 @@
 					innerprogress = document.createElement('div');
 					issue = document.createElement('span');
 					memberName = document.querySelector('#mName');
+					icon = document.createElement('i');
 					
 					tasklist.setAttribute('class','mb-4 py-3 bg-gray-100 pl-4 d-flex justify-content-center rounded shadow-sm');
 					taskname.setAttribute('class','text-gray-600 border-0');
@@ -581,14 +589,20 @@
 					innerprogress.setAttribute('style','width: 100%');
 					</c:if>
 					issue.setAttribute('class','btn btn-sm ml-1 mr-1');
+					icon.setAttribute('class','fas fa-exclamation-triangle text-danger');
+					icon.setAttribute('onhover','priorityAlarm();');
 
 					divElement.innerHTML += '${task.taskId}';
 		
 					taskname.appendChild(divElement);
 					progressbar.appendChild(innerprogress);
 					taskname.appendChild(progressbar);
+					<c:if test= "${task.taskPriority == 'PR01'}">
+					issue.appendChild(icon);
+					</c:if>
 					tasklist.appendChild(taskname);
 					tasklist.appendChild(issue);
+					
 
 					document.querySelector('.leaderList').appendChild(tasklist);
 					
@@ -602,6 +616,7 @@
        					innerprogress = document.createElement('div');
        					issue = document.createElement('span');
        					memberName = document.querySelector('#mName');
+       					icon = document.createElement('i');
        					
        					tasklist.setAttribute('class','mb-4 py-3 bg-gray-100 pl-4 d-flex justify-content-center rounded shadow-sm');
        					taskname.setAttribute('class','text-gray-600 border-0');
@@ -622,6 +637,8 @@
        					innerprogress.setAttribute('style','width: 100%');
        					</c:if>
        					issue.setAttribute('class','btn btn-sm ml-1 mr-1');
+       					icon.setAttribute('class','fas fa-exclamation-triangle text-danger');
+    					icon.setAttribute('onhover','priorityAlarm();');
 
        					divElement.innerHTML += '${task.taskId}';
 				
@@ -629,6 +646,9 @@
        					progressbar.appendChild(innerprogress);
        					taskname.appendChild(progressbar);
        					tasklist.appendChild(taskname);
+       					<c:if test= "${task.taskPriority == 'PR01'}">
+    					issue.appendChild(icon);
+    					</c:if>
        					tasklist.appendChild(issue);
 
        					document.querySelector('.leaderList').appendChild(tasklist);
@@ -668,6 +688,9 @@
        					taskname.appendChild(divElement);
        					progressbar.appendChild(innerprogress);
        					taskname.appendChild(progressbar);
+       					<c:if test= "${task.taskPriority == 'PR01'}">
+    					issue.appendChild(icon);
+    					</c:if>
        					tasklist.appendChild(taskname);
        					tasklist.appendChild(issue);
 

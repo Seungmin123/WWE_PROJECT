@@ -94,12 +94,20 @@ public class TaskController extends HttpServlet {
 		
 		ProjUser project = (ProjUser) request.getSession().getAttribute("selectProject");
 		String projectId = project.getProjectId();
-		Member user = (Member) request.getSession().getAttribute("user");
-		String userId = user.getUserID();
+		//Member user = (Member) request.getSession().getAttribute("user");
+		//String userId = user.getUserID();
 		
 		String taskState = "ST04";
+		String taskPriority = "PR01";
 		
 		int res = taskService.updateTaskState(projectId,taskState);
+		int result = taskService.updatePriority(taskPriority, projectId);
+		
+		if(res > 0 && result > 0 ) {
+			System.out.println("상태수정완료");
+		}else {
+			System.out.println("수정실패");
+		}
 		
 
 		request.getRequestDispatcher("/WEB-INF/view/task/main.jsp").forward(request, response);
