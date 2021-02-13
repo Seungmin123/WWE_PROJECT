@@ -279,7 +279,7 @@ public class TaskDao {
 			pstm.setString(2, projectId);
 			res = pstm.executeUpdate();
 		} catch (SQLException e) {
-			throw new DataAccessException(ErrorCode.DT01,e);
+			throw new DataAccessException(ErrorCode.UT02,e);
 		}finally {
 			jdt.close(pstm);
 		}
@@ -305,7 +305,7 @@ public class TaskDao {
 			pstm.setString(3, userId);
 			res = pstm.executeUpdate();
 		} catch (SQLException e) {
-			throw new DataAccessException(ErrorCode.DT01,e);
+			throw new DataAccessException(ErrorCode.UT02,e);
 		}finally {
 			jdt.close(pstm);
 		}
@@ -386,7 +386,7 @@ public class TaskDao {
 			pstm.setInt(4, tIdx);
 			res = pstm.executeUpdate();
 		}catch (SQLException e) {
-			throw new DataAccessException(ErrorCode.UT01, e);
+			throw new DataAccessException(ErrorCode.FK02, e);
 		}finally {
 			jdt.close(pstm);
 		}
