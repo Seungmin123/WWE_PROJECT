@@ -13,7 +13,7 @@ let allocTask = ()=>{
 	let taskId = document.querySelector('#task_id').value;
 	let deadLine = document.querySelector('#deadLine').value;
 	let content = document.querySelector('#task_content').value;
-		
+	content = content.replace(/(?:\r\n|\r|\n)/g, '<br>');
 	if(taskId!="" && deadLine!="" && content !=""){
 		let today = new Date();
 		let year = today.getFullYear();

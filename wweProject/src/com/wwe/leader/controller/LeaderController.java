@@ -124,9 +124,8 @@ public class LeaderController extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
 		}
 		
-
-		
 	}
+	
 
 	// 팀원을 초대하기 위해 입력한 아이디가 유효한지 확인
 	private void chkInvalidUser(HttpServletRequest request, HttpServletResponse response)
@@ -155,12 +154,13 @@ public class LeaderController extends HttpServlet {
 		ProjUser project = (ProjUser) session.getAttribute("selectProject");
 		String projectId = project.getProjectId();
 		
+		Member member = (Member) session.getAttribute("user");
+		
 		int res = leaderService.inviteUser(userId, authority,projectId);
 		if (res == 1) {
-			System.out.println("INSERT 성공");
+			new MemberService().addAlarm(member.getUserID(), projectId, AddAlarmCode.IU02.alarmCode());
 			response.getWriter().print("success");
 		} else {
-			System.out.println("INSERT 실패");
 			response.getWriter().print("failed");
 		}
 	}
@@ -193,6 +193,7 @@ public class LeaderController extends HttpServlet {
 
 		HttpSession session = request.getSession();
 		ProjUser project = (ProjUser) session.getAttribute("selectProject");
+		Member member = (Member) session.getAttribute("user");
 		String projectId = project.getProjectId();
 		String userId = parsedData.get("userId").toString();
 		String authority = parsedData.get("authority").toString();
@@ -209,7 +210,6 @@ public class LeaderController extends HttpServlet {
 		System.out.println("바꿀 리더아이디  : "+projUser.getUserId());
 		int res = leaderService.updateAuthority(projUser);
 		if (res > 0) {
-//			new MemberService().addAlarm(userId, projectId, AddAlarmCode.IT01.alarmCode());
 			if (authority.equals("팀장")) {
 				leaderService.changeProLeader(projUser); //TB_PROJECT의 LEADER_ID를 수정하는 코드
 				projUser.setUserId(curUser.getUserID());
@@ -217,11 +217,13 @@ public class LeaderController extends HttpServlet {
 				res = leaderService.changeLeader(projUser); //기존에 팀장이었던 사람의 정보를 넘겨야함.
 				
 				if (res > 0) {
+					new MemberService().addAlarm(member.getUserID(), projectId, AddAlarmCode.UL01.alarmCode());
 					response.getWriter().print("authChange");
 				} else {
 					response.getWriter().print("authChangeFailed");
 				}
 			}else {
+				new MemberService().addAlarm(member.getUserID(), projectId, AddAlarmCode.UU01.alarmCode());
 				response.getWriter().print("success");
 			}
 		} else {
@@ -301,9 +303,15 @@ public class LeaderController extends HttpServlet {
 		task.setTaskContent(modifiedContent);
 		task.settIdx(tIdx);
 
+		HttpSession session = request.getSession();
+		ProjUser project = (ProjUser) session.getAttribute("selectProject");
+		Member member = (Member) session.getAttribute("user");
+		
 		int res = leaderService.updateTask(task);
 
 		if (res > 0) {
+//			new MemberService().addAlarm(member.getUserID(), project.getProjectId(), AddAlarmCode.UT01.alarmCode());
+//			new MemberService().kakaoSendMessage("rkZVd00R_wEE82fu2ustpOknZNHZXVv0IpSx0AopdSkAAAF3i7FSxA", member.getUserID() + " 님이 업무를 수정했습니다.");
 			response.getWriter().print("success");
 		} else {
 			response.getWriter().print("failed");
@@ -321,8 +329,14 @@ public class LeaderController extends HttpServlet {
 
 		ArrayList<Integer> tIdx = (ArrayList<Integer>) parsedData.get("tIdx");
 		int res = leaderService.deleteTask(tIdx);
+		
+		HttpSession session = request.getSession();
+		ProjUser project = (ProjUser) session.getAttribute("selectProject");
+		Member member = (Member) session.getAttribute("user");
+		
 
 		if (res > 0) {
+//			new MemberService().addAlarm(member.getUserID(), project.getProjectId(), AddAlarmCode.DT01.alarmCode());
 			response.getWriter().print("success");
 		} else {
 			response.getWriter().print("failed");
@@ -345,9 +359,12 @@ public class LeaderController extends HttpServlet {
 		user.setProjectId(projectId);
 		user.setUserId(deleteMember);
 
+		Member member = (Member) session.getAttribute("user");
+		
 		int res = leaderService.deleteMember(user);
 
 		if (res > 0) {
+//			new MemberService().addAlarm(member.getUserID(), projectId, AddAlarmCode.DM01.alarmCode());
 			response.getWriter().print("success");
 		} else {
 			response.getWriter().print("failed");
@@ -375,8 +392,11 @@ public class LeaderController extends HttpServlet {
 		task.setDeadLine(deadLine);
 		task.setTaskContent(content);
 		
+		Member member = (Member) session.getAttribute("user");
+		
 		int res = taskService.insertTask(task);
 		if(res>0) {
+//			new MemberService().addAlarm(member.getUserID(), projectId, AddAlarmCode.IT01.alarmCode());
 			response.getWriter().print("success");
 		}else {
 			response.getWriter().print("failed");
@@ -389,8 +409,10 @@ public class LeaderController extends HttpServlet {
 		
 		System.out.println(projectId);
 		int res = leaderService.deleteProject(projectId);
-		
+		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("user");
 		if(res>0) {
+//			new MemberService().addAlarm(member.getUserID(), projectId, AddAlarmCode.DP01.alarmCode());
 			response.getWriter().print("success");
 		}else {
 			response.getWriter().print("failed");
