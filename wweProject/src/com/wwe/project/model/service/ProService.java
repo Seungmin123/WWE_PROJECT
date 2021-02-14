@@ -76,6 +76,8 @@ public class ProService {
 		}catch(DataAccessException e) {
 			jdt.rollback(conn);
 			throw new ToAlertException(e.error);
+		}finally {
+			jdt.close(conn);
 		}
 		//반환
 		return res;
@@ -95,6 +97,8 @@ public class ProService {
 		}catch(DataAccessException e) {
 			jdt.rollback(conn);
 			throw new ToAlertException(e.error);
+		}finally {
+			jdt.close(conn);
 		}
 		//반환
 		return res;
