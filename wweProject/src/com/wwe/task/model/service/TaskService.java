@@ -211,6 +211,36 @@ public class TaskService {
 		return feedList;
 	}
 	
+	public int updateFeedback(int isDel,int tIdx, String userId, String feedbackComment) {
+		
+		Connection conn = jdt.getConnection();
+		int res = 0;
+		try {
+			res = taskDao.updateFeedback(conn, isDel, tIdx, userId, feedbackComment) ;
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		} finally {
+			jdt.close(conn);
+		}
+		return res;	
+	}
 	
+	public int updatePriority(String taskPriority,String projectId) {
+		
+		Connection conn = jdt.getConnection();
+		int res = 0;
+		try {
+			res = taskDao.updatePriority(conn, taskPriority, projectId) ;
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		} finally {
+			jdt.close(conn);
+		}
+		return res;	
+	}
 
 }

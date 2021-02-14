@@ -24,6 +24,7 @@ public class LeaderDao {
 		int res =0;
 		PreparedStatement pstm = null;
 		
+
 		try {
 			String query = "INSERT INTO TB_PROJECT_USER"
 					+"(USER_ID, AUTHORITY, PROJECT_ID) "
@@ -319,7 +320,7 @@ public class LeaderDao {
 			}else {
 				query += "?,";
 			}
-			
+			  
 		}
 		try {
 			pstm = conn.prepareStatement(query);
@@ -386,6 +387,24 @@ public class LeaderDao {
 		return pUser;
 	}
 	
+	public int deleteProject(Connection conn, String projectId) {
+		int res = 0;
+		PreparedStatement pstm = null;
+		
+		String query = "DELETE FROM TB_PROJECT WHERE PROJECT_ID = ?";
+		
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, projectId);
+			res = pstm.executeUpdate();
+		}catch(SQLException e) {
+			throw new DataAccessException(ErrorCode.DP01, e);
+		}finally {
+			jdt.close(pstm);
+		}
+		
+		return res;
+	}
 	
 	
 }

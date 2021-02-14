@@ -217,3 +217,5 @@ let reroadChk = ()=>{
 	 $('input[name=_selected_').prop('checked',false);
             $('#wholeChk').data('chk',false);
 }
+
+

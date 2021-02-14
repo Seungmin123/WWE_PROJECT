@@ -416,7 +416,9 @@
                                                 ${task.taskId}
                                             </div>
                                         <span class="btn btn-sm ml-1 mr-1">
-                                            
+                                            <c:if test = "${task.taskPriority == 'PR01'}">
+                                        	<i class= "fas fa-exclamation-triangle text-danger" onhover="priorityAlarm();"></i>
+                                        	</c:if>
                                         </span>
                                     </a>
                                     </c:if>
@@ -439,7 +441,9 @@
                                                 ${task.taskId}
                                             </div>
                                         <span class="btn btn-sm ml-1 mr-1">
-                                     
+                                     		<c:if test = "${task.taskPriority == 'PR01'}">
+                                        	<i class= "fas fa-exclamation-triangle text-danger" onhover="priorityAlarm();"></i>
+                                        	</c:if>
                                         </span>
                                     </a>
                                     </c:if>
@@ -462,7 +466,9 @@
                                                 ${task.taskId}
                                             </div>
                                         <span class="btn btn-sm ml-1 mr-1">
-                                         
+                                         	<c:if test = "${task.taskPriority == 'PR01'}">
+                                        	<i class= "fas fa-exclamation-triangle text-danger" onhover="priorityAlarm();"></i>
+                                        	</c:if>
                                         </span>
                                     </a>
                                     </c:if>
