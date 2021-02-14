@@ -311,7 +311,7 @@ public class LeaderController extends HttpServlet {
 
 		if (res > 0) {
 //			new MemberService().addAlarm(member.getUserID(), project.getProjectId(), AddAlarmCode.UT01.alarmCode());
-//			new MemberService().kakaoSendMessage("rkZVd00R_wEE82fu2ustpOknZNHZXVv0IpSx0AopdSkAAAF3i7FSxA", member.getUserID() + " 님이 업무를 수정했습니다.");
+//			new MemberService().kakaoSendMessage("rkZVd00R_wEE82fu2ustpOknZNHZXVv0IpSx0AopdSkAAAF3i7FSxA", member.getUserName() + " 님이 업무를 수정했습니다.");
 			response.getWriter().print("success");
 		} else {
 			response.getWriter().print("failed");
@@ -365,9 +365,12 @@ public class LeaderController extends HttpServlet {
 
 		if (res > 0) {
 //			new MemberService().addAlarm(member.getUserID(), projectId, AddAlarmCode.DM01.alarmCode());
-			response.getWriter().print("success");
-		} else {
-			response.getWriter().print("failed");
+			res = leaderService.deleteMemberTask(user);
+			if(res > 0) {
+				response.getWriter().print("success");
+			}else {
+				response.getWriter().print("failed");
+			}
 		}
 	}
 	
