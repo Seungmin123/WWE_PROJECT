@@ -34,7 +34,7 @@ public class ProDao {
 	         pstm.setString(2, project.getDueDate());
 	         pstm.setString(3, project.getLeaderId());
 	         res = pstm.executeUpdate();
-	         
+	         	         
 	      } catch (SQLException e) {
 	         throw new DataAccessException(ErrorCode.IB01, e); 
 	
@@ -47,7 +47,36 @@ public class ProDao {
 	      return res;
 	   }
 	
-	//새 프로젝트의 참여자 - DB에서 아이디로 식별해 가져오고, 보여주는 건 이름
+	
+	//tb_project_master 내용 전달
+	public int projectMaster(Connection conn, ProjectMaster projectMaster) {
+		int res = 0;
+		PreparedStatement pstm = null;
+		
+		try {
+			String sql = "insert into tb_project_master "
+					+ "(project_id, user_id, work_time) "
+					+ "values(?, ?, sysdate)";
+			
+			pstm = conn.prepareStatement(sql);
+			pstm.setString(1, projectMaster.getProjectId());
+			pstm.setString(2, projectMaster.getUserId());
+			res = pstm.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.IB01, e); 
+			
+		}finally {
+			jdt.close(pstm);
+		}
+		
+		//성공하면 1, 실패하면 0 반환
+		//(1은 쿼리를 실행한 횟수)
+		return res;
+	}
+	
+	
+	//새 프로젝트의 참여자 추가
 	public ArrayList<Member> selectMember(Connection conn) {
 		ArrayList<Member> memberList = new ArrayList<Member>();
 		PreparedStatement pstm = null;
@@ -75,15 +104,49 @@ public class ProDao {
 		return memberList;
 	}
 	
+	
+	//팀원 추가에서 추가버튼 눌렀을 때 => 본인이나 유저테이블에 없는 아이디 거르기
+		public Member selectMemberForFilter(Connection conn, String userId, String leaderId){ //userId: 입력된 값, leaderId: 세션에 있는 본인아이디
+			Member member = null;
+			PreparedStatement pstm = null;
+			ResultSet rset = null;
+			
+			try{
+				String query = "select * from tb_user "
+							+ "where user_id = ? and user_id != ?"; //첫번째 ?: 입력한 id, 두번째 ?: 본인아이디
+	
+				//주소창처럼 => 아이디로 입력을 받고, 이 아이디로 검색해서 추가
+				//projUserList.size()-1
+				pstm = conn.prepareStatement(query);
+				pstm.setString(1, userId);
+				pstm.setString(2, leaderId);
+				rset = pstm.executeQuery();
+				
+				//rset값(조회한 결과)이 있을때만 실행
+				while(rset.next()) {
+					member = new Member();
+					member.setUserID(rset.getString("user_id")); 				
+				}
+				
+			} catch (SQLException e) {
+				throw new DataAccessException(ErrorCode.IN01, e);
+			}finally {
+				jdt.close(rset,pstm);
+			}
+			
+			return member;
+		}
+	
+	
 	//추가된 팀원을 DB에 넣기
-	public int insertMember(Connection conn,ArrayList<ProjUser> projUserList){
+	public int insertMember(Connection conn, ArrayList<ProjUser> projUserList){
 		PreparedStatement pstm = null;
 		int res = 0;
 		try{
 			String query = "insert into tb_project_user(project_id,user_id,authority) ";
 						
-			for(int i =0; i< projUserList.size();i++) {
-				if(i==projUserList.size()-1) {
+			for(int i = 0; i < projUserList.size(); i++) {
+				if(i == projUserList.size()-1) {
 					query += "select ?, ?, ? from dual";
 				}else {
 					query += "select ?, ?, ? from dual union all ";
@@ -107,6 +170,8 @@ public class ProDao {
 		
 		return res;
 	}
+	
+	
 
 	//최근 프로젝트 받아오기 (최근 작업시간 순으로)
 	public ArrayList<ProjectMaster> selectRecentProject(Connection conn, String userId){

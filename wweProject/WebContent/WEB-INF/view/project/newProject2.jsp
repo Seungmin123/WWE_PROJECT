@@ -493,11 +493,12 @@
                        <div class="col-sm-3 mb-3 mb-sm-0 d-flex align-items-center">
                             <h6>작성자</h6>
                        </div>
-                       <div class="col-sm-7">
+                       <div class="col-sm-5">
                        		 <input class="form-control rounded"type="text" name="addMember" id="myInput" placeholder="팀원을 추가하세요!">
                        </div>
-                       <div class="col-sm-2">
-                       	<button class="btn btn-primary"type="button" onclick="addMember();">추가</button>
+                       <div class="col-sm-4">
+                       	<button class="btn btn-primary"type="button" onclick="addMember('${sessionScope.user.userID}');">추가</button>
+                       	<button class="btn btn-primary"type="button" onclick="deleteMember();">삭제</button>
                        </div>
                    </div>
 		           	

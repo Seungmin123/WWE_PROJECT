@@ -36,7 +36,7 @@ public class ProService {
 		return res;
 	}
 	
-	//새 프로젝트 참여자 추가
+	//새 프로젝트 팀원 초대
 	public ArrayList<Member> addMember(){
 		Connection conn = jdt.getConnection();
 		ArrayList<Member> memberList = null;
@@ -49,6 +49,20 @@ public class ProService {
 		}
 		//반환
 		return memberList;
+	}
+	
+	//팀원 초대 시 본인이거나 유저테이블에 없는 사람 거르기
+	public Member selectMemberForFilter(String userId, String leaderId) {
+		Connection conn = jdt.getConnection();
+		Member member = null;
+		
+		try {
+			member = proDao.selectMemberForFilter(conn, userId, leaderId);
+		}finally {
+			jdt.close(conn);
+		}
+		
+		return member;
 	}
 	
 	//참여자를 db에 추가
@@ -69,6 +83,24 @@ public class ProService {
 	
 	
 	
+	//tb_project_master 내용 전달
+	public int projectMaster(ProjectMaster projectMaster){
+		Connection conn = jdt.getConnection();
+		int res = 0;
+		
+		try {
+			//dao에서 받은걸
+			res = proDao.projectMaster(conn, projectMaster);
+			jdt.commit(conn);
+		}catch(DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		}
+		//반환
+		return res;
+	}
+	
+
 	
 	//최근 프로젝트
 	public ArrayList<ProjectMaster> selectRecentProject(String userId){	
@@ -101,4 +133,5 @@ public class ProService {
 		
 		return projectList;
 	}
+	
 }

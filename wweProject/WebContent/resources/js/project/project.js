@@ -4,7 +4,7 @@ let memberList = Array();
 
 /* 프로젝트 생성 modal창 */
 		let openModal = () => {
-			let url = "/project/fetchmember";
+			let url = "/project/fetchmember"; //url: 정보를 요청할 경로(controller의 switch문)
 			let headerObj = new Headers();
 			headerObj.append('content-type','application/x-www-form-urlencoded');
 			
@@ -36,87 +36,88 @@ let memberList = Array();
 			$('#title').val("");
 			$('#deadline').val("");
 			$('#myInput').val("");
+			$('#addedMember').val("");
 			$('#new-project-modal').hide();
 		}
 
-
-           
-//            const overlay = modal.querySelector(".modal__overlay");
-           
-//            overlay.addEventListener("click", closeModal);
-           
-           
-            
-            
+        
             /* 생성 버튼 클릭 시 실행 */
             let addProject = () => {
-            	let date = document.querySelector('#deadline').value;
-                //이전날짜 실행 막기 
-                let today = new Date();
-                let year = today.getFullYear();
-                let month = ("0" + (1 + today.getMonth())).slice(-2);
-                let day = ("0" + today.getDate()).slice(-2);
-                today = new Date(year, month - 1, day);
-                
-                let tempArr = date.split('-');
-                let modDate = new Date(tempArr[0], tempArr[1] - 1, tempArr[2]);
-                let betweenDay = (modDate.getTime() - today.getTime()) / 1000 / 60 / 60 / 24;
-                if (betweenDay < 0) {
-                    alert("변경할 수 없는 날짜입니다.");
-                }else {
+            	//제목, 기한, 추가된 팀원 받기 
+            	let title = document.querySelector('#title').value;
+            	let deadline = document.querySelector('#deadline').value;
+            	let tempList = $('#addedMember').val().split('\n');
             	
-                	let title = document.querySelector('#title').value;
-                	let deadline = document.querySelector('#deadline').value;
-                	
-                	 let memberArray = new Array();
- 	                 let tempList = $('#addedMember').val().split('\n');
- 	                 
- 	                 for(let i =0;i<tempList.length-1;i++){
- 	                	memberArray.push(tempList[i]);
- 	                 }
-                	
-                	if(title != "" || deadline != "") {
-                		const url = '/project/newproimpl';
-    	                let paramObj = new Object();
-    	                
-    	                paramObj.title = $('#title').val();
-    	                paramObj.addedMember = memberArray;
-    	                paramObj.deadline = $('#deadline').val();
-    	                
-    	                let headerObj = new Headers();
-    	                headerObj.append("content-type", "application/x-www-form-urlencoded");
-    	               
-    	                fetch(url, {
-    	                    method: "post",
-    	                    headers: headerObj,
-    	                    body: "data=" + JSON.stringify(paramObj)
-    	                    
-    	                }).then(response => {
-    	                    if (response.ok) {
-    	                        return response.text();
-    	                    }
-    	                    
-    	                }).then((text) => {
-    	                        if (text == 'success') {
-    	                        	location.href = '/task/main';
-    	                        }
-    	                    }
-    	                );
-                	}else {
-                		alert('모든 정보를 입력해주세요.')
-                	}
-            	
-	                
-                }
-            }
+            	if(title != "" && deadline != "") {
+            			
+            			//이전날짜 실행 막기 
+                    	let date = document.querySelector('#deadline').value;
+                       
+                        let today = new Date();
+                        let year = today.getFullYear();
+                        let month = ("0" + (1 + today.getMonth())).slice(-2);
+                        let day = ("0" + today.getDate()).slice(-2);
+                        today = new Date(year, month - 1, day);
+                        
+                        let tempArr = date.split('-');
+                        let modDate = new Date(tempArr[0], tempArr[1] - 1, tempArr[2]);
+                        let betweenDay = (modDate.getTime() - today.getTime()) / 1000 / 60 / 60 / 24;
+                        
+                        	//기한이 안 맞으면
+	                        if (betweenDay < 0) {
+	                            alert("지정할 수 없는 날짜입니다.");
+	                        
+	                        //기한이 올바르면
+	                        }else {
 
-            
-            
-            
+                        		const url = '/project/newproimpl'; //controller의 newproImpl 함수 실행
+            	                let paramObj = new Object();
+            	                
+            	                //만약 tempList가 있다면
+            	                if(tempList != "") { 
+	            	            	let memberArray = new Array();
+	              	                 
+	            	                for(let i = 0; i < tempList.length-1; i++){
+	            	                	memberArray.push(tempList[i]);
+	            	                }
+	            	                
+	            	                paramObj.addedMember = memberArray;
+            	                }
+            	                
+            	                paramObj.title = $('#title').val();
+            	                paramObj.deadline = $('#deadline').val();
+            	                
+            	                let headerObj = new Headers();
+            	                headerObj.append("content-type", "application/x-www-form-urlencoded");
+            	               
+            	                fetch(url, {
+            	                    method: "post",
+            	                    headers: headerObj,
+            	                    body: "data=" + JSON.stringify(paramObj)
+            	                    
+            	                }).then(response => {
+            	                    if (response.ok) {
+            	                        return response.text();
+            	                    }
+            	                    
+            	                }).then((text) => {
+            	                        if (text == 'success') {
+            	                        	location.href = '/task/main';
+            	                        }
+            	                    }
+            	                );
+	                        }
+                    	}else {
+                    		alert('제목과 마감기한을 입력해주세요.')
+                    	}  
+            	}
+		
+
+ 
             /* 최근 프로젝트를 클릭했을 시 task메인 페이지로 이동 */
             let recentProject = (projectId,userId,workTime) => {
             	
-            	let url = '/project/selectpro'; //정보를 요청할 경로
+            	let url = '/project/selectpro'; 
             	let paramObj = new Object();
             	paramObj.projectId = projectId;
             	paramObj.userId = userId; 
@@ -152,25 +153,11 @@ let memberList = Array();
 
             }
             
-            
-            
-/*            // 최근프로젝트 개수 제한
-            $(function() {
-            	var maxAppend = 1; //버튼 누른 횟수 저장
-            	
-	            	$('#add').click(function() {
-	            		if(maxAppend >= 3) 
-	            			return; //3번째부터는 append 안되고 return 시키기
-	            	maxAppend++;
-            	});
-            })*/ 
-            
-            
-            
+        
             /* 초대된 프로젝트를 클릭했을 시 task메인 페이지로 이동*/
             let invitedProject = (projectId,leaderId) => {
             	
-            	let url = '/project/invitedpro'; //정보를 요청할 경로
+            	let url = '/project/invitedpro'; 
             	let paramObj = new Object();
             	paramObj.projectId = projectId;
             	paramObj.leaderId = leaderId;
@@ -279,14 +266,14 @@ let memberList = Array();
                     if (currentFocus < 0) currentFocus = (x.length - 1);
                     /*add class "autocomplete-active":*/
                     x[currentFocus].classList.add("autocomplete-active");
-                } //addActive 끝
+                } 
                 
                 function removeActive(x) {
                     /*a function to remove the "active" class from all autocomplete items:*/
                     for (var i = 0; i < x.length; i++) {
                         x[i].classList.remove("autocomplete-active");
                     }
-                } //removeActive 끝
+                } 
                 
                 
                 function closeAllLists(elmnt) {
@@ -298,28 +285,60 @@ let memberList = Array();
                             x[i].parentNode.removeChild(x[i]);
                         }
                     }
-                } //closeAllLists
-                
-                
+                } 
+                          
                 /*execute a function when someone clicks in the document:*/
                 document.addEventListener("click", function (e) {
                     closeAllLists(e.target);
                 });
             }
             /*An array containing all the country names in the world:*/
-            //console.log: 자기만 보여주고, console.dir: 자식요소까지 다 보여줌 (배열일때는 dir)
+            //console.log: 자기만 보여주고, console.dir: 자식요소까지 다 보여줌 (=> 배열일때는 dir)
             /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
             //autocomplete(document.getElementById("myInput"),memberList);
            
             
-            let addMember = ()=>{
-            	let addedMember = document.querySelector('#myInput').value;
-            	if(addedMember!=""){            		
-            		document.querySelector('#addedMember').value += addedMember +"\n";
-            		document.querySelector('#myInput').value ="";
-                	document.querySelector('#myInput').focus();
-            	}
+            //팀원 추가 버튼 눌렀을 때
+            let addMember = (data)=>{
             	
+            	let addedMember = document.querySelector('#myInput').value;
+            	
+            	if(addedMember!=""){      
+            		let url = "/project/filtermember";
+            		let paramObj = new Object();
+            		paramObj.userId = addedMember;
+            		paramObj.leaderId = data;
+            		
+            		let headerObj = new Headers();
+            		headerObj.append('content-type','application/x-www-form-urlencoded');
+            		
+            		fetch(url, {
+            			method: "post",
+            			headers: headerObj,
+            			body: "data="+ JSON.stringify(paramObj) //JSON인 paramObj를 string으로 만들어줌
+            		
+            		}).then(response => {
+            			if(response.ok) { //요청해서 응답 성공 시
+            				return response.text(); //controller에서 넘어온 success나 failed 반환
+            			}else {
+            				throw new AsyncPageError(response.text());
+            			}
+            			
+            		}).then((text) => {
+            			if(text == 'success') {
+            				document.querySelector('#addedMember').value += addedMember +"\n";
+                    		document.querySelector('#myInput').value ="";
+                        	document.querySelector('#myInput').focus();
+            			}else {
+            				alert("아이디가 올바르게 입력되지 않았습니다.")
+            			}
+            		}).catch((error) => {
+            			error.alertMessage();
+            		})
+            	}
             }
             
-          
+            //팀원 삭제 버튼 눌렀을 때
+            let deleteMember = () => {
+            	$('#addedMember').val("");
+            }
