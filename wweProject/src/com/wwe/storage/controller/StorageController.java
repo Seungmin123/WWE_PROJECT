@@ -30,6 +30,7 @@ import com.wwe.storage.model.service.StorageService;
 public class StorageController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	StorageService storageService = new StorageService();
+	MemberService memberService = new MemberService();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -104,12 +105,15 @@ public class StorageController extends HttpServlet {
 		ProjUser project = (ProjUser) session.getAttribute("selectProject");
 		String projectId = project.getProjectId(); // 프로젝트 입장 기능 추가후에 사용가능
 		
+		System.out.println(projectId);
+		
 		// 로그인한 세션정보로 파일을 업로드
-		request.setAttribute("filterPath", userId);
+		request.setAttribute("filterPath", isTeam ? projectId : userId);
 		storageService.insertStroage(userId,projectId,isTeam, request);
 		
-		if(isTeam) {	
-			new MemberService().addAlarm(userId, projectId, AddAlarmCode.IF01.alarmCode());
+		if(isTeam) {
+			memberService.kakaoSendMessage("rkZVd00R_wEE82fu2ustpOknZNHZXVv0IpSx0AopdSkAAAF3i7FSxA", member.getUserName() + " 님이 파일 업로드 했습둥");
+			memberService.addAlarm(userId, projectId, AddAlarmCode.IF01.alarmCode());
 			response.sendRedirect("/storage/share");
 		}else {	
 			
