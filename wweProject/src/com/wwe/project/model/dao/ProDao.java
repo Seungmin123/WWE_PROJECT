@@ -48,7 +48,7 @@ public class ProDao {
 	   }
 	
 	
-	//tb_project_master 내용 전달
+	//tb_project_master 디비에 전달
 	public int projectMaster(Connection conn, ProjectMaster projectMaster) {
 		int res = 0;
 		PreparedStatement pstm = null;
@@ -69,9 +69,7 @@ public class ProDao {
 		}finally {
 			jdt.close(pstm);
 		}
-		
-		//성공하면 1, 실패하면 0 반환
-		//(1은 쿼리를 실행한 횟수)
+
 		return res;
 	}
 	

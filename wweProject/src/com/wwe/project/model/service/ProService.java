@@ -85,13 +85,13 @@ public class ProService {
 	
 	
 	
-	//tb_project_master 내용 전달
+	//tb_project_master 디비에 넣기
 	public int projectMaster(ProjectMaster projectMaster){
 		Connection conn = jdt.getConnection();
 		int res = 0;
 		
 		try {
-			//dao에서 받은걸
+			//dao에 전달
 			res = proDao.projectMaster(conn, projectMaster);
 			jdt.commit(conn);
 		}catch(DataAccessException e) {

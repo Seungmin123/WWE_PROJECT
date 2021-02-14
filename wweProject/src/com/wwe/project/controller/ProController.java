@@ -47,12 +47,14 @@ public class ProController extends HttpServlet {
 			break;
 		case "recentpro":
 			recentPro(request, response);
+			projectMaster(request, response);
 			break;
 		case "selectpro":
 			selectPro(request, response);
 			break;
 		case "invitedpro":
 			invitedPro(request, response);
+			projectMaster(request, response);
 			break;
 		case "fetchmember":
 			fetchMemberList(request, response);
@@ -60,8 +62,6 @@ public class ProController extends HttpServlet {
 		case "filtermember":
 			filterMember(request, response);
 			break;
-		case "projectMaster":
-			projectMaster(request, response);
 		default:
 			throw new ToAlertException(ErrorCode.CD_404);
 		}
@@ -125,23 +125,30 @@ public class ProController extends HttpServlet {
 	private void newProImpl(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		//세션에서 유저아이디 받아오기
 		Member leaderId = (Member) request.getSession().getAttribute("user");
 
+		
 		Gson gson = new Gson();
+		//fetch의 data 받아와서 
 		String data = request.getParameter("data");
+		//gson으로 json에서 map형태로 변환
 		Map parsedData = gson.fromJson(data, Map.class);
 
-		// parsedData 찍어보기
-		System.out.println("parsedData 확인 : " + parsedData);
+		//parsedData 찍어보기
+		//System.out.println("parsedData 확인 : " + parsedData);
 
-		// 페이지에 입력된 제목과 마감기한값 파라미터로 받아오기
+		//parsedData의 title과 deadline, addedMemberList 각각 받기
+		//(팀원은 여러명이므로 list로 받기)
 		String title = (String) parsedData.get("title");
 		String deadline = (String) parsedData.get("deadline");
+		ArrayList<String> addedMemberList 
+					= (ArrayList<String>) parsedData.get("addedMember");
 
-		ArrayList<String> addedMemberList = (ArrayList<String>) parsedData.get("addedMember");
-
+		//ProjUser 타입의 리스트 생성
 		ArrayList<ProjUser> arrayList = new ArrayList<ProjUser>();
 
+		//추가된 팀원이 있으면 ProjUser에 title과 권한, i번째 팀원의 id를 넣어준다.
 		if(addedMemberList != null) {
 			for (int i = 0; i < addedMemberList.size(); i++) {
 				ProjUser projUser = new ProjUser();
@@ -149,39 +156,36 @@ public class ProController extends HttpServlet {
 				projUser.setAuthority("읽기/쓰기");
 				projUser.setUserId(addedMemberList.get(i));
 	
+				//넣어준 객체를 리스트에 추가
 				arrayList.add(projUser);
 			}
 		}
 		
 		// 찍어보는 코드
-		 for(int i = 0; i<arrayList.size(); i++ ) {
-			 System.out.println(arrayList.get(i).getProjectId());
-			 System.out.println(arrayList.get(i).getUserId());
-			 System.out.println(arrayList.get(i).getAuthority()); 
-		 }
+		/*
+		 * for(int i = 0; i<arrayList.size(); i++ ) {
+		 * System.out.println(arrayList.get(i).getProjectId());
+		 * System.out.println(arrayList.get(i).getUserId());
+		 * System.out.println(arrayList.get(i).getAuthority()); }
+		 */
 		 
 
 		Project project = new Project();
-		// 프로젝트를 만드는 사람 = leader
-		project.setLeaderId(leaderId.getUserID());
+		project.setLeaderId(leaderId.getUserID()); //프로젝트를 만드는 사람 = leader
 		project.setDueDate(deadline);
 		project.setProjectId(title);
 
-		
 		ProjUser projUser = new ProjUser();
 		projUser.setLeaderId(leaderId.getUserID()); 
 		projUser.setProjectId(title);
-		 
 	
 		// service에 넣고 (dao를 거쳐) 되돌아온 값을 res에 넣는다.
 		int res = proService.createProject(project);
 
-
 		// 현재 세션에 project 키값으로 project 객체 담기
 		request.getSession().setAttribute("selectProject", projUser);
 
-			
-
+		
 		// 서비스에서 아이디, 권한, 제목 잘 받아오면
 		if (res > 0) {
 			res = leaderService.inviteUser(leaderId.getUserID(), "팀장", title);
@@ -190,7 +194,7 @@ public class ProController extends HttpServlet {
 			// ** 추가된 팀원이 있는 경우에만
 				if (!arrayList.isEmpty()) {
 					// 팀원추가 메서드 돌림
-					System.out.println("테스트 : " + arrayList.toString());
+					//System.out.println("테스트 : " + arrayList.toString());
 					proService.insertMember(arrayList);
 
 				}
@@ -223,6 +227,14 @@ public class ProController extends HttpServlet {
 		proMaster.setProjectId(projectId);
 		proMaster.setUserId(userId);
 		proMaster.setWorkTime(workTime);
+		
+		int res = proService.projectMaster(proMaster);
+		
+		if(res > 0) {
+			response.getWriter().print("success");
+		}else {
+			response.getWriter().print("failed");
+		}
 			
 	}
 
