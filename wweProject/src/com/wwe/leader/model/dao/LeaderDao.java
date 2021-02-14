@@ -359,6 +359,28 @@ public class LeaderDao {
 		return res;
 	}
 	
+	//프로젝트에서 팀원을 삭제한 뒤 업무테이블에서 그 팀원의 업무를 삭제하는 메소드
+	public int deleteMemberTask(Connection conn, ProjUser user) {
+		int res =0;
+		PreparedStatement pstm = null;
+		
+		String query = "DELETE FROM TB_TASK "
+				+"WHERE PROJECT_ID = ? AND USER_ID = ?";
+		
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, user.getProjectId());
+			pstm.setString(2, user.getUserId());
+			res = pstm.executeUpdate();
+		}catch(SQLException e) {
+			throw new DataAccessException(ErrorCode.DU01, e);
+		}finally {
+			jdt.close(pstm);
+		}
+		return res;
+	}
+	
+	
 	//유저의 권한을 체크하는 메소드
 	public ProjUser chkAuthority(Connection conn, ProjUser user) {
 		ProjUser pUser = null;

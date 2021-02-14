@@ -200,6 +200,23 @@ public class LeaderService {
 		return res;
 	}
 	
+	//프로젝트에서 팀원을 삭제한뒤 업무테이블에서 그 팀원의 업무를 삭제하는 메소드
+		public int deleteMemberTask(ProjUser user) {
+			int res =0;
+			Connection conn = jdt.getConnection();	
+			
+			try {
+				res = leaderDao.deleteMemberTask(conn, user);
+				jdt.commit(conn);
+			}catch(DataAccessException e) {
+				jdt.rollback(conn);
+				throw new ToAlertException(e.error);
+			}finally {
+				jdt.close(conn);
+			}
+			return res;
+		}
+	
 	//유저의 권한을 체크하는 메소드
 	public ProjUser chkAuthority(ProjUser user) {
 		
