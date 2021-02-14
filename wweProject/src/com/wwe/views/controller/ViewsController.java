@@ -102,7 +102,9 @@ public class ViewsController extends HttpServlet {
 		
 		// 해당 프로젝트의 구성원들의 각 업무리스트 가져오기
 		for (ProjUser users : userList) { // 각 인원별
+			
 			if(!filterList.contains(users.getUserId())){
+				
 				for (Task task : taskService.selectMyList(users.getUserId(),users.getProjectId())) { // 업무리스트 순환
 					if(!task.getTaskState().equals("ST03")) {
 						System.out.println(task.getDeadLine());
@@ -127,23 +129,26 @@ public class ViewsController extends HttpServlet {
 		Gson gson = new Gson();
 		GraphDataSetVo dataSet = new GraphDataSetVo();
 		
+		String filterData = request.getParameter("data");
+		Map filterMap = gson.fromJson(filterData, Map.class);
+		List<String> filterList = (List<String>) filterMap.get("name");
 		List<ProjUser> userList = getProjectId(request, response);
 		
 		for (ProjUser users : userList) { // 각 인원별
 			double doingNum = 0;
 			double doneNum = 0;
 			double result = 0;
-			for (Task task : taskService.selectMyList(users.getUserId(),users.getProjectId())) { // 업무리스트 순환
-				if(task.getTaskState().equals("ST02")) {
-					doneNum++;
-					doingNum++;
-				}else if(!task.getTaskState().equals("ST03")) {
-					doingNum++;
+				for (Task task : taskService.selectMyList(users.getUserId(),users.getProjectId())) { // 업무리스트 순환
+					if(task.getTaskState().equals("ST02")) {
+						doneNum++;
+						doingNum++;
+					}else if(!task.getTaskState().equals("ST03")) {
+						doingNum++;
+					}
+					System.out.println(doneNum + " : " + doingNum + " : " + result + " : " + task.getUserId());
+					result = doneNum == 0 ? 0 : doneNum/doingNum;
 				}
-				System.out.println(doneNum + " : " + doingNum + " : " + result + " : " + task.getUserId());
-				result = doneNum == 0 ? 0 : doneNum/doingNum;
-			}
-			dataSet.SetDataSet(result, "rgba(255, 99, 132, 0.2)", "purple");
+				dataSet.SetDataSet(result, "rgba(255, 99, 132, 0.2)", "purple");
 		}
 		
 		String data = gson.toJson(dataSet);
