@@ -113,7 +113,7 @@ public class StorageController extends HttpServlet {
 		
 		if(isTeam) {
 			memberService.kakaoSendMessage("rkZVd00R_wEE82fu2ustpOknZNHZXVv0IpSx0AopdSkAAAF3i7FSxA", member.getUserName() + " 님이 파일 업로드 했습둥");
-			memberService.addAlarm(userId, projectId, AddAlarmCode.IF01.alarmCode());
+			memberService.addAlarm(userId, projectId, AddAlarmCode.IF01.alarmCode()); 
 			response.sendRedirect("/storage/share");
 		}else {	
 			
