@@ -491,6 +491,7 @@
                     datasets: [dataSet]
                 },
                 options: {
+                	maintainAspectRatio: false,
                     scales: {
                         yAxes: [{
                             ticks: {
