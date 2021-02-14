@@ -50,6 +50,8 @@ public class ProController extends HttpServlet {
 					break;
 			case "fetchmember" : fetchMemberList(request,response);
 					break;
+			case "filtermember" : filterMember(request,response);
+					break;
 			default: throw new ToAlertException(ErrorCode.CD_404);
 		}
 	}
@@ -58,6 +60,7 @@ public class ProController extends HttpServlet {
 		doGet(request, response);
 	}
 	
+	//프로젝트 목록 페이지 불러오는 메소드
 	private void loadProject(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		
@@ -69,8 +72,9 @@ public class ProController extends HttpServlet {
 		//프로젝트 3개씩 잘라서 띄워주기
 		List<Object> sortList = new ArrayList<Object>(); // 최종 jsp로 넘길 리스트
 		List<ProjUser> initList = new ArrayList<ProjUser>(); // 3개씩 잘라서 저장할 리스트 (3개씩 들어가는 리스트)
-		int i=0; // 1씩 증가하며 initList에 저장할지 sortList에 저장할지 확인용
-		for ( ProjUser pro : invitedProList) { // invitedProList에 저장된 객체를 1개씩 뽑는다
+		int i = 0; // 1씩 증가하며 initList에 저장할지 sortList에 저장할지 확인용
+		
+		for (ProjUser pro : invitedProList) { // invitedProList에 저장된 객체를 1개씩 뽑는다
 			initList.add(pro); // initList에 추가하고
 			i++; // i 는 1씩 증가한다
 			if(i%3 == 0 || i >= invitedProList.size()) { // 만약 i가 3의 배수거나 invitedProList의 길이보다 크거나 같을경우
@@ -89,6 +93,23 @@ public class ProController extends HttpServlet {
 		
 	}
 	
+	private void filterMember(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String data = request.getParameter("data");
+		
+		Gson gson = new Gson();
+		Map parsedData = gson.fromJson(data, Map.class);
+		String userId = (String) parsedData.get("userId");
+		String leaderId = (String) parsedData.get("leaderId");
+		
+		Member member = proService.selectMemberForFilter(userId, leaderId);
+		if(member != null) {
+			response.getWriter().print("success");
+		}else {
+			response.getWriter().print("failed");
+		}
+	}
+	
+	
 	//새 프로젝트 생성 수행 메서드
 	private void newProImpl(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -99,25 +120,42 @@ public class ProController extends HttpServlet {
 		 String data = request.getParameter("data");
 		 Map parsedData = gson.fromJson(data, Map.class);
 		 
+		 //parsedData 찍어보기
+		 System.out.println("parsedData 확인 : " + parsedData);
 		 
-		 //세션에 있는 유저아이디 가져오기 
 		 //페이지에 입력된 제목과 마감기한값 파라미터로 받아오기 
 		 String title = (String) parsedData.get("title");
 		 String deadline = (String) parsedData.get("deadline");
+		 
 		 ArrayList<String> addedMemberList = (ArrayList<String>) parsedData.get("addedMember");
+
 		 ArrayList<ProjUser> arrayList = new ArrayList<ProjUser>();
+		 
+		 if(addedMemberList != null) {
 		 for(int i =0; i< addedMemberList.size(); i++) {
 			 ProjUser projUser = new ProjUser();
 			 projUser.setProjectId(title);
-			 projUser.setUserId(addedMemberList.get(i));
 			 projUser.setAuthority("읽기/쓰기");
+			 projUser.setUserId(addedMemberList.get(i));
+			 
 			 arrayList.add(projUser);
 		 }
 		 
+			 for(int i =0; i< addedMemberList.size(); i++) {
+				 
+			 }
+		 }
 		 
-		 System.out.println(title);
-		 System.out.println(deadline);
 		 
+		 
+		 //찍어보는 코드
+	     for(int i = 0; i<arrayList.size(); i++ ) {
+		      System.out.println(arrayList.get(i).getProjectId());
+		      System.out.println(arrayList.get(i).getUserId());
+		      System.out.println(arrayList.get(i).getAuthority());
+		   }
+		  
+	     
 		 Project project = new Project(); 
 		 //프로젝트를 만드는 사람 = leader 
 		 project.setLeaderId(leaderId.getUserID());
@@ -128,15 +166,17 @@ public class ProController extends HttpServlet {
 		 projUser.setLeaderId(leaderId.getUserID());
 		 projUser.setProjectId(title);
 		 
+		 
+		 
 		 //service에 넣고 (dao를 거쳐) 되돌아온 값을 res에 넣는다. 
 		 int res = proService.createProject(project);
+		 
 		  
 		 //성공 시 (1 반환) if(res > 0) { 
 		 //현재 세션에 project 키값으로 project 객체 담기
 		 request.getSession().setAttribute("selectProject", projUser);
 		 
 		 if(res > 0) {
-			 System.out.println(res);
 				res = leaderService.inviteUser(leaderId.getUserID(), "팀장", title);
 				if(res > 0) {
 					proService.insertMember(arrayList);
@@ -149,6 +189,72 @@ public class ProController extends HttpServlet {
 		 }
 	}
 	
+	//프로젝트 마스터에 작업시간 넘기기(??)
+	private void projectMaster(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		
+		Member leaderId = (Member) request.getSession().getAttribute("user"); 
+		
+		Gson gson = new Gson();
+		String data = request.getParameter("data");
+		Map parsedData = gson.fromJson(data, Map.class);
+		
+		//페이지에 입력된 제목과 마감기한값 파라미터로 받아오기 
+		String title = (String) parsedData.get("title");
+		String deadline = (String) parsedData.get("deadline");
+		ArrayList<String> addedMemberList = (ArrayList<String>) parsedData.get("addedMember");
+		
+		
+		ArrayList<ProjUser> arrayList = new ArrayList<ProjUser>();
+		for(int i =0; i< addedMemberList.size(); i++) {
+			ProjUser projUser = new ProjUser();
+			projUser.setProjectId(title);
+			projUser.setUserId(addedMemberList.get(i));
+			projUser.setAuthority("읽기/쓰기");
+			arrayList.add(projUser);
+		}
+		
+		for(int i = 0; i<arrayList.size(); i++ ) {
+			System.out.println(arrayList.get(i).getProjectId());
+			System.out.println(arrayList.get(i).getUserId());
+			System.out.println(arrayList.get(i).getAuthority());
+		}
+		
+		
+		
+		Project project = new Project(); 
+		//프로젝트를 만드는 사람 = leader 
+		project.setLeaderId(leaderId.getUserID());
+		project.setDueDate(deadline);
+		project.setProjectId(title);
+		
+		ProjUser projUser = new ProjUser();
+		projUser.setLeaderId(leaderId.getUserID());
+		projUser.setProjectId(title);
+		
+		
+		
+		//service에 넣고 (dao를 거쳐) 되돌아온 값을 res에 넣는다. 
+		int res = proService.createProject(project);
+		
+		
+		//성공 시 (1 반환) if(res > 0) { 
+		//현재 세션에 project 키값으로 project 객체 담기
+		request.getSession().setAttribute("selectProject", projUser);
+		
+		if(res > 0) {
+			res = leaderService.inviteUser(leaderId.getUserID(), "팀장", title);
+			if(res > 0) {
+				proService.insertMember(arrayList);
+				response.getWriter().print("success");
+			}else {
+				response.getWriter().print("failed");
+			}
+		}else {
+			response.getWriter().print("failed");
+		}
+	}
+	
 	//최근 프로젝트에서 프로젝트 클릭시 task메인페이지로 이동하는 메소드
 	private void selectPro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -156,7 +262,7 @@ public class ProController extends HttpServlet {
 		String project = request.getParameter("data");
 		
 		//GSON: JSON을 다른 클래스로 변환해주는 라이브러리
-		Gson gson = new Gson();   //자바스크립트의 객체 = JSON
+		Gson gson = new Gson(); //자바스크립트의 객체 = JSON
 		Map data = gson.fromJson(project, Map.class); //getparameter로 받은 값(fetch에서 json형태로 보내준거) - json을 Map클래스로 바꿔준다 
 		
 		String projectId = (String) data.get("projectId");
@@ -174,15 +280,12 @@ public class ProController extends HttpServlet {
 				break;
 			}
 		}
+		
 		ProjUser projUser = new ProjUser();
 		projUser.setProjectId(projectId);
 		projUser.setLeaderId(leaderId);
 		
-		
-		System.out.println(leaderId);
 		request.getSession().setAttribute("selectProject", projUser);
-		
-		
 		
 		ProjUser pUser = new ProjUser();
 		pUser.setUserId(member.getUserID());  //세션에 있는 유저의 아이디를 유저객체에 저장
@@ -202,11 +305,7 @@ public class ProController extends HttpServlet {
 		}else {
 			response.getWriter().print("fail");
 		}
-
-		/*
-		 * request.getRequestDispatcher("/WEB-INF/view/task/main.jsp").forward(request,
-		 * response);
-		 */
+		
 	}
 	
 	
@@ -260,27 +359,24 @@ public class ProController extends HttpServlet {
 		projUser.setProjectId(projectId);
 		projUser.setLeaderId(leaderId);
 		
-		
 		request.getSession().setAttribute("selectProject", projUser);
 		
 		ProjUser pUser = new ProjUser();
 		pUser.setUserId(member.getUserID());  //세션에 있는 유저의 아이디를 유저객체에 저장
-		pUser.setProjectId(projectId);  // 선택한 프로젝트의 프로젝트 아이디를 유저객체에 저장
+		pUser.setProjectId(projectId);  //선택한 프로젝트의 프로젝트 아이디를 유저객체에 저장
 		
 		ProjUser user = leaderService.chkAuthority(pUser); //유저의 권한을 포함한 유저정보를 얻는 코드				
-		request.getSession().setAttribute("projUserInfo",user); //얻은 유저정보를 세션에 저장
+		request.getSession().setAttribute("projUserInfo", user); //얻은 유저정보를 세션에 저장
 			
 		if(projectId != null && leaderId != null) {
 			response.getWriter().print("success");
 		}else {
 			response.getWriter().print("fail");
 		}
-	
 	}
 	
-	//모달창을 클릭했을 때 유저 테이블에 있는 모든 유저를 불러오는 메소드
-	public void fetchMemberList(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
-		
+	//모달창을 클릭했을 때 유저 테이블에 있는 모든 유저를 불러오는 메소드 (=> 팀원 추가)
+	public void fetchMemberList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Gson gson = new Gson();
 		ArrayList<Member> memberList = proService.addMember();
 		String mList=  gson.toJson(memberList);
