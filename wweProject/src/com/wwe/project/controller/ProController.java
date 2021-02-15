@@ -62,6 +62,7 @@ public class ProController extends HttpServlet {
 		case "filtermember":
 			filterMember(request, response);
 			break;
+		
 		default:
 			throw new ToAlertException(ErrorCode.CD_404);
 		}
@@ -220,21 +221,18 @@ public class ProController extends HttpServlet {
 		Map data = gson.fromJson(project, Map.class);
 		
 		String projectId = (String) data.get("projectId");
-		String userId = (String) data.get("userId");
+		String userId = (String) data.get("leaderId");
 		String workTime = (String) data.get("workTime");
+		
+		System.out.println("유저아이디: " + userId);
+		System.out.println("프로젝트아이디: " + projectId);
 		
 		ProjectMaster proMaster = new ProjectMaster();
 		proMaster.setProjectId(projectId);
 		proMaster.setUserId(userId);
 		proMaster.setWorkTime(workTime);
 		
-		int res = proService.projectMaster(proMaster);
-		
-		if(res > 0) {
-			response.getWriter().print("success");
-		}else {
-			response.getWriter().print("failed");
-		}
+		proService.projectMaster(proMaster);
 			
 	}
 
@@ -330,6 +328,9 @@ public class ProController extends HttpServlet {
 		// json으로 넘어온 data를 Map으로 파싱
 		Map parsedData = gson.fromJson(data, Map.class);
 
+		System.out.println("invited parsed데이터 : " + parsedData);
+		
+		
 		// 파싱된 데이터를 문자열로 변환
 		String projectId = parsedData.get("projectId").toString();
 		String leaderId = parsedData.get("leaderId").toString();
