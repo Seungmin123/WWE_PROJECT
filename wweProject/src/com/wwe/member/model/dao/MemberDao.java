@@ -549,9 +549,10 @@ public class MemberDao {
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("POST");
 			conn.setDoOutput(true);
+			
 			//    요청에 필요한 Header에 포함될 내용
-			//conn.setRequestProperty("Authorization", "Bearer " + access_Token);
-			conn.setRequestProperty("Authorization", "Bearer " + "xsWq6s6oTv_H4ZsaNrCrXU79EU2BT-YV_ry6PAopyWAAAAF3oxbVvQ");
+			conn.setRequestProperty("Authorization", "Bearer " + access_Token);
+			//conn.setRequestProperty("Authorization", "Bearer " + "xsWq6s6oTv_H4ZsaNrCrXU79EU2BT-YV_ry6PAopyWAAAAF3oxbVvQ");
 
 
 			JsonObject linkOBJ = new JsonObject();
@@ -577,7 +578,7 @@ public class MemberDao {
 			friendUUID[2] = "3enb49Pn1uPU-MH1xvLD8sDz3-rZ4dDi2qI";
 			friendUUID[3] = "3erT6t3v1vrL_MX0xPPC99vu3eXU5t6k";
 			
-			System.out.println(Arrays.toString(friendUUID));
+			//System.out.println(Arrays.toString(friendUUID));
 			JsonParser parser = new JsonParser();
 			JsonArray jsonArray = (JsonArray) parser.parse(Arrays.toString(friendUUID));
 

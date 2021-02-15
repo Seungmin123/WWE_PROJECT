@@ -116,7 +116,7 @@
 
 					<!-- Sidebar Toggler (Sidebar) -->
 					<div class="text-center d-none d-md-inline">
-						<button class="rounded-circle border-0" id="sidebarToggle"></button>
+						<button class="rounded-circle border-0" id="sidebarToggle"></button>`
 					</div>
 
 				</ul>
@@ -622,7 +622,6 @@
 			</div>
 		</div>
 	</div>
-	<iframe src="http://192.168.0.8:3100/" class="frame"></iframe>
 	<!-- Bootstrap core JavaScript-->
 	<script src="../resources/vendor/jquery/jquery.min.js"></script>
 	<script src="../resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
