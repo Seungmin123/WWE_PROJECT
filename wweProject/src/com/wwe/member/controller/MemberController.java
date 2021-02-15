@@ -255,7 +255,7 @@ public class MemberController extends HttpServlet {
 		.getRequestDispatcher("/project/loadpro")
 		.forward(request, response);
 		
-		//memberService.kakaoSendMessage("xsWq6s6oTv_H4ZsaNrCrXU79EU2BT-YV_ry6PAopyWAAAAF3oxbVvQ", userInfo.getUserName() + " 님이 카카오 로그인했습니다");
+		System.out.println("token" + access_Token);
 		//memberService.kakaoSendMessage(access_Token, userInfo.getUserName() + " 님이 카카오 로그인했슴둥");
 		
 	}

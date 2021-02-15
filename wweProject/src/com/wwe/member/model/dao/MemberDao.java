@@ -357,7 +357,7 @@ public class MemberDao {
 		try {
 
 			memberList = new ArrayList<Member>();
-			query = "select user_id from tb_project_user where user_id != ? and projec_id = ?";
+			query = "select user_id from tb_project_user where user_id != ? and project_id = ?";
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, userID);
 			pstm.setString(2, projectID);
@@ -544,8 +544,6 @@ public class MemberDao {
 		//친구에게 보내기
 		String reqURL = "https://kapi.kakao.com/v1/api/talk/friends/message/default/send";
 		
-		System.out.println("토큰쨔응" + access_Token);
-
 		try {
 			URL url = new URL(reqURL);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
