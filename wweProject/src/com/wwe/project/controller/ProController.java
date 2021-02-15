@@ -224,9 +224,6 @@ public class ProController extends HttpServlet {
 		String userId = (String) data.get("userId");
 		String workTime = (String) data.get("workTime");
 		
-		System.out.println("유저아이디: " + userId);
-		System.out.println("프로젝트아이디: " + projectId);
-		
 		ProjectMaster proMaster = new ProjectMaster();
 		proMaster.setProjectId(projectId);
 		proMaster.setUserId(userId);
@@ -328,12 +325,18 @@ public class ProController extends HttpServlet {
 		// json으로 넘어온 data를 Map으로 파싱
 		Map parsedData = gson.fromJson(data, Map.class);
 
-		System.out.println("invited parsed데이터 : " + parsedData);
-		
-		
 		// 파싱된 데이터를 문자열로 변환
 		String projectId = parsedData.get("projectId").toString();
-		String leaderId = parsedData.get("userId").toString();
+		String leaderId = "";
+		
+		ArrayList<ProjectMaster> projectList = proService.selectRecentProject(member.getUserID());
+		for (int i = 0; i < projectList.size(); i++) {
+			if (projectList.get(i).getProjectId().equals(projectId)) {
+				System.out.println(leaderId + " " +  projectList.get(i).getLeaderId());
+				leaderId = projectList.get(i).getLeaderId();
+				break;
+			}
+		}
 
 		// ProjUser 객체에
 		ProjUser projUser = new ProjUser();
