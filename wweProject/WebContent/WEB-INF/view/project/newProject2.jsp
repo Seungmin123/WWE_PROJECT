@@ -522,7 +522,7 @@
 		
 	
 	<!-- 채팅창 iframe -->
-	<iframe src="http://localhost:3100/" class="frame"></iframe>
+	<iframe src="http://localhost:3100/" class="frame" onclick="chat();"></iframe>
 	
 		
 		
