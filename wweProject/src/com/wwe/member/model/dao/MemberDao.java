@@ -552,7 +552,8 @@ public class MemberDao {
 			conn.setRequestMethod("POST");
 			conn.setDoOutput(true);
 			//    요청에 필요한 Header에 포함될 내용
-			conn.setRequestProperty("Authorization", "Bearer " + access_Token);
+			//conn.setRequestProperty("Authorization", "Bearer " + access_Token);
+			conn.setRequestProperty("Authorization", "Bearer " + "xsWq6s6oTv_H4ZsaNrCrXU79EU2BT-YV_ry6PAopyWAAAAF3oxbVvQ");
 
 
 			JsonObject linkOBJ = new JsonObject();
