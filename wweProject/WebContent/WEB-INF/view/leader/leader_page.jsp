@@ -547,7 +547,6 @@
 			</div>
 		</div>
 	</div>
-<iframe src="http://192.168.0.8:3100/" class="frame"></iframe>
 	<script>
     	$(function(){
     		selectUserListByPid();
