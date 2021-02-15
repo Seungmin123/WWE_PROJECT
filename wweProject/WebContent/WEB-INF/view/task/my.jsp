@@ -336,7 +336,7 @@
                                         </span>
                                     </div>
                                     <!-- todoList 추가영역 -->
-                                    <div class="card-body todolist"ondragover="onDragOver(event);" ondrop="onDrop(event);" id="ST00">
+                                    <div class="card-body todolist" ondragover="onDragOver(event);" ondrop="onDrop(event);" id="ST00">
 									
                                     <div id="addButton">
                                         <div class=" d-flex justify-content-between mb-3 ">

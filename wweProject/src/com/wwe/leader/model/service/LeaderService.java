@@ -217,6 +217,22 @@ public class LeaderService {
 			return res;
 		}
 	
+	public int deleteProjectMaster(ProjUser user) {
+		int res = 0;
+		Connection conn = jdt.getConnection();
+		
+		try {
+			res = leaderDao.deleteProjectMaster(conn, user);
+			jdt.commit(conn);
+		}catch(DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		}finally {
+			jdt.close(conn);
+		}
+		return res;
+	}
+		
 	//유저의 권한을 체크하는 메소드
 	public ProjUser chkAuthority(ProjUser user) {
 		

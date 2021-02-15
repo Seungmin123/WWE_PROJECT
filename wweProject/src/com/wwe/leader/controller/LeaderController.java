@@ -159,6 +159,7 @@ public class LeaderController extends HttpServlet {
 		int res = leaderService.inviteUser(userId, authority,projectId);
 		if (res == 1) {
 			new MemberService().addAlarm(member.getUserID(), projectId, AddAlarmCode.IU02.alarmCode());
+			new MemberService().kakaoSendMessage("rkZVd00R_wEE82fu2ustpOknZNHZXVv0IpSx0AopdSkAAAF3i7FSxA", member.getUserName() + " 님이 "+userId+"를 초대했습니다.");
 			response.getWriter().print("success");
 		} else {
 			response.getWriter().print("failed");
@@ -336,7 +337,8 @@ public class LeaderController extends HttpServlet {
 		
 
 		if (res > 0) {
-//			new MemberService().addAlarm(member.getUserID(), project.getProjectId(), AddAlarmCode.DT01.alarmCode());
+			new MemberService().addAlarm(member.getUserID(), project.getProjectId(), AddAlarmCode.DT01.alarmCode());
+			new MemberService().kakaoSendMessage("rkZVd00R_wEE82fu2ustpOknZNHZXVv0IpSx0AopdSkAAAF3i7FSxA", member.getUserName() + " 님이 업무를 삭제했습니다.");
 			response.getWriter().print("success");
 		} else {
 			response.getWriter().print("failed");
@@ -364,12 +366,17 @@ public class LeaderController extends HttpServlet {
 		int res = leaderService.deleteMember(user);
 
 		if (res > 0) {
-//			new MemberService().addAlarm(member.getUserID(), projectId, AddAlarmCode.DM01.alarmCode());
+			
 			res = leaderService.deleteMemberTask(user);
 			if(res > 0) {
-				response.getWriter().print("success");
-			}else {
-				response.getWriter().print("failed");
+				res = leaderService.deleteProjectMaster(user);
+				if(res > 0) {
+					new MemberService().addAlarm(member.getUserID(), projectId, AddAlarmCode.DM01.alarmCode());
+					new MemberService().kakaoSendMessage("rkZVd00R_wEE82fu2ustpOknZNHZXVv0IpSx0AopdSkAAAF3i7FSxA", member.getUserName() + " 님이 "+user.getUserId()+"님을 팀에서 내보냈습니다.");
+					response.getWriter().print("success");
+				}else {
+					response.getWriter().print("failed");
+				}
 			}
 		}
 	}
@@ -399,7 +406,8 @@ public class LeaderController extends HttpServlet {
 		
 		int res = taskService.insertTask(task);
 		if(res>0) {
-//			new MemberService().addAlarm(member.getUserID(), projectId, AddAlarmCode.IT01.alarmCode());
+			new MemberService().addAlarm(member.getUserID(), projectId, AddAlarmCode.IT01.alarmCode());
+			new MemberService().kakaoSendMessage("rkZVd00R_wEE82fu2ustpOknZNHZXVv0IpSx0AopdSkAAAF3i7FSxA", member.getUserName() + " 님이 "+task.getUserId()+"님에게 업무를 할당했습니다.");
 			response.getWriter().print("success");
 		}else {
 			response.getWriter().print("failed");
@@ -415,7 +423,8 @@ public class LeaderController extends HttpServlet {
 		HttpSession session = request.getSession();
 		Member member = (Member) session.getAttribute("user");
 		if(res>0) {
-//			new MemberService().addAlarm(member.getUserID(), projectId, AddAlarmCode.DP01.alarmCode());
+			new MemberService().addAlarm(member.getUserID(), projectId, AddAlarmCode.DP01.alarmCode());
+			new MemberService().kakaoSendMessage("rkZVd00R_wEE82fu2ustpOknZNHZXVv0IpSx0AopdSkAAAF3i7FSxA", member.getUserName() + " 님이 프로젝트 "+projectId+"를 삭제했습니다.");
 			response.getWriter().print("success");
 		}else {
 			response.getWriter().print("failed");

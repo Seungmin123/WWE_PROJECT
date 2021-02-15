@@ -530,7 +530,6 @@
 					</c:if>
 					issue.setAttribute('class','btn btn-sm ml-1 mr-1');
 					icon.setAttribute('class','fas fa-exclamation-triangle text-danger');
-					icon.setAttribute('onhover','priorityAlarm();');
 
 					divElement.innerHTML += '${task.taskId}';
 		
@@ -578,7 +577,6 @@
        					</c:if>
        					issue.setAttribute('class','btn btn-sm ml-1 mr-1');
        					icon.setAttribute('class','fas fa-exclamation-triangle text-danger');
-    					icon.setAttribute('onhover','priorityAlarm();');
 
        					divElement.innerHTML += '${task.taskId}';
 				
@@ -602,6 +600,7 @@
        					progressbar = document.createElement('div');
        					innerprogress = document.createElement('div');
        					issue = document.createElement('span');
+       					icon = document.createElement('i');
        					
        					tasklist.setAttribute('class','mb-4 py-3 bg-gray-100 pl-4 d-flex justify-content-center rounded shadow-sm');
        					taskname.setAttribute('class','text-gray-600 border-0');
@@ -622,6 +621,7 @@
        					innerprogress.setAttribute('style','width: 100%');
        					</c:if>
        					issue.setAttribute('class','btn btn-sm ml-1 mr-1');
+       					icon.setAttribute('class','fas fa-exclamation-triangle text-danger');
 
        					divElement.innerHTML += '${task.taskId}';
 				
@@ -644,7 +644,5 @@
     			</script>
 
         </body>
-
-        </html>
 
         </html>
