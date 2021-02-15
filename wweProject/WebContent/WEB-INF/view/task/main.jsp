@@ -182,7 +182,8 @@
                               <h6 class="dropdown-header">Alerts History Center</h6>
 
 
-                              <c:forEach var="alarmData" items="${alarmList}">
+                              <c:forEach var="alarmData" items="${alarmList}"  begin="0"
+                                 end="4">
                                  <a class="dropdown-item d-flex align-items-center"
                                     id="alarmATag">
                                     <div class="mr-3">
@@ -238,8 +239,7 @@
                                     </button>
                                  </div>
                                  <div class="modal-body">
-                                    <c:forEach var="alarmData" items="${alarmList}" begin="0"
-                                 end="4">
+                                    <c:forEach var="alarmData" items="${alarmList}">
                                  <a class="dropdown-item d-flex align-items-center"
                                     id="alarmATag">
                                     <div class="mr-3">
