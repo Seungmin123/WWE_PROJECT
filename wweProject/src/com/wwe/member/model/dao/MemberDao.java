@@ -357,9 +357,10 @@ public class MemberDao {
 		try {
 
 			memberList = new ArrayList<Member>();
-			query = "select user_id from tb_project_user where user_id != ?";
+			query = "select user_id from tb_project_user where user_id != ? and project_id = ?";
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, userID);
+			pstm.setString(2, projectID);
 			rset = pstm.executeQuery();
 
 			//현 프로젝트에 가입한 인원 중 글 작성자를 제외한 모든 사람을 memberList에 저장
@@ -542,14 +543,15 @@ public class MemberDao {
 		//String reqURL = "https://kapi.kakao.com/v2/api/talk/memo/default/send";
 		//친구에게 보내기
 		String reqURL = "https://kapi.kakao.com/v1/api/talk/friends/message/default/send";
-
+		
 		try {
 			URL url = new URL(reqURL);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("POST");
 			conn.setDoOutput(true);
 			//    요청에 필요한 Header에 포함될 내용
-			conn.setRequestProperty("Authorization", "Bearer " + access_Token);
+			//conn.setRequestProperty("Authorization", "Bearer " + access_Token);
+			conn.setRequestProperty("Authorization", "Bearer " + "xsWq6s6oTv_H4ZsaNrCrXU79EU2BT-YV_ry6PAopyWAAAAF3oxbVvQ");
 
 
 			JsonObject linkOBJ = new JsonObject();

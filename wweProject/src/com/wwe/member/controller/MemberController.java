@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.wwe.common.code.AddAlarmCode;
+import com.wwe.leader.model.vo.ProjUser;
 import com.wwe.member.mail.MailSender;
 import com.wwe.member.model.service.MemberService;
 import com.wwe.member.model.vo.Member;
@@ -244,24 +245,18 @@ public class MemberController extends HttpServlet {
 			
 			Member userProject = memberService.getMemberProject(userInfo.getUserID());
 			
-			/*
-			 * Map<String, Object> commandMap =
-			 * memberService.selectAlarm(userInfo.getUserID(), "프로젝트 1"); List<Object>
-			 * alarmList = (List<Object>) commandMap.get("alarmList");
-			 * request.getSession().setAttribute("alarmList", alarmList);
-			 */
-			
 			request.getSession().setAttribute("user", userInfo);
 			request.getSession().setAttribute("project", userProject);
 			request.getSession().setAttribute("access_Token", access_Token);
 			
-			
-			request.getRequestDispatcher("/WEB-INF/view/project/newProject2.jsp")
-			.forward(request, response);
-			
 		}
 		
-		//memberService.kakaoSendMessage("rkZVd00R_wEE82fu2ustpOknZNHZXVv0IpSx0AopdSkAAAF3i7FSxA", userInfo.getUserName() + " 님이 카카오 로그인했슴둥");
+		request
+		.getRequestDispatcher("/project/loadpro")
+		.forward(request, response);
+		
+		System.out.println("token" + access_Token);
+		//memberService.kakaoSendMessage(access_Token, userInfo.getUserName() + " 님이 카카오 로그인했슴둥");
 		
 	}
 	
@@ -340,8 +335,9 @@ public class MemberController extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		Member member = (Member) session.getAttribute("user");
+		ProjUser projUser = (ProjUser) session.getAttribute("selectProject");
 		
-		Map<String, Object> commandMap = memberService.selectAlarm(member.getUserID(), "프로젝트 1");
+		Map<String, Object> commandMap = memberService.selectAlarm(member.getUserID(), projUser.getProjectId());
 		List<Object> alarmList = (List<Object>) commandMap.get("alarmList");
 		
 		request.setAttribute("alarmList", alarmList);

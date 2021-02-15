@@ -144,7 +144,7 @@ public class TaskController extends HttpServlet {
 		ArrayList<Task> taskList = taskService.selectAllTaskList(projectId);
 		
 
-		if(taskList != null) {
+		if(taskList.size() > 0) {
 			
 			System.out.println("업무리스트 성공");
 				  
@@ -293,7 +293,7 @@ public class TaskController extends HttpServlet {
 			  response.getWriter().print("success");
 			  
 			  new MemberService().addAlarm(userId, projectId, AddAlarmCode.IT01.alarmCode());
-			  //new MemberService().kakaoSendMessage("rkZVd00R_wEE82fu2ustpOknZNHZXVv0IpSx0AopdSkAAAF3i7FSxA", user.getUserName() + " 님이 업무를 추가했습니다.");
+			  new MemberService().kakaoSendMessage("rkZVd00R_wEE82fu2ustpOknZNHZXVv0IpSx0AopdSkAAAF3i7FSxA", user.getUserName() + " 님이 업무를 추가했습니다.");
 			  
 			  request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
 			  
@@ -412,6 +412,11 @@ public class TaskController extends HttpServlet {
 	//업무 수정 메서드
 	public void updateTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		
+		Member user = (Member) request.getSession().getAttribute("user");
+		String userId = user.getUserID();
+		ProjUser project = (ProjUser) request.getSession().getAttribute("selectProject");
+		String projectId = project.getProjectId();
 		String data = request.getParameter("data");
 		Gson gson = new Gson();
 		
@@ -435,7 +440,8 @@ public class TaskController extends HttpServlet {
 		
 		if(res>0) {
 			
-			//new MemberService().addAlarm(userId, projectId, AddAlarmCode.IT01.alarmCode());
+			new MemberService().addAlarm(userId, projectId, AddAlarmCode.UT01.alarmCode());
+			new MemberService().kakaoSendMessage("rkZVd00R_wEE82fu2ustpOknZNHZXVv0IpSx0AopdSkAAAF3i7FSxA", user.getUserName() + " 님이 업무를 수정했습니다.");
 			response.getWriter().print("success");
 		}else {
 			response.getWriter().print("failed");
