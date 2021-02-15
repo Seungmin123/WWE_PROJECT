@@ -134,21 +134,6 @@
 								<i class="fa fa-bars"></i>
 							</button>
 
-							<!-- Topbar Search -->
-							<form
-								class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-								<div class="input-group">
-									<input type="text" class="form-control bg-light border-0 small"
-										placeholder="Search for..." aria-label="Search"
-										aria-describedby="basic-addon2">
-									<div class="input-group-append">
-										<button class="btn btn-primary" type="button">
-											<i class="fas fa-search fa-sm"></i>
-										</button>
-									</div>
-								</div>
-							</form>
-
 							<!-- Topbar Navbar -->
 							<ul class="navbar-nav ml-auto">
 
@@ -196,22 +181,28 @@
 											<a class="dropdown-item d-flex align-items-center"
 												id="alarmATag">
 												<div class="mr-3">
-
-													<c:if test="${alarmData.typeOfAlarm eq '업무'}">
-														<div class="icon-circle bg-primary">
-															<i class="fas fa-file-alt text-white"></i>
-														</div>
-													</c:if>
-													<c:if test="${alarmData.typeOfAlarm eq '인원'}">
-														<div class="icon-circle bg-success">
-															<i class="fas fa-user-friends text-white"></i>
-														</div>
-													</c:if>
-													<c:if test="${alarmData.typeOfAlarm eq '파일'}">
-														<div class="icon-circle bg-secondary">
-															<i class="fas fa-user-friends text-white"></i>
-														</div>
-													</c:if>
+													<c:choose>
+														<c:when test="${alarmData.typeOfAlarm eq '업무'}">
+															<div class="icon-circle bg-primary">
+																<i class="fas fa-file-alt text-white"></i>
+															</div>
+														</c:when>
+														<c:when test="${alarmData.typeOfAlarm eq '인원'}">
+															<div class="icon-circle bg-success">
+																<i class="fas fa-user-friends text-white"></i>
+															</div>
+														</c:when>
+														<c:when test="${alarmData.typeOfAlarm eq '파일'}">
+															<div class="icon-circle bg-secondary">
+																<i class="fas fa-file-alt text-white"></i>
+															</div>
+														</c:when>
+														<c:otherwise>
+															<div class="icon-circle bg-secondary">
+																<i class="fas fa-file-alt text-white"></i>
+															</div>
+														</c:otherwise>
+													</c:choose>
 												</div>
 												<div>
 													<div class="small text-gray-500">${alarmData.addDate}</div>
@@ -243,33 +234,39 @@
 											</div>
 											<div class="modal-body">
 												<c:forEach var="alarmData" items="${alarmList}">
-													<a class="dropdown-item d-flex align-items-center"
-														id="alarmATag">
-														<div class="mr-3">
-
-															<c:if test="${alarmData.typeOfAlarm eq '업무'}">
-																<div class="icon-circle bg-primary">
-																	<i class="fas fa-file-alt text-white"></i>
-																</div>
-															</c:if>
-															<c:if test="${alarmData.typeOfAlarm eq '인원'}">
-																<div class="icon-circle bg-success">
-																	<i class="fas fa-user-friends text-white"></i>
-																</div>
-															</c:if>
-															<c:if test="${alarmData.typeOfAlarm eq '파일'}">
-																<div class="icon-circle bg-secondary">
-																	<i class="fas fa-user-friends text-white"></i>
-																</div>
-															</c:if>
-														</div>
-														<div>
-															<div class="small text-gray-500">${alarmData.addDate}</div>
-															<span class="font-weight-bold">${alarmData.writer}
-																님이 ${alarmData.typeOfAlarm}을(를) 추가 하셨습니다.</span>
-														</div>
-													</a>
-												</c:forEach>
+											<a class="dropdown-item d-flex align-items-center"
+												id="alarmATag">
+												<div class="mr-3">
+													<c:choose>
+														<c:when test="${alarmData.typeOfAlarm eq '업무'}">
+															<div class="icon-circle bg-primary">
+																<i class="fas fa-file-alt text-white"></i>
+															</div>
+														</c:when>
+														<c:when test="${alarmData.typeOfAlarm eq '인원'}">
+															<div class="icon-circle bg-success">
+																<i class="fas fa-user-friends text-white"></i>
+															</div>
+														</c:when>
+														<c:when test="${alarmData.typeOfAlarm eq '파일'}">
+															<div class="icon-circle bg-secondary">
+																<i class="fas fa-file-alt text-white"></i>
+															</div>
+														</c:when>
+														<c:otherwise>
+															<div class="icon-circle bg-secondary">
+																<i class="fas fa-file-alt text-white"></i>
+															</div>
+														</c:otherwise>
+													</c:choose>
+												</div>
+												<div>
+													<div class="small text-gray-500">${alarmData.addDate}</div>
+													<span class="font-weight-bold">${alarmData.writer}
+														님이 ${alarmData.typeOfAlarm}을(를) 추가 하셨습니다.</span>
+												</div>
+											</a>
+										</c:forEach>
 											</div>
 										</div>
 									</div>

@@ -208,8 +208,8 @@ public class MemberService {
 
 		try {
 			//*********************************받아온 프로젝트로 수정 요망******************************************
-			//res = memberDao.addAlarm(conn, userID, projectID, type_alarm);
-			res = memberDao.addAlarm(conn, userID, "프로젝트 1", type_alarm);
+			res = memberDao.addAlarm(conn, userID, projectID, type_alarm);
+			//res = memberDao.addAlarm(conn, userID, "프로젝트 1", type_alarm);
 
 			if(res == 0) {
 				System.out.println("등록오류");
