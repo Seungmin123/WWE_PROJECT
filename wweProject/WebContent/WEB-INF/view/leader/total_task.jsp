@@ -34,7 +34,7 @@
          <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
                         <!-- Sidebar - Brand -->
-                        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${context}/project/loadpro">
                             <div class="sidebar-brand-icon rotate-n-15">
                                 <i class="fas fa-laugh-wink"></i>
                             </div>
@@ -54,7 +54,7 @@
 
                         <!-- Nav Item - Pages Collapse Menu -->
                         <li class="nav-item ">
-                            <a class="nav-link" href="${context}/project/loadpro" data-target="#collapseTwo" aria-expanded="true"
+                            <a class="nav-link" href="${context}/task/main" data-target="#collapseTwo" aria-expanded="true"
                                 aria-controls="collapseTwo">
                                 <i class="fas fa-home"></i>
                                 <span>Main Page</span>
@@ -167,7 +167,7 @@
                         </li>
 
                         <!-- Nav Item - Alerts -->
-<li class="nav-item dropdown no-arrow mx-1" id="alarmList">
+						<li class="nav-item dropdown no-arrow mx-1" id="alarmList">
                            <a class="nav-link dropdown-toggle" id="alertsDropdown"
                            role="button" data-toggle="dropdown" aria-haspopup="true"
                            aria-expanded="false"> <i class="fas fa-bell fa-fw"></i> <!-- Counter - Alerts -->
@@ -184,22 +184,28 @@
                                  <a class="dropdown-item d-flex align-items-center"
                                     id="alarmATag">
                                     <div class="mr-3">
-
-                                       <c:if test="${alarmData.typeOfAlarm eq '업무'}">
-                                          <div class="icon-circle bg-primary">
-                                             <i class="fas fa-file-alt text-white"></i>
-                                          </div>
-                                       </c:if>
-                                       <c:if test="${alarmData.typeOfAlarm eq '인원'}">
-                                          <div class="icon-circle bg-success">
-                                             <i class="fas fa-user-friends text-white"></i>
-                                          </div>
-                                       </c:if>
-                                       <c:if test="${alarmData.typeOfAlarm eq '파일'}">
-                                          <div class="icon-circle bg-secondary">
-                                             <i class="fas fa-user-friends text-white"></i>
-                                          </div>
-                                       </c:if>
+                                       <c:choose>
+                                          <c:when test="${alarmData.typeOfAlarm eq '업무'}">
+                                             <div class="icon-circle bg-primary">
+                                                <i class="fas fa-file-alt text-white"></i>
+                                             </div>
+                                          </c:when>
+                                          <c:when test="${alarmData.typeOfAlarm eq '인원'}">
+                                             <div class="icon-circle bg-success">
+                                                <i class="fas fa-user-friends text-white"></i>
+                                             </div>
+                                          </c:when>
+                                          <c:when test="${alarmData.typeOfAlarm eq '파일'}">
+                                             <div class="icon-circle bg-secondary">
+                                                <i class="fas fa-file-alt text-white"></i>
+                                             </div>
+                                          </c:when>
+                                          <c:otherwise>
+                                             <div class="icon-circle bg-secondary">
+                                                <i class="fas fa-file-alt text-white"></i>
+                                             </div>
+                                          </c:otherwise>
+                                       </c:choose>
                                     </div>
                                     <div>
                                        <div class="small text-gray-500">${alarmData.addDate}</div>
@@ -230,34 +236,41 @@
                                     </button>
                                  </div>
                                  <div class="modal-body">
-                                    <c:forEach var="alarmData" items="${alarmList}">
-                                       <a class="dropdown-item d-flex align-items-center"
-                                          id="alarmATag">
-                                          <div class="mr-3">
-
-                                             <c:if test="${alarmData.typeOfAlarm eq '업무'}">
-                                                <div class="icon-circle bg-primary">
-                                                   <i class="fas fa-file-alt text-white"></i>
-                                                </div>
-                                             </c:if>
-                                             <c:if test="${alarmData.typeOfAlarm eq '인원'}">
-                                                <div class="icon-circle bg-success">
-                                                   <i class="fas fa-user-friends text-white"></i>
-                                                </div>
-                                             </c:if>
-                                             <c:if test="${alarmData.typeOfAlarm eq '파일'}">
-                                                <div class="icon-circle bg-secondary">
-                                                   <i class="fas fa-user-friends text-white"></i>
-                                                </div>
-                                             </c:if>
-                                          </div>
-                                          <div>
-                                             <div class="small text-gray-500">${alarmData.addDate}</div>
-                                             <span class="font-weight-bold">${alarmData.writer}
-                                                님이 ${alarmData.typeOfAlarm}을(를) 추가 하셨습니다.</span>
-                                          </div>
-                                       </a>
-                                    </c:forEach>
+                                    <c:forEach var="alarmData" items="${alarmList}" begin="0"
+                                 end="4">
+                                 <a class="dropdown-item d-flex align-items-center"
+                                    id="alarmATag">
+                                    <div class="mr-3">
+                                       <c:choose>
+                                          <c:when test="${alarmData.typeOfAlarm eq '업무'}">
+                                             <div class="icon-circle bg-primary">
+                                                <i class="fas fa-file-alt text-white"></i>
+                                             </div>
+                                          </c:when>
+                                          <c:when test="${alarmData.typeOfAlarm eq '인원'}">
+                                             <div class="icon-circle bg-success">
+                                                <i class="fas fa-user-friends text-white"></i>
+                                             </div>
+                                          </c:when>
+                                          <c:when test="${alarmData.typeOfAlarm eq '파일'}">
+                                             <div class="icon-circle bg-secondary">
+                                                <i class="fas fa-file-alt text-white"></i>
+                                             </div>
+                                          </c:when>
+                                          <c:otherwise>
+                                             <div class="icon-circle bg-secondary">
+                                                <i class="fas fa-file-alt text-white"></i>
+                                             </div>
+                                          </c:otherwise>
+                                       </c:choose>
+                                    </div>
+                                    <div>
+                                       <div class="small text-gray-500">${alarmData.addDate}</div>
+                                       <span class="font-weight-bold">${alarmData.writer}
+                                          님이 ${alarmData.typeOfAlarm}을(를) 추가 하셨습니다.</span>
+                                    </div>
+                                 </a>
+                              </c:forEach>
                                  </div>
                               </div>
                            </div>
@@ -341,14 +354,14 @@
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Settings
                                 </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a>
+                                <div class="dropdown-divider" href="/member/logout"></div>
+                              <a class="dropdown-item" href="/member/logout"
+                                 data-toggle="modal" data-target="#logoutModal"> <i
+                                 class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                 Logout
+                              </a>
                             </div>
                         </li>
-
                     </ul>
 
                 </nav>
@@ -440,7 +453,7 @@
 	</a>
 
 	<!-- Logout Modal-->
-	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -451,12 +464,11 @@
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
-				<div class="modal-body">Select "Logout" below if you are ready
-					to end your current session.</div>
+				<div class="modal-body">로그아웃???????????????????</div>
 				<div class="modal-footer">
+					<a class="btn btn-primary" href="/member/logout">Logout</a>
 					<button class="btn btn-secondary" type="button"
 						data-dismiss="modal">Cancel</button>
-					<a class="btn btn-primary" href="login.html">Logout</a>
 				</div>
 			</div>
 		</div>
@@ -508,7 +520,7 @@
             </div>
         </div>
      </div>
- 
+ <iframe src="http://192.168.0.8:3100/" class="frame"></iframe>
 	<!-- Bootstrap core JavaScript-->
 
 	<script src="/resources/vendor/jquery/jquery.min.js"></script>

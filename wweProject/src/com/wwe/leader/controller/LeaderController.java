@@ -310,8 +310,8 @@ public class LeaderController extends HttpServlet {
 		int res = leaderService.updateTask(task);
 
 		if (res > 0) {
-//			new MemberService().addAlarm(member.getUserID(), project.getProjectId(), AddAlarmCode.UT01.alarmCode());
-//			new MemberService().kakaoSendMessage("rkZVd00R_wEE82fu2ustpOknZNHZXVv0IpSx0AopdSkAAAF3i7FSxA", member.getUserName() + " 님이 업무를 수정했습니다.");
+			new MemberService().addAlarm(member.getUserID(), project.getProjectId(), AddAlarmCode.UT01.alarmCode());
+			new MemberService().kakaoSendMessage("rkZVd00R_wEE82fu2ustpOknZNHZXVv0IpSx0AopdSkAAAF3i7FSxA", member.getUserName() + " 님이 업무를 수정했습니다.");
 			response.getWriter().print("success");
 		} else {
 			response.getWriter().print("failed");
