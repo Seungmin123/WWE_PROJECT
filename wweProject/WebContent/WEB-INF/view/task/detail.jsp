@@ -463,7 +463,7 @@
 									
 									<form>
                                     	<div class="d-flex justify-content-between align-items-center">
-                                    		<div type="text" class="form-control form-control-user col-sm-2 mr-2 rounded" id="userId">${user.userID}</div>
+                                    		<div type="text" class="form-control form-control-user col-sm-3 mr-2 rounded" id="userId">${user.userID}</div>
                                     		<input type="text" class="form-control form-control-user rounded" id="feedbackComment" name="feedbackComment">
                                     		<!-- <i class="fas fa-unlock ml-2"></i> -->
                                     		<button type="button" onclick="feedBack();" class="btn bg-gray-300 ml-2 pl-3 pr-3">
@@ -476,7 +476,7 @@
                                    		 <c:if test="${feed.isDel == 0}">
                                    		 <div class="d-flex justify-content-between">
                                    		 	
-                                   		 	<div class="form-control form-control-user bg-light col-sm-2 mr-2 border-0">${feed.userId}</div>
+                                   		 	<div class="form-control form-control-user bg-light col-sm-3 mr-2 border-0">${feed.userId}</div>
                                    		 	<div class="form-control form-control-user bg-light border-0 comment" >${feed.feedbackComment}</div>
                                    		 	
                                    		 	<c:if test="${feed.userId == user.userID}">
