@@ -45,6 +45,9 @@ public class AuthFilter implements Filter {
 			case "project":
 				if(session.getAttribute("user") == null) {
 					throw new ToAlertException(ErrorCode.AUTH02);
+				}else if(uriArr[2].equals("loadpro")) {
+					session.removeAttribute("selectProject");
+					System.out.println("잘삭제됨");
 				}
 				break;
 			case "task":
