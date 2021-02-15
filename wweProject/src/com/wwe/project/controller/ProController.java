@@ -350,6 +350,10 @@ public class ProController extends HttpServlet {
 		ProjUser user = leaderService.chkAuthority(pUser); // 유저의 권한을 포함한 유저정보를 얻는 코드
 		request.getSession().setAttribute("projUserInfo", user); // 얻은 유저정보를 세션에 저장
 
+		Map<String, Object> commandMap = new MemberService().selectAlarm(member.getUserID(), projectId);
+		List<Object> alarmList = (List<Object>) commandMap.get("alarmList");
+		request.getSession().setAttribute("alarmList", alarmList);
+		
 		if (projectId != null && leaderId != null) {
 			response.getWriter().print("success");
 		} else {

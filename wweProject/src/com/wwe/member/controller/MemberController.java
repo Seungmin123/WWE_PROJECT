@@ -138,19 +138,14 @@ public class MemberController extends HttpServlet {
 			request.getSession().setAttribute("user", user);
 			request.getSession().setAttribute("project", userProject);
 			
-			//Map<String, Object> commandMap = memberService.selectAlarm(user.getUserID(), project.getProjectId());
-			/*
-			 * Map<String, Object> commandMap = memberService.selectAlarm(user.getUserID(),
-			 * "프로젝트 1"); List<Object> alarmList = (List<Object>)
-			 * commandMap.get("alarmList");
-			 * 
-			 * request.getSession().setAttribute("alarmList", alarmList);
-			 */
+			request
+			.getRequestDispatcher("/WEB-INF/view/project/newProject2.jsp")
+			.forward(request, response);
+		}else {
+			response.getWriter().print("fail");
 		}
 		
-		request
-		.getRequestDispatcher("/WEB-INF/view/project/newProject2.jsp")
-		.forward(request, response);
+		
 		
 	}
 	
@@ -324,6 +319,9 @@ public class MemberController extends HttpServlet {
 		}
 		request.getSession().removeAttribute("project");
 		request.getSession().removeAttribute("user");
+		request.getSession().removeAttribute("selectProject");
+		request.getSession().removeAttribute("projUserInfo");
+		request.getSession().removeAttribute("alarmList");
 		request.getSession().removeAttribute("access_Token");
 		request.getRequestDispatcher("/WEB-INF/view/index/index.jsp")
 		.forward(request, response);

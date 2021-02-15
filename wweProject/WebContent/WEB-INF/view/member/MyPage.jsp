@@ -30,8 +30,7 @@
 						<div class="sidebar-brand-icon rotate-n-15">
 							<i class="fas fa-chess-knight"></i>
 						</div>
-						<div class="sidebar-brand-text mx-3">WeWorkEasy
-							</div>
+						<div class="sidebar-brand-text mx-3">WeWorkEasy</div>
 					</a>
 
 					<!-- Divider -->
@@ -49,8 +48,11 @@
 						aria-expanded="true" aria-controls="collapseTwo"> <i
 							class="fas fa-home"></i> <span>Main Page</span>
 					</a></li>
-
-
+					
+					<!-- 선택된 프로젝트 없으면 안보이게  -->
+					<c:choose>
+					<c:when test="${sessionScope.selectProject != null}">
+					
 					<!-- Nav Item - Utilities Collapse Menu -->
 					<li class="nav-item"><a class="nav-link collapsed" href="#"
 						data-toggle="collapse" data-target="#collapseUtilities"
@@ -104,8 +106,10 @@
 							</div>
 						</div></li>
 
-
-
+					<!-- 선택된 프로젝트 없으면 안보이게  -->
+					</c:when></c:choose>
+					
+					
 					<!-- Divider -->
 					<hr class="sidebar-divider d-none d-md-block">
 
@@ -234,39 +238,39 @@
 											</div>
 											<div class="modal-body">
 												<c:forEach var="alarmData" items="${alarmList}">
-											<a class="dropdown-item d-flex align-items-center"
-												id="alarmATag">
-												<div class="mr-3">
-													<c:choose>
-														<c:when test="${alarmData.typeOfAlarm eq '업무'}">
-															<div class="icon-circle bg-primary">
-																<i class="fas fa-file-alt text-white"></i>
-															</div>
-														</c:when>
-														<c:when test="${alarmData.typeOfAlarm eq '인원'}">
-															<div class="icon-circle bg-success">
-																<i class="fas fa-user-friends text-white"></i>
-															</div>
-														</c:when>
-														<c:when test="${alarmData.typeOfAlarm eq '파일'}">
-															<div class="icon-circle bg-secondary">
-																<i class="fas fa-file-alt text-white"></i>
-															</div>
-														</c:when>
-														<c:otherwise>
-															<div class="icon-circle bg-secondary">
-																<i class="fas fa-file-alt text-white"></i>
-															</div>
-														</c:otherwise>
-													</c:choose>
-												</div>
-												<div>
-													<div class="small text-gray-500">${alarmData.addDate}</div>
-													<span class="font-weight-bold">${alarmData.writer}
-														님이 ${alarmData.typeOfAlarm}을(를) 추가 하셨습니다.</span>
-												</div>
-											</a>
-										</c:forEach>
+													<a class="dropdown-item d-flex align-items-center"
+														id="alarmATag">
+														<div class="mr-3">
+															<c:choose>
+																<c:when test="${alarmData.typeOfAlarm eq '업무'}">
+																	<div class="icon-circle bg-primary">
+																		<i class="fas fa-file-alt text-white"></i>
+																	</div>
+																</c:when>
+																<c:when test="${alarmData.typeOfAlarm eq '인원'}">
+																	<div class="icon-circle bg-success">
+																		<i class="fas fa-user-friends text-white"></i>
+																	</div>
+																</c:when>
+																<c:when test="${alarmData.typeOfAlarm eq '파일'}">
+																	<div class="icon-circle bg-secondary">
+																		<i class="fas fa-file-alt text-white"></i>
+																	</div>
+																</c:when>
+																<c:otherwise>
+																	<div class="icon-circle bg-secondary">
+																		<i class="fas fa-file-alt text-white"></i>
+																	</div>
+																</c:otherwise>
+															</c:choose>
+														</div>
+														<div>
+															<div class="small text-gray-500">${alarmData.addDate}</div>
+															<span class="font-weight-bold">${alarmData.writer}
+																님이 ${alarmData.typeOfAlarm}을(를) 추가 하셨습니다.</span>
+														</div>
+													</a>
+												</c:forEach>
 											</div>
 										</div>
 									</div>
@@ -351,12 +355,13 @@
 										<a class="dropdown-item" href="/member/mypage"> <i
 											class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
 											Profile
-										</a> 
+										</a>
 										<!-- <a class="dropdown-item" href="#"> <i
 											class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
 											Settings
 										</a>  -->
-										<a class="dropdown-item" href="#" data-toggle="modal" data-target="#alarmModal"> <i
+										<a class="dropdown-item" href="#" data-toggle="modal"
+											data-target="#alarmModal"> <i
 											class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
 											Activity Log
 										</a>
@@ -382,18 +387,19 @@
 								<h1 class="h3 mb-0 text-gray-800">${sessionScope.user.userName}'s
 									Projects</h1>
 							</div>
-							
+
 							<%
-								String[] colorList = {"primary", "success", "info", "woraning"};
-								request.setAttribute("colorList", colorList);
+								String[] colorList = { "primary", "success", "info", "warning" };
+							request.setAttribute("colorList", colorList);
 							%>
 							<div class="row">
 								<c:set var="color">primary, success, info, warning</c:set>
-								<c:set var="count" value="0"/>
-								<c:forEach var="project" items="${recentList}" begin="0" end="4">
+								<c:set var="count" value="0" />
+								<c:forEach var="project" items="${recentList}" begin="0" end="3">
 
 									<div class="col-xl-3 col-md-6 mb-4">
-										<div class="card border-left-${colorList[count]} shadow h-100 py-2">
+										<div
+											class="card border-left-${colorList[count]} shadow h-100 py-2">
 											<div class="card-body">
 												<div class="row no-gutters align-items-center">
 													<div class="col mr-2">
@@ -401,9 +407,7 @@
 															class="text-xs font-weight-bold text-${colorList[count]} text-uppercase mb-1">
 															Project</div>
 														<div class="h5 mb-0 font-weight-bold text-gray-800">♣
-															${project.projectId}
-															
-															</div>
+															${project.projectId}</div>
 													</div>
 													<div class="col-auto">
 														<i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -412,9 +416,9 @@
 											</div>
 										</div>
 									</div>
-									<c:set var="count" value="${count=count+1}"/>
+									<c:set var="count" value="${count=count+1}" />
 								</c:forEach>
-								
+
 
 							</div>
 
