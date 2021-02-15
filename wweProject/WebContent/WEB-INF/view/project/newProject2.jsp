@@ -197,57 +197,116 @@
                                 </li>
 
                                 <!-- Nav Item - Alerts -->
-                                <li class="nav-item dropdown no-arrow mx-1">
-                                    <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-bell fa-fw"></i>
-                                        <!-- Counter - Alerts -->
-                                        <span class="badge badge-danger badge-counter">3+</span>
-                                    </a>
-                                    <!-- Dropdown - Alerts -->
-                                    <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                        aria-labelledby="alertsDropdown">
-                                        <h6 class="dropdown-header">
-                                            Alerts Center
-                                        </h6>
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            <div class="mr-3">
-                                                <div class="icon-circle bg-primary">
-                                                    <i class="fas fa-file-alt text-white"></i>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="small text-gray-500">December 12, 2019</div>
-                                                <span class="font-weight-bold">A new monthly report is ready to
-                                                    download!</span>
-                                            </div>
-                                        </a>
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            <div class="mr-3">
-                                                <div class="icon-circle bg-success">
-                                                    <i class="fas fa-donate text-white"></i>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="small text-gray-500">December 7, 2019</div>
-                                                $290.29 has been deposited into your account!
-                                            </div>
-                                        </a>
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            <div class="mr-3">
-                                                <div class="icon-circle bg-warning">
-                                                    <i class="fas fa-exclamation-triangle text-white"></i>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="small text-gray-500">December 2, 2019</div>
-                                                Spending Alert: We've noticed unusually high spending for your account.
-                                            </div>
-                                        </a>
-                                        <a class="dropdown-item text-center small text-gray-500" href="#">Show All
-                                            Alerts</a>
+								<li class="nav-item dropdown no-arrow mx-1" id="alarmList">
+                           <a class="nav-link dropdown-toggle" id="alertsDropdown"
+                           role="button" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false"> <i class="fas fa-bell fa-fw"></i> <!-- Counter - Alerts -->
+                              <span class="badge badge-danger badge-counter">+</span>
+                        </a> <!-- Dropdown - Alerts -->
+                           <div
+                              class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                              aria-labelledby="alertsDropdown" id="alarmBody">
+                              <h6 class="dropdown-header">Alerts History Center</h6>
+
+
+                              <c:forEach var="alarmData" items="${alarmList}" begin="0"
+                                 end="4">
+                                 <a class="dropdown-item d-flex align-items-center"
+                                    id="alarmATag">
+                                    <div class="mr-3">
+                                       <c:choose>
+                                          <c:when test="${alarmData.typeOfAlarm eq '업무'}">
+                                             <div class="icon-circle bg-primary">
+                                                <i class="fas fa-file-alt text-white"></i>
+                                             </div>
+                                          </c:when>
+                                          <c:when test="${alarmData.typeOfAlarm eq '인원'}">
+                                             <div class="icon-circle bg-success">
+                                                <i class="fas fa-user-friends text-white"></i>
+                                             </div>
+                                          </c:when>
+                                          <c:when test="${alarmData.typeOfAlarm eq '파일'}">
+                                             <div class="icon-circle bg-secondary">
+                                                <i class="fas fa-file-alt text-white"></i>
+                                             </div>
+                                          </c:when>
+                                          <c:otherwise>
+                                             <div class="icon-circle bg-secondary">
+                                                <i class="fas fa-file-alt text-white"></i>
+                                             </div>
+                                          </c:otherwise>
+                                       </c:choose>
                                     </div>
-                                </li>
+                                    <div>
+                                       <div class="small text-gray-500">${alarmData.addDate}</div>
+                                       <span class="font-weight-bold">${alarmData.writer}
+                                          님이 ${alarmData.typeOfAlarm}을(를) 추가 하셨습니다.</span>
+                                    </div>
+                                 </a>
+                              </c:forEach>
+
+                              <a class="dropdown-item text-center small text-gray-500"
+                                 data-toggle="modal" data-target="#alarmModal">Show All
+                                 Alerts</a>
+
+                           </div>
+                        </li>
+                        
+                        <div class="modal fade" id="alarmModal" tabindex="-1"
+                           role="dialog" aria-labelledby="exampleModalLabel"
+                           aria-hidden="true">
+                           <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                 <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Alarm
+                                       History</h5>
+                                    <button class="close" type="button" data-dismiss="modal"
+                                       aria-label="Close">
+                                       <span aria-hidden="true">×</span>
+                                    </button>
+                                 </div>
+                                 <div class="modal-body">
+                                    <c:forEach var="alarmData" items="${alarmList}" begin="0"
+                                 end="4">
+                                 <a class="dropdown-item d-flex align-items-center"
+                                    id="alarmATag">
+                                    <div class="mr-3">
+                                       <c:choose>
+                                          <c:when test="${alarmData.typeOfAlarm eq '업무'}">
+                                             <div class="icon-circle bg-primary">
+                                                <i class="fas fa-file-alt text-white"></i>
+                                             </div>
+                                          </c:when>
+                                          <c:when test="${alarmData.typeOfAlarm eq '인원'}">
+                                             <div class="icon-circle bg-success">
+                                                <i class="fas fa-user-friends text-white"></i>
+                                             </div>
+                                          </c:when>
+                                          <c:when test="${alarmData.typeOfAlarm eq '파일'}">
+                                             <div class="icon-circle bg-secondary">
+                                                <i class="fas fa-file-alt text-white"></i>
+                                             </div>
+                                          </c:when>
+                                          <c:otherwise>
+                                             <div class="icon-circle bg-secondary">
+                                                <i class="fas fa-file-alt text-white"></i>
+                                             </div>
+                                          </c:otherwise>
+                                       </c:choose>
+                                    </div>
+                                    <div>
+                                       <div class="small text-gray-500">${alarmData.addDate}</div>
+                                       <span class="font-weight-bold">${alarmData.writer}
+                                          님이 ${alarmData.typeOfAlarm}을(를) 추가 하셨습니다.</span>
+                                    </div>
+                                 </a>
+                              </c:forEach>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        
+                        
 
                                 <!-- Nav Item - Messages -->
                                 <li class="nav-item dropdown no-arrow mx-1">
@@ -320,37 +379,36 @@
 
                                 <div class="topbar-divider d-none d-sm-block"></div>
 
-                                <!-- Nav Item - User Information -->
-                                <li class="nav-item dropdown no-arrow">
-                                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span class="mr-2 d-none d-lg-inline text-gray-600 small">${sessionScope.user.userName} 님</span>
-                                        <img class="img-profile rounded-circle"
-                                         src="../resources/assets/img/icon/whale.png">
-                                    </a>
-                                    <!-- Dropdown - User Information -->
-                                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                        aria-labelledby="userDropdown">
-                                        <a class="dropdown-item" href="#">
-                                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                            Profile
-                                        </a>
-                                        <a class="dropdown-item" href="#">
-                                            <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                            Settings
-                                        </a>
-                                        <a class="dropdown-item" href="#">
-                                            <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                            Activity Log
-                                        </a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#" data-toggle="modal"
-                                            data-target="#logoutModal">
-                                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                            Logout
-                                        </a>
-                                    </div>
-                                </li>
+							<li class="nav-item dropdown no-arrow"><a
+                           class="nav-link dropdown-toggle" href="#" id="userDropdown"
+                           role="button" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false"> <span
+                              class="mr-2 d-none d-lg-inline text-gray-600 small">${sessionScope.user.userName}
+                                 님</span> <img class="img-profile rounded-circle"
+                              src="../resources/assets/img/icon/whale.png">
+                        </a> <!-- Dropdown - User Information -->
+                           <div
+                              class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                              aria-labelledby="userDropdown">
+                              <a class="dropdown-item" href="/member/mypage"> <i
+                                 class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                 Profile
+                              </a> 
+                              <!-- <a class="dropdown-item" href="#"> <i
+                                 class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                 Settings
+                              </a>  -->
+                              <a class="dropdown-item" href="#" data-toggle="modal" data-target="#alarmModal"> <i
+                                 class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                 Activity Log
+                              </a>
+                              <div class="dropdown-divider" href="/member/logout"></div>
+                              <a class="dropdown-item" href="/member/logout"
+                                 data-toggle="modal" data-target="#logoutModal"> <i
+                                 class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                 Logout
+                              </a>
+                           </div></li>
 
                             </ul>
 
@@ -453,7 +511,7 @@
 			<c:forEach var="sortArr" items="${sortList}"> <!-- 넘겨받은 sortList의 값을 1개씩 뽑는다 (총 프로젝트 3개 들어있음) -->
 			<div class="recent-project">
 				<c:forEach var="project" items="${sortArr}"> <!-- sortArr에서 프로젝트를 1개씩 뽑는다 -->
-					<button type="button" id="invited" class="mytitle" onclick="invitedProject('${project.projectId}','${project.leaderId}')">
+					<button type="button" id="invited" class="mytitle" onclick="invitedProject('${project.projectId}','${project.userId}')">
 						<h4>${project.projectId}</h4>
 					</button>
 				</c:forEach>
@@ -550,26 +608,27 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
+<!-- Logout Modal-->
+   <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+               <button class="close" type="button" data-dismiss="modal"
+                  aria-label="Close">
+                  <span aria-hidden="true">×</span>
+               </button>
             </div>
-        </div>
-    </div>
-
+            <div class="modal-body">로그아웃???????????????????</div>
+            <div class="modal-footer">
+               <a class="btn btn-primary" href="/member/logout">Logout</a>
+               <button class="btn btn-secondary" type="button"
+                  data-dismiss="modal">Cancel</button>
+            </div>
+         </div>
+      </div>
+   </div>
 
 	
 	<script src="/resources/js/project/project.js"></script>

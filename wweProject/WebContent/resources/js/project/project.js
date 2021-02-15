@@ -155,12 +155,13 @@ let memberList = Array();
             
         
             /* 초대된 프로젝트를 클릭했을 시 task메인 페이지로 이동*/
-            let invitedProject = (projectId,leaderId) => {
+            let invitedProject = (projectId,userId,workTime) => {
             	
             	let url = '/project/invitedpro'; 
             	let paramObj = new Object();
             	paramObj.projectId = projectId;
-            	paramObj.leaderId = leaderId;
+            	paramObj.userId = userId;
+            	paramObj.workTime = workTime;
             	
             	let headerObj = new Headers();
             	headerObj.append('content-type', 'application/x-www-form-urlencoded');
