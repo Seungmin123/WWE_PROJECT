@@ -277,6 +277,20 @@
                               </div>
                            </div>
                         </div>
+                        
+                         <!-- Nav Item - Messages -->
+<li class="nav-item dropdown no-arrow mx-1">
+	<a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		<i class="fas fa-envelope fa-fw"></i>
+		<!-- Counter - Messages -->
+		<span class="badge badge-danger badge-counter">+</span>
+	</a>
+	<!-- Dropdown - Messages -->
+	<div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
+		<!-- 임시로 저희 페이지 띄웠습니다 -->
+		<iframe src="http://127.0.0.1:3100/" class="frame"></iframe>
+	</div>
+</li>
 
                                
                                 <!-- Nav Item - User Information -->
