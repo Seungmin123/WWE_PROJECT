@@ -157,97 +157,112 @@
                         </li>
 
                         <li class="nav-item dropdown no-arrow mx-1" id="alarmList">
-	                        <a class="nav-link dropdown-toggle" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-fw"></i> <!-- Counter - Alerts -->
-	                            <span class="badge badge-danger badge-counter">+</span>
-                            </a>
-                            <!-- Dropdown - Alerts -->
-	                    <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown" id="alarmBody">
-	                        <h6 class="dropdown-header">Alerts History Center</h6>
+									<a class="nav-link dropdown-toggle" id="alertsDropdown"
+									role="button" data-toggle="dropdown" aria-haspopup="true"
+									aria-expanded="false"> <i class="fas fa-bell fa-fw"></i> <!-- Counter - Alerts -->
+										<span class="badge badge-danger badge-counter">+</span>
+								</a> <!-- Dropdown - Alerts -->
+									<div
+										class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+										aria-labelledby="alertsDropdown" id="alarmBody">
+										<h6 class="dropdown-header">Alerts History Center</h6>
 
-                            <c:forEach var="alarmData" items="${alarmList}" begin="0"
-                                end="4">
-                                <a class="dropdown-item d-flex align-items-center"
-                                    id="alarmATag">
-                                    <div class="mr-3">
-                        
-                                        <c:if test="${alarmData.typeOfAlarm eq '업무'}">
-                                        <div class="icon-circle bg-primary">
-                                            <i class="fas fa-file-alt text-white"></i>
-                                        </div>
-                                        </c:if>
-                                        <c:if test="${alarmData.typeOfAlarm eq '인원'}">
-                                        <div class="icon-circle bg-success">
-                                            <i class="fas fa-user-friends text-white"></i>
-                                        </div>
-                                        </c:if>
-                                        <c:if test="${alarmData.typeOfAlarm eq '파일'}">
-                                        <div class="icon-circle bg-secondary">
-                                            <i class="fas fa-user-friends text-white"></i>
-                                        </div>
-                                        </c:if>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">${alarmData.addDate}</div>
-                                        <span class="font-weight-bold">${alarmData.writer}
-                                        님이 ${alarmData.typeOfAlarm}을(를) 추가 하셨습니다.</span>
-                                    </div>
-                                </a>
-                            </c:forEach>
-                        
-                            <a class="dropdown-item text-center small text-gray-500"
-                                data-toggle="modal" data-target="#alarmModal">Show All
-                                Alerts</a>
-                        
-                            </div>
-                        </li>
-                        
-                        <div class="modal fade" id="alarmModal" tabindex="-1"
-                            role="dialog" aria-labelledby="exampleModalLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Alarm
-                                        History</h5>
-                                    <button class="close" type="button" data-dismiss="modal"
-                                        aria-label="Close">
-                                        <span aria-hidden="true">×</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <c:forEach var="alarmData" items="${alarmList}">
-                                        <a class="dropdown-item d-flex align-items-center"
-                                        id="alarmATag">
-                                        <div class="mr-3">
-                        
-                                            <c:if test="${alarmData.typeOfAlarm eq '업무'}">
-                                                <div class="icon-circle bg-primary">
-                                                    <i class="fas fa-file-alt text-white"></i>
-                                                </div>
-                                            </c:if>
-                                            <c:if test="${alarmData.typeOfAlarm eq '인원'}">
-                                                <div class="icon-circle bg-success">
-                                                    <i class="fas fa-user-friends text-white"></i>
-                                                </div>
-                                            </c:if>
-                                            <c:if test="${alarmData.typeOfAlarm eq '파일'}">
-                                                <div class="icon-circle bg-secondary">
-                                                    <i class="fas fa-user-friends text-white"></i>
-                                                </div>
-                                            </c:if>
-                                        </div>
-                                        <div>
-                                            <div class="small text-gray-500">${alarmData.addDate}</div>
-                                            <span class="font-weight-bold">${alarmData.writer}
-                                                님이 ${alarmData.typeOfAlarm}을(를) 추가 하셨습니다.</span>
-                                        </div>
-                                        </a>
-                                    </c:forEach>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
+
+										<c:forEach var="alarmData" items="${alarmList}" begin="0"
+											end="4">
+											<a class="dropdown-item d-flex align-items-center"
+												id="alarmATag">
+												<div class="mr-3">
+													<c:choose>
+														<c:when test="${alarmData.typeOfAlarm eq '업무'}">
+															<div class="icon-circle bg-primary">
+																<i class="fas fa-file-alt text-white"></i>
+															</div>
+														</c:when>
+														<c:when test="${alarmData.typeOfAlarm eq '인원'}">
+															<div class="icon-circle bg-success">
+																<i class="fas fa-user-friends text-white"></i>
+															</div>
+														</c:when>
+														<c:when test="${alarmData.typeOfAlarm eq '파일'}">
+															<div class="icon-circle bg-secondary">
+																<i class="fas fa-file-alt text-white"></i>
+															</div>
+														</c:when>
+														<c:otherwise>
+															<div class="icon-circle bg-secondary">
+																<i class="fas fa-file-alt text-white"></i>
+															</div>
+														</c:otherwise>
+													</c:choose>
+												</div>
+												<div>
+													<div class="small text-gray-500">${alarmData.addDate}</div>
+													<span class="font-weight-bold">${alarmData.writer}
+														님이 ${alarmData.typeOfAlarm}을(를) 추가 하셨습니다.</span>
+												</div>
+											</a>
+										</c:forEach>
+
+										<a class="dropdown-item text-center small text-gray-500"
+											data-toggle="modal" data-target="#alarmModal">Show All
+											Alerts</a>
+
+									</div>
+								</li>
+
+								<div class="modal fade" id="alarmModal" tabindex="-1"
+									role="dialog" aria-labelledby="exampleModalLabel"
+									aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLabel">Alarm
+													History</h5>
+												<button class="close" type="button" data-dismiss="modal"
+													aria-label="Close">
+													<span aria-hidden="true">×</span>
+												</button>
+											</div>
+											<div class="modal-body">
+												<c:forEach var="alarmData" items="${alarmList}">
+													<a class="dropdown-item d-flex align-items-center"
+														id="alarmATag">
+														<div class="mr-3">
+															<c:choose>
+																<c:when test="${alarmData.typeOfAlarm eq '업무'}">
+																	<div class="icon-circle bg-primary">
+																		<i class="fas fa-file-alt text-white"></i>
+																	</div>
+																</c:when>
+																<c:when test="${alarmData.typeOfAlarm eq '인원'}">
+																	<div class="icon-circle bg-success">
+																		<i class="fas fa-user-friends text-white"></i>
+																	</div>
+																</c:when>
+																<c:when test="${alarmData.typeOfAlarm eq '파일'}">
+																	<div class="icon-circle bg-secondary">
+																		<i class="fas fa-file-alt text-white"></i>
+																	</div>
+																</c:when>
+																<c:otherwise>
+																	<div class="icon-circle bg-secondary">
+																		<i class="fas fa-file-alt text-white"></i>
+																	</div>
+																</c:otherwise>
+															</c:choose>
+														</div>
+														<div>
+															<div class="small text-gray-500">${alarmData.addDate}</div>
+															<span class="font-weight-bold">${alarmData.writer}
+																님이 ${alarmData.typeOfAlarm}을(를) 추가 하셨습니다.</span>
+														</div>
+													</a>
+												</c:forEach>
+											</div>
+										</div>
+									</div>
+								</div>
 
 
                         <!-- Nav Item - Messages -->
