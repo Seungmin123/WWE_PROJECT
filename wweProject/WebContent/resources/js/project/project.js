@@ -344,12 +344,7 @@ let memberList = Array();
             	$('#addedMember').val("");
             }
 
-            let chat = () => {
-            	$('.frame').style.display = "block";
-            	$('.frame').style.visibility = "visible";
-            	
-            }
-            
+ 
             
             
             
