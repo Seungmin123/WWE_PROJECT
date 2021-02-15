@@ -483,7 +483,6 @@
       </div>
    </div>
    
-   <iframe src="http://192.168.0.8:3100/" class="frame"></iframe>
 
                 <!-- Bootstrap core JavaScript-->
                 <script src="/resources/vendor/jquery/jquery.min.js"></script>
