@@ -329,7 +329,7 @@ public class ProController extends HttpServlet {
 		String projectId = parsedData.get("projectId").toString();
 		String leaderId = "";
 		
-		ArrayList<ProjectMaster> projectList = proService.selectRecentProject(member.getUserID());
+		ArrayList<ProjUser> projectList = proService.selectInvitedProject(member.getUserID());
 		for (int i = 0; i < projectList.size(); i++) {
 			if (projectList.get(i).getProjectId().equals(projectId)) {
 				System.out.println(leaderId + " " +  projectList.get(i).getLeaderId());
