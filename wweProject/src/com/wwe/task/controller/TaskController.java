@@ -412,7 +412,6 @@ public class TaskController extends HttpServlet {
 	//업무 수정 메서드
 	public void updateTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		
 		Member user = (Member) request.getSession().getAttribute("user");
 		String userId = user.getUserID();
 		ProjUser project = (ProjUser) request.getSession().getAttribute("selectProject");
