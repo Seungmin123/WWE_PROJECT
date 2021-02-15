@@ -26,7 +26,7 @@
 					<!-- Sidebar - Brand -->
 					<a
 						class="sidebar-brand d-flex align-items-center justify-content-center"
-						href="/task/main">
+						href="/project/loadpro">
 						<div class="sidebar-brand-icon rotate-n-15">
 							<i class="fas fa-chess-knight"></i>
 						</div>
@@ -44,7 +44,7 @@
 
 					<!-- Nav Item - Pages Collapse Menu -->
 					<li class="nav-item "><a class="nav-link"
-						href="/project/loadpro" data-target="#collapseTwo"
+						href="/task/main" data-target="#collapseTwo"
 						aria-expanded="true" aria-controls="collapseTwo"> <i
 							class="fas fa-home"></i> <span>Main Page</span>
 					</a></li>
@@ -180,8 +180,7 @@
 										<h6 class="dropdown-header">Alerts History Center</h6>
 
 
-										<c:forEach var="alarmData" items="${alarmList}" begin="0"
-											end="4">
+										<c:forEach var="alarmData" items="${alarmList}" begin="0" end="4">
 											<a class="dropdown-item d-flex align-items-center"
 												id="alarmATag">
 												<div class="mr-3">
