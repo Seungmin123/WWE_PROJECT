@@ -383,7 +383,7 @@
                                             </c:forEach>
     
                                             <li class="page-item">
-                                            <a class="page-link" href="${context}/storage/share?page=0">
+                                            <a class="page-link" href="${context}/storage/share?page=${maxPage}">
                                                 <span aria-hidden="true">&raquo;</span>
                                             </a>
                                             </li>
