@@ -221,7 +221,7 @@ public class ProController extends HttpServlet {
 		Map data = gson.fromJson(project, Map.class);
 		
 		String projectId = (String) data.get("projectId");
-		String userId = (String) data.get("leaderId");
+		String userId = (String) data.get("userId");
 		String workTime = (String) data.get("workTime");
 		
 		System.out.println("유저아이디: " + userId);
@@ -333,7 +333,7 @@ public class ProController extends HttpServlet {
 		
 		// 파싱된 데이터를 문자열로 변환
 		String projectId = parsedData.get("projectId").toString();
-		String leaderId = parsedData.get("leaderId").toString();
+		String leaderId = parsedData.get("userId").toString();
 
 		// ProjUser 객체에
 		ProjUser projUser = new ProjUser();
