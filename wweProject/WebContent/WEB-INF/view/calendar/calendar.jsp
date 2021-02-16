@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 <link href="/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-<link href="/resources/css/sb-admin-2.min.css" rel="stylesheet">
+<link href="/resources/css/sb-admin-2.css" rel="stylesheet">
 <link href="/resources/css/calendar/main.css" rel="stylesheet"></link>
 <script type="text/javascript" src="/resources/js/calendar/main.js"></script>
 </head>
@@ -20,7 +20,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/project/loadpro">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -32,7 +32,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="/member/mypage">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>My Page</span></a>
             </li>
@@ -40,7 +40,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="/task/main">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Main Page</span></a>
             </li>
@@ -48,10 +48,18 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="index.html">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Admin Page</span></a>
-            </li>
+        		<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+            		<i class="fas fa-crown"></i>
+            			<span>Admin Page</span>
+        		</a>
+        	<div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+            	<div class="bg-white py-2 collapse-inner rounded">
+                	<h6 class="collapse-header">Manage</h6>
+                		<a class="collapse-item" href="${context}/leader/manage">팀관리</a>
+                		<a class="collapse-item" href="${context}/leader/totaltask">업무관리</a>
+            		</div>
+        		</div>
+    		</li>
 
             <hr class="sidebar-divider my-0">
 
@@ -148,122 +156,128 @@
                             </div>
                         </li>
 
-                        <!-- Nav Item - Alerts -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-fw"></i>
-                                <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter">3+</span>
-                            </a>
-                            <!-- Dropdown - Alerts -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="alertsDropdown">
-                                <h6 class="dropdown-header">
-                                    Alerts Center
-                                </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-primary">
-                                            <i class="fas fa-file-alt text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 12, 2019</div>
-                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-success">
-                                            <i class="fas fa-donate text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 7, 2019</div>
-                                        $290.29 has been deposited into your account!
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-warning">
-                                            <i class="fas fa-exclamation-triangle text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 2, 2019</div>
-                                        Spending Alert: We've noticed unusually high spending for your account.
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-                            </div>
-                        </li>
+                        <li class="nav-item dropdown no-arrow mx-1" id="alarmList">
+									<a class="nav-link dropdown-toggle" id="alertsDropdown"
+									role="button" data-toggle="dropdown" aria-haspopup="true"
+									aria-expanded="false"> <i class="fas fa-bell fa-fw"></i> <!-- Counter - Alerts -->
+										<span class="badge badge-danger badge-counter">+</span>
+								</a> <!-- Dropdown - Alerts -->
+									<div
+										class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+										aria-labelledby="alertsDropdown" id="alarmBody">
+										<h6 class="dropdown-header">Alerts History Center</h6>
+
+
+										<c:forEach var="alarmData" items="${alarmList}" begin="0"
+											end="4">
+											<a class="dropdown-item d-flex align-items-center"
+												id="alarmATag">
+												<div class="mr-3">
+													<c:choose>
+														<c:when test="${alarmData.typeOfAlarm eq '업무'}">
+															<div class="icon-circle bg-primary">
+																<i class="fas fa-file-alt text-white"></i>
+															</div>
+														</c:when>
+														<c:when test="${alarmData.typeOfAlarm eq '인원'}">
+															<div class="icon-circle bg-success">
+																<i class="fas fa-user-friends text-white"></i>
+															</div>
+														</c:when>
+														<c:when test="${alarmData.typeOfAlarm eq '파일'}">
+															<div class="icon-circle bg-secondary">
+																<i class="fas fa-file-alt text-white"></i>
+															</div>
+														</c:when>
+														<c:otherwise>
+															<div class="icon-circle bg-secondary">
+																<i class="fas fa-file-alt text-white"></i>
+															</div>
+														</c:otherwise>
+													</c:choose>
+												</div>
+												<div>
+													<div class="small text-gray-500">${alarmData.addDate}</div>
+													<span class="font-weight-bold">${alarmData.writer}
+														님이 ${alarmData.typeOfAlarm}을(를) 추가 하셨습니다.</span>
+												</div>
+											</a>
+										</c:forEach>
+
+										<a class="dropdown-item text-center small text-gray-500"
+											data-toggle="modal" data-target="#alarmModal">Show All
+											Alerts</a>
+
+									</div>
+								</li>
+
+								<div class="modal fade" id="alarmModal" tabindex="-1"
+									role="dialog" aria-labelledby="exampleModalLabel"
+									aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLabel">Alarm
+													History</h5>
+												<button class="close" type="button" data-dismiss="modal"
+													aria-label="Close">
+													<span aria-hidden="true">×</span>
+												</button>
+											</div>
+											<div class="modal-body">
+												<c:forEach var="alarmData" items="${alarmList}">
+													<a class="dropdown-item d-flex align-items-center"
+														id="alarmATag">
+														<div class="mr-3">
+															<c:choose>
+																<c:when test="${alarmData.typeOfAlarm eq '업무'}">
+																	<div class="icon-circle bg-primary">
+																		<i class="fas fa-file-alt text-white"></i>
+																	</div>
+																</c:when>
+																<c:when test="${alarmData.typeOfAlarm eq '인원'}">
+																	<div class="icon-circle bg-success">
+																		<i class="fas fa-user-friends text-white"></i>
+																	</div>
+																</c:when>
+																<c:when test="${alarmData.typeOfAlarm eq '파일'}">
+																	<div class="icon-circle bg-secondary">
+																		<i class="fas fa-file-alt text-white"></i>
+																	</div>
+																</c:when>
+																<c:otherwise>
+																	<div class="icon-circle bg-secondary">
+																		<i class="fas fa-file-alt text-white"></i>
+																	</div>
+																</c:otherwise>
+															</c:choose>
+														</div>
+														<div>
+															<div class="small text-gray-500">${alarmData.addDate}</div>
+															<span class="font-weight-bold">${alarmData.writer}
+																님이 ${alarmData.typeOfAlarm}을(를) 추가 하셨습니다.</span>
+														</div>
+													</a>
+												</c:forEach>
+											</div>
+										</div>
+									</div>
+								</div>
+
 
                         <!-- Nav Item - Messages -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-envelope fa-fw"></i>
-                                <!-- Counter - Messages -->
-                                <span class="badge badge-danger badge-counter">7</span>
-                            </a>
-                            <!-- Dropdown - Messages -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="messagesDropdown">
-                                <h6 class="dropdown-header">
-                                    Message Center
-                                </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_1.svg"
-                                            alt="">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div class="font-weight-bold">
-                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
-                                            problem I've been having.</div>
-                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_2.svg"
-                                            alt="">
-                                        <div class="status-indicator"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">I have the photos that you ordered last month, how
-                                            would you like them sent to you?</div>
-                                        <div class="small text-gray-500">Jae Chun · 1d</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_3.svg"
-                                            alt="">
-                                        <div class="status-indicator bg-warning"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">Last month's report looks great, I am very happy with
-                                            the progress so far, keep up the good work!</div>
-                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
-                                            alt="">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
-                                            told me that people say this to all dogs, even if they aren't good...</div>
-                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
-                            </div>
-                        </li>
+						<li class="nav-item dropdown no-arrow mx-1">
+							<a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="fas fa-envelope fa-fw"></i>
+								<!-- Counter - Messages -->
+								<span class="badge badge-danger badge-counter">+</span>
+							</a>
+							<!-- Dropdown - Messages -->
+							<div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
+								<!-- 임시로 저희 페이지 띄웠습니다 -->
+								<iframe src="http://127.0.0.1:3100/" class="frame"></iframe>
+							</div>
+						</li>
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -271,31 +285,26 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">${sessionScope.user.userName} 님</span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="../resources/assets/img/icon/whale.png">
                             </a>
                             <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a>
-                            </div>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+								<a class="dropdown-item" href="/member/mypage"> 
+									<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+										Profile
+								</a> 
+								<a class="dropdown-item" href="#" data-toggle="modal" data-target="#alarmModal"> 
+									<i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+										Activity Log
+								</a>
+								<div class="dropdown-divider" href="/member/logout"></div>
+									<a class="dropdown-item" href="/member/logout" data-toggle="modal" data-target="#logoutModal">
+										<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+											Logout
+									</a>
+							</div>
                         </li>
 
                     </ul>
@@ -335,25 +344,15 @@
                                 </div>
                                 <div class="card-body">
                                     <div id="user-list">
-                                    	<div class="card shadow mb-4">
-                                    		<div class="card-body border d-flex justify-content-between">
-                                    		김선민
-                                    		<a href="#" class="btn btn-success btn-circle">
-                                       			 <i class="fas fa-check"></i>
-                                    		</a>
-                                    		</div>
-                                    		<div class="card-body border d-flex justify-content-between">
-                                    		이승민
-                                    		<a href="#" class="btn btn-success btn-circle">
-                                       			 <i class="fas fa-check"></i>
-                                    		</a>
-                                    		</div>
-                                    		<div class="card-body border d-flex justify-content-between">
-                                    		장영우
-                                    		<a href="#" class="btn btn-success btn-circle">
-                                       			 <i class="fas fa-check"></i>
-                                    		</a>
-                                    		</div>
+                                    	<div class="card shadow mb-4">                                  		
+                                    		<c:forEach var="user" items="${userList}" varStatus="status">
+                                    			<div class="card-body border d-flex justify-content-between">
+                                    				<label for="checkList${status.index}">${user.userId}</label>
+                                    				<input type="checkbox" value="${user.userId}" onclick="checkValue(this)" name="proUsers" id="checkList${status.index}" checked="checked">
+                                       			 		
+                                    				</input>
+                                    			</div>
+                                    		</c:forEach>
                                     	</div>
                                     </div>
                                 </div>
@@ -392,24 +391,26 @@
     </a>
 
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+					<button class="close" type="button" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">로그아웃???????????????????</div>
+				<div class="modal-footer">
+					<a class="btn btn-primary" href="/member/logout">Logout</a>
+					<button class="btn btn-secondary" type="button"
+						data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="/resources/vendor/jquery/jquery.min.js"></script>
@@ -429,37 +430,57 @@
     <script src="/resources/js/demo/chart-pie-demo.js"></script>
     <script src="/resources/js/demo/chart-bar-demo.js"></script>
     <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function() {
+          let drawCalendar = (text) => {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
               initialView: 'dayGridMonth',
               eventColor : 'pink',
-              events : [
-                  {
-                      title : '김선민만세',
-                      start : '2021-01-28',
-                      end : '2021-01-31'
-                  },
-                  {
-                      title : '김선민만세',
-                      start : '2021-01-28',
-                      end : '2021-01-31'
-                  },
-                  {
-                      title : '김선민만세',
-                      start : '2021-01-26',
-                      end : '2021-01-31',
-                      color : 'red'
-                  },
-                  {
-                      title : '김선민만세',
-                      start : '2021-01-28',
-                      end : '2021-02-03'
-                  }
-              ]
+              dayMaxEvents: 5,
+              eventTextColor : 'black',
+              events : text
             });
             calendar.render();
-          });
+          }
+          
+          let inputData = () => {
+            const url = '/views/calendarimpl';
+                let headerObj = new Headers();
+                let paramObj = new Object();
+                let list = document.querySelectorAll('input[name="proUsers"]');
+                let userList = [];
+
+                list.forEach((data,index)=>{
+                    if(data.checked === false){
+                        userList[index] = data.value;
+                    }
+                });
+
+                headerObj.append("content-type","application/x-www-form-urlencoded");
+                paramObj.name = userList;
+                console.dir(JSON.stringify(paramObj));
+
+                fetch(url,{
+                    method : 'POST',
+                    headers : headerObj,
+                    body : 'data='+JSON.stringify(paramObj)
+                }).then(response => {
+                    return response.json();
+                }).then(text => {
+                    console.dir(JSON.stringify(text));
+                    drawCalendar(text);
+                });
+          }
+
+        
+
+        </script>
+
+
+        <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded',inputData());
+        	function checkValue(id) {
+        		inputData();
+            }
         </script>
 
 </body>

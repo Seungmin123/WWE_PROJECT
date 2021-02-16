@@ -11,4 +11,5 @@
     <c:set var="context" value="${pageContext.request.contextPath}"/>
     <script type="text/javascript" src="/resources/js/common/urlEncoder.js"></script>
     <script type="text/javascript" src="/resources/js/common/asyncPageError.js"></script>
+    <link href="/resources/css/chatting/chatting.css" rel="stylesheet">
 </head>

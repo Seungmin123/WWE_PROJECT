@@ -50,8 +50,7 @@
                                     </div>
                                     
                                 </div>
-                                <span class="form-control-user" id = "checkPW"></span>
-                                <br>
+                                <span class="mypageitem" id = "checkPW"></span>
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-user" 
                                     id="userEmail" name = "userEmail" placeholder="Email Address">
@@ -88,22 +87,25 @@
                                 </div>
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-user" 
-                                    id="userTell" name = "userTell" placeholder="Tell">
+                                    id="userTell" name = "userTell" placeholder="Tell  ex)01012341234" onchange = "check_tell()">
                                 </div>
+                                <span class="mypageitem" id = "checkTell"></span>
                                 <div class="form-group">
-                                    <input type="date" class="form-control form-control-user" 
-                                    id="userBirth" name = "userBirth" placeholder="Birth">
+                                    <input type="text" class="form-control form-control-user" 
+                                    id="userBirth" name = "userBirth" placeholder="생년월일  ex)19950802" onchange = "check_birth()">
                                 </div>
+                                <span class="mypageitem" id = "checkBirth"></span>
                                 <a onclick = "signup()" class="btn btn-primary btn-user btn-block">
                                     Register Account
                                 </a>
-                                <hr>
-                                <a href="index.html" class="btn btn-google btn-user btn-block">
-                                    <i class="fab fa-google fa-fw"></i> Register with Google
-                                </a>
-                                <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                    <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
-                                </a>
+                                <!-- <hr>
+                                <a href="https://kauth.kakao.com/oauth/authorize?
+										client_id=aede6a7de778e3191a75f6f270b8e947&
+										redirect_uri=http://localhost:9393/member/kakao&
+										response_type=code" 
+										class="btn btn-kakao btn-user btn-block">
+                                            <i class="fab fa-kickstarter-k fa-fw"></i> SignUp with Kakao
+                                </a> -->
                             </form>
                             <hr>
                             <div class="text-center">

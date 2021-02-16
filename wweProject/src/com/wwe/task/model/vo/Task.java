@@ -2,22 +2,28 @@ package com.wwe.task.model.vo;
 
 public class Task {
 	
+	private int tIdx;
 	private String taskId;
 	private String taskContent;
 	private String taskPriority;
 	private String deadLine;
 	private String taskState;
 	private String userId;
+	private String projectId;
+	private String startDate;
+	private int taskHelp;
+	private String proContents;
 	
-	public Task(String taskId, String taskContent, String taskPriority, String deadLine, String taskState,
-			String userId) {
+	public Task() {
 		super();
-		this.taskId = taskId;
-		this.taskContent = taskContent;
-		this.taskPriority = taskPriority;
-		this.deadLine = deadLine;
-		this.taskState = taskState;
-		this.userId = userId;
+	}
+
+	public int gettIdx() {
+		return tIdx;
+	}
+
+	public void settIdx(int tIdx) {
+		this.tIdx = tIdx;
 	}
 
 	public String getTaskId() {
@@ -68,10 +74,37 @@ public class Task {
 		this.userId = userId;
 	}
 
-	@Override
-	public String toString() {
-		return "Task [taskId=" + taskId + ", taskContent=" + taskContent + ", taskPriority=" + taskPriority
-				+ ", deadLine=" + deadLine + ", taskState=" + taskState + ", userId=" + userId + "]";
+	public String getProjectId() {
+		return projectId;
 	}
-	
+
+	public void setProjectId(String projectId) {
+		this.projectId = projectId;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public int getTaskHelp() {
+		return taskHelp;
+	}
+
+	public void setTaskHelp(int taskHelp) {
+		this.taskHelp = taskHelp;
+	}
+
+	public String getProContents() {
+		return proContents;
+	}
+
+	public void setProContents(String proContents) {
+		this.proContents = proContents;
+	}
+
+
 }

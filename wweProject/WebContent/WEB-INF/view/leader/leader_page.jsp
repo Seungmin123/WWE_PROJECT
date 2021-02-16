@@ -24,7 +24,7 @@
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
             <!-- 사이드바 제목-->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${context}/project/loadpro">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -36,7 +36,7 @@
             <!-- Nav Item - Dashboard -->
                <!-- Nav Item - Dashboard -->
     <li class="nav-item">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="${context}/member/mypage">
             <i class="fas fa-user-alt"></i>
             <span>My Page</span></a>
     </li>
@@ -44,7 +44,7 @@
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item ">
-        <a class="nav-link" href="#" data-target="#collapseTwo"
+        <a class="nav-link" href="${context}/task/main" data-target="#collapseTwo"
             aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-home"></i>
             <span>Main Page</span>
@@ -64,7 +64,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Manage</h6>
                 <a class="collapse-item" href="${context}/leader/manage">팀관리</a>
-                <a class="collapse-item" href="${context}/leader/gettaskimpl?projectId=프로젝트 1">업무관리</a>
+                <a class="collapse-item" href="${context}/leader/totaltask">업무관리</a>
             </div>
         </div>
     </li>
@@ -131,7 +131,7 @@
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-                    <h3 class="text-primary">프로젝트명</h3>
+                    <h3 class="text-primary">팀관리</h3>
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
@@ -159,150 +159,160 @@
                         </li>
 
                         <!-- Nav Item - Alerts -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-fw"></i>
-                                <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter">3+</span>
-                            </a>
-                            <!-- Dropdown - Alerts -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="alertsDropdown">
-                                <h6 class="dropdown-header">
-                                    Alerts Center
-                                </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
+                      <li class="nav-item dropdown no-arrow mx-1" id="alarmList">
+                           <a class="nav-link dropdown-toggle" id="alertsDropdown"
+                           role="button" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false"> <i class="fas fa-bell fa-fw"></i> <!-- Counter - Alerts -->
+                              <span class="badge badge-danger badge-counter">+</span>
+                        </a> <!-- Dropdown - Alerts -->
+                           <div
+                              class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                              aria-labelledby="alertsDropdown" id="alarmBody">
+                              <h6 class="dropdown-header">Alerts History Center</h6>
+
+
+                              <c:forEach var="alarmData" items="${alarmList}" begin="0"
+                                 end="4">
+                                 <a class="dropdown-item d-flex align-items-center"
+                                    id="alarmATag">
                                     <div class="mr-3">
-                                        <div class="icon-circle bg-primary">
-                                            <i class="fas fa-file-alt text-white"></i>
-                                        </div>
+                                       <c:choose>
+                                          <c:when test="${alarmData.typeOfAlarm eq '업무'}">
+                                             <div class="icon-circle bg-primary">
+                                                <i class="fas fa-file-alt text-white"></i>
+                                             </div>
+                                          </c:when>
+                                          <c:when test="${alarmData.typeOfAlarm eq '인원'}">
+                                             <div class="icon-circle bg-success">
+                                                <i class="fas fa-user-friends text-white"></i>
+                                             </div>
+                                          </c:when>
+                                          <c:when test="${alarmData.typeOfAlarm eq '파일'}">
+                                             <div class="icon-circle bg-secondary">
+                                                <i class="fas fa-file-alt text-white"></i>
+                                             </div>
+                                          </c:when>
+                                          <c:otherwise>
+                                             <div class="icon-circle bg-secondary">
+                                                <i class="fas fa-file-alt text-white"></i>
+                                             </div>
+                                          </c:otherwise>
+                                       </c:choose>
                                     </div>
                                     <div>
-                                        <div class="small text-gray-500">December 12, 2019</div>
-                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                                       <div class="small text-gray-500">${alarmData.addDate}</div>
+                                       <span class="font-weight-bold">${alarmData.writer}
+                                          님이 ${alarmData.typeOfAlarm}을(를) 추가 하셨습니다.</span>
                                     </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-success">
-                                            <i class="fas fa-donate text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 7, 2019</div>
-                                        $290.29 has been deposited into your account!
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-warning">
-                                            <i class="fas fa-exclamation-triangle text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 2, 2019</div>
-                                        Spending Alert: We've noticed unusually high spending for your account.
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-                            </div>
+                                 </a>
+                              </c:forEach>
+
+                              <a class="dropdown-item text-center small text-gray-500"
+                                 data-toggle="modal" data-target="#alarmModal">Show All
+                                 Alerts</a>
+
+                           </div>
                         </li>
 
-                        <!-- Nav Item - Messages -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-envelope fa-fw"></i>
-                                <!-- Counter - Messages -->
-                                <span class="badge badge-danger badge-counter">7</span>
-                            </a>
-                            <!-- Dropdown - Messages -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="messagesDropdown">
-                                <h6 class="dropdown-header">
-                                    Message Center
-                                </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_1.svg"
-                                            alt="">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div class="font-weight-bold">
-                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
-                                            problem I've been having.</div>
-                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_2.svg"
-                                            alt="">
-                                        <div class="status-indicator"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">I have the photos that you ordered last month, how
-                                            would you like them sent to you?</div>
-                                        <div class="small text-gray-500">Jae Chun · 1d</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_3.svg"
-                                            alt="">
-                                        <div class="status-indicator bg-warning"></div>
+                        <div class="modal fade" id="alarmModal" tabindex="-1"
+                           role="dialog" aria-labelledby="exampleModalLabel"
+                           aria-hidden="true">
+                           <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                 <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Alarm
+                                       History</h5>
+                                    <button class="close" type="button" data-dismiss="modal"
+                                       aria-label="Close">
+                                       <span aria-hidden="true">×</span>
+                                    </button>
+                                 </div>
+                                 <div class="modal-body">
+                                    <c:forEach var="alarmData" items="${alarmList}">
+                                 <a class="dropdown-item d-flex align-items-center"
+                                    id="alarmATag">
+                                    <div class="mr-3">
+                                       <c:choose>
+                                          <c:when test="${alarmData.typeOfAlarm eq '업무'}">
+                                             <div class="icon-circle bg-primary">
+                                                <i class="fas fa-file-alt text-white"></i>
+                                             </div>
+                                          </c:when>
+                                          <c:when test="${alarmData.typeOfAlarm eq '인원'}">
+                                             <div class="icon-circle bg-success">
+                                                <i class="fas fa-user-friends text-white"></i>
+                                             </div>
+                                          </c:when>
+                                          <c:when test="${alarmData.typeOfAlarm eq '파일'}">
+                                             <div class="icon-circle bg-secondary">
+                                                <i class="fas fa-file-alt text-white"></i>
+                                             </div>
+                                          </c:when>
+                                          <c:otherwise>
+                                             <div class="icon-circle bg-secondary">
+                                                <i class="fas fa-file-alt text-white"></i>
+                                             </div>
+                                          </c:otherwise>
+                                       </c:choose>
                                     </div>
                                     <div>
-                                        <div class="text-truncate">Last month's report looks great, I am very happy with
-                                            the progress so far, keep up the good work!</div>
-                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+                                       <div class="small text-gray-500">${alarmData.addDate}</div>
+                                       <span class="font-weight-bold">${alarmData.writer}
+                                          님이 ${alarmData.typeOfAlarm}을(를) 추가 하셨습니다.</span>
                                     </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
-                                            alt="">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
-                                            told me that people say this to all dogs, even if they aren't good...</div>
-                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
-                            </div>
-                        </li>
-
+                                 </a>
+                              </c:forEach>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+						
+						 <!-- Nav Item - Messages -->
+<li class="nav-item dropdown no-arrow mx-1">
+	<a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		<i class="fas fa-envelope fa-fw"></i>
+		<!-- Counter - Messages -->
+		<span class="badge badge-danger badge-counter">+</span>
+	</a>
+	<!-- Dropdown - Messages -->
+	<div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
+		<!-- 임시로 저희 페이지 띄웠습니다 -->
+		<iframe src="http://127.0.0.1:3100/" class="frame"></iframe>
+	</div>
+</li>
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
-                            </a>
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a>
-                            </div>
-                        </li>
+                       <li class="nav-item dropdown no-arrow"><a
+                           class="nav-link dropdown-toggle" href="#" id="userDropdown"
+                           role="button" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false"> <span
+                              class="mr-2 d-none d-lg-inline text-gray-600 small">${sessionScope.user.userName}
+                                 님</span> <img class="img-profile rounded-circle"
+                              src="../resources/assets/img/icon/whale.png">
+                        </a> <!-- Dropdown - User Information -->
+                           <div
+                              class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                              aria-labelledby="userDropdown">
+                              <a class="dropdown-item" href="/member/mypage"> <i
+                                 class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                 Profile
+                              </a> 
+                              <!-- <a class="dropdown-item" href="#"> <i
+                                 class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                 Settings
+                              </a>  -->
+                              <a class="dropdown-item" href="#" data-toggle="modal" data-target="#alarmModal"> <i
+                                 class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                 Activity Log
+                              </a>
+                              <div class="dropdown-divider" href="/member/logout"></div>
+                              <a class="dropdown-item" href="/member/logout"
+                                 data-toggle="modal" data-target="#logoutModal"> <i
+                                 class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                 Logout
+                              </a>
+                           </div></li>
 
                     </ul>
 
@@ -311,60 +321,63 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-               
-                    <div class="container mt-5 col">
-                     	
-                        <div class="container card bg-light">
-                        	<div class="container mt-4">
+                	<div class="row">
+               			<ul class="col-2 mt-5 list-group">
+               			<button type="button" class="btn btn-danger" onclick="deleteProject('${sessionScope.selectProject.projectId}');">프로젝트 삭제</button><br>
+               				<li class=" list-group-item bg-dark text-white">업무 할당</li>
+               				<c:forEach var="user" items="${userList}" varStatus="status">
+               					<a href="#" class="list-group-item list-group-item-action" onclick="openAllocModal(this)">${user.userId}
+               					<i class="fas fa-plus-circle float-right text-success"></i>
+               					</a>
+               				</c:forEach>
+               			</ul>
+                    <div class="mt-5 col">
+                        <div class="card bg-white px-4">
+                        	<div class=" mt-4">
                 				<h5 class="text-Dark">권한 관리</h5>
                 			</div>
-                			<div class="container">
+                			<div class="">
                 				<hr>
                 			</div>
                 			
                 			 <!-- 유저 초대 팝업을 열기 위한 버튼 -->
-                            <div class="container mb-3">
-                             <button type="button" class="btn btn-outline-primary btn-sm px-5"id="openModalBtn">초대</button>
+                            <div class="mb-3">
+                             <button type="button" class="btn btn-outline-dark btn-sm px-5" id="btn_open_invite_modal">초대</button>
                             </div>
                              <!-- /유저 초대 팝업을 열기 위한 버튼 -->
 
                             <!-- 유저 정보 테이블 -->
-                            <!-- DB에서 해당 프로젝트의 팀원 정보를 불러와 반복문으로 뿌려줘야할 듯 -->
-                            <div class="container">
+                            <div class="">
                                 <table class="table table-hover table-bordered">
-                                        <tr class="table-primary">
-                                            <th style="width:50%">계정</th>
-                                            <th style="width:35.66%">권한</th>
-                                            <th style="width:14.33%" class="text-center">관리</th>
+                                        <tr class="bg-dark">
+                                            <th style="width:30%" class="text-white">계정</th>
+                                            <th style="width:20.66%" class="text-white">권한</th>
+                                            <th style="width:14.33%" class="text-center text-white">관리</th>
                                         </tr>
-                                        <tr class="table-secondary">
-                                            <!-- 내 계정일 시(내 계정 표시) -->
-                                            <td>sayeong@gmail.com(내계정)</td>
-                                            <td>LEADER</td>
-                                            <!-- 수정 버튼 클릭 시 팀원의 권한 변경이나 추방 -->
-                                            <td align="center"><button class="btn btn-warning btn-sm" >수정</button></td>
-                                        </tr>
-                                        <tr class="table-secondary">
-                                            <!-- 내 계정일 시(내 계정 표시) -->
-                                            <td>hphphp23@naver.com</td>
-                                            <td>READ ONLY</td>
-                                            <!-- 수정 버튼 클릭 시 팀원의 권한 변경이나 추방 -->
-                                            <td align="center"><button class="btn btn-warning btn-sm">수정</button></td>
-                                        </tr>
-                                        <!-- 테이블 내용 추가 예정 -->
+                                        <tbody>
+                                       <!-- DB불러와서 동적으로 tr요소 생성할 곳 -->
+                                        </tbody>
+                                    
                                 </table>
                             </div>
                             <!-- /유저 정보 테이블 -->
+                            <div class="">
+                            <ul>
+                            	<li class="text-dark">팀장 : 업무수정, 업무 할당, 팀원 초대, 프로젝트 삭제</li>
+                            	<li class="text-dark">읽기 : 업무 생성 불가, 읽기만 가능</li>
+                            	<li class="text-dark">읽기/쓰기 : 업무 생성, 수정, 삭제</li>
+                            </ul>
+                            </div>
                         </div>
-                    </div>
-            
+           			 </div>
+           			 </div>
                     	  <!-- 팀원 초대 팝업 모달 -->
-                    <div class="modal" id="popup_modal">
+                    <div class="modal" id="invite_modal">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title">유저 초대</h5>
-                                    <button type="button" id="btn_close" class="close">
+                                    <button type="button" id="btn_invite_close" class="close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
@@ -381,17 +394,17 @@
                                     <div class="modal-body">
                                         <label class="col-form-label">권한</label>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="authority" id="read"  value="read" checked >
+                                            <input class="form-check-input" type="radio" name="authority" id="read"  value="읽기" checked >
                                             <label class="form-check-label" for="read">
-                                              Read Only
+                                              읽기
                                             </label>
                                           </div>
                                           <hr>
                                           <div class="col-form-label">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="authority" id="read_write" value="readAndWrite">
+                                                <input class="form-check-input" type="radio" name="authority" id="read_write" value="읽기/쓰기">
                                                 <label class="form-check-label" for="read_write">
-                                                  Write and Read
+                                                 읽기/쓰기
                                                 </label>
                                               </div>
                                           </div>
@@ -406,6 +419,86 @@
                             </div>
                         </div>
                     </div>
+                      	  <!-- 유저 권한 수정 모달 -->
+                    <div class="modal" id="modify_modal">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">권한 수정</h5>
+                                    <button type="button" id="btn_modify_close" class="close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form>
+                                    <div class="modal-body">
+                                        <label class="col-form-label">권한</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="mod_authority" id="mod_read"  value="읽기" checked >
+                                            <label class="form-check-label" for="mod_read">
+                                              읽기
+                                            </label>
+                                          </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="mod_authority" id="mod_read_write" value="읽기/쓰기">
+                                                <label class="form-check-label" for="mod_read_write">
+                                                 읽기/쓰기
+                                                </label>
+                                              </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="mod_authority" id="mod_leader" value="팀장">
+                                                <label class="form-check-label" for="mod_leader">
+                                                  팀장
+                                                </label>
+                                            </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary"data-dismiss="modal">취소</button>
+                                        <button type="button" class="btn btn-primary" onclick="updateAuthority();" id="btn_invite">확인</button>
+                                        <!-- <input type="submit" class="btn btn-primary"  id="btn_invite" value="초대"> -->
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!--업무 할당 모달  -->
+                     <div class="modal bg-lg" id="alloc_task_modal">
+ 		<div class="modal-dialog" role="document">
+        	<div class="modal-content"> 
+            	<div class="modal-header bg-primary">
+                	<h5 class="modal-title text-light" >업무 할당</h5>
+                    <button type="button" id="btn_allow_modal_close" class="close">
+                    <span aria-hidden="true">&times;</span></button>
+                </div>
+                <form>
+                	<div class="modal-body">
+                    		<div class="form-group row">
+                            	<div class="col-sm-3 mb-3 mb-sm-0 d-flex align-items-center">
+                                	<h6 class="font-weight-bold">업무 이름</h6>
+                                </div>
+                            	<div class="col-sm-9">
+                                	<input class="form-control rounded"id="task_id"></input>
+                                </div>
+                            </div>
+                    		<div class="form-group row">
+                            	<div class="col-sm-3 mb-3 mb-sm-0 d-flex align-items-center">
+                                	<h6 class="font-weight-bold">마감 기한</h6>
+                                </div>
+                                <div class="col-sm-9">
+                                	<input type="date" id="deadLine"class="form-control form-control-user h6 rounded"></input>
+                                </div>
+                            </div>
+                            <h6 class="font-weight-bold">업무 내용</h6>
+                    	 	 <textarea class="form-control"  id="task_content" style="height: 300px; resize: none;" wrap="hard"  cols="20"></textarea>
+                    	 	 <div class="text-xs text-right">*2000자 이내로 입력하세요.</div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="allocTask();">확인</button>
+                   </div>
+                </form>
+            </div>
+        </div>
+     </div>
                 </div>
                 <!-- /.container-fluid -->
             </div>
@@ -434,34 +527,86 @@
     </a>
 
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
+	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+					<button class="close" type="button" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">로그아웃???????????????????</div>
+				<div class="modal-footer">
+					<a class="btn btn-primary" href="/member/logout">Logout</a>
+					<button class="btn btn-secondary" type="button"
+						data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+    	$(function(){
+    		selectUserListByPid();
+    	});
+    
+        let selectUserListByPid=()=>{
+        	let trElement;
+        	let tdElement;
+        	let mButtonElement;
+        	let dButtonElement;
+        	<c:forEach var="user" items = "${userList}" varStatus="status">
+        		trElement = document.createElement('tr');
+        		trElement.setAttribute("seq","${status.index}");
+        		document.querySelector('tbody').appendChild(trElement);
+        		<c:forEach var="i" begin="0" end="2" step="1">
+        			tdElement = document.createElement('td');
+        			<c:if test="${i==0}">
+        				tdElement.id="userTd";
+        				tdElement.innerHTML ="${user.userId}";
+        			</c:if>
+        			<c:if test="${i==1}">
+        				tdElement.innerHTML ="${user.authority}";
+        			</c:if>
+        			<c:if test="${i==2}">
+        			
+        				<c:if test="${user.authority!='팀장'}">
+        				tdElement.align="center";
+        				mButtonElement = document.createElement('button');
+        				mButtonElement.type="button";
+        				mButtonElement.className="btn btn-dark btn-sm mr-3";
+        				mButtonElement.id = "btn_open_modify_modal";
+        				mButtonElement.innerHTML ="수정";
+        				
+        				dButtonElement = document.createElement('button');
+        				dButtonElement.type="button";
+        				dButtonElement.className="btn btn-danger btn-sm";
+        				dButtonElement.id = "btn_delete_member";
+        				dButtonElement.setAttribute("deleteId","${user.userId}");
+        				dButtonElement.innerHTML ="삭제";
+        				tdElement.appendChild(mButtonElement);
+        				tdElement.appendChild(dButtonElement);
+        				</c:if>
+        			</c:if>
+        				trElement.appendChild(tdElement);
+        			</c:forEach>
+        	</c:forEach>
+        	
+        	
+        	
+        }
+    </script>
 	<!--팝업 화면에서 할 수 있는 작업들을 모아놓은 js 파일  -->
     <script src="/resources/js/leader/popup_task.js"></script>
+    <<!--팀장화면 전용 js 파일  -->
+    <script src="/resources/js/leader/leader_page.js"></script>
     <!-- Bootstrap core JavaScript-->
     <script src="/resources/vendor/jquery/jquery.min.js"></script>
     <script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/resources/js/sb-admin-2.min.js"></script>
     <script src="/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
     
-    
-
 </body>
 </html>

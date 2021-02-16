@@ -3433,16 +3433,7 @@ input[type="button"].btn-block {
   z-index: 3;
 }
 
-.input-group-prepend .btn + .btn,
-.input-group-prepend .btn + .input-group-text,
-.input-group-prepend .input-group-text + .input-group-text,
-.input-group-prepend .input-group-text + .btn,
-.input-group-append .btn + .btn,
-.input-group-append .btn + .input-group-text,
-.input-group-append .input-group-text + .input-group-text,
-.input-group-append .input-group-text + .btn {
-  margin-left: -1px;
-}
+input-group mb-3
 
 .input-group-prepend {
   margin-right: -1px;
@@ -10825,7 +10816,8 @@ a:focus {
 
 .bg-login-image {
   /* background: url("https://source.unsplash.com/K4mSJ7kc0As/600x800"); */
-  background: url("../assets/background/pinkpig.png");
+  /* background: url("../assets/background/pinkpig.png"); */
+  background: url("../assets/background/kim_wwe.png");
   background-position: center;
   background-size: cover;
 }
@@ -11280,4 +11272,50 @@ body.sidebar-toggled footer.sticky-footer {
   display : none;
   visibility : hidden;
 }
+
+.mypageitem{
+  display : none;
+  visibility : hidden;
+}
+
+.btn-kakao {
+  color: #3A1D1D;
+  background-color: #F7E600;
+  border-color: #fff;
+}
+
+.btn-kakao:hover {
+  color: #3A1D1D;
+  background-color: #decf00;
+  border-color: #e6e6e6;
+}
+
+.btn-kakao:focus, .btn-kakao.focus {
+  color: #3A1D1D;
+  background-color: #e12717;
+  border-color: #e6e6e6;
+  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5);
+}
+
+.btn-kakao.disabled, .btn-kakao:disabled {
+  color: #3A1D1D;
+  background-color: #ea4335;
+  border-color: #fff;
+}
+
+.btn-kakao:not(:disabled):not(.disabled):active, .btn-kakao:not(:disabled):not(.disabled).active,
+.show > .btn-kakao.dropdown-toggle {
+  color: #3A1D1D;
+  background-color: #d62516;
+  border-color: #dfdfdf;
+}
+
+.btn-kakao:not(:disabled):not(.disabled):active:focus, .btn-kakao:not(:disabled):not(.disabled).active:focus,
+.show > .btn-kakao.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5);
+}
+
+
+
+
 
