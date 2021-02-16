@@ -191,6 +191,7 @@ public class LeaderDao {
 		
 		System.out.println("다오에서 받은 프로젝트아이디 : "+ user.getProjectId());
 		System.out.println("다오에서 받은 리더아이디 : "+ user.getUserId());
+		
 		try {
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, user.getUserId());
